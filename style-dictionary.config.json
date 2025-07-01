@@ -1,0 +1,35 @@
+{
+  "source": ["styles/Tokens.json"],
+  "platforms": {
+    "light": {
+      "transformGroup": "css",
+      "buildPath": "styles/tokens/",
+      "options": {
+        "outputReferences": true,
+        "resolveReferences": true,
+        "selector": ".light" 
+      },
+      "files": [
+        {
+          "destination": "light.css",
+          "format": "css/variables"
+        }
+      ]
+    },
+    "dark": {
+      "transformGroup": "css",
+      "buildPath": "styles/tokens/",
+      "options": {
+        "outputReferences": true,
+        "resolveReferences": true,
+        "selector": ".dark"
+      },
+      "files": [
+        {
+          "destination": "dark.css",
+          "format": "css/variables"
+        }
+      ]
+    }
+  }
+}

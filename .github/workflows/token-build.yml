@@ -1,0 +1,44 @@
+name: Build Design Tokens
+
+on:
+  push:
+    branches:
+      - design/token
+    paths:
+      - "styles/tokens/tokens.json"
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Style Dictionary Build
+        run: npm run token-build
+
+      - name: Commit built design tokens
+        run: |
+          git config --local user.name "GitHub Actions"
+          git config --local user.email "actions@github.com"
+          git add styles/tokens/light.css styles/tokens/dark.css
+          git commit -m "style: css variables 업데이트" || echo "No changes to commit"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          title: "[DESIGN] 디자인 시스템 업데이트"
+          body: |
+            이 PR은 자동 생성된 PR로 `light.css`, `dark.css`가 최신 디자인 토큰 기준으로 업데이트 되었습니다.
+          branch: design/token

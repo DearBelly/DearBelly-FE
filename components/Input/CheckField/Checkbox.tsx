@@ -4,13 +4,17 @@ interface CheckBoxProps {
   label: string;
   checked: boolean;
   onClick?: () => void;
+  name?: string;
+  value?: string; 
 }
 
-export const CheckBox = ({ label, checked, onClick }: CheckBoxProps) => {
+export const CheckBox = ({ label, checked, onClick, name, value }: CheckBoxProps) => {
   return (
     <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 16 }}>
       <input
         type="radio"
+        name={name}
+        value={value}
         checked={checked}
         onChange={onClick}
         style={{ display: 'none' }}

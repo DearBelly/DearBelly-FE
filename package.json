@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "token-build": "style-dictionary build --config style-dictionary.config.json"
   },
   "dependencies": {
     "@mui/icons-material": "^7.1.2",
@@ -29,6 +30,7 @@
     "@storybook/nextjs": "^8.6.12",
     "@storybook/react": "^8.6.12",
     "@storybook/test": "^8.6.12",
+    "@svgr/webpack": "^8.1.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
@@ -41,6 +43,7 @@
     "playwright": "^1.52.0",
     "prettier": "3.5.3",
     "storybook": "^8.6.12",
+    "style-dictionary": "^4.4.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3",
     "vitest": "^3.1.3"

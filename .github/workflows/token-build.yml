@@ -5,7 +5,7 @@ on:
     branches:
       - design/token
     paths:
-      - "styles/Tokens.json"
+      - "styles/tokens/tokens.json"
   workflow_dispatch: {}
 
 jobs:
@@ -40,5 +40,5 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
           title: "[DESIGN] 디자인 시스템 업데이트"
           body: |
-            이 PR은 자동 생성된 PR로 `light.css`, `dark.css`가 최신 디자인 토큰 기준으로 반영되었습니다.
+            이 PR은 자동 생성된 PR로 `light.css`, `dark.css`가 최신 디자인 토큰 기준으로 업데이트 되었습니다.
           branch: design/token

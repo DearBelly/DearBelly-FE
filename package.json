@@ -12,6 +12,8 @@
     "token-build": "style-dictionary build --config style-dictionary.config.json"
   },
   "dependencies": {
+    "@mui/icons-material": "^7.1.2",
+    "@mynaui/icons-react": "^0.3.9",
     "next": "15.3.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

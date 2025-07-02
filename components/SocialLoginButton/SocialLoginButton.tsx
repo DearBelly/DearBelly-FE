@@ -25,7 +25,7 @@ export const SocialLoginButton = ({ provider, onClick }: SocialLoginButtonProps)
   const { label, icon } = providerInfo[provider];
 
   return (
-    <button className={styles.button} onClick={onClick}>
+    <button className={`${styles.button} ${styles[provider]}`} onClick={onClick}>
       <img src={icon} alt={`${provider} 아이콘`} className={styles.icon} />
       <span>{label}</span>
     </button>

@@ -9,7 +9,9 @@
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "token-build": "style-dictionary build --config style-dictionary.config.json"
+    "token-build": "style-dictionary build --config style-dictionary.config.json",
+    "sync-figma": "node scripts/sync-figma-tokens.js",
+    "watch-tokens": "npm run sync-figma && npm run token-build"
   },
   "dependencies": {
     "@mui/icons-material": "^7.1.2",

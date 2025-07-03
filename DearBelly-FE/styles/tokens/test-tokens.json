@@ -383,10 +383,803 @@
       }
     }
   },
+  "Collection 1/Mode 1": {
+    "Color": {
+      "value": "#ffffff",
+      "type": "color"
+    },
+    "Neutral600": {
+      "value": "#c1c1c1",
+      "type": "color"
+    },
+    "Neutral700": {
+      "value": "#b4b3b3",
+      "type": "color"
+    },
+    "Cyan100": {
+      "value": "#cae9eb",
+      "type": "color"
+    },
+    "Neutral800": {
+      "value": "#949393",
+      "type": "color"
+    },
+    "Cyan300": {
+      "value": "#4fcad2",
+      "type": "color"
+    },
+    "Cyan200": {
+      "value": "#71d7df",
+      "type": "color"
+    },
+    "Apricot100": {
+      "value": "#fae9cd",
+      "type": "color"
+    },
+    "LightGreen100": {
+      "value": "#ddeada",
+      "type": "color"
+    },
+    "LightGreen200": {
+      "value": "#8fd97e",
+      "type": "color"
+    },
+    "LightGreen300": {
+      "value": "#88cd7a",
+      "type": "color"
+    },
+    "WhiteOpacity60": {
+      "value": "#ffffff99",
+      "type": "color"
+    },
+    "Forest200": {
+      "value": "#67d59e",
+      "type": "color"
+    },
+    "AquaBlue200": {
+      "value": "#78c4e3",
+      "type": "color"
+    },
+    "Forest300": {
+      "value": "#4cca8b",
+      "type": "color"
+    },
+    "BlackOpacity30": {
+      "value": "#0000004d",
+      "type": "color"
+    },
+    "SkyBlue100": {
+      "value": "#cee0ed",
+      "type": "color"
+    },
+    "PersianBlue200": {
+      "value": "#7295ff",
+      "type": "color"
+    },
+    "Coral50": {
+      "value": "#ffd9d6",
+      "type": "color"
+    },
+    "Apricot200": {
+      "value": "#edc078",
+      "type": "color"
+    },
+    "SkyBlue200": {
+      "value": "#81bdea",
+      "type": "color"
+    },
+    "Coral300": {
+      "value": "#ff746a",
+      "type": "color"
+    },
+    "AquaBlue100": {
+      "value": "#cae4ee",
+      "type": "color"
+    },
+    "Coral400": {
+      "value": "#ff6257",
+      "type": "color"
+    },
+    "SkyBlue300": {
+      "value": "#2e90d9",
+      "type": "color"
+    },
+    "WhiteOpacity30": {
+      "value": "#ffffff4d",
+      "type": "color"
+    },
+    "BlackOpacity90": {
+      "value": "#000000e6",
+      "type": "color"
+    },
+    "BlackOpacity80": {
+      "value": "#000000cc",
+      "type": "color"
+    },
+    "Neutral1100": {
+      "value": "#3a3939",
+      "type": "color"
+    },
+    "Neutral900": {
+      "value": "#6c6b6b",
+      "type": "color"
+    },
+    "Neutral1000": {
+      "value": "#585757",
+      "type": "color"
+    },
+    "White": {
+      "value": "#ffffff",
+      "type": "color"
+    },
+    "BlackOpacity50": {
+      "value": "#00000080",
+      "type": "color"
+    },
+    "BlackOpacity20": {
+      "value": "#00000033",
+      "type": "color"
+    },
+    "WhiteOpacity50": {
+      "value": "#ffffff80",
+      "type": "color"
+    },
+    "Neutral300": {
+      "value": "#e8e7e7",
+      "type": "color"
+    },
+    "PersianBlue300": {
+      "value": "#5781ff",
+      "type": "color"
+    },
+    "BlackOpacity10": {
+      "value": "#0000001a",
+      "type": "color"
+    },
+    "WhiteOpacity90": {
+      "value": "#ffffffe6",
+      "type": "color"
+    },
+    "Apricot300": {
+      "value": "#f5b85b",
+      "type": "color"
+    },
+    "Neutral1200": {
+      "value": "#2b2b2b",
+      "type": "color"
+    },
+    "Coral500": {
+      "value": "#de473d",
+      "type": "color"
+    },
+    "WhiteOpacity40": {
+      "value": "#ffffff66",
+      "type": "color"
+    },
+    "Coral200": {
+      "value": "#ff837a",
+      "type": "color"
+    },
+    "BlackOpacity70": {
+      "value": "#000000b3",
+      "type": "color"
+    },
+    "PersianBlue100": {
+      "value": "#d6e0ff",
+      "type": "color"
+    },
+    "BlackOpacity40": {
+      "value": "#00000066",
+      "type": "color"
+    },
+    "BlackOpacity60": {
+      "value": "#00000099",
+      "type": "color"
+    },
+    "AquaBlue300": {
+      "value": "#40add6",
+      "type": "color"
+    },
+    "WhiteOpacity20": {
+      "value": "#ffffff33",
+      "type": "color"
+    },
+    "Neutral1300": {
+      "value": "#202020",
+      "type": "color"
+    },
+    "Coral600": {
+      "value": "#9d534d",
+      "type": "color"
+    },
+    "Forest100": {
+      "value": "#cceddd",
+      "type": "color"
+    },
+    "WhiteOpacity10": {
+      "value": "#ffffff1a",
+      "type": "color"
+    },
+    "WhiteOpacity80": {
+      "value": "#ffffffcc",
+      "type": "color"
+    },
+    "WhiteOpacity70": {
+      "value": "#ffffffb3",
+      "type": "color"
+    },
+    "Coral100": {
+      "value": "#ff9992",
+      "type": "color"
+    },
+    "Neutral100": {
+      "value": "#f9f7f7",
+      "type": "color"
+    },
+    "Neutral200": {
+      "value": "#f2f0f0",
+      "type": "color"
+    },
+    "Neutral500": {
+      "value": "#d0d0d0",
+      "type": "color"
+    },
+    "Neutral400": {
+      "value": "#dadada",
+      "type": "color"
+    },
+    "Black": {
+      "value": "#000000",
+      "type": "color"
+    }
+  },
+  "\bAlias Tokens/Light": {
+    "Calendar": {
+      "Cyan3": {
+        "value": "{Cyan100}",
+        "type": "color"
+      },
+      "Cyan1": {
+        "value": "{Cyan300}",
+        "type": "color"
+      },
+      "Apricot3": {
+        "value": "{Apricot100}",
+        "type": "color"
+      },
+      "Apricot2": {
+        "value": "{Apricot200}",
+        "type": "color"
+      },
+      "LightGreen3": {
+        "value": "{LightGreen100}",
+        "type": "color"
+      },
+      "LightGreen2": {
+        "value": "{LightGreen200}",
+        "type": "color"
+      },
+      "LightGreen1": {
+        "value": "{LightGreen300}",
+        "type": "color"
+      },
+      "Forest3": {
+        "value": "{Forest100}",
+        "type": "color"
+      },
+      "Forest2": {
+        "value": "{Forest200}",
+        "type": "color"
+      },
+      "Apricot1": {
+        "value": "{Apricot300}",
+        "type": "color"
+      },
+      "AquaBlue2": {
+        "value": "{AquaBlue200}",
+        "type": "color"
+      },
+      "SkyBlue3": {
+        "value": "{SkyBlue100}",
+        "type": "color"
+      },
+      "AquaBlue1": {
+        "value": "{AquaBlue300}",
+        "type": "color"
+      },
+      "AquaBlue3": {
+        "value": "{AquaBlue100}",
+        "type": "color"
+      },
+      "SkyBlue1": {
+        "value": "{SkyBlue300}",
+        "type": "color"
+      },
+      "Cyan2": {
+        "value": "{Cyan200}",
+        "type": "color"
+      },
+      "Forest1": {
+        "value": "{Forest300}",
+        "type": "color"
+      },
+      "SkyBlue2": {
+        "value": "{SkyBlue200}",
+        "type": "color"
+      }
+    },
+    "Button": {
+      "Solid": {
+        "Primary": {
+          "value": "{Coral400}",
+          "type": "color"
+        },
+        "Disabled": {
+          "value": "{Neutral200}",
+          "type": "color"
+        },
+        "Assistive": {
+          "value": "{Neutral300}",
+          "type": "color"
+        }
+      },
+      "Text": {
+        "Assistive": {
+          "value": "{Text.Text 1}",
+          "type": "color"
+        },
+        "Primary": {
+          "value": "{Coral500}",
+          "type": "color"
+        },
+        "Assistive 2": {
+          "value": "{Text.Text 1}",
+          "type": "color"
+        },
+        "Assistive 3": {
+          "value": "{Text.Text 1}",
+          "type": "color"
+        },
+        "Disabled": {
+          "value": "{Text.Text 4}",
+          "type": "color"
+        }
+      }
+    },
+    "BG": {
+      "BG 4": {
+        "value": "{Neutral300}",
+        "type": "color"
+      },
+      "BG 3": {
+        "value": "{White}",
+        "type": "color"
+      },
+      "BG 2": {
+        "value": "{Neutral200}",
+        "type": "color"
+      },
+      "BG 1": {
+        "value": "{Neutral100}",
+        "type": "color"
+      }
+    },
+    "Profile": {
+      "ProfileBlue1": {
+        "value": "{PersianBlue100}",
+        "type": "color"
+      },
+      "ProfileCoral2": {
+        "value": "{Coral400}",
+        "type": "color"
+      },
+      "ProfileCoral1": {
+        "value": "{Coral50}",
+        "type": "color"
+      },
+      "ProfileBlue2": {
+        "value": "{PersianBlue300}",
+        "type": "color"
+      },
+      "Profile2": {
+        "value": "{Neutral800}",
+        "type": "color"
+      },
+      "Profile1": {
+        "value": "{Neutral400}",
+        "type": "color"
+      }
+    },
+    "Pagination": {
+      "Navigation1": {
+        "value": "{Neutral300}",
+        "type": "color"
+      },
+      "Navigation2": {
+        "value": "{Neutral1300}",
+        "type": "color"
+      }
+    },
+    "Toggle": {
+      "BG": {
+        "value": "{White}",
+        "type": "color"
+      },
+      "Switch": {
+        "value": "{Neutral400}",
+        "type": "color"
+      }
+    },
+    "Text": {
+      "Text 3": {
+        "value": "{Neutral800}",
+        "type": "color"
+      },
+      "Text 7": {
+        "value": "{White}",
+        "type": "color",
+        "description": "icon"
+      },
+      "Text 6": {
+        "value": "{Black}",
+        "type": "color",
+        "description": "icon"
+      },
+      "Text 8": {
+        "value": "{Coral500}",
+        "type": "color",
+        "description": "icon"
+      },
+      "Text 5 (Inverse)": {
+        "value": "{Neutral200}",
+        "type": "color",
+        "description": "icon"
+      },
+      "Text 4": {
+        "value": "{Neutral500}",
+        "type": "color"
+      },
+      "Text 2": {
+        "value": "{Neutral900}",
+        "type": "color"
+      },
+      "Text 1": {
+        "value": "{Neutral1300}",
+        "type": "color"
+      }
+    },
+    "Icon": {
+      "Icon 4": {
+        "value": "{Neutral500}",
+        "type": "color"
+      },
+      "Icon 2": {
+        "value": "{Neutral900}",
+        "type": "color"
+      },
+      "Icon_pramary": {
+        "value": "{Coral400}",
+        "type": "color"
+      },
+      "Icon 1": {
+        "value": "{Neutral1300}",
+        "type": "color"
+      },
+      "Icon 5": {
+        "value": "{White}",
+        "type": "color"
+      },
+      "Icon 3": {
+        "value": "{Neutral800}",
+        "type": "color"
+      }
+    },
+    "Bottom_navi": {
+      "Bottom_navi_border": {
+        "value": "{Border.Border}",
+        "type": "color"
+      },
+      "Bottom_navi_bg": {
+        "value": "{BG.BG 3}",
+        "type": "color"
+      }
+    },
+    "Toast": {
+      "Toast BG": {
+        "value": "{BlackOpacity50}",
+        "type": "color"
+      }
+    },
+    "Card": {
+      "Inline_card": {
+        "value": "{Neutral300}",
+        "type": "color"
+      }
+    },
+    "Border": {
+      "Border": {
+        "value": "{Neutral300}",
+        "type": "color"
+      }
+    }
+  },
+  "\bAlias Tokens/Dark": {
+    "Calendar": {
+      "Cyan3": {
+        "value": "{Cyan100}",
+        "type": "color"
+      },
+      "Cyan1": {
+        "value": "{Cyan300}",
+        "type": "color"
+      },
+      "Apricot3": {
+        "value": "{Apricot200}",
+        "type": "color"
+      },
+      "Apricot2": {
+        "value": "{Apricot200}",
+        "type": "color"
+      },
+      "LightGreen3": {
+        "value": "{LightGreen100}",
+        "type": "color"
+      },
+      "LightGreen2": {
+        "value": "{LightGreen200}",
+        "type": "color"
+      },
+      "LightGreen1": {
+        "value": "{LightGreen300}",
+        "type": "color"
+      },
+      "Forest3": {
+        "value": "{Forest100}",
+        "type": "color"
+      },
+      "Forest2": {
+        "value": "{Forest200}",
+        "type": "color"
+      },
+      "Apricot1": {
+        "value": "{Apricot300}",
+        "type": "color"
+      },
+      "AquaBlue2": {
+        "value": "{AquaBlue200}",
+        "type": "color"
+      },
+      "SkyBlue3": {
+        "value": "{SkyBlue100}",
+        "type": "color"
+      },
+      "AquaBlue1": {
+        "value": "{AquaBlue300}",
+        "type": "color"
+      },
+      "AquaBlue3": {
+        "value": "{AquaBlue100}",
+        "type": "color"
+      },
+      "SkyBlue1": {
+        "value": "{SkyBlue300}",
+        "type": "color"
+      },
+      "Cyan2": {
+        "value": "{Cyan200}",
+        "type": "color"
+      },
+      "Forest1": {
+        "value": "{Forest300}",
+        "type": "color"
+      },
+      "SkyBlue2": {
+        "value": "{SkyBlue200}",
+        "type": "color"
+      }
+    },
+    "Button": {
+      "Solid": {
+        "Primary": {
+          "value": "{Coral300}",
+          "type": "color"
+        },
+        "Disabled": {
+          "value": "{Neutral700}",
+          "type": "color"
+        },
+        "Assistive": {
+          "value": "{Neutral700}",
+          "type": "color"
+        }
+      },
+      "Text": {
+        "Assistive": {
+          "value": "{Text.Text 1}",
+          "type": "color"
+        },
+        "Primary": {
+          "value": "{Coral200}",
+          "type": "color"
+        },
+        "Assistive 2": {
+          "value": "{Text.Text 6}",
+          "type": "color"
+        },
+        "Assistive 3": {
+          "value": "{Text.Text 6}",
+          "type": "color"
+        },
+        "Disabled": {
+          "value": "{Text.Text 4}",
+          "type": "color"
+        }
+      }
+    },
+    "BG": {
+      "BG 4": {
+        "value": "{Neutral1000}",
+        "type": "color"
+      },
+      "BG 3": {
+        "value": "{Neutral1200}",
+        "type": "color"
+      },
+      "BG 2": {
+        "value": "{Neutral1100}",
+        "type": "color"
+      },
+      "BG 1": {
+        "value": "{Neutral1300}",
+        "type": "color"
+      }
+    },
+    "Profile": {
+      "ProfileBlue1": {
+        "value": "{PersianBlue200}",
+        "type": "color"
+      },
+      "ProfileCoral2": {
+        "value": "{Coral50}",
+        "type": "color"
+      },
+      "ProfileCoral1": {
+        "value": "{Coral200}",
+        "type": "color"
+      },
+      "ProfileBlue2": {
+        "value": "{PersianBlue100}",
+        "type": "color"
+      },
+      "Profile2": {
+        "value": "{Neutral500}",
+        "type": "color"
+      },
+      "Profile1": {
+        "value": "{Neutral900}",
+        "type": "color"
+      }
+    },
+    "Pagination": {
+      "Navigation1": {
+        "value": "{Neutral300}",
+        "type": "color"
+      },
+      "Navigation2": {
+        "value": "{Neutral1100}",
+        "type": "color"
+      }
+    },
+    "Toggle": {
+      "BG": {
+        "value": "{White}",
+        "type": "color"
+      },
+      "Switch": {
+        "value": "{Neutral800}",
+        "type": "color"
+      }
+    },
+    "Text": {
+      "Text 3": {
+        "value": "{Neutral800}",
+        "type": "color"
+      },
+      "Text 7": {
+        "value": "{Coral200}",
+        "type": "color",
+        "description": "icon"
+      },
+      "Text 6": {
+        "value": "{White}",
+        "type": "color",
+        "description": "icon"
+      },
+      "Text 8": {
+        "value": "{Coral200}",
+        "type": "color",
+        "description": "icon"
+      },
+      "Text 5 (Inverse)": {
+        "value": "{Neutral1300}",
+        "type": "color",
+        "description": "icon"
+      },
+      "Text 4": {
+        "value": "{Neutral900}",
+        "type": "color"
+      },
+      "Text 2": {
+        "value": "{Neutral600}",
+        "type": "color"
+      },
+      "Text 1": {
+        "value": "{Neutral200}",
+        "type": "color"
+      }
+    },
+    "Icon": {
+      "Icon 4": {
+        "value": "{Neutral900}",
+        "type": "color"
+      },
+      "Icon 2": {
+        "value": "{Neutral600}",
+        "type": "color"
+      },
+      "Icon_pramary": {
+        "value": "{Coral300}",
+        "type": "color"
+      },
+      "Icon 1": {
+        "value": "{Neutral200}",
+        "type": "color"
+      },
+      "Icon 5": {
+        "value": "{Neutral900}",
+        "type": "color"
+      },
+      "Icon 3": {
+        "value": "{Neutral500}",
+        "type": "color"
+      }
+    },
+    "Bottom_navi": {
+      "Bottom_navi_border": {
+        "value": "{Border.Border}",
+        "type": "color"
+      },
+      "Bottom_navi_bg": {
+        "value": "{BG.BG 3}",
+        "type": "color"
+      }
+    },
+    "Toast": {
+      "Toast BG": {
+        "value": "{WhiteOpacity50}",
+        "type": "color"
+      }
+    },
+    "Card": {
+      "Inline_card": {
+        "value": "{Neutral900}",
+        "type": "color"
+      }
+    },
+    "Border": {
+      "Border": {
+        "value": "{Neutral900}",
+        "type": "color"
+      }
+    }
+  },
   "$themes": [],
   "$metadata": {
     "tokenSetOrder": [
-      "global"
+      "global",
+      "Collection 1/Mode 1",
+      "\bAlias Tokens/Light",
+      "\bAlias Tokens/Dark"
     ]
   }
 }

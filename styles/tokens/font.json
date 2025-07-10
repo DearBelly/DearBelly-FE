@@ -111,7 +111,7 @@
       }
     }
   },
-  "Typo": {
+  "타이포": {
     "fontFamilies": {
       "nanumsquare-neo": {
         "value": "NanumSquare Neo",
@@ -225,7 +225,7 @@
       }
     },
     "Head": {
-      "26_700": {
+      "Head_26_700": {
         "value": {
           "fontFamily": "{fontFamilies.nanumsquare-neo}",
           "fontWeight": "{fontWeights.nanumsquare-neo-0}",
@@ -239,7 +239,7 @@
         },
         "type": "typography"
       },
-      "20_700": {
+      "Head_20_700": {
         "value": {
           "fontFamily": "{fontFamilies.nanumsquare-neo}",
           "fontWeight": "{fontWeights.nanumsquare-neo-0}",
@@ -255,7 +255,7 @@
       }
     },
     "Body": {
-      "16_700_-1": {
+      "Body_16_700_-1": {
         "value": {
           "fontFamily": "{fontFamilies.nanumsquare-neo}",
           "fontWeight": "{fontWeights.nanumsquare-neo-0}",
@@ -269,7 +269,7 @@
         },
         "type": "typography"
       },
-      "16_700_-2": {
+      "Body_16_700_-2": {
         "value": {
           "fontFamily": "{fontFamilies.nanumsquare-neo}",
           "fontWeight": "{fontWeights.nanumsquare-neo-0}",
@@ -283,7 +283,7 @@
         },
         "type": "typography"
       },
-      "14_700": {
+      "Body_14_700": {
         "value": {
           "fontFamily": "{fontFamilies.nanumsquare-neo}",
           "fontWeight": "{fontWeights.nanumsquare-neo-0}",
@@ -297,7 +297,7 @@
         },
         "type": "typography"
       },
-      "14_600_-1": {
+      "Body_14_600_-1": {
         "value": {
           "fontFamily": "{fontFamilies.nanumsquare-neo}",
           "fontWeight": "{fontWeights.nanumsquare-neo-1}",
@@ -311,7 +311,7 @@
         },
         "type": "typography"
       },
-      "14_600_-2": {
+      "Body_14_600_-2": {
         "value": {
           "fontFamily": "{fontFamilies.nanumsquare-neo}",
           "fontWeight": "{fontWeights.nanumsquare-neo-2}",
@@ -327,7 +327,7 @@
       }
     },
     "Caption": {
-      "12_700": {
+      "Caption_12_700": {
         "value": {
           "fontFamily": "{fontFamilies.nanumsquare-neo}",
           "fontWeight": "{fontWeights.nanumsquare-neo-0}",
@@ -341,7 +341,7 @@
         },
         "type": "typography"
       },
-      "12_400": {
+      "Caption_12_400": {
         "value": {
           "fontFamily": "{fontFamilies.nanumsquare-neo}",
           "fontWeight": "{fontWeights.nanumsquare-neo-2}",
@@ -355,7 +355,7 @@
         },
         "type": "typography"
       },
-      "10_600_-1": {
+      "Caption_10_600_-1": {
         "value": {
           "fontFamily": "{fontFamilies.nanumsquare-neo}",
           "fontWeight": "{fontWeights.nanumsquare-neo-1}",
@@ -369,7 +369,7 @@
         },
         "type": "typography"
       },
-      "10_600_-4": {
+      "Caption_10_600_-4": {
         "value": {
           "fontFamily": "{fontFamilies.nanumsquare-neo}",
           "fontWeight": "{fontWeights.nanumsquare-neo-1}",
@@ -389,7 +389,7 @@
   "$metadata": {
     "tokenSetOrder": [
       "",
-      "Typo"
+      "타이포"
     ]
   }
 }

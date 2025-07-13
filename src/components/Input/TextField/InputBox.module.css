@@ -1,14 +1,15 @@
 
 .textbox {
   position: relative;
-  width: 335px;
-  height: 80px;
-  min-height: 24px;
-  border-radius: 16px;
+  width: 20.9375rem;
+  height: 5rem;
+  flex-shrink: 0;
+  border-radius: 1rem;
+  background: #FFF;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  gap: 8px;
+  gap: 0.5rem;
   flex: none;
   order: 1;
   flex-grow: 1;
@@ -19,11 +20,11 @@
   position: absolute;
   font-family: 'NanumSquare Neo';
   font-weight: 600;
-  font-size: 14px;
-  line-height: 18px;
+  font-size: 0.875rem;
+  line-height: 1.125rem;
   color: #202020;
-  top: 14px;
-  left: 16px;
+  top: 0.875rem;
+  left: 1rem;
 }
 
 .star {
@@ -31,13 +32,13 @@
   color: #FF4242;
   font-feature-settings: 'ss10' on;
   font-family: "Pretendard JP";
-  font-size: 14px;
+  font-size: 0.875rem;
   font-style: normal;
   font-weight: 500;
-  line-height: 142.9%;
-  letter-spacing: 0.203px;
-  top: 13px;
-  left: 45px;
+  line-height: 1.429rem;
+  letter-spacing: 0.0127rem;
+  top: 0.8125rem;
+  left: 2.8125rem;
 }
 
 .detail {
@@ -46,23 +47,23 @@
   font-feature-settings: 'liga' off, 'clig' off;
   text-overflow: ellipsis;
   font-family: var(--Font-Family-font-family, "NanumSquare Neo");
-  font-size: 18px;
+  font-size: 1.125rem;
   font-style: normal;
-  line-height: var(--Line-Height-line-height-XL, 30px); /* 214.286% */
-  letter-spacing: -0.28px;
-  top: 38px;
-  left: 16px;
+  line-height: var(--Line-Height-line-height-XL, 1.875rem);
+  letter-spacing: -0.0175rem;
+  top: 2.375rem;
+  left: 1rem;
 }
 
 .input {
   position: absolute;
-  top: 38px;
-  left: 16px;
-  width: 280px;
-  height: 30px;
+  top: 2.375rem;
+  left: 1rem;
+  width: 17.5rem;
+  height: 1.875rem;
   border: none;
   outline: none;
-  font-size: 18px;
+  font-size: 1.125rem;
   font-family: "NanumSquare Neo";
   background-color: transparent;
   color: #202020;
@@ -74,8 +75,8 @@
 
 .icon {
   position: absolute;
-  top: 41px;
-  right: 16px;
+  top: 2.5625rem;
+  right: 1rem;
 }
 
 .default {
@@ -83,5 +84,5 @@
 }
 
 .active {
-  border: 1px solid #ccc;
+  border: 0.0625rem solid #ccc;
 }

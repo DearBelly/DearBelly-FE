@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from "react"; 
 import { ChakraProvider } from "@chakra-ui/react";
 import type { AppProps } from "next/app";
 import customTheme from "../customTheme";
@@ -18,7 +18,7 @@ export default function MyApp({ Component, pageProps, router }: AppProps) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.3 }}
        >
         <ChakraProvider theme={customTheme}>
           <BreakPointProvider>

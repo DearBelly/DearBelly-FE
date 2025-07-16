@@ -4,9 +4,10 @@ import { useEffect, useState } from 'react';
 
 interface TopBarProps {
   children: React.ReactNode;
+  rightContent ?: React.ReactNode;
 }
 
-export const TopBar = ({ children }: TopBarProps): React.ReactNode => {
+export const TopBar = ({ children, rightContent }: TopBarProps): React.ReactNode => {
   const [visible, setVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -33,7 +34,16 @@ export const TopBar = ({ children }: TopBarProps): React.ReactNode => {
     <header css={[containerStyle, !visible && hiddenStyle]}>
       <div css={statusBarStyle} />
       <div css={barStyle}>
-        <div css={contentStyle}>{children}</div>
+        <div css={contentStyle}>
+          <div style={{flex:1}}>
+            {children}
+          </div>
+          {rightContent && (
+            <div style={{ marginLeft: "auto", display: "flex" }}>
+              {rightContent}
+            </div>
+          )}
+        </div>
       </div>
     </header>
   );
@@ -87,7 +97,7 @@ const barStyle = css`
 
 const contentStyle = css`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: flex-start;
 

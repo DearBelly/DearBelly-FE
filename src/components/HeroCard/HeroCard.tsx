@@ -2,10 +2,8 @@
 import { css } from '@emotion/react';
 import Image from 'next/image';
 import { Button } from '@/components/Button';
-import { C } from 'vitest/dist/chunks/reporters.d.BFLkQcL6';
 
 const fallbackImage = '/images/default_image.png';
-
 const buttonText = '바로가기';
 
 interface HeroCardProps {
@@ -24,16 +22,19 @@ export const HeroCard = ({ title, description, imageSrc, mode }: HeroCardProps) 
       </div>
       <div css={getContentsSectionStyle(mode)}>
         {mode === 'imageMode' && (
-          <Image
-            src={imageSrc || fallbackImage}
-            alt={title}
-            width={120}
-            height={80}
-            css={imageStyle}
-          />
+          <div css={imageWrapperStyle}>
+            <Image
+              src={imageSrc || fallbackImage}
+              alt={title}
+              fill
+              style={{ objectFit: 'cover' }}
+            />
+          </div>
         )}
         {mode === 'buttonMode' && (
-          <Button type="secondary" size="small" width="7.875rem">{buttonText}</Button>
+          <Button type="secondary" size="small" width="7.875rem">
+            {buttonText}
+          </Button>
         )}
       </div>
     </div>
@@ -71,9 +72,8 @@ const titleStyle = css`
   letter-spacing: -0.0125rem;
   margin: 0;
   width: 100%;
-
   display: -webkit-box;
-  -webkit-line-clamp: 2;  /* 두 줄까지만 표시 */
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -91,8 +91,7 @@ const descriptionStyle = css`
   letter-spacing: -0.00875rem;
   margin: 0;
   width: 100%;
-
-  overflow: hidden;  /* 한 줄까지만 표시 */
+  overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 `;
@@ -105,8 +104,10 @@ const getContentsSectionStyle = (mode: 'buttonMode' | 'imageMode') => css`
   align-self: stretch;
 `;
 
-const imageStyle = css`
+const imageWrapperStyle = css`
+  position: relative;
   width: 7.5rem;
   height: 5rem;
-  justify-content: flex-end;
+  overflow: hidden;
+  flex-shrink: 0;
 `;

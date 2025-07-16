@@ -17,7 +17,7 @@ export const ImageMode: Story = {
     title: '건강한 임신을 위한 팁',
     description: '임신 중 챙겨야 할 필수 정보를 알려드려요.',
     imageSrc: '/images/default_image.svg',
-    mode: 'buttonMode',
+    mode: 'imageMode',
   },
 };
 

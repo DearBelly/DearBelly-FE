@@ -5,8 +5,7 @@ import React, { ReactNode } from 'react';
 export interface ButtonProps {
   type?: 'primary' | 'secondary';
   size?: 'large' | 'medium' | 'small';
-  width?: string;   
-  height?: string;  
+  width?: string;    
   disabled?: boolean;
   children: ReactNode;
   onClick?: () => void;
@@ -73,14 +72,12 @@ export const Button = ({
   type = 'primary',
   size = 'large',
   width,
-  height,
   disabled = false,
   children,
   ...props
 }: ButtonProps) => {
   const customSizeStyle = css({
     width,
-    height,
   });
 
   const buttonStyle = [

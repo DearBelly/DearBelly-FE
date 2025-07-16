@@ -8,7 +8,6 @@ const meta: Meta<typeof Button> = {
   argTypes: {
     onClick: { action: 'clicked' },
     width: { control: 'text' },
-    height: { control: 'text' },
     size: {
       control: { type: 'radio' },
       options: ['large', 'medium', 'small'],
@@ -54,7 +53,6 @@ export const CustomSize: Story = {
     type: 'primary',
     size: 'medium',
     width: '10rem',
-    height: '4rem',
     children: '커스텀 크기',
   },
 };

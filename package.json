@@ -11,7 +11,8 @@
     "build-storybook": "storybook build",
     "token-build": "style-dictionary build --config style-dictionary.config.json",
     "sync-figma": "node scripts/sync-figma-tokens.js",
-    "watch-tokens": "npm run sync-figma && npm run token-build"
+    "tokens:sync": "npm run sync-figma",
+    "tokens:build": "npm run token-build"
   },
   "dependencies": {
     "@chakra-ui/icons": "2.2.4",
@@ -23,14 +24,15 @@
     "@storybook/addon-viewport": "8.6.14",
     "framer-motion": "10.18.0",
     "next": "15.3.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "react-icons": "^5.5.0",
     "styled-components": "^6.1.19"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.6",
     "@eslint/eslintrc": "^3",
+<<<<<<< HEAD
     "@storybook/addon-essentials": "^8.6.12",
     "@storybook/addon-onboarding": "^8.6.12",
     "@storybook/blocks": "^8.6.12",
@@ -40,6 +42,13 @@
     "@storybook/react": "^8.6.12",
     "@storybook/test": "^8.6.12",
     "@storybook/types": "8.6.14",
+=======
+    "@storybook/addon-docs": "^9.0.16",
+    "@storybook/addon-onboarding": "^9.0.16",
+    "@storybook/addon-vitest": "9.0.16",
+    "@storybook/nextjs": "^9.0.16",
+    "@storybook/nextjs-vite": "^9.0.16",
+>>>>>>> a8cc613c986b9a2c73aefdcc4d3865f468b97ece
     "@svgr/webpack": "8.1.0",
     "@types/node": "20.19.6",
     "@types/react": "19.1.8",

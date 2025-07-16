@@ -14,6 +14,7 @@
     "jsx": "preserve",
     "incremental": true,
     "allowSyntheticDefaultImports": true,
+    "baseUrl": "src",
     "types": ["node"],
     "plugins": [
       {
@@ -21,7 +22,7 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["*"]
     }
   },
   "include": [

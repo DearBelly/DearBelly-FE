@@ -4,13 +4,6 @@ import { useGetBreakPointValue } from "../context/BreakPointProvider";
 export default function Home() {
   const isPc = useGetBreakPointValue();
 
-  // 아직 초기 로딩 중
-  if (isPc === undefined) {
-    return null;
-  }
-
-  console.log(isPc);
-
   return (
     <Box
       bg="green.400"

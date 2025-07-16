@@ -3,6 +3,7 @@ import { css } from '@emotion/react';
 import { ReactNode } from 'react';
 import { TopBar } from '../TopBar/TopBar';
 import { BottomNavigation } from '../BottomNavigation/BottomNavigation';
+import Image from 'next/image';
 
 interface MobileLayoutProps {
   topbarContent?: ReactNode;
@@ -12,7 +13,9 @@ interface MobileLayoutProps {
 export const MobileLayout = ({ topbarContent, children }: MobileLayoutProps) => {
   return (
     <div css={layoutStyle}>
-      <TopBar>{topbarContent}</TopBar>
+      <TopBar rightContent={topbarContent}>
+        <Image src="/icons/logo_text.svg" alt="logo" width={102} height={20} />
+      </TopBar>
       <main css={contentStyle}>{children}</main>
       <BottomNavigation />
     </div>

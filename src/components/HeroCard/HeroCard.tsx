@@ -2,8 +2,11 @@
 import { css } from '@emotion/react';
 import Image from 'next/image';
 import { Button } from '@/components/Button';
+import { C } from 'vitest/dist/chunks/reporters.d.BFLkQcL6';
 
 const fallbackImage = '/images/default_image.png';
+
+const buttonText = '바로가기';
 
 interface HeroCardProps {
   title: string;
@@ -19,7 +22,7 @@ export const HeroCard = ({ title, description, imageSrc, mode }: HeroCardProps) 
         <h2 css={titleStyle}>{title}</h2>
         <p css={descriptionStyle}>{description}</p>
       </div>
-      <div css={contentsSection}>
+      <div css={getContentsSectionStyle(mode)}>
         {mode === 'imageMode' && (
           <Image
             src={imageSrc || fallbackImage}
@@ -30,7 +33,7 @@ export const HeroCard = ({ title, description, imageSrc, mode }: HeroCardProps) 
           />
         )}
         {mode === 'buttonMode' && (
-          <Button size="large">바로가기</Button>
+          <Button type="secondary" size="small" width="7.875rem">{buttonText}</Button>
         )}
       </div>
     </div>
@@ -54,6 +57,7 @@ const textWrapper = css`
   flex-direction: column;
   align-items: flex-start;
   align-self: stretch;
+  gap: 0.25rem;
 `;
 
 const titleStyle = css`
@@ -93,10 +97,10 @@ const descriptionStyle = css`
   text-overflow: ellipsis;
 `;
 
-const contentsSection = css`
+const getContentsSectionStyle = (mode: 'buttonMode' | 'imageMode') => css`
   display: flex;
-  justify-content: flex-end;
   align-items: center;
+  justify-content: ${mode === 'imageMode' ? 'flex-end' : 'flex-start'};
   gap: 0.625rem;
   align-self: stretch;
 `;
@@ -104,4 +108,5 @@ const contentsSection = css`
 const imageStyle = css`
   width: 7.5rem;
   height: 5rem;
+  justify-content: flex-end;
 `;

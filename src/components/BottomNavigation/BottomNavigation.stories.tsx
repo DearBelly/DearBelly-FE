@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { BottomNavigation } from './BottomNavigation';
-import { MockPathnameProvider } from '@/src/lib/test/mockRouter'; 
+import { MockPathnameProvider } from '@/lib/test/mockRouter'; 
 
 const meta: Meta<typeof BottomNavigation> = {
   component: BottomNavigation,

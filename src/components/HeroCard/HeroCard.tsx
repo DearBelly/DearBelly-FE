@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import Image from 'next/image';
+import { Button } from '@/components/Button';
 
 const fallbackImage = '/images/default_image.png';
 
@@ -29,7 +30,7 @@ export const HeroCard = ({ title, description, imageSrc, mode }: HeroCardProps) 
           />
         )}
         {mode === 'buttonMode' && (
-          <button>액션</button>
+          <Button size="large">바로가기</Button>
         )}
       </div>
     </div>

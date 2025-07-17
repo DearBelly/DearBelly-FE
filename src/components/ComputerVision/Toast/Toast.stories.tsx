@@ -2,7 +2,7 @@ import { Toast } from './Toast';
 import { FunnyCircleSolid } from "@mynaui/icons-react";
 
 export default {
-  title: 'components/Toast',
+  title: 'ImageSet/Toast',
   component: Toast,
   tags: ['autodocs'],
 };

@@ -27,7 +27,7 @@ const layoutStyle = css`
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
-  background-color: #fff;
+  background-color: #F9F7F7;
 
   margin: 0 auto;
   position: relative;

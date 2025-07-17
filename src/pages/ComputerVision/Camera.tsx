@@ -2,6 +2,7 @@ import React from 'react'
 import { Box, Text } from "@chakra-ui/react";
 import { useGetBreakPointValue } from "../../context/BreakPointProvider";
 import { MobileLayout } from "../../components/Layouts/MobileLayout";
+import Webcam from "react-webcam";
 
 export default function Camera() {
   const isPc = useGetBreakPointValue();
@@ -9,7 +10,7 @@ export default function Camera() {
 
   const content = (
     <Box>
-      <Text>여기에 페이지 내용을 작성하세요.</Text>
+      <Webcam />
     </Box>
   );
 

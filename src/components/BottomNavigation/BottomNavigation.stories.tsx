@@ -44,3 +44,9 @@ export const MyPage: Story = {
     pathname: '/mypage',
   },
 };
+
+export const Scan: Story = {
+  args: {
+    pathname: '/ComputerVision/Scan',
+  },
+};

@@ -1,21 +1,23 @@
 import React from 'react'
-import { Box, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { useGetBreakPointValue } from "../../context/BreakPointProvider";
-import { MobileLayout } from "../../components/Layouts/MobileLayout";
+import { PhotoGuideModal } from "../../components/ComputerVision/Photo/PhotoGuideModal";
+import { PhotoBtn } from "../../components/ComputerVision/Photo/PhotoBtn";
 
 export default function Camera() {
   const isPc = useGetBreakPointValue();
   const isMobile = !isPc;
 
   const content = (
-    <Box>
+    <Box bg="#737373" minH="100vh" display="flex" alignItems="center" justifyContent="center">
+      <PhotoGuideModal>
+        <PhotoBtn variant="large">확인</PhotoBtn>
+      </PhotoGuideModal>
     </Box>
   );
 
   return isMobile ? (
-    <MobileLayout>
-      {content}
-    </MobileLayout>
+      content
   ) : (
     content
   );

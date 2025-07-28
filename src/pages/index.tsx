@@ -6,12 +6,11 @@ export default function Home() {
 
   return (
     <Box
+      bg="#F9F7F7"
+      minW="320px"
       minH="100vh"
       display="flex"
       flexDirection="column"
-      justifyContent="center"
-      alignItems="center"
-      p={{ base: 4, md: 8 }}
     >
     {isPc ? (
       <>
@@ -20,8 +19,8 @@ export default function Home() {
       </>
     ) : (
       <>
-        <Image src="/icons/logo.svg" alt="logo" width="9.375rem" height="9.375rem" mb={4} />
-        <Image src="/icons/logo_text.svg" alt="logo text" width="9.375rem" height="auto" />
+        <Image src="/icons/logo.svg" alt="logo" width="9.375rem" height="auto" mt="16.66rem" mb="1.91rem" ml="6.75rem" />
+        <Image src="/icons/logo_text.svg" alt="logo text" width="9.54069rem" height="auto" ml="7rem" />
       </>
     )}
     </Box>

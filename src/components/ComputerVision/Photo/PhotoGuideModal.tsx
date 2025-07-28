@@ -55,25 +55,26 @@ export const PhotoGuideModal = ({ children, onImageUpload }: PhotoGuideModalProp
 
   return (
     <div style={{
-      border: '0.8px solid',
       borderRadius: '1.25rem',
       padding: '1.75rem 1rem 1rem 1rem',
       background: 'var(--BG-BG-3, #FFF)',
       width: '17.8125rem',
-      height: '25.5rem',
+      height: '21.5rem',
       margin: '0 auto',
       alignItems: 'flex-start'
     }}>
       <h3 style={{ 
         fontFamily: 'var(--Font-Family-font-family, "NanumSquare Neo")',
-        fontSize: 'var(--Primitive-lg, 1.1em)',
+        fontSize: 'var(--Primitive-lg, 1rem)',
         color: 'var(--Text-Text-1, #202020)',
         textAlign: 'center',
         fontFeatureSettings: '\'liga\' off, \'clig\' off',
         fontStyle: 'normal',
         fontWeight: '600',
         lineHeight: 'var(--Line-Height-line-height-S, 1.125rem)',
-        letterSpacing: '-0.01rem'
+        letterSpacing: '-0.01rem',
+        marginBottom: '1rem',
+        marginTop: '-0.5rem'
       }}>
         의약품 촬영 가이드
       </h3>
@@ -85,8 +86,7 @@ export const PhotoGuideModal = ({ children, onImageUpload }: PhotoGuideModalProp
           height: '9.375rem',
           flexShrink: '0',
           margin: '0 auto 1rem',
-          border: isDragOver || isHovered ? '1px dashed #3f3f3f' : '1px solid #ccc',
-          borderRadius: '0.5rem',
+          border: isDragOver || isHovered ? '1px solid #8c8c8c' : '1px solid #ccc',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -120,8 +120,6 @@ export const PhotoGuideModal = ({ children, onImageUpload }: PhotoGuideModalProp
             color: '#666',
             fontSize: '0.875rem'
           }}>
-          <div>클릭하여 이미지 선택</div>
-            <div style={{ fontSize: '0.75rem', marginTop: '0.25rem' }}>또는 드래그 앤 드롭</div>
           </div>
         )}
       </div>
@@ -137,21 +135,21 @@ export const PhotoGuideModal = ({ children, onImageUpload }: PhotoGuideModalProp
       />
 
       <div style={{ 
-        textAlign: 'center', 
-        marginBottom: '1rem',
-        color: 'var(--Text-Text-1, #202020)',
-        fontFamily: 'var(--Font-Family-font-family, "NanumSquare Neo")',
-        fontSize: 'var(--Primitive-md, 0.875rem)',
-        fontStyle: 'normal',
-        fontWeight: '500',
-        lineHeight: 'var(--Line-Height-line-height-M, 1.5rem)',
-        letterSpacing: '-0.00875rem'
+        color: "var(--Text-Text-1, #202020)",
+        textAlign: "center",
+        fontFeatureSettings: "'liga' off, 'clig' off",
+        fontFamily: "NanumSquare Neo",
+        fontSize: "1.06rem",
+        fontStyle: "normal",
+        fontWeight: 500,
+        lineHeight: "1.25rem",
+        letterSpacing: "-0.006rem"
       }}>
         한 번에 한 장씩만 찍어주세요
         <br />
         정확한 각도에서 촬영해주세요
       </div>
-      <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
+      <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center', marginTop: '1.5rem' }}>
         {children}
       </div>
     </div>

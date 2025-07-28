@@ -18,7 +18,7 @@ export const ImageSelectButton = ({ icon, text, onClick }: ImageSelectButtonProp
         gap: '0.625rem',
         flexShrink: 0,
         borderRadius: '1rem',
-        background: '#E8E7E7',
+        background: '#FFF',
         border: 'none',
         cursor: 'pointer',
     }}

@@ -8,15 +8,8 @@ export default {
 };
 
 export const Upload = () => {
-  const handleImageUpload = (file: File) => {
-    console.log('업로드된 이미지:', file);
-    alert(`이미지가 업로드되었습니다: ${file.name}`);
-  };
-
   return (
-    <PhotoGuideModal 
-      onImageUpload={handleImageUpload}
-    >
+    <PhotoGuideModal>
      <PhotoBtn variant="large">확인</PhotoBtn>
     </PhotoGuideModal>
   );

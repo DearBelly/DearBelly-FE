@@ -4,6 +4,9 @@ import type { AppProps } from "next/app";
 import customTheme from "../customTheme";
 import dynamic from "next/dynamic";
 import { AnimatePresence, motion } from 'framer-motion';
+// 캐러셀 기능을 위해 import
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const BreakPointProvider = dynamic(
   () => import("../context/BreakPointProvider").then(mod => mod.BreakPointProvider),

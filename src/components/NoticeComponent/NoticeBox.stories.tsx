@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { NoticeBox } from './NoticeBox';
-import React from 'react';
 
 const meta: Meta<typeof NoticeBox> = {
   title: 'Components/NoticeBox',
@@ -14,6 +13,5 @@ type Story = StoryObj<typeof NoticeBox>;
 export const Notice: Story = {
   args: {
     label: '5월은 ab 정책을 신청할 수 있어요.',
-    onClick: () => alert('페이지 이동'),
   },
 };

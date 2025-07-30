@@ -11,7 +11,7 @@ export const BottomNavigation = () => {
     <nav css={containerStyle}>
       <div css={contentStyle}>
         <BottomNavigationItem icon={<CalendarSolid />} label="일정" href="/schedule" isActive={pathname === '/schedule'} />
-        <BottomNavigationItem icon={<BookOpenSolid />} label="정보" href="/Information" isActive={pathname === '/info'} />
+        <BottomNavigationItem icon={<BookOpenSolid />} label="정보" href="/Information/Information" isActive={pathname === '/info'} />
         <BottomNavigationItem icon={<HomeSmileSolid />} label="홈" href="/" isActive={pathname === '/'} />
         <BottomNavigationItem icon={<CenterFocusSolid />} label="스캔" href="/ComputerVision/Scan" isActive={pathname === '/scan'} />
         <BottomNavigationItem icon={<UserSquareSolid />} label="마이" href="/mypage" isActive={pathname === '/mypage'} />

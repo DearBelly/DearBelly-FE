@@ -3,7 +3,8 @@ import { css } from '@emotion/react';
 import { useEffect, useState } from 'react';
 
 interface TopBarProps {
-  children: React.ReactNode;
+  variant: 'logo' | 'back';
+  children?: React.ReactNode;
   rightContent ?: React.ReactNode;
 }
 
@@ -50,12 +51,12 @@ export const TopBar = ({ children, rightContent }: TopBarProps): React.ReactNode
 };
 
 const containerStyle = css`
-  background-color: rgba(249, 247, 248, 0.5);
+  background-color: #F9F7F7;
   position: fixed;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.1s ease-in-out;
 
   width: 100%;
   display: flex;

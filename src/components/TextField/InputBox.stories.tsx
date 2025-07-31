@@ -1,11 +1,20 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { IoIosSend } from "react-icons/io";
 import { InputBox } from './InputBox';
 
 const meta: Meta<typeof InputBox> = {
   title: 'Components/InputBox',
   component: InputBox,
   tags: ['autodocs'],
-  args: {
+  argTypes: {
+    variant: {
+      control: { type: 'radio' },
+      options: ['default', 'transparent'],
+    },
+    icon: {
+      control: false, 
+    },
+    onClick: { action: 'clicked' },
   },
 };
 
@@ -14,13 +23,18 @@ type Story = StoryObj<typeof InputBox>;
 
 export const Default: Story = {
   args: {
-    provider: 'default',
+    variant: 'default',
+    icon: <IoIosSend size={24} color="#000" />,
+    title: '닉네임',
+    detail: '닉네임을 입력해주세요',
   },
 };
 
-export const Active: Story = {
+export const Transparent: Story = {
   args: {
-    provider: 'active',
+    variant: 'transparent',
+    icon: undefined, 
+    title: '닉네임',
+    detail: '닉네임을 입력해주세요',
   },
 };
-	

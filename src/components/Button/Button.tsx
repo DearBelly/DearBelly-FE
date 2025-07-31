@@ -6,7 +6,7 @@ export interface ButtonProps {
   type?: 'primary' | 'secondary';
   size?: 'large' | 'medium' | 'small';
   width?: string;    
-  disabled?: boolean;
+  isDisabled?: boolean;
   children: ReactNode;
   onClick?: () => void;
 }
@@ -51,7 +51,7 @@ const sizeStyles = {
     letter-spacing: -0.00875rem;
   `,
   medium: css`
-    width: 6.4375rem;
+    width: 6.1875rem;
     height: 2.5rem;
     font-size: 0.75rem;
     font-weight: 400;
@@ -59,7 +59,7 @@ const sizeStyles = {
     letter-spacing: -0.0075rem;
   `,
   small: css`
-    width: 6.4375rem;
+    width: 6.1875rem;
     height: 2rem;
     font-size: 0.75rem;
     font-weight: 400;
@@ -72,7 +72,7 @@ export const Button = ({
   type = 'primary',
   size = 'large',
   width,
-  disabled = false,
+  isDisabled = false,
   children,
   ...props
 }: ButtonProps) => {
@@ -84,11 +84,11 @@ export const Button = ({
     baseStyle,
     sizeStyles[size],
     customSizeStyle,
-    disabled ? typeStyles.disabled : typeStyles[type],
+    isDisabled ? typeStyles.disabled : typeStyles[type],
   ];
 
   return (
-    <button css={buttonStyle} disabled={disabled} {...props}>
+    <button css={buttonStyle} disabled={isDisabled} {...props}>
       {children}
     </button>
   );

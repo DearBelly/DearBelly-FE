@@ -45,13 +45,13 @@ const InformationDetail = () => {
     // 본문 데이터 '\n\n' 문단 띄우기, '** ~ **' 강조 
     const parseText = (text: string) => {
         return text.split('\n\n').map((para, i) => (
-          <TextContent key={i} marginTop={i === 0 ? "0" : "-0.8rem"}>
+          <TextContent key={i} marginTop={i === 0 ? "0" : "-0.75rem"}>
             {para
               .split(/(\*\*[^*]+\*\*)/g)
               .map((part, j) => {
                 if (part.startsWith('**') && part.endsWith('**')) {
                     return (
-                        <span key={`b-${j}`} style={{ fontWeight: 'bold', fontSize: '0.95rem' }}>
+                        <span key={`b-${j}`} style={{ fontWeight: '800', fontSize: '0.875rem', color: 'var(--Text-Text-1, #202020)', lineHeight: '1.125rem', letterSpacing: '-0.0175rem'}}>
                           {part.slice(2, -2)}
                         </span>
                     );

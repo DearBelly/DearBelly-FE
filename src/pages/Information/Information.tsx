@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react'
+import { useRouter } from "next/router";
 import { Box, Text } from "@chakra-ui/react";
 import { useGetBreakPointValue } from "../../context/BreakPointProvider";
 import { MobileLayout } from "../../components/Layouts/MobileLayout";
@@ -28,6 +29,11 @@ export default function Information() {
     const index = Math.floor(Math.random() * testData.length);
     return testData[index];
   },[]);
+
+  const router = useRouter();
+  const handleInventoryClick = () => {
+    router.push('/Information/InfoInventory');
+  };
 
   const content_mobile = (
     <Box className='wrapper' display="flex" flexDirection="column" alignItems="center" margin='0 5.56vw'>
@@ -68,6 +74,8 @@ export default function Information() {
             height="100%" 
             display="flex" 
             alignItems="center"
+            cursor="pointer"
+            onClick={handleInventoryClick}
           >
             <ChevronRight color='#6C6B6B'/>
           </Box>

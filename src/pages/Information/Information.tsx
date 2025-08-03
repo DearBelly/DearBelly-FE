@@ -29,8 +29,8 @@ export default function Information() {
     return testData[index];
   },[]);
 
-  const content = (
-    <Box className='wrapper' display="flex" flexDirection="column" alignItems="center">
+  const content_mobile = (
+    <Box className='wrapper' display="flex" flexDirection="column" alignItems="center" margin='0 5.56vw'>
       <Box className='hero_card'>
         <HeroCard {...randomHeroCard} />
       </Box>
@@ -82,10 +82,10 @@ export default function Information() {
 
   return isMobile ? (
     <MobileLayout topbarContent={<TopRightIcons/>}>
-      {content}
+      {content_mobile}
     </MobileLayout>
   ) : (
-    content
+    <div>Information</div>
   );
 }
 

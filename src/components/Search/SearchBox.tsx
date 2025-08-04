@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import { Search } from "@mynaui/icons-react";
-
 export interface SearchBoxProps {
     onSearch?: (value: string) => void;
     placeholder?: string;
@@ -20,10 +19,18 @@ export const SearchBox = ({onSearch, placeholder = "검색어를 입력해주세
             setInputValue("");
         }
     };
+
+    //  enter로도 인식되도록 추가
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter' && inputValue.trim() !== ''){
+            onSearch?.(inputValue.trim());
+            setInputValue('');
+        }
+    };
     
     return (
         <SearchBoxWrapper>
-            <InputBox placeholder={placeholder} value={inputValue} onChange={handleInputChange}/>
+            <InputBox placeholder={placeholder} value={inputValue} onChange={handleInputChange} onKeyDown={handleKeyDown}/>
             <SearchButton onClick={handleClick}>
                 <Search color="#949393" />
             </SearchButton>

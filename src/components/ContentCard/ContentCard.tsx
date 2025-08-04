@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 
 const fallbackImage = '/images/default_image.png';
 export interface ContendCardProps {

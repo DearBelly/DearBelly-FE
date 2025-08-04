@@ -1,6 +1,7 @@
 import type { HeroCardProps } from '@/components/HeroCard/HeroCard';
 import type { NoticeBoxProps } from '@/components/NoticeComponent/NoticeBox';
 import type { ContendCardProps } from '@/components/ContentCard/ContentCard';
+import type { CategoryIconProps } from '@/components/CategoryIcon/CategoryIcon';
 
 // 히어로 카드 데이터 
 export const testData: HeroCardProps[] = [
@@ -65,5 +66,36 @@ export const testData3 : ContendCardProps[] = [
     title: '깊이 잠들고 싶어요..',
     description: '깊은 숙면을 도와주는 5가지 습관',
     imageSrc: '/images/default_image.svg',
+  },
+];
+
+export const iconData: CategoryIconProps[] = [
+  {
+    name: '교육',
+    imageSrc: '/images/information/education_light.svg',
+  },
+  {
+    name: '임신전반',
+    imageSrc: '/images/information/granulation_light.svg',
+  },
+  {
+    name: '임신준비',
+    imageSrc: '/images/information/ready_light.svg',
+  },
+  {
+    name: '신체건강',
+    imageSrc: '/images/information/health_light.svg',
+  },
+  {
+    name: '정신건강',
+    imageSrc: '/images/information/mind_light.svg',
+  },
+  {
+    name: '지원금',
+    imageSrc: '/images/information/money_light.svg',
+  },
+  {
+    name: '',
+    imageSrc: '',
   },
 ];

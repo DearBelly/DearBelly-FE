@@ -14,4 +14,4 @@ export const Primary: Story = {
     args: {
       description: '임신테스트기',
     },
-  };
+};

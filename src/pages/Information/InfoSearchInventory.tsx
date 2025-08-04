@@ -5,14 +5,12 @@ import { SearchBox } from '@/components/Search/SearchBox';
 import { useGetBreakPointValue } from "../../context/BreakPointProvider";
 import { MobileLayout } from "../../components/Layouts/MobileLayout";
 import { SearchInventory } from '@/components/SearchInventory/SearchInventory';
-import { AnimatePresence, motion } from 'framer-motion';
 
 const TopRightIcons = ({ onSearch }: { onSearch: (text: string) => void }) => (
     <div style={{display:"flex", gap: 0}}>
       <SearchBox onSearch={onSearch}/>
     </div>
 );
-
 interface keyInterface {
     id: number;
     text: string;
@@ -47,8 +45,8 @@ export default function InfoSearchInventory() {
 
         let nextKeywords  = [newKeyword, ...keywords];
 
-        if(nextKeywords.length > 5) {
-            nextKeywords = nextKeywords.slice(0, 5);
+        if(nextKeywords.length > 10) {
+            nextKeywords = nextKeywords.slice(0, 10);
         }
 
         setKeyWords(nextKeywords);
@@ -72,7 +70,7 @@ export default function InfoSearchInventory() {
             <Box className='searchInventory_wrapper' width='20.9rem' mt='0.992vh'>
                 <Box className='text_wrapper' display="flex" justifyContent="space-between" alignItems="center">
                     <SearchText>최근 검색</SearchText>
-                    <DeleteText onClick={handleClearKeywords}>전체 삭제</DeleteText>
+                    <DeleteText onClick={handleClearKeywords} disabled={keywords.length===0}>전체 삭제</DeleteText>
                 </Box>
                 <Box className='inventory_wrapper' mt='0.608vh'>
                     {keywords.map((keyword) => (
@@ -111,7 +109,7 @@ export const SearchText = ({ children }: { children: React.ReactNode }) => {
     );
 };
 
-export const DeleteText = ({ onClick, children }: { onClick?: () => void; children: React.ReactNode; }) => {
+export const DeleteText = ({ onClick, children, disabled }: { onClick?: () => void; children: React.ReactNode; disabled?:boolean; }) => {
     return (
       <Text
         onClick={onClick}  
@@ -122,11 +120,10 @@ export const DeleteText = ({ onClick, children }: { onClick?: () => void; childr
         fontWeight={400}
         lineHeight="1.5rem"
         letterSpacing="-0.0125rem"
-        cursor="pointer"
-        _hover={{
-            color: '#202020',
-            fontWeight: 600,
-        }}
+        cursor={disabled ? 'default' : 'pointer'}
+        _hover={
+            disabled ? undefined : { color: '#202020', fontWeight: 600 }
+        }
       >
         {children}
       </Text>

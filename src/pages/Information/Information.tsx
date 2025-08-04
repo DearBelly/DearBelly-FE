@@ -16,13 +16,13 @@ import { testData, testData2, testData3 } from './testData';
 // 탑바에 보낼 데이터터
 const TopRightIcons = () => {
   const router = useRouter();
-  const handleInventoryClick = () => {
+  const handleSearchInventoryClick = () => {
     router.push('/Information/InfoSearchInventory');
   };
 
   return (
     <div style={{display:"flex", gap: 16, cursor: 'pointer'}}>
-      <Search onClick={handleInventoryClick}/>
+      <Search onClick={handleSearchInventoryClick}/>
     </div>
   );
 };
@@ -30,6 +30,11 @@ const TopRightIcons = () => {
 export default function Information() {
   const isPc = useGetBreakPointValue();
   const isMobile = !isPc;
+
+  const router = useRouter();
+  const handleInventoryClick = () => {
+    router.push('/Information/InfoInventory');
+  };
 
   // 랜덤 히어로 카드 1개 뽑기
   const randomHeroCard = useMemo(() => {
@@ -78,7 +83,7 @@ export default function Information() {
             alignItems="center"
             cursor="pointer"
           >
-            <ChevronRight color='#6C6B6B'/>
+            <ChevronRight color='#6C6B6B' onClick={handleInventoryClick}/>
           </Box>
         </Box>
         <Box className='content'>

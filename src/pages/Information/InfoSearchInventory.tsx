@@ -5,6 +5,7 @@ import { SearchBox } from '@/components/Search/SearchBox';
 import { useGetBreakPointValue } from "../../context/BreakPointProvider";
 import { MobileLayout } from "../../components/Layouts/MobileLayout";
 import { SearchInventory } from '@/components/SearchInventory/SearchInventory';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const TopRightIcons = ({ onSearch }: { onSearch: (text: string) => void }) => (
     <div style={{display:"flex", gap: 0}}>
@@ -17,7 +18,7 @@ interface keyInterface {
     text: string;
 }
 
-export default function InfoInventory() {
+export default function InfoSearchInventory() {
     const isPc = useGetBreakPointValue();
     const isMobile = !isPc;
 
@@ -42,8 +43,15 @@ export default function InfoInventory() {
         const newKeyword = {
             id: Date.now(),
             text: text,
+        };
+
+        let nextKeywords  = [newKeyword, ...keywords];
+
+        if(nextKeywords.length > 5) {
+            nextKeywords = nextKeywords.slice(0, 5);
         }
-        setKeyWords([newKeyword, ...keywords]);
+
+        setKeyWords(nextKeywords);
     };
 
     // 단일 검색어 삭제
@@ -62,19 +70,16 @@ export default function InfoInventory() {
     const content_mobile = (
         <Box className='body_wrapper' display="flex" flexDirection="column" alignItems="center" margin='0 5.56vw'>
             <Box className='searchInventory_wrapper' width='20.9rem' mt='0.992vh'>
-                {keywords.length > 0 && (
-                    <Box className='text_wrapper' display="flex" justifyContent="space-between" alignItems="center">
-                        <SearchText>최근 검색</SearchText>
-                        <DeleteText onClick={handleClearKeywords}>전체 삭제</DeleteText>
-                    </Box>
-                )}
-
+                <Box className='text_wrapper' display="flex" justifyContent="space-between" alignItems="center">
+                    <SearchText>최근 검색</SearchText>
+                    <DeleteText onClick={handleClearKeywords}>전체 삭제</DeleteText>
+                </Box>
                 <Box className='inventory_wrapper' mt='0.608vh'>
                     {keywords.map((keyword) => (
                         <SearchInventory
-                        key={keyword.id}
-                        description={keyword.text}
-                        onClick={() => handleRemoveKeyword(keyword.id)}
+                            key={keyword.id}
+                            description={keyword.text}
+                            onClick={() => handleRemoveKeyword(keyword.id)}
                         />
                     ))}
                 </Box>

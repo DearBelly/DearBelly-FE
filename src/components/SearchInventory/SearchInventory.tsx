@@ -42,7 +42,7 @@ const Text = styled.div`
 `;
 
 const SearchButton = styled.button`
-margin-left: auto; 
+    margin-left: auto; 
     background: transparent;
     border: none;
     cursor: pointer;

@@ -14,11 +14,18 @@ import { ChevronRight } from "@mynaui/icons-react";
 import { testData, testData2, testData3 } from './testData';
 
 // 탑바에 보낼 데이터터
-const TopRightIcons = () => (
-  <div style={{display:"flex", gap: 16}}>
-    <Search />
-  </div>
-);
+const TopRightIcons = () => {
+  const router = useRouter();
+  const handleInventoryClick = () => {
+    router.push('/Information/InfoSearchInventory');
+  };
+
+  return (
+    <div style={{display:"flex", gap: 16, cursor: 'pointer'}}>
+      <Search onClick={handleInventoryClick}/>
+    </div>
+  );
+};
 
 export default function Information() {
   const isPc = useGetBreakPointValue();
@@ -29,11 +36,6 @@ export default function Information() {
     const index = Math.floor(Math.random() * testData.length);
     return testData[index];
   },[]);
-
-  const router = useRouter();
-  const handleInventoryClick = () => {
-    router.push('/Information/InfoInventory');
-  };
 
   const content_mobile = (
     <Box className='wrapper' display="flex" flexDirection="column" alignItems="center" margin='0 5.56vw'>
@@ -75,7 +77,6 @@ export default function Information() {
             display="flex" 
             alignItems="center"
             cursor="pointer"
-            onClick={handleInventoryClick}
           >
             <ChevronRight color='#6C6B6B'/>
           </Box>

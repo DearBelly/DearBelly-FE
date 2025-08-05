@@ -38,7 +38,7 @@ const InfoInventory = () => {
     const content_mobile = (
         <Box className='body_wrapper' display="flex" flexDirection="column" alignItems="center">
             {/* 아이콘 카테고리 영역 */}
-            <Box className='category_icon_wrapper' width="100%" height='5.25rem'>
+            <Box className='category_icon_wrapper' height='5.25rem'>
                 <CategoryIconOutput cards={iconData} onSelectIndex={setSelectIndex}/>
             </Box>
 
@@ -54,7 +54,9 @@ const InfoInventory = () => {
           {content_mobile}
         </MobileLayout>
       ) : (
-        <div>Information</div>
+        <MobileLayout>
+          {content_mobile}
+        </MobileLayout>
       );
     }
 

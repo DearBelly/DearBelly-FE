@@ -104,7 +104,9 @@ export default function Information() {
       {content_mobile}
     </MobileLayout>
   ) : (
-    <div>Information</div>
+    <MobileLayout topbarContent={<TopRightIcons/>}>
+      {content_mobile}
+    </MobileLayout>
   );
 }
 

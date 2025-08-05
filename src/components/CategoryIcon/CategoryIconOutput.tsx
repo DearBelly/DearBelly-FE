@@ -16,12 +16,29 @@ export const CategoryIconOutput = ({ cards, onSelectIndex }: CategoryIconOutputP
   // 아이콘 클릭 시, 이미 선택된 것을 클릭하면 해제(null), 다른 것을 누르면 그것을 선택함
   const handleClick = (index: number) => {
     const newIndex = selectIndex === index ? null : index;
-    setSelectIndex(newIndex);
-    onSelectIndex?.(newIndex);
-  }
+    setSelectIndex(newIndex);  // 선택된 index
+    onSelectIndex?.(newIndex); // 부모에게 선택된 index 전달함 
+  
+    const container = containerRef.current;
+    const icon = iconRefs.current[index];  // 클릭한 아이콘 요소
+  
+    if (container && icon) {
+      const containerWidth = container.clientWidth; // 카테고리 아이콘 전체 영역의 가로 길이
+      const iconLeft = icon.offsetLeft;  // 아이콘 왼쪽 기준
+      const iconWidth = icon.clientWidth; 
+  
+      // 아이콘이 가운데 오도록 조정 
+      const scrollTo = iconLeft - (containerWidth / 2) + (iconWidth / 2);
+  
+      container.scrollTo({
+        left: scrollTo,
+        behavior: 'smooth', // 이걸 넣어야 부드럽게 이동 가능함 
+      });
+    }
+  };
 
   // 가로 스크롤 모션을 위해 정의함
-  const containerRef = useRef<HTMLDivElement>(null);  // 아이콘들이 들어가는 상자임
+  const containerRef = useRef<HTMLDivElement>(null);  // 카테고리 아이콘들이 들어가는 영역
   const iconRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [_, forceUpdate] = useState(false);   
 
@@ -85,37 +102,34 @@ export const CategoryIconOutput = ({ cards, onSelectIndex }: CategoryIconOutputP
                 justifyContent="center"
                 height="5.25rem"
                 flexShrink={0}
-                ml={index === 0 ? '5.56vw' : index === cards.length - 1 ? '-2.44vw' : '7vw' }
+                ml={index === 0 ? '1.1rem' : '1.45rem' }
+                mr={index === cards.length - 1 ? '1.1rem' : 0}
                 style={{ 
                     opacity, 
                     transition: 'opacity 0.5s ease',
-                    cursor: index === cards.length - 1 ? 'default' : 'pointer',
+                    cursor: 'pointer',
                 }}
             >
                 <CategoryIcon
                     {...card}
                     isSelected={selectIndex === index}
-                    onClick={ 
-                      index === cards.length - 1 
-                      ? undefined 
-                      : () => handleClick(index)
-                    }
+                    onClick={() => handleClick(index)}
                 />
             </Box>
           );
         })}
       </Box>
 
-      {/* 양쪽 끝에 fade 효과 주기 */}
+      {/* 양쪽 끝에 fade 효과 주기 위해 추가한 Box임 */}
       {/* 왼쪽 */}
       <Box
         position="absolute"
         left="0"
         top="0"
         bottom="0"
-        width="5.56vw"
+        width="0.3rem"
         pointerEvents="none"
-        bgGradient="linear(to-r, white, transparent)"
+        bgGradient="linear(to-r, #F9F7F7, transparent)"
       />
 
       {/* 오른쪽 */}
@@ -124,9 +138,9 @@ export const CategoryIconOutput = ({ cards, onSelectIndex }: CategoryIconOutputP
         right="0"
         top="0"
         bottom="0"
-        width="5.56vw"
+        width="0.3rem"
         pointerEvents="none"
-        bgGradient="linear(to-l, white, transparent)"
+        bgGradient="linear(to-l, #F9F7F7, transparent)"
       />
     </Box>
   );
@@ -134,6 +148,7 @@ export const CategoryIconOutput = ({ cards, onSelectIndex }: CategoryIconOutputP
 
 const wrapper = css`
   display: flex;
+  width: 22rem;
   overflow-x: auto;
   overflow-y: hidden;
   align-items: center;

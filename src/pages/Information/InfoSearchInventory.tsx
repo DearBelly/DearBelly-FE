@@ -91,7 +91,9 @@ export default function InfoSearchInventory() {
           {content_mobile}
         </MobileLayout>
     ) : (
-        <div>Information</div>
+        <MobileLayout topbarContent={<TopRightIcons onSearch={handleAddKeyword}/>}>
+          {content_mobile}
+        </MobileLayout>
     );
 }
 

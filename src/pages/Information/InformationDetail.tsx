@@ -118,7 +118,9 @@ const InformationDetail = () => {
             {content_mobile}
         </MobileLayout>
     ) : (
-        <div>InformationDetail</div>
+        <MobileLayout topbarContent={<TopRightIcons/>} hasTopPadding={false}>
+            {content_mobile}
+        </MobileLayout>
     )
 }
 

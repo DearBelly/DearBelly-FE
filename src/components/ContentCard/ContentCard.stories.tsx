@@ -14,8 +14,10 @@ type Story = StoryObj<typeof ContendCard>;
 
 export const Primary: Story = {
   args: {
+    id: 1,
     title: '깊이 잠들고 싶어요..',
     description: '깊은 숙면을 도와주는 5가지 습관',
     imageSrc: '/images/default_image.svg',
+    routerSrc: '/Information/InformationDetail',
   },
 };

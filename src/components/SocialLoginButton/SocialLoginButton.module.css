@@ -8,8 +8,7 @@
   cursor: pointer;
   gap: 0.625rem;
   width: 100%;
-  min-width: 375px;
-  min-height: 48px;
+  height: 3rem;
   align-items: center;
   justify-content: center;  
 }

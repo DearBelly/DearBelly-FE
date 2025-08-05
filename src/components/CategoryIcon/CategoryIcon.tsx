@@ -10,7 +10,7 @@ export interface CategoryIconProps {
     isSelected?: boolean;
 }
 
-export const CategoryIcon = ({ name, imageSrc, onClick, isSelected = false}: CategoryIconProps) => {
+export const CategoryIcon = ({ name, imageSrc, onClick, isSelected = false}: CategoryIconProps) => {    
     return (
         <div css={wrapper} onClick={onClick}>
             <div css={[icon_wrapper, isSelected && select_icon_wrapper]}>

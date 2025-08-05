@@ -6,10 +6,29 @@ import { Box } from '@chakra-ui/react';
 
 interface CategoryIconOutputProps {
   cards: CategoryIconProps[];
+
+  // 선택된 아이콘의 index를 상위로 전달 
+  onSelectIndex ?: (index: number | null) => void;
 }
 
-export const CategoryIconOutput = ({ cards }: CategoryIconOutputProps) => {
+export const CategoryIconOutput = ({ cards, onSelectIndex }: CategoryIconOutputProps) => {
+  // 선택된 인덱스를 알기 위해 상태 관리
   const [selectIndex, setSelectIndex] = useState<number | null>(null);
+
+  // if (selectIndex === index) {
+  //   setSelectIndex(null);
+  // } else{
+  //   setSelectIndex(index);
+  // }
+
+  const handleClick = (index: number) => {
+    const newIndex = selectIndex === index ? null : index;
+    setSelectIndex(newIndex);
+    // 상위로 전달 
+    onSelectIndex?.(newIndex);
+  }
+
+  // 가로 스크롤 모션을 위해 정의함
   const containerRef = useRef<HTMLDivElement>(null);
   const iconRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [scrollX, setScrollX] = useState(0);
@@ -92,7 +111,11 @@ export const CategoryIconOutput = ({ cards }: CategoryIconOutputProps) => {
                 <CategoryIcon
                     {...card}
                     isSelected={selectIndex === index}
-                    onClick={ index === cards.length - 1 ? undefined : () => setSelectIndex(index) }
+                    onClick={ 
+                      index === cards.length - 1 
+                      ? undefined 
+                      : () => handleClick(index)
+                    }
                 />
             </Box>
           );

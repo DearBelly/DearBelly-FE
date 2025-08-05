@@ -1,7 +1,6 @@
 import { ContendCard } from './ContentCard';
 import type { ContendCardProps } from './ContentCard';
 import { Box } from '@chakra-ui/react';
-
 interface ContendCardOutputProps {
     cards : ContendCardProps[];
 }

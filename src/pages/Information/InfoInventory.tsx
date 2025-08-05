@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import { useRouter } from "next/router";
 import { Box } from "@chakra-ui/react";
 import { CategoryIconOutput } from '@/components/CategoryIcon/CategoryIconOutput';
 import { useGetBreakPointValue } from "../../context/BreakPointProvider";
@@ -21,13 +20,9 @@ const InfoInventory = () => {
     const isPc = useGetBreakPointValue();
     const isMobile = !isPc;
 
-    const router = useRouter();
-    const handleDetailClick = () => {
-      router.push('/Information/InformationDetail');
-    };
-
     const [selectIndex, setSelectIndex] = useState<number | null>(null);
 
+    // 아이콘의 index를 사용하여 해당 아이콘에서 보여줄 데이터들을 연결하기 위해 정의한 함수임 
     const getInformationData = () => {
       switch (selectIndex) {
         case 0: return testData_education;
@@ -43,11 +38,11 @@ const InfoInventory = () => {
     const content_mobile = (
         <Box className='body_wrapper' display="flex" flexDirection="column" alignItems="center">
             {/* 아이콘 카테고리 영역 */}
-            {/*  width="calc(100vw - 11.12vw)" */}
             <Box className='category_icon_wrapper' width="100%" height='5.25rem'>
                 <CategoryIconOutput cards={iconData} onSelectIndex={setSelectIndex}/>
             </Box>
 
+            {/* 카테고리별 글 목록 영역 */}
             <Box className='inventory_wrapper' width='20.9375rem' margin='0 5.56vw' mt='0.992vh'>
               <ContendCardOutput cards={getInformationData()}/>
             </Box>

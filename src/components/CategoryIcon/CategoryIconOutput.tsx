@@ -6,49 +6,37 @@ import { Box } from '@chakra-ui/react';
 
 interface CategoryIconOutputProps {
   cards: CategoryIconProps[];
-
-  // 선택된 아이콘의 index를 상위로 전달 
   onSelectIndex ?: (index: number | null) => void;
 }
 
 export const CategoryIconOutput = ({ cards, onSelectIndex }: CategoryIconOutputProps) => {
-  // 선택된 인덱스를 알기 위해 상태 관리
+  // 선택된 아이콘의 인덱스를 알기 위해 상태 관리
   const [selectIndex, setSelectIndex] = useState<number | null>(null);
 
-  // if (selectIndex === index) {
-  //   setSelectIndex(null);
-  // } else{
-  //   setSelectIndex(index);
-  // }
-
+  // 아이콘 클릭 시, 이미 선택된 것을 클릭하면 해제(null), 다른 것을 누르면 그것을 선택함
   const handleClick = (index: number) => {
     const newIndex = selectIndex === index ? null : index;
     setSelectIndex(newIndex);
-    // 상위로 전달 
     onSelectIndex?.(newIndex);
   }
 
   // 가로 스크롤 모션을 위해 정의함
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);  // 아이콘들이 들어가는 상자임
   const iconRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const [scrollX, setScrollX] = useState(0);
-  const [maxScroll, setMaxScroll] = useState(0);
-  const [, forceUpdate] = useState(false); 
+  const [_, forceUpdate] = useState(false);   
 
+  // 스크롤이나 창 크기가 바뀐다면 rerender함 
   useEffect(() => {
     const ref = containerRef.current;
     if (!ref) return;
 
-    const updateScroll = () => {
-      setScrollX(ref.scrollLeft);
-      setMaxScroll(ref.scrollWidth - ref.clientWidth);
-      forceUpdate((prev) => !prev);
-    };
+    // 아이콘의 위치가 바뀐다면 다시 계산해서 fade효과를 줌
+    const updateScroll = () => forceUpdate(prev => !prev); 
 
-    updateScroll(); // 최초 계산
-
+    updateScroll();
     ref.addEventListener('scroll', updateScroll);
     window.addEventListener('resize', updateScroll);
+
     return () => {
       ref.removeEventListener('scroll', updateScroll);
       window.removeEventListener('resize', updateScroll);
@@ -56,21 +44,14 @@ export const CategoryIconOutput = ({ cards, onSelectIndex }: CategoryIconOutputP
   }, []);
 
   const getOpacity = (left: number, right: number): number => {
-    if (!containerRef.current) return 1;
+    const container = containerRef.current;
+    if (!container) return 1;
 
-    const fadeWidth = containerRef.current.clientWidth * 0.0556; // 5.56vw
-    const containerLeft = 0;
-    const containerRight = containerRef.current.clientWidth;
+    const fadeWidth = container.clientWidth * 0.0556;
+    const containerRight = container.clientWidth;
 
-    // 왼쪽 fade
-    if (left < fadeWidth) {
-      return Math.max((left - containerLeft) / fadeWidth, 0);
-    }
-
-    // 오른쪽 fade
-    if (right > containerRight - fadeWidth) {
-      return Math.max((containerRight - right) / fadeWidth, 0);
-    }
+    if (left < fadeWidth) return Math.max((left) / fadeWidth, 0);
+    if (right > containerRight - fadeWidth) return Math.max((containerRight - right) / fadeWidth, 0);
 
     return 1;
   };
@@ -78,20 +59,23 @@ export const CategoryIconOutput = ({ cards, onSelectIndex }: CategoryIconOutputP
   return (
     <Box position="relative">
       <Box ref={containerRef} css={wrapper}>
-        {cards.map((card, index) => {
+      {cards.map((card, index) => {
           const refCallback = (el: HTMLDivElement) => {
             iconRefs.current[index] = el;
           };
 
+          const iconElement = iconRefs.current[index];
+          const containerElement = containerRef.current;
           let opacity = 1;
-          if (containerRef.current && iconRefs.current[index]) {
-            const iconRect = iconRefs.current[index]!.getBoundingClientRect();
-            const containerRect = containerRef.current.getBoundingClientRect();
+
+          if (iconElement && containerElement) {
+            const iconRect = iconElement.getBoundingClientRect();
+            const containerRect = containerElement.getBoundingClientRect();
             const left = iconRect.left - containerRect.left;
             const right = iconRect.right - containerRect.left;
+            // 왼/오에 가까워지면 점점 투명하게 보여지도록 설정
             opacity = getOpacity(left, right);
           }
-
           return (
             <Box
                 key={index}
@@ -122,7 +106,8 @@ export const CategoryIconOutput = ({ cards, onSelectIndex }: CategoryIconOutputP
         })}
       </Box>
 
-      {/* 왼쪽 fade 그라데이션 */}
+      {/* 양쪽 끝에 fade 효과 주기 */}
+      {/* 왼쪽 */}
       <Box
         position="absolute"
         left="0"
@@ -133,7 +118,7 @@ export const CategoryIconOutput = ({ cards, onSelectIndex }: CategoryIconOutputP
         bgGradient="linear(to-r, white, transparent)"
       />
 
-      {/* 오른쪽 fade 그라데이션 */}
+      {/* 오른쪽 */}
       <Box
         position="absolute"
         right="0"

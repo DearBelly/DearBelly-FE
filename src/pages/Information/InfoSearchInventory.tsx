@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react'
-import { useRouter } from "next/router";
 import { Box, Text } from "@chakra-ui/react";
 import { SearchBox } from '@/components/Search/SearchBox';
 import { useGetBreakPointValue } from "../../context/BreakPointProvider";
@@ -11,6 +10,8 @@ const TopRightIcons = ({ onSearch }: { onSearch: (text: string) => void }) => (
       <SearchBox onSearch={onSearch}/>
     </div>
 );
+
+// 검색어의 id, text를 받음 
 interface keyInterface {
     id: number;
     text: string;
@@ -43,8 +44,8 @@ export default function InfoSearchInventory() {
             text: text,
         };
 
+        // 키워드가 10개 초과가 된다면 가장 첫 번째로 저장되었던 데이터는 삭제되고, 다음으로 입력한 데이터가 들어갈 것임
         let nextKeywords  = [newKeyword, ...keywords];
-
         if(nextKeywords.length > 10) {
             nextKeywords = nextKeywords.slice(0, 10);
         }

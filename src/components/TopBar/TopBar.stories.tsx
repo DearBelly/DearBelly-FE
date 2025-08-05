@@ -3,7 +3,6 @@ import { TopBar } from './TopBar';
 import Image from 'next/image';
 import { ChevronLeft } from "@mynaui/icons-react";
 
-
 const meta: Meta<typeof TopBar> = {
   title: 'components/TopBar',
   component: TopBar,

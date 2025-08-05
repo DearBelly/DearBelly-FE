@@ -50,7 +50,7 @@ export const TopBar = ({ children, rightContent }: TopBarProps): React.ReactNode
 };
 
 const containerStyle = css`
-  background-color: rgba(249, 247, 248, 0.5);
+  background-color: transparent;
   position: fixed;
   top: 0;
   left: 50%;

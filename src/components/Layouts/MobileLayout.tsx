@@ -8,16 +8,19 @@ import Image from 'next/image';
 interface MobileLayoutProps {
   topbarContent?: ReactNode;
   children: ReactNode;
+  hasTopPadding?: boolean;
 }
 
-export const MobileLayout = ({ topbarContent, children }: MobileLayoutProps) => {
+export const MobileLayout = ({ topbarContent, children, hasTopPadding=true }: MobileLayoutProps) => {
   return (
     <div css={layoutStyle}>
       <TopBar rightContent={topbarContent}>
         <Image src="/icons/logo_text.svg" alt="logo" width={102} height={20} />
       </TopBar>
-      <main css={contentStyle}>{children}</main>
-      <BottomNavigation />
+      <main css={[contentStyle, !hasTopPadding && noTopPaddingStyle]}>
+        {children}
+      </main>
+      {/* <BottomNavigation /> */}
     </div>
   );
 };
@@ -39,4 +42,9 @@ const contentStyle = css`
   padding-top: 88px; 
   padding-bottom: 60px; 
   box-sizing: border-box;
+`;
+
+
+const noTopPaddingStyle = css`
+  padding-top: 0 !important;
 `;

@@ -102,6 +102,7 @@ export default function Information() {
   return isMobile ? (
     <MobileLayout topbarContent={<TopRightIcons/>}>
       {content_mobile}
+      {content_mobile}
     </MobileLayout>
   ) : (
     <MobileLayout topbarContent={<TopRightIcons/>}>

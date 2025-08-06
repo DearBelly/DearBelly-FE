@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Text } from '@chakra-ui/react';
 import Image from 'next/image';
-import { useGetBreakPointValue } from 'context/BreakPointProvider';
+import { useGetBreakPointValue } from '../context/BreakPointProvider';
 import { SocialLoginButton } from '@/components/SocialLoginButton/SocialLoginButton';
 
 export default function Login() {
@@ -11,14 +11,15 @@ export default function Login() {
   const content = (
     <Box
       bg="#F9F7F7"
-      minW="320px"
-      minH="100vh"
+      minW="100dvw"
+      minH="100dvh"
       display="flex"
       flexDirection="column"
+      justifyContent="center"
     >
-      <Box mt="14.73rem" ml="7.92rem">
+      <Box mt="23.6dvh" display="flex" justifyContent="center">
         <Image
-          src="/icons/logo.svg"
+          src="/logos/logo.svg"
           alt="로고"
           width={112.5}
           height={86.25}
@@ -27,13 +28,15 @@ export default function Login() {
       </Box>
 
       <Box
-        mt="10.51rem"
+        mt="20.7dvh"
         display="flex"
         flexDirection="column"
         justifyContent="center"
         alignItems="center"
         alignSelf="stretch"
-        gap="0.75rem"
+        gap="12px"
+        marginRight="20px"
+        marginLeft="20px"
       >
       <SocialLoginButton provider="naver" />
       <SocialLoginButton provider="google" />
@@ -41,7 +44,7 @@ export default function Login() {
       </Box>
 
       <Box
-        mt="2rem"
+        mt="3.94dvh"
         display="flex"
         justifyContent="center"
         alignItems="center"

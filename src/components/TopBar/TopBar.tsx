@@ -1,48 +1,41 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { useEffect, useState } from 'react';
+import { ChevronLeft } from "@mynaui/icons-react";
 
-interface TopBarProps {
-  children: React.ReactNode;
-  rightContent ?: React.ReactNode;
+export interface TopBarProps {
+  mode?: 'logo' | 'back';
+  backgroundType?: 'filled' | 'transparent';
+  title?: string;
+  firstIcon?: React.ReactNode;
+  secondIcon?: React.ReactNode;
 }
 
-export const TopBar = ({ children, rightContent }: TopBarProps): React.ReactNode => {
-  const [visible, setVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
-
-  useEffect(() => {
-    const scrollContainer = window;
-
-    const handleScroll = () => {
-      const scrollTop = scrollContainer.scrollY;
-
-      if (scrollTop > lastScrollY && scrollTop > 50) {
-        setVisible(false); 
-      } else {
-        setVisible(true);
-      }
-
-      setLastScrollY(scrollTop);
-    };
-
-    scrollContainer.addEventListener('scroll', handleScroll);
-    return () => scrollContainer.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
-
+export const TopBar = ({
+  mode = 'logo',
+  backgroundType = 'filled',
+  title,
+  firstIcon,
+  secondIcon,
+}: TopBarProps): React.ReactNode => {
   return (
-    <header css={[containerStyle, !visible && hiddenStyle]}>
-      <div css={statusBarStyle} />
+    <header css={[containerStyle, backgroundType === 'transparent' ? transparentStyle : filledStyle]}>
       <div css={barStyle}>
         <div css={contentStyle}>
-          <div style={{flex:1}}>
-            {children}
-          </div>
-          {rightContent && (
-            <div style={{ marginLeft: "auto", display: "flex" }}>
-              {rightContent}
+          {mode === 'logo' && (
+            <div css={logoSectionStyle}>
+              <img src="/logos/logo_text.svg" alt="logo" width={102} height={20} />
             </div>
           )}
+          {mode === 'back' && (
+            <div css={backSectionStyle}>
+              <ChevronLeft css={css`width: 24px; height: 24px;`} />
+              {title && <span css={titleStyle}>{title}</span>}
+            </div>
+          )}
+          <div css={iconGroupStyle}>
+            {firstIcon}
+            {secondIcon}
+          </div>
         </div>
       </div>
     </header>
@@ -50,67 +43,75 @@ export const TopBar = ({ children, rightContent }: TopBarProps): React.ReactNode
 };
 
 const containerStyle = css`
-  background-color: transparent;
   position: fixed;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  transition: transform 0.3s ease-in-out;
-
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  max-height: 88px;
   z-index: 1000;
-
-  @media (max-width: 360px) {
-    max-height: 92px;
-  }
 `;
 
-const hiddenStyle = css`
-  transform: translate(-50%, -100%);
+const transparentStyle = css`
+  background-color: transparent;
 `;
 
-const statusBarStyle = css`
-  height: 44px;
-
-  @media (max-width: 360px) {
-    height: 36px;
-  }
+const filledStyle = css`
+  background-color: #F9F7F7;
 `;
 
 const barStyle = css`
   height: 44px;
-
-  @media (max-width: 360px) {
-    height: 56px;
-  }
-
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 360px) {
+    height: 56px;
+  }
 `;
 
 const contentStyle = css`
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-items: flex-start;
-
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
-  max-width: 375px;
   padding: 0 20px;
   height: 100%;
+`;
 
-  @media (max-width: 360px) {
-    max-width: 360px;
-  }
+const logoSectionStyle = css`
+  display: flex;
+  align-items: center;
+`;
 
-  & > * {
-    height: 24px;
-  }
+const backSectionStyle = css`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  gap: 8px;
+`;
+
+const titleStyle = css`
+  color: var(--Text-Text-1, #202020);
+  font-family: "NanumSquare Neo";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: -0.32px;
+`;
+
+const iconGroupStyle = css`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
 `;

@@ -11,12 +11,11 @@ export const BottomNavigation = () => {
     <nav css={containerStyle}>
       <div css={contentStyle}>
         <BottomNavigationItem icon={<CalendarSolid />} label="일정" href="/schedule" isActive={pathname === '/schedule'} />
-        <BottomNavigationItem icon={<BookOpenSolid />} label="정보" href="/Information/Information" isActive={pathname === '/info'} />
+        <BottomNavigationItem icon={<BookOpenSolid />} label="정보" href="/Information/Information" isActive={pathname === '/Information/Information'} />
         <BottomNavigationItem icon={<HomeSmileSolid />} label="홈" href="/" isActive={pathname === '/'} />
-        <BottomNavigationItem icon={<CenterFocusSolid />} label="스캔" href="/ComputerVision/Scan" isActive={pathname === '/scan'} />
+        <BottomNavigationItem icon={<CenterFocusSolid />} label="스캔" href="/ComputerVision/Scan" isActive={pathname === '/ComputerVision/Scan'} />
         <BottomNavigationItem icon={<UserSquareSolid />} label="마이" href="/mypage" isActive={pathname === '/mypage'} />
       </div>
-      <div css={bottomSpacerStyle} />
     </nav>
   );
 };
@@ -36,26 +35,18 @@ const containerStyle = css`
 
   display: flex;
   flex-direction: column;
+
+  padding-bottom: 10px;
 `;
 
 const contentStyle = css`
   display: flex;
   justify-content: center;
   align-items: center;
-  flex: 1 0 0;
-  align-self: stretch;
 
-  height: calc(23.4 * 2.75rem); /* default: iOS 기준 */
+  height: 44px; /* default: iOS 기준 */
 
   @media (max-width: 360px) {
-    height: calc(22.5 * 3.5rem); /* AOS 기준 */
-  }
-`;
-
-const bottomSpacerStyle = css`
-  height: calc(100% - calc(23.4 * 2.75rem)); /* default: iOS 기준 */
-
-  @media (max-width: 360px) {
-    height: calc(100% - calc(22.5 * 3.5rem));
+    height: 52px; /* AOS 기준 */
   }
 `;

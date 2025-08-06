@@ -42,10 +42,11 @@ const linkStyle = css`
 const itemStyle = css`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
-  gap: 0.375rem;
-  padding: 0.25rem 0 0.5625rem 0;
+  gap: 3px;
+  padding-top: 4px;
+  padding-bottom: 2px;
 `;
 
 const iconWrapperStyle = css`
@@ -76,11 +77,11 @@ const activeIconColor = css`
 const labelStyle = css`
   text-align: center;
   font-feature-settings: 'liga' off, 'clig' off;
-  font-size: var(--Primitive-sm, 0.75rem);
+  font-size: 9px;
   font-style: normal;
   font-weight: 400;
-  line-height: var(--Line-Height-line-height-S, 1.125rem);
-  letter-spacing: -0.0075rem;
+  line-height: 11px;
+  letter-spacing: -0.09px;
 `;
 
 const inactiveLabel = css`

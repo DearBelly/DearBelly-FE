@@ -50,7 +50,10 @@ const InfoInventory = () => {
     );
     
     return isMobile ? (
-        <MobileLayout>
+        <MobileLayout
+          topbarMode='back'
+          topbarTitle='알아두면 좋은 정보 모음집'
+        >
           {content_mobile}
         </MobileLayout>
       ) : (

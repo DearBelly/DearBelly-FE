@@ -5,7 +5,7 @@ import { useGetBreakPointValue } from "../../context/BreakPointProvider";
 import { MobileLayout } from "../../components/Layouts/MobileLayout";
 import { SearchInventory } from '@/components/SearchInventory/SearchInventory';
 
-const TopRightIcons = ({ onSearch }: { onSearch: (text: string) => void }) => (
+const SearchIcon = ({ onSearch }: { onSearch: (text: string) => void }) => (
     <div style={{display:"flex", gap: 0}}>
       <SearchBox onSearch={onSearch}/>
     </div>
@@ -87,11 +87,21 @@ export default function InfoSearchInventory() {
     );
 
     return isMobile ? (
-        <MobileLayout topbarContent={<TopRightIcons onSearch={handleAddKeyword}/>}>
+        <MobileLayout
+        topbarMode='back'
+        topbarBackground='transparent'
+        showButtomNav={false} 
+        searchbarContent={<SearchIcon onSearch={handleAddKeyword}/>}
+        >
           {content_mobile}
         </MobileLayout>
     ) : (
-        <MobileLayout topbarContent={<TopRightIcons onSearch={handleAddKeyword}/>}>
+        <MobileLayout
+        topbarMode='back'
+        topbarBackground='transparent'
+        showButtomNav={false} 
+        searchbarContent={<SearchIcon onSearch={handleAddKeyword}/>}
+        >
           {content_mobile}
         </MobileLayout>
     );

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import { Box, Text } from "@chakra-ui/react";
 import { useGetBreakPointValue } from "../../context/BreakPointProvider";
 import { MobileLayout } from "../../components/Layouts/MobileLayout";
@@ -70,6 +70,24 @@ const InformationDetail = () => {
         ));
     };
 
+    // 이미지 영역보다 스크롤을 아래로 내릴 경우, topbar의 색이 transparent -> filled로 바뀌도록 수정
+    const [topbarBG, setTopbarBG] = useState<'transparent' | 'filled'>('transparent');
+    const imageRef = useRef<HTMLDivElement>(null);
+    
+    useEffect(() => {
+        const handleScroll = () => {
+            const scrollY = window.scrollY;
+            const imageHeight = imageRef.current?.offsetHeight ?? 200;
+
+            setTopbarBG(scrollY > imageHeight ? 'filled' : 'transparent');
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
+
     const content_mobile = (
         <Box className='wrapper1' display="flex" flexDirection="column" alignItems="center">
             {/* 이미지 영역 */}
@@ -100,7 +118,7 @@ const InformationDetail = () => {
                 </Box>
 
                 {/* 추천 글 목록 영역 */}
-                <Box className='recommend_wrapper' width='20.9375rem' marginTop='5vh' marginBottom='5vh'>
+                <Box className='recommend_wrapper' width='20.9375rem' marginTop='5vh' marginBottom='3vh'>
                     <Box className='title' display='flex' alignItems="center" gap='0.5rem'>
                         <FunnyCircleSolid color='#FF6257'/>
                         <RecommendText >이런 콘텐츠는 어때요?</RecommendText>
@@ -114,11 +132,23 @@ const InformationDetail = () => {
     )
     
     return isMobile ? (
-        <MobileLayout topbarContent={<TopRightIcons/>} hasTopPadding={false}>
+        <MobileLayout 
+            topbarMode='back'
+            topbarBackground={topbarBG}
+            topbarContent={<TopRightIcons/>} 
+            hasTopPadding={false}
+            showButtomNav={false}
+        >
             {content_mobile}
         </MobileLayout>
     ) : (
-        <MobileLayout topbarContent={<TopRightIcons/>} hasTopPadding={false}>
+        <MobileLayout 
+            topbarMode='back'
+            topbarBackground={topbarBG}
+            topbarContent={<TopRightIcons/>} 
+            hasTopPadding={false}
+            showButtomNav={false}
+        >
             {content_mobile}
         </MobileLayout>
     )

@@ -1,15 +1,13 @@
-import './globals.css';
+import { Provider } from "@/components/UI/Provider"
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ko">
+    <html lang="ko" suppressHydrationWarning>
       <body>
-        <div className="site-wrapper">{children}</div>
+        <Provider>{children}</Provider>
       </body>
     </html>
-  );
+  )
 }

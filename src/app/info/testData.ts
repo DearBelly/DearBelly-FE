@@ -1,0 +1,69 @@
+import type { HeroCardProps } from '@/components/HeroCard/HeroCard';
+import type { NoticeBoxProps } from '@/components/NoticeComponent/NoticeBox';
+import type { ContendCardProps } from '@/components/ContentCard/ContentCard';
+
+// 히어로 카드 데이터 
+export const testData: HeroCardProps[] = [
+  {
+    title: '건강한 임신을 위한 팁',
+    description: '임신 중 챙겨야 할 필수 정보를 알려드려요.',
+    imageSrc: '/images/default_image.svg',
+    mode: 'imageMode',
+  },
+  {
+    title: '1주차에는 aa검사를 받아야 해요!',
+    description: 'aa검사는 bb를 위해 필수적이에요.',
+    imageSrc: '/images/default_image.svg',
+    mode: 'imageMode',
+  },
+  {
+    title: '2주차에는 aa검사를 받아야 해요!',
+    description: 'aa검사는 bb를 위해 필수적이에요.',
+    imageSrc: '/images/default_image.svg',
+    mode: 'imageMode',
+  },
+  {
+    title: '3주차에는 aa검사를 받아야 해요!',
+    description: 'aa검사는 bb를 위해 필수적이에요.',
+    imageSrc: '/images/default_image.svg',
+    mode: 'imageMode',
+  },
+  {
+    title: '4주차에는 aa검사를 받아야 해요!',
+    description: 'aa검사는 bb를 위해 필수적이에요.',
+    imageSrc: '/images/default_image.svg',
+    mode: 'imageMode',
+  },
+];
+
+// 정책 컴포 데이터 
+export const testData2 : NoticeBoxProps[] = [
+  { 
+    label: '5월은 ab 정책을 신청할 수 있어요.',
+  },
+  { 
+    label: '6월은 ab 정책을 신청할 수 있어요.',
+  },
+  { 
+    label: '7월은 ab 정책을 신청할 수 있어요.',
+  },
+];
+
+// 추천 컴포 데이터
+export const testData3 : ContendCardProps[] = [
+  { 
+    title: '깊이 잠들고 싶어요..',
+    description: '깊은 숙면을 도와주는 5가지 습관',
+    imageSrc: '/images/default_image.svg',
+  },
+  { 
+    title: '깊이 잠들고 싶어요..',
+    description: '깊은 숙면을 도와주는 5가지 습관',
+    imageSrc: '/images/default_image.svg',
+  },
+  { 
+    title: '깊이 잠들고 싶어요..',
+    description: '깊은 숙면을 도와주는 5가지 습관',
+    imageSrc: '/images/default_image.svg',
+  },
+];

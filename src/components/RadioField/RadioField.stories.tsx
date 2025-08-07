@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { CheckBox } from './Checkbox';
+import { RadioField } from './RadioField';
 import React from 'react';
 
-const meta: Meta<typeof CheckBox> = {
+const meta: Meta<typeof RadioField> = {
   title: 'Components/CheckBox',
-  component: CheckBox,
+  component: RadioField,
   tags: ['autodocs'],
 };
 
 export default meta;
-type Story = StoryObj<typeof CheckBox>;
+type Story = StoryObj<typeof RadioField>;
 
 export const Active: Story = {
   args: {
@@ -32,7 +32,7 @@ export const Options = {
     return (
       <div style={{ display: 'flex', gap: 60 }}>
         {options.map((label, idx) => (
-          <CheckBox
+          <RadioField
             key={idx}
             label={label}
             checked={selected === idx}

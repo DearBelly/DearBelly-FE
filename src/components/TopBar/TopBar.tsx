@@ -8,6 +8,9 @@ export interface TopBarProps {
   title?: string;
   firstIcon?: React.ReactNode;
   secondIcon?: React.ReactNode;
+  logoColor?: string;
+  backStepColor?: string;
+  iconColor?: string;
 }
 
 export const TopBar = ({
@@ -16,23 +19,26 @@ export const TopBar = ({
   title,
   firstIcon,
   secondIcon,
+  logoColor="#FF6257",
+  backStepColor="#202020",
+  iconColor = "#202020",
 }: TopBarProps): React.ReactNode => {
   return (
     <header css={[containerStyle, backgroundType === 'transparent' ? transparentStyle : filledStyle]}>
       <div css={barStyle}>
         <div css={contentStyle}>
           {mode === 'logo' && (
-            <div css={logoSectionStyle}>
+            <div css={logoSectionStyle(logoColor)}>
               <img src="/logos/logo_text.svg" alt="logo" width={102} height={20} />
             </div>
           )}
           {mode === 'back' && (
-            <div css={backSectionStyle}>
+            <div css={backSectionStyle(backStepColor)}>
               <ChevronLeft css={css`width: 24px; height: 24px;`} />
               {title && <span css={titleStyle}>{title}</span>}
             </div>
           )}
-          <div css={iconGroupStyle}>
+          <div css={iconGroupStyle(iconColor)}>
             {firstIcon}
             {secondIcon}
           </div>
@@ -45,13 +51,12 @@ export const TopBar = ({
 const containerStyle = css`
   position: fixed;
   top: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
   width: 100%;
+  z-index: 1000;
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 1000;
 `;
 
 const transparentStyle = css`
@@ -84,16 +89,18 @@ const contentStyle = css`
   height: 100%;
 `;
 
-const logoSectionStyle = css`
+const logoSectionStyle = (logoColor: string) => css`
   display: flex;
   align-items: center;
+  color: ${logoColor};
 `;
 
-const backSectionStyle = css`
+const backSectionStyle = (backStepColor: string) => css`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+  color: ${backStepColor};
   width: 100%;
   gap: 8px;
 `;
@@ -108,10 +115,11 @@ const titleStyle = css`
   letter-spacing: -0.32px;
 `;
 
-const iconGroupStyle = css`
+const iconGroupStyle = (iconColor: string) => css`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
   gap: 12px;
+  color: ${iconColor};
 `;

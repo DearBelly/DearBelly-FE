@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface CheckBoxProps {
+interface RadioFieldProps {
   label: string;
   checked: boolean;
   onClick?: () => void;
@@ -8,7 +8,7 @@ interface CheckBoxProps {
   value?: string; 
 }
 
-export const CheckBox = ({ label, checked, onClick, name, value }: CheckBoxProps) => {
+export const RadioField = ({ label, checked, onClick, name, value }: RadioFieldProps) => {
   return (
     <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 16 }}>
       <input

@@ -1,20 +1,12 @@
+"use client";
+
 import React, { createContext, useContext } from "react";
-import useBreakPoint from "../hooks/useBreakPoint";
+import useBreakPoint from "@/hooks/useBreakPoint";
 
 const BreakPointContext = createContext<boolean | undefined>(undefined);
 
-interface Props {
-  children?: React.ReactNode;
-}
-
-export const BreakPointProvider = ({ children }: Props) => {
-  const { isPc, isMobile } = useBreakPoint();
-  
-  const isLoading = isPc === undefined && isMobile === undefined;
-
-  if (isLoading) {
-    return null;
-  }
+export const BreakPointProvider = ({ children }: { children: React.ReactNode }) => {
+  const { isPc } = useBreakPoint();
 
   return (
     <BreakPointContext.Provider value={isPc}>

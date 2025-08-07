@@ -1,3 +1,4 @@
+'use client'
 import { useBreakpointValue } from "@chakra-ui/react"
 
 export default function useBreakPoint() {

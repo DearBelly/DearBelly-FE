@@ -42,6 +42,7 @@ export const TopBar = ({
           )}
           {mode === 'back' && searchContent && (
             <div css={backSectionStyle(backStepColor)}>
+              <ChevronLeft css={css`width: 24px; height: 24px;`} />
               {searchContent}
             </div>
           )}

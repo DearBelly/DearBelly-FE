@@ -1,3 +1,4 @@
+'use client'
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import { Search } from "@mynaui/icons-react";
@@ -32,7 +33,7 @@ export const SearchBox = ({onSearch, placeholder = "검색어를 입력해주세
         <SearchBoxWrapper>
             <InputBox placeholder={placeholder} value={inputValue} onChange={handleInputChange} onKeyDown={handleKeyDown}/>
             <SearchButton onClick={handleClick}>
-                <Search color="#949393" />
+                <Search width={24} height={24} />
             </SearchButton>
         </SearchBoxWrapper>
     );
@@ -70,10 +71,7 @@ const InputBox = styled.input`
 `;
 
 const SearchButton = styled.button`
-    background: transparent;
-    border: none;
     cursor: pointer;
-    padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;

@@ -40,6 +40,8 @@ const contentStyle = css`
   flex: 1;
   width: 100%;
   box-sizing: border-box;
+  padding-right: 20px;
+  padding-left: 20px;
   
   padding-top: 44px; /* iOS 기준 */
   @media (max-width: 360px) {
@@ -57,4 +59,6 @@ const contentStyle = css`
 
 const noTopPaddingStyle = css`
   padding-top: 0 !important;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
 `;

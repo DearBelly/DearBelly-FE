@@ -33,13 +33,6 @@ const testData : string = `
 본인과 아기의 건강을 최우선으로 하는 선택이 최선일 것입니다.\n\n
 `
 
-const TopRightIcons = () => (
-    <div style={{display:"flex", gap: 16}}>
-      <ExternalLink />
-      <Bookmark />
-    </div>
-);
-
 const InformationDetail = () => {
     const isPc = useGetBreakPointValue();
     const isMobile = !isPc;
@@ -90,16 +83,16 @@ const InformationDetail = () => {
 
 
     const content_mobile = (
-        <Box className='wrapper1' display="flex" flexDirection="column" alignItems="center">
+        <Box className='wrapper1' display="flex" flexDirection="column" alignItems="center" width='100%'>
             {/* 이미지 영역 */}
             <ImageWrapper>
                 <img src="/images/image.png" width='100%' height='auto' />
             </ImageWrapper>
 
             {/* 이미지 영역 아래 글 영역 + 추천 글 목록 영역 */}
-            <Box className='wrapper2' margin='0 5.56vw'>
+            <Box className='wrapper2' margin='0 20px' alignItems='center'>
                 {/* 글 제목 영역 */}
-                <Box className='title_wrapper' width='20.9375rem' marginTop='4vh'>
+                <Box className='title_wrapper'  marginTop='4vh'>
                     <TextTitle>
                         깊이 잠들고 싶은 당신에게 추천하는 5가지 방법
                     </TextTitle>
@@ -112,14 +105,14 @@ const InformationDetail = () => {
                 </Box>
 
                 {/* 글 내용 영역 */}
-                <Box className='content_wrapper' width='20.9375rem' marginTop='3vh'>
+                <Box className='content_wrapper' width='100%' marginTop='3vh' as="div">
                     <TextContent>
                         {parseText(testData)}
                     </TextContent>
                 </Box>
 
                 {/* 추천 글 목록 영역 */}
-                <Box className='recommend_wrapper' width='20.9375rem' marginTop='5vh' marginBottom='3vh'>
+                <Box className='recommend_wrapper' width='100%' marginTop='5vh' marginBottom='3vh'>
                     <Box className='title' display='flex' alignItems="center" gap='0.5rem'>
                         <FunnyCircleSolid color='#FF6257'/>
                         <RecommendText >이런 콘텐츠는 어때요?</RecommendText>
@@ -135,10 +128,11 @@ const InformationDetail = () => {
     return isMobile ? (
         <MobileLayout topBarProps={{
             mode: 'back',
-            backgroundType: 'filled',
+            backgroundType: 'transparent',
             firstIcon: <ExternalLink />,
             secondIcon: <Bookmark />,
-        }}>
+        }}
+        hasTopPadding={false}>
             {content_mobile}
         </MobileLayout>
     ) : (

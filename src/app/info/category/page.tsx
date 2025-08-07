@@ -1,8 +1,9 @@
+'use client'
 import React, {useState} from 'react'
 import { Box } from "@chakra-ui/react";
 import { CategoryIconOutput } from '@/components/CategoryIcon/CategoryIconOutput';
-import { useGetBreakPointValue } from "../../context/BreakPointProvider";
-import { MobileLayout } from "../../components/Layouts/MobileLayout";
+import { useGetBreakPointValue } from "../../../context/BreakPointProvider";
+import { MobileLayout } from "../../../components/Layouts/MobileLayout";
 import { ContendCardOutput } from '@/components/ContentCard/ContendCardOutput';
 import { 
   iconData, 
@@ -13,7 +14,7 @@ import {
   testData_health,
   testData_mind,
   testData_money,
-} from './testData';
+} from '../testData';
 
 
 const InfoInventory = () => {

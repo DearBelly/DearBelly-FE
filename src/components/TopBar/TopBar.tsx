@@ -6,16 +6,17 @@ export interface TopBarProps {
   mode?: 'logo' | 'back';
   backgroundType?: 'filled' | 'transparent';
   title?: string;
-  firstIcon?: React.ReactNode;
-  secondIcon?: React.ReactNode;
+  rightContent ?: React.ReactNode;
+  searchContent ?: React.ReactNode;
 }
 
 export const TopBar = ({
   mode = 'logo',
   backgroundType = 'filled',
   title,
-  firstIcon,
-  secondIcon,
+  rightContent,
+  // 서치바 전용 props 추가함
+  searchContent
 }: TopBarProps): React.ReactNode => {
   return (
     <header css={[containerStyle, backgroundType === 'transparent' ? transparentStyle : filledStyle]}>
@@ -32,10 +33,17 @@ export const TopBar = ({
               {title && <span css={titleStyle}>{title}</span>}
             </div>
           )}
-          <div css={iconGroupStyle}>
-            {firstIcon}
-            {secondIcon}
-          </div>
+          {/* 서치바의 경우, 가운데에 위치해야 함 */}
+          {searchContent && (
+            <div css={centerStyle}>
+              {searchContent}
+            </div>
+          )}
+          {rightContent && (
+            <div style={{ marginLeft: "auto", display: "flex" }}>
+              {rightContent}
+            </div>
+          )}
         </div>
       </div>
     </header>
@@ -43,6 +51,7 @@ export const TopBar = ({
 };
 
 const containerStyle = css`
+  background-color: rgba(249, 247, 248, 0.5);
   position: fixed;
   top: 0;
   left: 50%;
@@ -108,10 +117,12 @@ const titleStyle = css`
   letter-spacing: -0.32px;
 `;
 
-const iconGroupStyle = css`
+// 서치바 스타일 추가
+const centerStyle = css`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
   align-items: center;
-  gap: 12px;
-`;
+  `;

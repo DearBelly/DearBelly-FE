@@ -1,17 +1,27 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import { useRouter } from "next/router";
 import Image from 'next/image';
 
 const fallbackImage = '/images/default_image.png';
 export interface ContendCardProps {
+  id: number;
   title: string;
   description: string;
   imageSrc?: string;
+  routerSrc?: string;
+  onClick?: () => void;
 }
 
-export const ContendCard = ({ title, description, imageSrc}: ContendCardProps) => {
+export const ContendCard = ({ id, title, description, imageSrc, onClick }: ContendCardProps) => {
+  // 각 컨텐트 카드를 클릭하면 해당 id의 디테일 페이지가 보이도록 수정 필요함 
+  const router = useRouter();
+  const handleDetailClick = () => {
+    router.push(`/Information/InformationDetail`);
+  };
+
   return (
-    <div css={cardContainer}>
+    <div css={cardContainer} onClick={handleDetailClick}>
       <div css={textWrapper}>
         <h2 css={titleStyle}>{title}</h2>
         <p css={descriptionStyle}>{description}</p>
@@ -38,6 +48,7 @@ const cardContainer = css`
   align-items: center;
   justify-content: space-between;
   gap: 0.625rem;
+  cursor: pointer;
   border-bottom: 0.0625rem solid #E8E7E7;
 `;
 

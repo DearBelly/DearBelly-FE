@@ -3,24 +3,33 @@ import { css } from '@emotion/react';
 import { ReactNode } from 'react';
 import { TopBar } from '../TopBar/TopBar';
 import { BottomNavigation } from '../BottomNavigation/BottomNavigation';
-import Image from 'next/image';
 
+// 서치바 추가 외 TOPBAR변경 내용 반영을 위해 인터페이스의 PROPS 요소 추가함
 interface MobileLayoutProps {
   topbarContent?: ReactNode;
   children: ReactNode;
   hasTopPadding?: boolean;
+  topbarMode?: 'logo' | 'back';
+  topbarBackground?: 'filled' | 'transparent';
+  topbarTitle?: string;
+  showButtomNav?: boolean;
+  searchbarContent?: ReactNode;
 }
 
-export const MobileLayout = ({ topbarContent, children, hasTopPadding=true }: MobileLayoutProps) => {
+export const MobileLayout = ({ topbarContent, children, hasTopPadding=true, topbarMode='logo', topbarBackground='filled', topbarTitle, showButtomNav=true, searchbarContent}: MobileLayoutProps) => {
   return (
     <div css={layoutStyle}>
-      <TopBar rightContent={topbarContent}>
-        <Image src="/icons/logo_text.svg" alt="logo" width={102} height={20} />
-      </TopBar>
+      <TopBar 
+        mode={topbarMode} 
+        backgroundType={topbarBackground} 
+        rightContent={topbarContent}
+        title={topbarTitle}
+        searchContent={searchbarContent}
+      />
       <main css={[contentStyle, !hasTopPadding && noTopPaddingStyle]}>
         {children}
       </main>
-      {/* <BottomNavigation /> */}
+      { showButtomNav && <BottomNavigation />}
     </div>
   );
 };
@@ -39,7 +48,7 @@ const layoutStyle = css`
 const contentStyle = css`
   flex: 1;
   width: 100%;
-  padding-top: 88px; 
+  padding-top: 50px; 
   padding-bottom: 60px; 
   box-sizing: border-box;
 `;

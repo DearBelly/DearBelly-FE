@@ -18,8 +18,7 @@ export const LogoFilled: Story = {
   args: {
     mode: 'logo',
     backgroundType: 'filled',
-    firstIcon: <ChevronLeft />,
-    secondIcon: <ChevronLeft />,
+    rightContent : <ChevronLeft />
   },
 };
 
@@ -27,8 +26,6 @@ export const LogoTransparent: Story = {
   args: {
     mode: 'logo',
     backgroundType: 'transparent',
-    firstIcon: <ChevronLeft />,
-    secondIcon: <ChevronLeft />,
   },
 };
 
@@ -37,8 +34,7 @@ export const BackWithTitle: Story = {
     mode: 'back',
     backgroundType: 'filled',
     title: '뒤로가기',
-    firstIcon: <ChevronLeft />,
-    secondIcon: <ChevronLeft />,
+    rightContent : <ChevronLeft />
   },
 };
 
@@ -47,6 +43,5 @@ export const BackTransparent: Story = {
     mode: 'back',
     backgroundType: 'transparent',
     title: '타이틀',
-    firstIcon: <ChevronLeft />
   },
 };

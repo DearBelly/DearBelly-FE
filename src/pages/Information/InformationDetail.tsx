@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import { Box, Text } from "@chakra-ui/react";
 import { useGetBreakPointValue } from "../../context/BreakPointProvider";
 import { MobileLayout } from "../../components/Layouts/MobileLayout";
@@ -9,6 +9,7 @@ import { BookmarkSolid } from "@mynaui/icons-react";
 import { FunnyCircleSolid } from "@mynaui/icons-react";
 import { testData3 } from './testData';
 
+// 더미데이터
 const testData : string = `
 **제왕절개 출산의 장단점이 궁금하신가요?**\n\n
 우리는 출산 방법에 대해 많은 고민을 합니다. 
@@ -42,16 +43,16 @@ const InformationDetail = () => {
     const isPc = useGetBreakPointValue();
     const isMobile = !isPc;
 
-    // 본문 데이터 '\n\n' 문단 띄우기, '** ~ **' 강조 
+    // 본문 데이터 '\n\n' 문단 띄우기, '** ~ **' 강조 (받은 데이터 글 양식 설정) 
     const parseText = (text: string) => {
         return text.split('\n\n').map((para, i) => (
-          <TextContent key={i} marginTop={i === 0 ? "0" : "-0.8rem"}>
+          <TextContent key={i} marginTop={i === 0 ? "0" : "-0.75rem"}>
             {para
               .split(/(\*\*[^*]+\*\*)/g)
               .map((part, j) => {
                 if (part.startsWith('**') && part.endsWith('**')) {
                     return (
-                        <span key={`b-${j}`} style={{ fontWeight: 'bold', fontSize: '0.95rem' }}>
+                        <span key={`b-${j}`} style={{ fontWeight: '800', fontSize: '0.875rem', color: 'var(--Text-Text-1, #202020)', lineHeight: '1.125rem', letterSpacing: '-0.0175rem'}}>
                           {part.slice(2, -2)}
                         </span>
                     );
@@ -69,12 +70,34 @@ const InformationDetail = () => {
         ));
     };
 
+    // 이미지 영역보다 스크롤을 아래로 내릴 경우, topbar의 색이 transparent -> filled로 바뀌도록 수정
+    const [topbarBG, setTopbarBG] = useState<'transparent' | 'filled'>('transparent');
+    const imageRef = useRef<HTMLDivElement>(null);
+    
+    useEffect(() => {
+        const handleScroll = () => {
+            const scrollY = window.scrollY;
+            const imageHeight = imageRef.current?.offsetHeight ?? 200;
+
+            setTopbarBG(scrollY > imageHeight ? 'filled' : 'transparent');
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
+
     const content_mobile = (
         <Box className='wrapper1' display="flex" flexDirection="column" alignItems="center">
+            {/* 이미지 영역 */}
             <ImageWrapper>
                 <img src="/images/image.png" width='100%' height='auto' />
             </ImageWrapper>
+
+            {/* 이미지 영역 아래 글 영역 + 추천 글 목록 영역 */}
             <Box className='wrapper2' margin='0 5.56vw'>
+                {/* 글 제목 영역 */}
                 <Box className='title_wrapper' width='20.9375rem' marginTop='4vh'>
                     <TextTitle>
                         깊이 잠들고 싶은 당신에게 추천하는 5가지 방법
@@ -87,13 +110,15 @@ const InformationDetail = () => {
                     </TextDate>
                 </Box>
 
+                {/* 글 내용 영역 */}
                 <Box className='content_wrapper' width='20.9375rem' marginTop='3vh'>
                     <TextContent>
                         {parseText(testData)}
                     </TextContent>
                 </Box>
 
-                <Box className='recommend_wrapper' width='20.9375rem' marginTop='5vh' marginBottom='5vh'>
+                {/* 추천 글 목록 영역 */}
+                <Box className='recommend_wrapper' width='20.9375rem' marginTop='5vh' marginBottom='3vh'>
                     <Box className='title' display='flex' alignItems="center" gap='0.5rem'>
                         <FunnyCircleSolid color='#FF6257'/>
                         <RecommendText >이런 콘텐츠는 어때요?</RecommendText>
@@ -107,11 +132,25 @@ const InformationDetail = () => {
     )
     
     return isMobile ? (
-        <MobileLayout topbarContent={<TopRightIcons/>} hasTopPadding={false}>
+        <MobileLayout 
+            topbarMode='back'
+            topbarBackground={topbarBG}
+            topbarContent={<TopRightIcons/>} 
+            hasTopPadding={false}
+            showButtomNav={false}
+        >
             {content_mobile}
         </MobileLayout>
     ) : (
-        <div>InformationDetail</div>
+        <MobileLayout 
+            topbarMode='back'
+            topbarBackground={topbarBG}
+            topbarContent={<TopRightIcons/>} 
+            hasTopPadding={false}
+            showButtomNav={false}
+        >
+            {content_mobile}
+        </MobileLayout>
     )
 }
 

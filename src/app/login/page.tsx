@@ -7,7 +7,6 @@ import { SocialLoginButton } from '@/components/SocialLoginButton/SocialLoginBut
 export default function Login() {
   const isPc = useGetBreakPointValue();
   const isMobile = !isPc;
-
   const content = (
     <Box
       bg="#F9F7F7"
@@ -64,6 +63,5 @@ export default function Login() {
       </Box>
     </Box>
   );
-
   return isMobile ? content : content;
 }

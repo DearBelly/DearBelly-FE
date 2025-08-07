@@ -11,6 +11,7 @@ export interface TopBarProps {
   logoColor?: string;
   backStepColor?: string;
   iconColor?: string;
+  searchContent ?: React.ReactNode;
 }
 
 export const TopBar = ({
@@ -22,6 +23,7 @@ export const TopBar = ({
   logoColor="#FF6257",
   backStepColor="#202020",
   iconColor = "#202020",
+  searchContent
 }: TopBarProps): React.ReactNode => {
   return (
     <header css={[containerStyle, backgroundType === 'transparent' ? transparentStyle : filledStyle]}>
@@ -32,10 +34,15 @@ export const TopBar = ({
               <img src="/logos/logo_text.svg" alt="logo" width={102} height={20} />
             </div>
           )}
-          {mode === 'back' && (
+          {mode === 'back' && !searchContent && (
             <div css={backSectionStyle(backStepColor)}>
               <ChevronLeft css={css`width: 24px; height: 24px;`} />
               {title && <span css={titleStyle}>{title}</span>}
+            </div>
+          )}
+          {mode === 'back' && searchContent && (
+            <div css={backSectionStyle(backStepColor)}>
+              {searchContent}
             </div>
           )}
           <div css={iconGroupStyle(iconColor)}>

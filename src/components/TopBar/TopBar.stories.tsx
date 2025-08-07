@@ -1,52 +1,41 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { TopBar } from './TopBar';
-import { ChevronLeft } from '@mynaui/icons-react';
+// src/components/TopBar/TopBar.stories.tsx
+import React from "react";
+import type { Meta, StoryObj } from "@storybook/react";
+import { TopBar, TopBarProps } from "./TopBar";
+import { SearchBox } from "../Search/SearchBox";
+import { Bell } from "@mynaui/icons-react";
 
-const meta: Meta<typeof TopBar> = {
-  title: 'Components/TopBar',
+const meta: Meta<TopBarProps> = {
+  title: "Components/TopBar",
   component: TopBar,
-  tags: ['autodocs'],
-  parameters: {
-    layout: 'fullscreen',
-  },
 };
 
 export default meta;
-type Story = StoryObj<typeof TopBar>;
 
-export const LogoFilled: Story = {
+type Story = StoryObj<TopBarProps>;
+
+export const LogoOnly: Story = {
   args: {
-    mode: 'logo',
-    backgroundType: 'filled',
-    firstIcon: <ChevronLeft />,
-    secondIcon: <ChevronLeft />,
+    mode: "logo",
+    backgroundType: "filled",
+    firstIcon: <Bell />,
+    secondIcon: <Bell />,
   },
 };
 
-export const LogoTransparent: Story = {
+export const BackOnly: Story = {
   args: {
-    mode: 'logo',
-    backgroundType: 'transparent',
-    firstIcon: <ChevronLeft />,
-    secondIcon: <ChevronLeft />,
+    mode: "back",
+    title: "뒤로가기 전용",
+    backgroundType: "filled",
+    firstIcon: <Bell />,
   },
 };
 
-export const BackWithTitle: Story = {
+export const BackWithSearch: Story = {
   args: {
-    mode: 'back',
-    backgroundType: 'filled',
-    title: '뒤로가기',
-    firstIcon: <ChevronLeft />,
-    secondIcon: <ChevronLeft />,
-  },
-};
-
-export const BackTransparent: Story = {
-  args: {
-    mode: 'back',
-    backgroundType: 'transparent',
-    title: '타이틀',
-    firstIcon: <ChevronLeft />
+    mode: "back",
+    backgroundType: "filled",
+    searchContent: <SearchBox />,
   },
 };

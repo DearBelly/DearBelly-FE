@@ -42,8 +42,10 @@ const contentStyle = css`
   flex-direction: row;
 
   height: 44px; /* default: iOS 기준 */
+  height: 44px; /* default: iOS 기준 */
 
   @media (max-width: 360px) {
+    height: 52px; /* AOS 기준 */
     height: 52px; /* AOS 기준 */
   }
 `;

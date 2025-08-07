@@ -9,16 +9,17 @@ interface MobileLayoutProps {
   topBarProps: TopBarProps;
   children: ReactNode;
   hasTopPadding?: boolean;
+  showButtomNav?: boolean;
 }
 
-export const MobileLayout = ({ children, topBarProps, hasTopPadding=true }: MobileLayoutProps) => {
+export const MobileLayout = ({ children, topBarProps, hasTopPadding=true, showButtomNav=true }: MobileLayoutProps) => {
   return (
     <div css={layoutStyle}>
       <TopBar {...topBarProps} />
       <main css={[contentStyle, !hasTopPadding && noTopPaddingStyle]}>
         {children}
       </main>
-      <BottomNavigation />
+      { showButtomNav && <BottomNavigation />}
     </div>
   );
 };

@@ -1,17 +1,37 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import { Search } from "@mynaui/icons-react";
-
 export interface SearchBoxProps {
-    onClick?: () => void;
+    onSearch?: (value: string) => void;
     placeholder?: string;
 }
 
-export const SearchBox = ({onClick, placeholder = "검색어를 입력해주세요"} : SearchBoxProps) => {
+export const SearchBox = ({onSearch, placeholder = "검색어를 입력해주세요"} : SearchBoxProps) => {
+    const [inputValue, setInputValue] = useState("");
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setInputValue(e.target.value);
+    };
+
+    const handleClick = () => {
+        if(inputValue.trim() !== "") {
+            onSearch?.(inputValue.trim());
+            setInputValue("");
+        }
+    };
+
+    //  enter로도 인식되도록 추가
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter' && inputValue.trim() !== ''){
+            onSearch?.(inputValue.trim());
+            setInputValue('');
+        }
+    };
+    
     return (
         <SearchBoxWrapper>
-            <InputBox placeholder={placeholder} />
-            <SearchButton onClick={onClick}>
+            <InputBox placeholder={placeholder} value={inputValue} onChange={handleInputChange} onKeyDown={handleKeyDown}/>
+            <SearchButton onClick={handleClick}>
                 <Search color="#949393" />
             </SearchButton>
         </SearchBoxWrapper>
@@ -21,8 +41,8 @@ export const SearchBox = ({onClick, placeholder = "검색어를 입력해주세�
 const SearchBoxWrapper = styled.div`
     position: relative;
     display: flex;
-    width: '18.9375rem';
-    height: '2rem';
+    width: 100%;
+    height: 2rem;
     padding: 0.25rem 0.5rem 0.25rem 0.75rem;
     justify-content: space-between;
     align-items: center;

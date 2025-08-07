@@ -13,11 +13,17 @@ interface MobileLayoutProps {
 export const MobileLayout = ({ topbarContent, children }: MobileLayoutProps) => {
   return (
     <div css={layoutStyle}>
-      <TopBar rightContent={topbarContent}>
-        <Image src="/icons/logo_text.svg" alt="logo" width={102} height={20} />
-      </TopBar>
-      <main css={contentStyle}>{children}</main>
-      <BottomNavigation />
+      <TopBar 
+        mode={topbarMode} 
+        backgroundType={topbarBackground} 
+        rightContent={topbarContent}
+        title={topbarTitle}
+        searchContent={searchbarContent}
+      />
+      <main css={[contentStyle, !hasTopPadding && noTopPaddingStyle, !showButtomNav && noBottomPaddingStyle ]}>
+        {children}
+      </main>
+      { showButtomNav && <BottomNavigation />}
     </div>
   );
 };
@@ -39,4 +45,13 @@ const contentStyle = css`
   padding-top: 88px; 
   padding-bottom: 60px; 
   box-sizing: border-box;
+`;
+
+
+const noTopPaddingStyle = css`
+  padding-top: 0 !important;
+`;
+
+const noBottomPaddingStyle = css`
+  padding-bottom: 0 !important;
 `;

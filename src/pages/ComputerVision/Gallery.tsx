@@ -1,15 +1,24 @@
 import React from 'react'
 import { Box, Text } from "@chakra-ui/react";
 import { useGetBreakPointValue } from "../../context/BreakPointProvider";
-import { MobileLayout } from "../../components/Layouts/MobileLayout";
+import { PhotoGuideModal } from "../../components/ComputerVision/Photo/PhotoGuideModal";
+import { PhotoBtn } from "../../components/ComputerVision/Photo/PhotoBtn";
+import { useRouter } from "next/router";
 
 export default function Gallery() {
   const isPc = useGetBreakPointValue();
   const isMobile = !isPc;
 
+  const router = useRouter();
+  const handleResultClick = () => {
+    router.push('/ComputerVision/Result');
+  };
+
   const content = (
-    <Box>
-      <Text>여기에 페이지 내용을 작성하세요.</Text>
+    <Box bg="#737373" minH="100vh" display="flex" alignItems="center" justifyContent="center">
+      <PhotoGuideModal>
+        <PhotoBtn variant="large" onClick={handleResultClick}>확인</PhotoBtn>
+      </PhotoGuideModal>
     </Box>
   );
 

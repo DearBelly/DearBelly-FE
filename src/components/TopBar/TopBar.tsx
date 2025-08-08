@@ -1,43 +1,44 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { useEffect, useState } from 'react';
+import { ChevronLeft } from "@mynaui/icons-react";
 
-interface TopBarProps {
-  children: React.ReactNode;
+export interface TopBarProps {
+  mode?: 'logo' | 'back';
+  backgroundType?: 'filled' | 'transparent';
+  title?: string;
   rightContent ?: React.ReactNode;
+  searchContent ?: React.ReactNode;
 }
 
-export const TopBar = ({ children, rightContent }: TopBarProps): React.ReactNode => {
-  const [visible, setVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
-
-  useEffect(() => {
-    const scrollContainer = window;
-
-    const handleScroll = () => {
-      const scrollTop = scrollContainer.scrollY;
-
-      if (scrollTop > lastScrollY && scrollTop > 50) {
-        setVisible(false); 
-      } else {
-        setVisible(true);
-      }
-
-      setLastScrollY(scrollTop);
-    };
-
-    scrollContainer.addEventListener('scroll', handleScroll);
-    return () => scrollContainer.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
-
+export const TopBar = ({
+  mode = 'logo',
+  backgroundType = 'filled',
+  title,
+  rightContent,
+  // 서치바 전용 props 추가함
+  searchContent
+}: TopBarProps): React.ReactNode => {
   return (
-    <header css={[containerStyle, !visible && hiddenStyle]}>
-      <div css={statusBarStyle} />
+    <header css={[containerStyle, backgroundType === 'transparent' ? transparentStyle : filledStyle]}>
       <div css={barStyle}>
         <div css={contentStyle}>
-          <div style={{flex:1}}>
-            {children}
-          </div>
+          {mode === 'logo' && (
+            <div css={logoSectionStyle}>
+              <img src="/logos/logo_text.svg" alt="logo" width={102} height={20} />
+            </div>
+          )}
+          {mode === 'back' && (
+            <div css={backSectionStyle}>
+              <ChevronLeft css={css`width: 24px; height: 24px;`} />
+              {title && <span css={titleStyle}>{title}</span>}
+            </div>
+          )}
+          {/* 서치바의 경우, 가운데에 위치해야 함 */}
+          {searchContent && (
+            <div css={centerStyle}>
+              {searchContent}
+            </div>
+          )}
           {rightContent && (
             <div style={{ marginLeft: "auto", display: "flex" }}>
               {rightContent}
@@ -55,62 +56,73 @@ const containerStyle = css`
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  transition: transform 0.3s ease-in-out;
-
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  max-height: 88px;
   z-index: 1000;
-
-  @media (max-width: 360px) {
-    max-height: 92px;
-  }
 `;
 
-const hiddenStyle = css`
-  transform: translate(-50%, -100%);
+const transparentStyle = css`
+  background-color: transparent;
 `;
 
-const statusBarStyle = css`
-  height: 44px;
-
-  @media (max-width: 360px) {
-    height: 36px;
-  }
+const filledStyle = css`
+  background-color: #F9F7F7;
 `;
 
 const barStyle = css`
   height: 44px;
-
-  @media (max-width: 360px) {
-    height: 56px;
-  }
-
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 360px) {
+    height: 56px;
+  }
 `;
 
 const contentStyle = css`
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-items: flex-start;
-
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
-  max-width: 375px;
   padding: 0 20px;
   height: 100%;
-
-  @media (max-width: 360px) {
-    max-width: 360px;
-  }
-
-  & > * {
-    height: 24px;
-  }
 `;
+
+const logoSectionStyle = css`
+  display: flex;
+  align-items: center;
+`;
+
+const backSectionStyle = css`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  gap: 8px;
+`;
+
+const titleStyle = css`
+  color: var(--Text-Text-1, #202020);
+  font-family: "NanumSquare Neo";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: -0.32px;
+`;
+
+// 서치바 스타일 추가
+const centerStyle = css`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  `;

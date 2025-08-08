@@ -49,7 +49,7 @@ export const InlineCard = ({
 };
 
 const cardContainer = css`
-  height: 4rem;
+  height: 100%;
   display: flex;
   flex-direction: row;
   align-items: flex-start;

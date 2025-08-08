@@ -5,8 +5,7 @@ import { Button } from '@/components/Button';
 
 const fallbackImage = '/images/default_image.png';
 const buttonText = '바로가기';
-
-interface HeroCardProps {
+export interface HeroCardProps {
   title: string;
   description: string;
   imageSrc?: string;

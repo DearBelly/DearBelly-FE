@@ -9,15 +9,15 @@ export interface SocialLoginButtonProps {
 const providerInfo = {
   naver: {
     label: '네이버 계정으로 시작하기',
-    icon: '/icons/naver.svg',
+    icon: '/logos/naver.svg',
   },
   google: {
     label: '구글 계정으로 시작하기',
-    icon: '/icons/google.svg',
+    icon: '/logos/google.svg',
   },
   kakao: {
     label: '카카오 계정으로 시작하기',
-    icon: '/icons/kakao.svg',
+    icon: '/logos/kakao.svg',
   },
 };
 

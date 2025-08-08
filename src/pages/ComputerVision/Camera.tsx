@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { useGetBreakPointValue } from "../../context/BreakPointProvider";
 import { PhotoGuideModal } from "../../components/ComputerVision/Photo/PhotoGuideModal";
 import { PhotoBtn } from "../../components/ComputerVision/Photo/PhotoBtn";
@@ -32,9 +32,7 @@ export default function Camera() {
   );
 
   return isMobile ? (
-    <MobileLayout>
-      {content}
-    </MobileLayout>
+      content
   ) : (
     "hi"
   );

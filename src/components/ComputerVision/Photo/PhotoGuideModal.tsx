@@ -1,8 +1,10 @@
+/** @jsxImportSource @emotion/react */
 import React, { useState, useRef, useCallback } from 'react';
+import { css } from '@emotion/react';
 
 interface PhotoGuideModalProps {
-  children?: React.ReactNode; 
-  onImageUpload?: (file: File) => void; 
+  children?: React.ReactNode;
+  onImageUpload?: (file: File) => void;
 }
 
 export const PhotoGuideModal = ({ children, onImageUpload }: PhotoGuideModalProps) => {
@@ -42,7 +44,7 @@ export const PhotoGuideModal = ({ children, onImageUpload }: PhotoGuideModalProp
   const handleDrop = useCallback((event: React.DragEvent) => {
     event.preventDefault();
     setIsDragOver(false);
-    
+
     const files = event.dataTransfer.files;
     if (files.length > 0) {
       handleFileSelect(files[0]);
@@ -54,104 +56,147 @@ export const PhotoGuideModal = ({ children, onImageUpload }: PhotoGuideModalProp
   }, []);
 
   return (
-    <div style={{
-      borderRadius: '1.25rem',
-      padding: '1.75rem 1rem 1rem 1rem',
-      background: 'var(--BG-BG-3, #FFF)',
-      width: '17.8125rem',
-      height: '21.5rem',
-      margin: '0 auto',
-      alignItems: 'flex-start'
-    }}>
-      <h3 style={{ 
-        fontFamily: 'var(--Font-Family-font-family, "NanumSquare Neo")',
-        fontSize: 'var(--Primitive-lg, 1rem)',
-        color: 'var(--Text-Text-1, #202020)',
-        textAlign: 'center',
-        fontFeatureSettings: '\'liga\' off, \'clig\' off',
-        fontStyle: 'normal',
-        fontWeight: '600',
-        lineHeight: 'var(--Line-Height-line-height-S, 1.125rem)',
-        letterSpacing: '-0.01rem',
-        marginBottom: '1rem',
-        marginTop: '-0.5rem'
-      }}>
-        의약품 촬영 가이드
-      </h3>
-      
-      {/* 이미지 업로드 영역 */}
-      <div 
-        style={{
-          width: '9.375rem',
-          height: '9.375rem',
-          flexShrink: '0',
-          margin: '0 auto 1rem',
-          border: isDragOver || isHovered ? '1px solid #8c8c8c' : '1px solid #ccc',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          cursor: 'pointer',
-          background: selectedImage ? 'transparent' : '#f8f9fa',
-          transition: 'all 0.2s ease',
-          position: 'relative',
-          overflow: 'hidden'
-        }}
-        onClick={handleClick}
-        onDragOver={handleDragOver}
-        onDragLeave={handleDragLeave}
-        onDrop={handleDrop}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        {selectedImage ? (
-          <img 
-            src={selectedImage} 
-            alt="업로드된 이미지" 
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              borderRadius: '0.5rem'
-            }}
-          />
-        ) : (
-          <div style={{
-            textAlign: 'center',
-            color: '#666',
-            fontSize: '0.875rem'
-          }}>
+    <div css={wrapper}>
+      <div css={modalWrapper}>
+        <div css={contentWrapper}>
+          <h3 css={title}>의약품 촬영 가이드</h3>
+          {/* 이미지 영역 */}
+            <div
+              css={[imageArea, (isDragOver || isHovered) && activeBorder]}
+              onClick={handleClick}
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+            >
+              {selectedImage ? (
+                <img
+                  src={selectedImage}
+                  alt="업로드된 이미지"
+                  css={imageStyle}
+                />
+              ) : (
+                <div css={placeholderText}></div>
+              )}
+            </div>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              capture="environment"
+              onChange={handleFileInputChange}
+              style={{ display: 'none' }}
+            />
+          <div css={guideText}>
+            한 번에 한 장씩만 찍어주세요<br />
+            정확한 각도에서 촬영해주세요
           </div>
-        )}
-      </div>
+        </div>
 
-      {/* 숨겨진 파일 입력 */}
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept="image/*"
-        capture="environment"
-        onChange={handleFileInputChange}
-        style={{ display: 'none' }}
-      />
-
-      <div style={{ 
-        color: "var(--Text-Text-1, #202020)",
-        textAlign: "center",
-        fontFeatureSettings: "'liga' off, 'clig' off",
-        fontFamily: "NanumSquare Neo",
-        fontSize: "1.06rem",
-        fontStyle: "normal",
-        fontWeight: 500,
-        lineHeight: "1.25rem",
-        letterSpacing: "-0.006rem"
-      }}>
-        한 번에 한 장씩만 찍어주세요
-        <br />
-        정확한 각도에서 촬영해주세요
-      </div>
-      <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center', marginTop: '1.5rem' }}>
-        {children}
+        <div css={btnWrapper}>{children}</div>
       </div>
     </div>
   );
 };
+
+const wrapper = css`
+  width: 100%;
+  height: 100%;
+  padding: 0 2.81rem;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const modalWrapper = css`
+  position: relative;
+  border-radius: 1.25rem;
+  padding: 1.75rem 1rem 1rem 1rem;
+  background: var(--BG-BG-3, #fff);
+  width: 100%;
+  height: 100%;
+  box-sizing: content-box;
+  align-items: flex-start;
+`;
+
+const contentWrapper = css`
+  padding: 0 3.22rem;
+  width: 100%;
+  height: 100%;
+`;
+
+const title = css`
+  font-family: var(--Font-Family-font-family, "NanumSquare Neo");
+  font-size: 0.875rem;;
+  color: var(--Text-Text-1, #202020);
+  text-align: center;
+  font-feature-settings: 'liga' off, 'clig' off;
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-Height-line-height-S, 1.125rem);
+  letter-spacing: -0.01rem;
+  margin-bottom: 1rem;
+  margin-top: -0.5rem;
+  white-space: normal;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+`;
+
+const imageArea = css`
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  flex-shrink: 0;
+  margin: 0 auto 1rem;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: #f8f9fa;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+`;
+
+const activeBorder = css`
+  border: 1px solid #8c8c8c;
+`;
+
+const imageStyle = css`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+
+const placeholderText = css`
+  text-align: center;
+  color: #666;
+  font-size: 0.875rem;
+`;
+
+const guideText = css`
+  color: var(--Text-Text-1, #202020);
+  text-align: center;
+  font-feature-settings: 'liga' off, 'clig' off;
+  font-family: "NanumSquare Neo";
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1rem; 
+  letter-spacing: -0.006rem;
+  /* white-space: normal;
+  word-break: keep-all;
+  overflow-wrap: break-word; */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+const btnWrapper = css`
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+`;

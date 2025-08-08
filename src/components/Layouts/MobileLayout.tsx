@@ -26,7 +26,7 @@ export const MobileLayout = ({ topbarContent, children, hasTopPadding=true, topb
         title={topbarTitle}
         searchContent={searchbarContent}
       />
-      <main css={[contentStyle, !hasTopPadding && noTopPaddingStyle]}>
+      <main css={[contentStyle, !hasTopPadding && noTopPaddingStyle, !showButtomNav && noBottomPaddingStyle ]}>
         {children}
       </main>
       { showButtomNav && <BottomNavigation />}
@@ -56,4 +56,8 @@ const contentStyle = css`
 
 const noTopPaddingStyle = css`
   padding-top: 0 !important;
+`;
+
+const noBottomPaddingStyle = css`
+  padding-bottom: 0 !important;
 `;

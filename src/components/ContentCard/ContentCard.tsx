@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import Image from 'next/image';
 
 const fallbackImage = '/images/default_image.png';
@@ -17,7 +17,7 @@ export const ContendCard = ({ id, title, description, imageSrc, onClick }: Conte
   // 각 컨텐트 카드를 클릭하면 해당 id의 디테일 페이지가 보이도록 수정 필요함 
   const router = useRouter();
   const handleDetailClick = () => {
-    router.push(`/Information/InformationDetail`);
+    router.push(`/info/detail`);
   };
 
   return (

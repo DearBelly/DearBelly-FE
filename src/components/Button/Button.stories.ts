@@ -16,7 +16,7 @@ const meta: Meta<typeof Button> = {
       control: { type: 'radio' },
       options: ['primary', 'secondary'],
     },
-    disabled: { control: 'boolean' },
+    isDisabled: { control: 'boolean' },
   },
 };
 
@@ -43,7 +43,7 @@ export const DisabledSmall: Story = {
   args: {
     type: 'primary',
     size: 'small',
-    disabled: true,
+    isDisabled: true,
     children: '비활성',
   },
 };

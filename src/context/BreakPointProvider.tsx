@@ -1,34 +1,33 @@
-import React, { createContext, useContext } from "react";
-import useBreakPoint from "../hooks/useBreakPoint";
+"use client"
 
-const BreakPointContext = createContext<boolean | undefined>(undefined);
+import React, { createContext, useContext, useEffect, useState } from "react"
+import useBreakPoint from "@/hooks/useBreakPoint"
 
-interface Props {
-  children?: React.ReactNode;
-}
+const BreakPointContext = createContext<boolean | undefined>(undefined)
 
-export const BreakPointProvider = ({ children }: Props) => {
-  const { isPc, isMobile } = useBreakPoint();
-  
-  const isLoading = isPc === undefined && isMobile === undefined;
+export const BreakPointProvider = ({ children }: { children: React.ReactNode }) => {
+  const [isMounted, setIsMounted] = useState(false)
+  const [isPc, setIsPc] = useState<boolean | undefined>(undefined)
+  const breakPoint = useBreakPoint()
 
-  if (isLoading) {
-    return null;
-  }
+  useEffect(() => {
+    setIsMounted(true)
+    setIsPc(breakPoint.isPc)
+  }, [breakPoint.isPc])
+
+  if (!isMounted) return null
 
   return (
     <BreakPointContext.Provider value={isPc}>
       {children}
     </BreakPointContext.Provider>
-  );
-};
-
-export default BreakPointProvider;
+  )
+}
 
 export const useGetBreakPointValue = () => {
-  const context = useContext(BreakPointContext);
+  const context = useContext(BreakPointContext)
   if (context === undefined) {
-    throw new Error("useGetBreakPointValue must be used within a BreakPointProvider");
+    throw new Error("useGetBreakPointValue must be used within a BreakPointProvider")
   }
-  return context;
-};
+  return context
+}

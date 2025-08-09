@@ -7,12 +7,11 @@ import { useGetBreakPointValue } from "../../../context/BreakPointProvider";
 import { MobileLayout } from "../../../components/Layouts/MobileLayout";
 import { SearchInventory } from '@/components/SearchInventory/SearchInventory';
 
-// 가로 길이 확장되도록 수정정
 const SearchIcon = ({ onSearch }: { onSearch: (text: string) => void }) => (
-    <div style={{ display: "flex", flex: 1, minWidth: 0 }}>
-      <SearchBox onSearch={onSearch} />
+    <div style={{display:"flex", gap: 0}}>
+      <SearchBox onSearch={onSearch}/>
     </div>
-  );
+);
 
 // 검색어의 id, text를 받음 
 interface keyInterface {
@@ -70,7 +69,7 @@ export default function InfoSearchInventory() {
     };
 
     const content_mobile = (
-        <Box className='body_wrapper' display="flex" flexDirection="column" alignItems="center" >
+        <Box className='body_wrapper' display="flex" flexDirection="column" alignItems="center" margin='0 5.56vw'>
             <Box className='searchInventory_wrapper' width='20.9rem' mt='0.992vh'>
                 <Box className='text_wrapper' display="flex" justifyContent="space-between" alignItems="center">
                     <SearchText>최근 검색</SearchText>
@@ -91,15 +90,19 @@ export default function InfoSearchInventory() {
 
     return isMobile ? (
         <MobileLayout
-        topBarProps={{mode: 'back', backgroundType: 'transparent', searchContent: <SearchIcon onSearch={handleAddKeyword} />}}
+        topbarMode='back'
+        topbarBackground='transparent'
         showButtomNav={false} 
+        searchbarContent={<SearchIcon onSearch={handleAddKeyword}/>}
         >
           {content_mobile}
         </MobileLayout>
     ) : (
         <MobileLayout
-        topBarProps={{mode: 'back', backgroundType: 'transparent', searchContent: <SearchIcon onSearch={handleAddKeyword} />}}
+        topbarMode='back'
+        topbarBackground='transparent'
         showButtomNav={false} 
+        searchbarContent={<SearchIcon onSearch={handleAddKeyword}/>}
         >
           {content_mobile}
         </MobileLayout>

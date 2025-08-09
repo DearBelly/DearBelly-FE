@@ -53,6 +53,10 @@ export const testData2 : NoticeBoxProps[] = [
 // 아이콘 데이터 (고정임 - DB 저장 X)
 export const iconData: CategoryIconProps[] = [
   {
+    name: '전체',
+    imageSrc: '/images/information/mind_light.svg',
+  },
+  {
     name: '지원금',
     imageSrc: '/images/information/money_light.svg',
   },

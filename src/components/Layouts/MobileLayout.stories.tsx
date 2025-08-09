@@ -12,7 +12,11 @@ type Story = StoryObj<typeof MobileLayout>;
 
 export const Default: Story = {
   args: {
-    topbarContent: <div>제목</div>,
+    topBarProps: {
+      mode: 'logo',
+      backgroundType: 'filled',
+      title: '제목',
+    },
     children: <div>본문 영역</div>,
   },
 };

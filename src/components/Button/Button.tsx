@@ -1,12 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 export interface ButtonProps {
   type?: 'primary' | 'secondary';
   size?: 'large' | 'medium' | 'small';
   width?: string;    
-  disabled?: boolean;
+  isDisabled?: boolean;
   children: ReactNode;
   onClick?: () => void;
 }
@@ -23,6 +23,8 @@ const baseStyle = css`
   border-radius: 6.1875rem;
   font-style: normal;
   font-feature-settings: 'liga' off, 'clig' off;
+  font-family: "NanumSquare Neo";
+  font-weight: 800;
 `;
 
 const typeStyles = {
@@ -43,28 +45,25 @@ const typeStyles = {
 
 const sizeStyles = {
   large: css`
-    width: 7.6875rem;
+    width: 7.4375rem;
     height: 3rem;
-    font-size: 0.875rem;
-    font-weight: 700;
-    line-height: 1rem;
-    letter-spacing: -0.00875rem;
+    font-size: 0.75rem;
+    line-height: 1.25rem; /* 166.667% */
+    letter-spacing: -0.0075rem;
   `,
   medium: css`
-    width: 6.4375rem;
+    width: 6.1875rem;
     height: 2.5rem;
-    font-size: 0.75rem;
-    font-weight: 400;
-    line-height: 0.875rem;
-    letter-spacing: -0.0075rem;
+    font-size: 0.625rem;
+    line-height: 0.875rem; /* 140% */
+    letter-spacing: -0.00625rem;
   `,
   small: css`
-    width: 6.4375rem;
+    width: 6.1875rem;
     height: 2rem;
-    font-size: 0.75rem;
-    font-weight: 400;
-    line-height: 0.875rem;
-    letter-spacing: -0.0075rem;
+    font-size: 0.625rem;
+    line-height: 0.875rem; /* 140% */
+    letter-spacing: -0.00625rem;
   `,
 };
 
@@ -72,8 +71,9 @@ export const Button = ({
   type = 'primary',
   size = 'large',
   width,
-  disabled = false,
+  isDisabled = false,
   children,
+  onClick,
   ...props
 }: ButtonProps) => {
   const customSizeStyle = css({
@@ -84,11 +84,16 @@ export const Button = ({
     baseStyle,
     sizeStyles[size],
     customSizeStyle,
-    disabled ? typeStyles.disabled : typeStyles[type],
+    isDisabled ? typeStyles.disabled : typeStyles[type],
   ];
 
   return (
-    <button css={buttonStyle} disabled={disabled} {...props}>
+    <button 
+      css={buttonStyle} 
+      disabled={isDisabled} 
+      onClick={onClick}
+      {...props}
+    >
       {children}
     </button>
   );

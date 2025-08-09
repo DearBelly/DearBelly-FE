@@ -1,31 +1,21 @@
 /** @jsxImportSource @emotion/react */
+"use client"
 import { css } from '@emotion/react';
 import { ReactNode } from 'react';
-import { TopBar } from '../TopBar/TopBar';
+import { TopBar, TopBarProps } from '../TopBar/TopBar';
 import { BottomNavigation } from '../BottomNavigation/BottomNavigation';
 
-// 서치바 추가 외 TOPBAR변경 내용 반영을 위해 인터페이스의 PROPS 요소 추가함
 interface MobileLayoutProps {
-  topbarContent?: ReactNode;
+  topBarProps: TopBarProps;
   children: ReactNode;
   hasTopPadding?: boolean;
-  topbarMode?: 'logo' | 'back';
-  topbarBackground?: 'filled' | 'transparent';
-  topbarTitle?: string;
   showButtomNav?: boolean;
-  searchbarContent?: ReactNode;
 }
 
-export const MobileLayout = ({ topbarContent, children, hasTopPadding=true, topbarMode='logo', topbarBackground='filled', topbarTitle, showButtomNav=true, searchbarContent}: MobileLayoutProps) => {
+export const MobileLayout = ({ children, topBarProps, hasTopPadding=true, showButtomNav=true }: MobileLayoutProps) => {
   return (
     <div css={layoutStyle}>
-      <TopBar 
-        mode={topbarMode} 
-        backgroundType={topbarBackground} 
-        rightContent={topbarContent}
-        title={topbarTitle}
-        searchContent={searchbarContent}
-      />
+      <TopBar {...topBarProps} />
       <main css={[contentStyle, !hasTopPadding && noTopPaddingStyle]}>
         {children}
       </main>
@@ -38,6 +28,7 @@ const layoutStyle = css`
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-width: 100vw;
   min-height: 100vh;
   background-color: #F9F7F7;
 
@@ -48,12 +39,26 @@ const layoutStyle = css`
 const contentStyle = css`
   flex: 1;
   width: 100%;
-  padding-top: 50px; 
-  padding-bottom: 60px; 
   box-sizing: border-box;
-`;
+  padding-right: 20px;
+  padding-left: 20px;
+  
+  padding-top: 44px; /* iOS 기준 */
+  @media (max-width: 360px) {
+    padding-top: 56px; /* AOS 기준 */
+  }
 
+  padding-bottom: 54px; /* iOS 기준 */
+  @media (max-width: 360px) {
+    padding-bottom: 62px; /* AOS 기준 */
+  }
+
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch; 
+`;
 
 const noTopPaddingStyle = css`
   padding-top: 0 !important;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
 `;

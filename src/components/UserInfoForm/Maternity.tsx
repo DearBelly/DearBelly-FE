@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CheckBox } from '../CheckField/Checkbox';
+import { CheckBox } from '../RadioField/RadioField';
 
 export default function Maternity() {
   const [relation, setRelation] = useState('임산부');

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import { CategoryIcon } from "./CategoryIcon";
 import type { CategoryIconProps } from './CategoryIcon';
 import { Box } from '@chakra-ui/react';
@@ -75,7 +75,7 @@ export const CategoryIconOutput = ({ cards, onSelectIndex }: CategoryIconOutputP
 
   return (
     <Box position="relative">
-      <Box ref={containerRef} css={wrapper}>
+      <Wrapper ref={containerRef}>
       {cards.map((card, index) => {
           const refCallback = (el: HTMLDivElement) => {
             iconRefs.current[index] = el;
@@ -118,7 +118,7 @@ export const CategoryIconOutput = ({ cards, onSelectIndex }: CategoryIconOutputP
             </Box>
           );
         })}
-      </Box>
+      </Wrapper>
 
       {/* 양쪽 끝에 fade 효과 주기 위해 추가한 Box임 */}
       {/* 왼쪽 */}
@@ -146,7 +146,7 @@ export const CategoryIconOutput = ({ cards, onSelectIndex }: CategoryIconOutputP
   );
 };
 
-const wrapper = css`
+const Wrapper = styled.div`
   display: flex;
   width: 22rem;
   overflow-x: auto;

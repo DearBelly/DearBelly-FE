@@ -6,7 +6,11 @@ export interface TopBarProps {
   mode?: 'logo' | 'back';
   backgroundType?: 'filled' | 'transparent';
   title?: string;
-  rightContent ?: React.ReactNode;
+  firstIcon?: React.ReactNode;
+  secondIcon?: React.ReactNode;
+  logoColor?: string;
+  backStepColor?: string;
+  iconColor?: string;
   searchContent ?: React.ReactNode;
 }
 
@@ -14,8 +18,11 @@ export const TopBar = ({
   mode = 'logo',
   backgroundType = 'filled',
   title,
-  rightContent,
-  // 서치바 전용 props 추가함
+  firstIcon,
+  secondIcon,
+  logoColor="#FF6257",
+  backStepColor="#202020",
+  iconColor = "#202020",
   searchContent
 }: TopBarProps): React.ReactNode => {
   return (
@@ -23,27 +30,26 @@ export const TopBar = ({
       <div css={barStyle}>
         <div css={contentStyle}>
           {mode === 'logo' && (
-            <div css={logoSectionStyle}>
+            <div css={logoSectionStyle(logoColor)}>
               <img src="/logos/logo_text.svg" alt="logo" width={102} height={20} />
             </div>
           )}
-          {mode === 'back' && (
-            <div css={backSectionStyle}>
+          {mode === 'back' && !searchContent && (
+            <div css={backSectionStyle(backStepColor)}>
               <ChevronLeft css={css`width: 24px; height: 24px;`} />
               {title && <span css={titleStyle}>{title}</span>}
             </div>
           )}
-          {/* 서치바의 경우, 가운데에 위치해야 함 */}
-          {searchContent && (
-            <div css={centerStyle}>
+          {mode === 'back' && searchContent && (
+            <div css={backSectionStyle(backStepColor)}>
+              <ChevronLeft css={css`width: 24px; height: 24px;`} />
               {searchContent}
             </div>
           )}
-          {rightContent && (
-            <div style={{ marginLeft: "auto", display: "flex" }}>
-              {rightContent}
-            </div>
-          )}
+          <div css={iconGroupStyle(iconColor)}>
+            {firstIcon}
+            {secondIcon}
+          </div>
         </div>
       </div>
     </header>
@@ -51,16 +57,14 @@ export const TopBar = ({
 };
 
 const containerStyle = css`
-  background-color: rgba(249, 247, 248, 0.5);
   position: fixed;
   top: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
   width: 100%;
+  z-index: 1000;
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 1000;
 `;
 
 const transparentStyle = css`
@@ -93,16 +97,18 @@ const contentStyle = css`
   height: 100%;
 `;
 
-const logoSectionStyle = css`
+const logoSectionStyle = (logoColor: string) => css`
   display: flex;
   align-items: center;
+  color: ${logoColor};
 `;
 
-const backSectionStyle = css`
+const backSectionStyle = (backStepColor: string) => css`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+  color: ${backStepColor};
   width: 100%;
   gap: 8px;
 `;
@@ -117,12 +123,11 @@ const titleStyle = css`
   letter-spacing: -0.32px;
 `;
 
-// 서치바 스타일 추가
-const centerStyle = css`
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+const iconGroupStyle = (iconColor: string) => css`
   display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
   align-items: center;
-  `;
+  gap: 12px;
+  color: ${iconColor};
+`;

@@ -54,13 +54,12 @@ const InfoInventory = () => {
     
     return isMobile ? (
         <MobileLayout
-          topbarMode='back'
-          topbarTitle='알아두면 좋은 정보 모음집'
+          topBarProps={{mode: 'back', title: '알아두면 좋은 정보 모음집'}}
         >
           {content_mobile}
         </MobileLayout>
       ) : (
-        <MobileLayout>
+        <MobileLayout topBarProps={{mode: 'back', title: '알아두면 좋은 정보 모음집'}}>
           {content_mobile}
         </MobileLayout>
       );

@@ -1,7 +1,7 @@
-'use client';
+"use client"
 
-import React, { useMemo } from 'react'
-import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react'
+import { useRouter } from "next/navigation";
 import { Box, Text } from "@chakra-ui/react";
 import { useGetBreakPointValue } from "../../context/BreakPointProvider";
 import { MobileLayout } from "../../components/Layouts/MobileLayout";
@@ -38,18 +38,26 @@ export default function Information() {
     router.push('/info/category');
   };
 
-  // 랜덤 히어로 카드 1개 뽑기
-  const randomHeroCard = useMemo(() => {
+  const handleInventoryClick = () => {
+    router.push('/info/category');
+  };
+
+  // 랜덤 히어로 카드 1개 뽑기 클라이언트에서만 실행하도록 수정
+  const [randomHeroCard, setRandomHeroCard] = useState<typeof testData[0] | null>(null);
+
+  useEffect(() => {
     const index = Math.floor(Math.random() * testData.length);
-    return testData[index];
-  },[]);
+    setRandomHeroCard(testData[index]);
+  }, []);
 
   const content_mobile = (
-    <Box className='wrapper' display="flex" flexDirection="column" alignItems="center" margin='0 5.56vw'>
+    <Box className='wrapper' display="flex" flexDirection="column" alignItems="center">
       {/* 히어로 카드 영역 */}
-      <Box className='hero_card'>
-        <HeroCard {...randomHeroCard} />
-      </Box>
+      {randomHeroCard && (
+        <Box className='hero_card'>
+          <HeroCard {...randomHeroCard} />
+        </Box>
+      )}
 
       {/* 공지 카드 영역 */}
       <Box className='notice_card' mt='1.5vh'>
@@ -102,11 +110,11 @@ export default function Information() {
   );
 
   return isMobile ? (
-    <MobileLayout topbarContent={<TopRightIcons/>}>
+    <MobileLayout topBarProps={{firstIcon: <Search onClick={handleSearchClick} style={{ cursor: 'pointer' }}/>}}>
       {content_mobile}
     </MobileLayout>
   ) : (
-    <MobileLayout topbarContent={<TopRightIcons/>}>
+    <MobileLayout topBarProps={{firstIcon: <Search onClick={handleSearchClick} style={{ cursor: 'pointer' }}/>}}>
       {content_mobile}
     </MobileLayout>
   );

@@ -110,7 +110,7 @@ const InformationDetail = () => {
             </ImageWrapper>
 
             {/* 이미지 영역 아래 글 영역 + 추천 글 목록 영역 */}
-            <Box className='wrapper2' margin='0 5.56vw'>
+            <Box className='wrapper2'>
                 {/* 글 제목 영역 */}
                 <Box className='title_wrapper' width='20.9375rem' marginTop='4vh'>
                     <TextTitle>

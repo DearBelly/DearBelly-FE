@@ -122,12 +122,3 @@ const titleStyle = css`
   line-height: 24px;
   letter-spacing: -0.32px;
 `;
-
-const iconGroupStyle = (iconColor: string) => css`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 12px;
-  color: ${iconColor};
-`;

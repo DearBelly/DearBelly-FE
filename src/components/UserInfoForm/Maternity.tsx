@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CheckBox } from '../RadioField/RadioField';
+import { RadioField } from '../RadioField/RadioField';
 
 export default function Maternity() {
   const [relation, setRelation] = useState('임산부');
@@ -9,14 +9,14 @@ export default function Maternity() {
     <form>
       <div>
         <span>관계 선택</span>
-        <CheckBox
+        <RadioField
           label="임산부"
           name="relation"
           value="임산부"
           checked={relation === '임산부'}
           onClick={() => setRelation('임산부')}
         />
-        <CheckBox
+        <RadioField
           label="보호자"
           name="relation"
           value="보호자"
@@ -26,21 +26,21 @@ export default function Maternity() {
       </div>
       <div>
         <span>성별</span>
-        <CheckBox
+        <RadioField
           label="여성"
           name="gender"
           value="여성"
           checked={gender === '여성'}
           onClick={() => setGender('여성')}
         />
-        <CheckBox
+        <RadioField
           label="남성"
           name="gender"
           value="남성"
           checked={gender === '남성'}
           onClick={() => setGender('남성')}
         />
-        <CheckBox
+        <RadioField
           label="기타"
           name="gender"
           value="기타"

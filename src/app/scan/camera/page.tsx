@@ -29,18 +29,26 @@ export default function Camera() {
   const content = (
     <Box bg="#737373" minH="100vh" display="flex" alignItems="center" justifyContent="center">
       <PhotoGuideModal
-        source="camera"                 // 모바일이면 후면 카메라 우선
+        // 모바일이면 후면 카메라 우선
+        source="camera"                 
         accept="image/*"
         onImageUpload={handleImageUpload}
-        onCrop={handleCrop}            // confirm 버튼 누르면 여기로 데이터 URL이 옴
+         // confirm 버튼 누르면 여기로 데이터 URL이 옴
+        onCrop={handleCrop}           
       >
-        {/* 역할만 표시하면 내부에서 onClick 주입됨 */}
+        {/* 선택된 이미지가 없을 때 아래의 버튼만 보임 */}
+        <PhotoBtn variant="large" data-role="take">
+          사진찍기
+        </PhotoBtn>
+
+        {/* 선택된 이미지가 있을 때 아래의 버튼만 보임 */}
         <PhotoBtn variant="assistive" data-role="retake">
           다시찍기
         </PhotoBtn>
         <PhotoBtn variant="primary" data-role="confirm">
           결과보기
         </PhotoBtn>
+
       </PhotoGuideModal>
     </Box>
   );

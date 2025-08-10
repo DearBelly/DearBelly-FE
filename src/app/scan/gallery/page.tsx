@@ -34,7 +34,8 @@ export default function Gallery() {
         onImageUpload={handleImageUpload}
         onCrop={handleCrop}
       >
-        <PhotoBtn variant="assistive" data-role="retake">다시업로드하기</PhotoBtn>
+        <PhotoBtn variant="large" data-role="take">앨범에서 업로드하기</PhotoBtn>
+        <PhotoBtn variant="assistive" data-role="retake">다시 업로드하기</PhotoBtn>
         <PhotoBtn variant="primary" data-role="confirm">결과보기</PhotoBtn>
       </PhotoGuideModal>
     </Box>

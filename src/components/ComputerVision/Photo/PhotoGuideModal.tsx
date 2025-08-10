@@ -10,6 +10,7 @@ import { css } from '@emotion/react';
 
 // 카메라 페이지에서는 카메라 촬영을, 갤러리 페이지에서는 사진 업로드 할 수 있도록 분리함 
 type SourceMode = 'camera' | 'gallery';
+type ButtonRole = 'take' | 'retake' | 'confirm';
 
 interface PhotoGuideModalProps {
   children?: React.ReactNode;
@@ -188,38 +189,68 @@ export const PhotoGuideModal = forwardRef<{ cropToGuide: () => Promise<string | 
       if (!React.isValidElement(child)) return child;
 
       // 역할을 부여하여 각 역할에 맞게 onClick을 부여함, 아니면 그대로 반환함 
-      const role = (child.props as any)['data-role'] as 'retake' | 'confirm' | undefined;
+      const role = (child.props as any)['data-role'] as ButtonRole | undefined;
 
+       // 업로드 후에는 take 숨김
+      if (role === 'take' && selectedImage) return null;           
+      // 업로드 전에는 retake/confirm 숨김
+      if ((role === 'retake' || role === 'confirm') && !selectedImage) return null; 
+
+      const stop = (e: any) => e?.stopPropagation?.();
+      
+      if (role === 'take') {
+        return React.cloneElement(
+          child as React.ReactElement<{ onClick?: (e: any) => void }>,
+          {
+            ...(child.props || {}),
+            onClick: (e: any) => {
+              // 기존 onClick 먼저 보존 실행
+              (child.props as any)?.onClick?.(e);
+              stop(e);
+              if (fileInputRef.current) fileInputRef.current.value = ''; 
+              handleContainerClick();
+            },
+          }
+        );
+      }
+      
       // 역할이 retake라면, 내부 상태를 싹 초기화하고 파일 선택창을 다시 띄움 (camera모드라면 카메라 앱이 열리도록 함)
       if (role === 'retake') {
-        return React.cloneElement(child as React.ReactElement<{ onClick?: (e: any) => void }>, {
-          ...(child.props || {}),
-          onClick: (e: any) => {
-            (child.props as any)?.onClick?.(e);
-            setSelectedImage(null);
-            setNaturalSize(null);
-            setPan({ x: 0, y: 0 });
-            fileInputRef.current?.click();
-          },
-        });
+        return React.cloneElement(
+          child as React.ReactElement<{ onClick?: (e: any) => void }>,
+          {
+            ...(child.props || {}),
+            onClick: (e: any) => {
+              (child.props as any)?.onClick?.(e);
+              stop(e);
+              setSelectedImage(null);
+              setNaturalSize(null);
+              setPan({ x: 0, y: 0 });
+              if (fileInputRef.current) fileInputRef.current.value = '';
+              fileInputRef.current?.click();
+            },
+          }
+        );
       }
 
       // 역할이 confirm이라면 현재 화면 기준으로 크롭된 이미지 데이터 url을 onCrop으로 콜백함 
       if (role === 'confirm') {
-        return React.cloneElement(child as React.ReactElement<{ onClick?: (e: any) => void }>, {
-          ...(child.props || {}),
-          onClick: async (e: any) => {
-            (child.props as any)?.onClick?.(e);
-            const result = await cropToGuide();
-            onCrop?.(result || null);
-          },
-        });
+        return React.cloneElement(
+          child as React.ReactElement<{ onClick?: (e: any) => void }>,
+          {
+            ...(child.props || {}),
+            onClick: async (e: any) => {
+              (child.props as any)?.onClick?.(e);
+              stop(e);
+              const result = await cropToGuide();
+              onCrop?.(result || null);
+            },
+          }
+        );
       }
 
       return child;
     });
-
-  const interactive = !selectedImage; // 업로드 전 = 상호작용 모드
 
   return (
     <div css={wrapper}>
@@ -233,11 +264,11 @@ export const PhotoGuideModal = forwardRef<{ cropToGuide: () => Promise<string | 
             ref={containerRef}
             // 이미지가 선택되어 있다면 커서를 기본으로 바꿔 업로드가 열리지 않도록 유도함 
             css={[imageArea, selectedImage && noPointerCursor]}
-            onClick={handleContainerClick}
-            // 업로드 전에만 활성, 업로드 후에는 비활성화함 
-            aria-label={interactive ? (source === 'camera' ? '카메라로 촬영' : '앨범에서 이미지 선택') : undefined}
-            role={interactive ? 'button' : undefined}
-            tabIndex={interactive ? 0 : -1}
+            // onClick={handleContainerClick}
+            // // 업로드 전에만 활성, 업로드 후에는 비활성화함 
+            // aria-label={interactive ? (source === 'camera' ? '카메라로 촬영' : '앨범에서 이미지 선택') : undefined}
+            // role={interactive ? 'button' : undefined}
+            // tabIndex={interactive ? 0 : -1}
 
             // 이미지가 있을 때만 이미지 이동을 위한 드래그 바인딩
             onMouseDown={selectedImage ? handleMouseDown : undefined}
@@ -274,13 +305,13 @@ export const PhotoGuideModal = forwardRef<{ cropToGuide: () => Promise<string | 
                 })()}
                 {/* 사진 크롭 가이드라인 */}
                 <div css={cropGuideBox(CROP_SIZE)}>
-                  <span css={corner('tl', 26, 3, '#00c853', 10)} />
-                  <span css={corner('tr', 26, 3, '#00c853', 10)} />
-                  <span css={corner('bl', 26, 3, '#00c853', 10)} />
-                  <span css={corner('br', 26, 3, '#00c853', 10)} />
+                  <span css={corner('tl')} />
+                  <span css={corner('tr')} />
+                  <span css={corner('bl')} />
+                  <span css={corner('br')} />
                 </div>
                 {/* 바깥 마스킹 */}
-                <div css={cropMask(CROP_SIZE)} />
+                <div css={maskHole(CROP_SIZE)} />
               </>
             ) : (
               <div css={placeholderText}>
@@ -306,7 +337,7 @@ export const PhotoGuideModal = forwardRef<{ cropToGuide: () => Promise<string | 
 
           {/* 안내 텍스트 */}
           <div css={guideText}>
-            {source === 'camera' ? '탭하여 카메라로 촬영하세요' : '탭하여 이미지 업로드하세요'}
+          알약을 중앙 가이드에 맞춰주세요
           </div>
         </div>
 
@@ -362,7 +393,6 @@ const imageArea = css`
   width: 100%;
   aspect-ratio: 1 / 1;
   margin: 0 auto 1rem;
-  border: 1px solid #ccc;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -423,32 +453,37 @@ const cropGuideBox = (size: number) => css`
 `;
 
 type CornerPos = 'tl' | 'tr' | 'bl' | 'br';
+
 const corner = (
   pos: CornerPos,
-  len = 24,           // 코너 선 길이
-  stroke = 3,         // 선 두께
-  color = '#00c853',  // 선 색
-  radius = 8          // 코너 라운드
+  len = 28,     
+  stroke = 3,    
+  color = '#fff',
+  radius = 12   
 ) => css`
   position: absolute;
   width: ${len}px;
   height: ${len}px;
   border: ${stroke}px solid ${color};
+
   ${pos === 'tl' ? `
     left: 0; top: 0;
     border-right: none; border-bottom: none;
     border-top-left-radius: ${radius}px;
   ` : ''}
+
   ${pos === 'tr' ? `
     right: 0; top: 0;
     border-left: none; border-bottom: none;
     border-top-right-radius: ${radius}px;
   ` : ''}
+
   ${pos === 'bl' ? `
     left: 0; bottom: 0;
     border-right: none; border-top: none;
     border-bottom-left-radius: ${radius}px;
   ` : ''}
+
   ${pos === 'br' ? `
     right: 0; bottom: 0;
     border-left: none; border-top: none;
@@ -456,12 +491,9 @@ const corner = (
   ` : ''}
 `;
 
-const cropMask = (size: number) => css`
+const maskHole = (size: number) => css`
   position: absolute;
   inset: 0;
-  /* 중앙 사각형만 투명하고 나머지는 반투명 검정 마스크 */
-  background:
-    radial-gradient(circle at center, transparent ${size/2}px, rgba(0,0,0,0.35) ${size/2 + 0.5}px);
   pointer-events: none;
   z-index: 1;
 `;

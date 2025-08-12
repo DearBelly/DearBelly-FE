@@ -8,6 +8,7 @@ import { useGetBreakPointValue } from "../../../context/BreakPointProvider";
 import { MobileLayout } from "../../../components/Layouts/MobileLayout";
 import { BottomBtn } from '@/components/ComputerVision/BottomBtn/BottomBtn';
 import { DangerCircle } from "@mynaui/icons-react";
+import { X } from "@mynaui/icons-react";
 
 // 더미 데이터
 const testDataName : string = 
@@ -18,6 +19,18 @@ const testData : string = `
 주의사항으로는 다음과 같은 것들이 있습니다. 첫째, 이 약은 식사 후 즉시 복용해야 합니다. 둘째, 복용 시에는 알코올을 피해야 합니다. 셋째, 이 약은 장을 자극할 수 있으므로, 장에 문제가 있는 사람들은 복용에 주의해야 합니다. 넷째, 이 약은 혈압을 올릴 수 있으므로, 고혈압 환자들은 복용에 주의해야 합니다. 다섯째, 이 약은 혈당을 올릴 수 있으므로, 당뇨병 환자들은 복용에 주의해야 합니다.\n\n
 마지막으로, 이 약에 대한 알레르기 반응이 있었던 사람들은 복용을 피해야 합니다. 이외에도 특정 사람들에게는 다른 부작용이 있을 수 있으므로, 복용 전에 의사나 약사와 상의하는 것이 중요합니다.\n\n
 `
+const TopRightIcons = () => {
+  const router = useRouter();
+  const handleScanClick = () => {
+    router.push('/scan');
+  };
+
+  return (
+    <div style={{ cursor: 'pointer' }}>
+      <X onClick={handleScanClick} size='1.5rem'/>
+    </div>
+  );
+};
 
 export default function Result() {
     const isPc = useGetBreakPointValue();
@@ -41,6 +54,9 @@ export default function Result() {
         ));
     };
 
+    // 더미데이터
+    const safe_num:number = 1;
+
     const content_mobile = (
       <Box className='all_wrapper'>
         {testData?.trim() ? (
@@ -50,6 +66,10 @@ export default function Result() {
             </Box>
     
             <Box className='content_wrapper' width='100%' height='100%' padding='0 1.25rem' mt='1.88rem'>
+              <SafeDangerStyle isSafe={safe_num === 1}>
+                {safe_num === 1 ? "해당 약품은 복용 시, 안전합니다." : "해당 약품은 복용 시, 위험합니다."}
+              </SafeDangerStyle>
+
               <Box className='title_wrapper' display="flex" gap="0.2rem">
                 <MediName fontWeight='700'>약품명 :</MediName>
                 <MediName fontWeight='500'>{testDataName}</MediName>
@@ -88,6 +108,7 @@ export default function Result() {
             topbarMode='back'
             topbarTitle= '분석결과'
             showButtomNav={false}
+            topbarContent={<TopRightIcons/>}
         >
             {content_mobile}
         </MobileLayout>
@@ -100,6 +121,10 @@ interface MediNameProps {
     children: ReactNode;
     fontWeight?: number | string;
 }
+interface SafeDangerStyleProps {
+  children: ReactNode;
+  isSafe: boolean;
+};
 
 export const MediName = ({ children, fontWeight = 700 }: MediNameProps) => (
     <Box
@@ -155,4 +180,22 @@ export const ErrorContent = ({ children }: { children: ReactNode }) => (
     >
       {children}
     </Box>
-  );
+);
+
+export const SafeDangerStyle = ({ children, isSafe }: SafeDangerStyleProps) => (
+  <Box
+    display="inline-block"
+    background={isSafe ? "#C4E6C9" : "#FFA471"}
+    color="var(--Text-Text-1, #202020)"
+    fontFamily='"NanumSquare Neo"'
+    fontSize="1rem"
+    fontStyle="normal"
+    fontWeight="800"
+    lineHeight="1.375rem" 
+    letterSpacing="-0.01rem"
+    px="0.25rem"
+    marginBottom="0.56rem"
+  >
+    {children}
+  </Box>
+);

@@ -20,13 +20,16 @@ interface PhotoGuideModalProps {
   onCrop?: (dataUrl: string | null) => void;         
   // camera | gallery 모드
   source?: SourceMode;                               
-  accept?: string;                                   
+  accept?: string;               
+  initialImage?: string;                 
+  title?: string;
+  content?: React.ReactNode;
 }
 
 // 부모가 ref로 안쪽 함수를 직접 호출할 수 있도록 함
 // cropToGuide를 밖에서도 호출 가능하도록 한 것임
 export const PhotoGuideModal = forwardRef<{ cropToGuide: () => Promise<string | null> }, PhotoGuideModalProps>(
-  ({ children, onImageUpload, onCrop, source = 'gallery', accept = 'image/*' }, ref) => {
+  ({ children, onImageUpload, onCrop, source = 'gallery', accept = 'image/*', initialImage, title, content }, ref) => {
 
   // 업로드된 이미지 문자열로 저장
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -45,6 +48,21 @@ export const PhotoGuideModal = forwardRef<{ cropToGuide: () => Promise<string | 
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const dragStartRef = useRef<{ x: number; y: number; panX: number; panY: number } | null>(null);
 
+  // 줌하여 확대할 수 있도록 함
+  const [zoom, setZoom] = useState(1);
+  const MIN_ZOOM = 1;
+  const MAX_ZOOM = 4;
+
+   const pinchRef = useRef<{
+    startDist: number;
+    startZoom: number;
+    focalX: number;
+    focalY: number;
+    startPanX: number;
+    startPanY: number;
+   } | null>(null);
+
+
   // 이미지 파일 선택 처리 (클릭 업로드만 유지)
   const handleFileSelect = useCallback((file: File) => {
     if (file && file.type.startsWith('image/')) {
@@ -54,6 +72,7 @@ export const PhotoGuideModal = forwardRef<{ cropToGuide: () => Promise<string | 
         setSelectedImage(dataUrl);
         // 새 이미지 로드시 팬 초기화
         setPan({ x: 0, y: 0 }); 
+        setZoom(1);
         onImageUpload?.(file);
 
         // 원본 이미지 크기 저장
@@ -92,13 +111,30 @@ export const PhotoGuideModal = forwardRef<{ cropToGuide: () => Promise<string | 
 
     // 이미지를 꽉 채우도록 비율 조정
     const scale = Math.max(containerW / natW, containerH / natH);
-    const displayedW = natW * scale;
-    const displayedH = natH * scale;
-    const offsetX = (displayedW - containerW) / 2;
-    const offsetY = (displayedH - containerH) / 2;
 
-    return { containerW, containerH, scale, displayedW, displayedH, offsetX, offsetY };
-  }, [naturalSize]);
+    // 사용자 확대 배율 적용
+    const totalScale = scale * zoom;
+
+    const displayedW = natW * totalScale;
+    const displayedH = natH * totalScale;
+
+    // 이미지가 컨테이너보다 커진만큼 좌우/상하로 이동 
+    const offsetX = Math.max(0, (displayedW - containerW) / 2);
+    const offsetY = Math.max(0, (displayedH - containerH) / 2);
+
+    return { containerW, containerH, scale, totalScale, displayedW, displayedH, offsetX, offsetY };
+  }, [naturalSize, zoom]);
+
+  // pan을 배치 한계 내로 고정힘
+  const clampPan = useCallback((x: number, y: number) => {
+    const L = getLayout();
+    if(!L) return {x, y};
+    const {offsetX, offsetY} = L;
+    return{
+      x: Math.max(-offsetX, Math.min(offsetX, x)),
+      y: Math.max(-offsetY, Math.min(offsetY, y)),
+    };
+  }, [getLayout]);
 
   // 이미지를 드래그하여 위치를 바꿈 
   const onPointerDown = useCallback((clientX: number, clientY: number) => {
@@ -109,21 +145,66 @@ export const PhotoGuideModal = forwardRef<{ cropToGuide: () => Promise<string | 
   // 드래그를 어디서 시작했는지, 이미지가 어디에 있었는지를 저장함
   const onPointerMove = useCallback((clientX: number, clientY: number) => {
     if (!dragStartRef.current) return;
-    const L = getLayout();
-    if (!L) return;
 
     const dx = clientX - dragStartRef.current.x;
     const dy = clientY - dragStartRef.current.y;
 
-    const nextX = Math.max(-L.offsetX, Math.min(L.offsetX, dragStartRef.current.panX + dx));
-    const nextY = Math.max(-L.offsetY, Math.min(L.offsetY, dragStartRef.current.panY + dy));
-    setPan({ x: nextX, y: nextY });
-  }, [getLayout]);
+    const next = clampPan(dragStartRef.current.panX + dx, dragStartRef.current.panY + dy);
+    setPan(next);
+  }, [clampPan]);
 
   // 허용 범위 안에서 이미지 위치 업데이트함 
   const onPointerUp = useCallback(() => {
     dragStartRef.current = null;
   }, []);
+
+  // 두 손가락 터치 핀치 줌 추가함 
+  type Point = { clientX: number; clientY: number };
+  const dist2 = (t1: Point, t2: Point) => {
+    const dx = t1.clientX - t2.clientX;
+    const dy = t1.clientY - t2.clientY;
+    return Math.hypot(dx, dy);
+  };
+
+  // 컨테이너 좌표에서 포인트를 유지하도록 pan을 보정함
+  const setZoomAround = (newZoom: number, focalX: number, focalY: number) => {
+    const L = getLayout();
+    if(!L) return;
+
+    const {containerW, containerH, scale} = L;
+
+    const prevZoom = zoom;
+    const prevTotal = scale * prevZoom;
+    const nextZoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, newZoom));
+    const nextTotal = scale * nextZoom;
+
+    // 현재 focal 지점에 대응하는 이미지 좌표
+    const { offsetX: prevOffX, offsetY: prevOffY } = L;
+
+    const imgX = (focalX + prevOffX - pan.x) / prevTotal;
+    const imgY = (focalY + prevOffY - pan.y) / prevTotal;
+
+    if (!naturalSize) return;
+    const nextDisplayedW = naturalSize.w * nextTotal;
+    const nextDisplayedH = naturalSize.h * nextTotal;
+    const nextOffX = Math.max(0, (nextDisplayedW - containerW) / 2);
+    const nextOffY = Math.max(0, (nextDisplayedH - containerH) / 2);
+
+    let nx = focalX - (imgX * nextTotal - nextOffX);
+    let ny = focalY - (imgY * nextTotal - nextOffY);
+
+    const clamped = (() => {
+      const offX = nextOffX;
+      const offY = nextOffY;
+      return {
+        x: Math.max(-offX, Math.min(offX, nx)),
+        y: Math.max(-offY, Math.min(offY, ny)),
+      };
+    })();
+  
+    setZoom(nextZoom);
+    setPan(clamped);
+  };
 
   // (PC 버전 DOM 이벤트 바인딩 )
   // 마우스를 눌렀을 경우 호출
@@ -136,47 +217,103 @@ export const PhotoGuideModal = forwardRef<{ cropToGuide: () => Promise<string | 
   // (Mobile 버전 DOM 이벤트 바인딩 )
   // 손가락으로 화면을 터치할 경우 좌표를 뽑아 호출
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    const t = e.touches[0];
-    onPointerDown(t.clientX, t.clientY);
-  }, [onPointerDown]);
+    if (!selectedImage) return;
+    if (e.touches.length === 1) {
+      const t = e.touches[0];
+      onPointerDown(t.clientX, t.clientY);
+    } else if (e.touches.length === 2) {
+      const [t1, t2] = [e.touches[0], e.touches[1]];
+      const d = dist2(t1, t2);
+      const rect = containerRef.current!.getBoundingClientRect();
+      const focalX = ((t1.clientX + t2.clientX) / 2) - rect.left;
+      const focalY = ((t1.clientY + t2.clientY) / 2) - rect.top;
+  
+      pinchRef.current = {
+        startDist: d,
+        startZoom: zoom,
+        focalX,
+        focalY,
+        startPanX: pan.x,
+        startPanY: pan.y,
+      };
+    }
+  }, [onPointerDown, selectedImage, zoom, pan.x, pan.y]);
+
   // 손가락으로 움직일 경우 호출
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
-    const t = e.touches[0];
-    onPointerMove(t.clientX, t.clientY);
-  }, [onPointerMove]);
+    if (!selectedImage) return;
+  
+    if (e.touches.length === 2 && pinchRef.current) {
+      e.preventDefault(); // 모바일 브라우저 기본 확대/스크롤 방지
+      const [t1, t2] = [e.touches[0], e.touches[1]];
+      const d = dist2(t1, t2);
+      const rect = containerRef.current!.getBoundingClientRect();
+      const focalX = ((t1.clientX + t2.clientX) / 2) - rect.left;
+      const focalY = ((t1.clientY + t2.clientY) / 2) - rect.top;
+  
+      const ratio = d / pinchRef.current.startDist;
+      const targetZoom = pinchRef.current.startZoom * ratio;
+  
+      setZoomAround(targetZoom, focalX, focalY);
+    } else if (e.touches.length === 1 && !pinchRef.current) {
+      const t = e.touches[0];
+      onPointerMove(t.clientX, t.clientY);
+    }
+  }, [onPointerMove, selectedImage]);
+
   // 손가락을 뗄 때 호출
-  const handleTouchEnd = useCallback(() => onPointerUp(), [onPointerUp]);
+  const handleTouchEnd = useCallback(() => {
+    pinchRef.current = null;
+    onPointerUp();
+  }, [onPointerUp]);
+
+  // 마우스/트랙패드 췰 줌 
+  const handleWheel = useCallback((e: React.WheelEvent) => {
+    if (!selectedImage) return;
+  
+    // 트랙패드 제스처 배려: deltaY로 확대/축소
+    // ctrlKey 조건을 붙이고 싶으면 if (!e.ctrlKey) return; 형태로 제한 가능
+    e.preventDefault();
+  
+    const L = getLayout();
+    if (!L) return;
+  
+    // 가운데 기준으로 줌
+    const focalX = L.containerW / 2;
+    const focalY = L.containerH / 2;
+  
+    const step = -e.deltaY * 0.0015; 
+    const targetZoom = zoom * (1 + step);
+  
+    setZoomAround(targetZoom, focalX, focalY);
+  }, [selectedImage, zoom, setZoomAround, getLayout]);
 
   // 중앙 128px x 128px 가이드라인 영역만 잘라서 돌려줌 (크롭 기능)
   const cropToGuide = useCallback(async (): Promise<string | null> => {
-    // 이미지가 없거나, 돔 참조가 비었거나, 레이아웃 계산 실패면 걍 null반환함 
     const L = getLayout();
     if (!selectedImage || !containerRef.current || !imgRef.current || !naturalSize || !L) return null;
-
-    // 레이아웃 값을 꺼냄
-    const { containerW, containerH, scale, offsetX, offsetY } = L;
-
-    // 컨테이너 정중앙에 가이드라인 선을 두고 싶기 때문에 시작점을 구함 
+  
+    const { containerW, containerH, totalScale, offsetX, offsetY } = L;
+  
     const guideLeft = (containerW - CROP_SIZE) / 2;
     const guideTop  = (containerH - CROP_SIZE) / 2;
-
-    // 컨테이너 기준 가이드라인 사각형의 위치를 원본 이미지 기준으로 바꿈 
-    const srcX = (guideLeft + offsetX - pan.x) / scale;
-    const srcY = (guideTop  + offsetY - pan.y) / scale;
-    const srcSize = CROP_SIZE / scale;
-
-    // 캔버스에 크롭 영역 그려서 데이터 URL 생성 
+  
+    // pan은 화면 좌표에서 이미지가 이동한 양, offset은 이미지가 컨테이너를 넘치는 여유
+    // 원본 좌표 = (화면좌표 + offset - pan) / totalScale
+    const srcX = (guideLeft + offsetX - pan.x) / totalScale;
+    const srcY = (guideTop  + offsetY - pan.y) / totalScale;
+    const srcSize = CROP_SIZE / totalScale;
+  
     const canvas = document.createElement('canvas');
     canvas.width = CROP_SIZE;
     canvas.height = CROP_SIZE;
     const ctx = canvas.getContext('2d');
     if (!ctx) return null;
-
+  
     const img = imgRef.current;
     ctx.drawImage(img, srcX, srcY, srcSize, srcSize, 0, 0, CROP_SIZE, CROP_SIZE);
-
     return canvas.toDataURL('image/png');
-  }, [selectedImage, naturalSize, pan, getLayout]);
+  }, [selectedImage, naturalSize, pan, getLayout]);  
 
   // 부모에서 ref로 cropToGuide 호출 가능하도록 노출
   useImperativeHandle(ref, () => ({
@@ -194,8 +331,8 @@ export const PhotoGuideModal = forwardRef<{ cropToGuide: () => Promise<string | 
        // 업로드 후에는 take 숨김
       if (role === 'take' && selectedImage) return null;           
       // 업로드 전에는 retake/confirm 숨김
-      if ((role === 'retake' || role === 'confirm') && !selectedImage) return null; 
-
+      if ((role === 'retake' || role === 'confirm') && !selectedImage) return null;
+      
       const stop = (e: any) => e?.stopPropagation?.();
       
       if (role === 'take') {
@@ -226,6 +363,7 @@ export const PhotoGuideModal = forwardRef<{ cropToGuide: () => Promise<string | 
               setSelectedImage(null);
               setNaturalSize(null);
               setPan({ x: 0, y: 0 });
+              setZoom(1);
               if (fileInputRef.current) fileInputRef.current.value = '';
               fileInputRef.current?.click();
             },
@@ -256,21 +394,12 @@ export const PhotoGuideModal = forwardRef<{ cropToGuide: () => Promise<string | 
     <div css={wrapper}>
       <div css={modalWrapper}>
         <div css={contentWrapper}>
-          <h3 css={title}>의약품 촬영 가이드</h3>
+          <h3 css={titleStyle}>{title}</h3>
 
           {/* 이미지 영역 */}
           <div
-            // 크기 및 좌표를 재기 위해 돔을 참조함 
             ref={containerRef}
-            // 이미지가 선택되어 있다면 커서를 기본으로 바꿔 업로드가 열리지 않도록 유도함 
             css={[imageArea, selectedImage && noPointerCursor]}
-            // onClick={handleContainerClick}
-            // // 업로드 전에만 활성, 업로드 후에는 비활성화함 
-            // aria-label={interactive ? (source === 'camera' ? '카메라로 촬영' : '앨범에서 이미지 선택') : undefined}
-            // role={interactive ? 'button' : undefined}
-            // tabIndex={interactive ? 0 : -1}
-
-            // 이미지가 있을 때만 이미지 이동을 위한 드래그 바인딩
             onMouseDown={selectedImage ? handleMouseDown : undefined}
             onMouseMove={selectedImage ? handleMouseMove : undefined}
             onMouseUp={selectedImage ? handleMouseUp : undefined}
@@ -278,6 +407,7 @@ export const PhotoGuideModal = forwardRef<{ cropToGuide: () => Promise<string | 
             onTouchStart={selectedImage ? handleTouchStart : undefined}
             onTouchMove={selectedImage ? handleTouchMove : undefined}
             onTouchEnd={selectedImage ? handleTouchEnd : undefined}
+            onWheel={selectedImage ? handleWheel : undefined}
           >
             {selectedImage ? (
               <>
@@ -314,9 +444,7 @@ export const PhotoGuideModal = forwardRef<{ cropToGuide: () => Promise<string | 
                 <div css={maskHole(CROP_SIZE)} />
               </>
             ) : (
-              <div css={placeholderText}>
-                {source === 'camera' ? '탭하여 카메라로 촬영하세요' : '탭하여 이미지 업로드하세요'}
-              </div>
+              <img src={initialImage} alt="초기 이미지" css={previewImg} draggable={false}/>
             )}
           </div>
 
@@ -337,7 +465,7 @@ export const PhotoGuideModal = forwardRef<{ cropToGuide: () => Promise<string | 
 
           {/* 안내 텍스트 */}
           <div css={guideText}>
-          알약을 중앙 가이드에 맞춰주세요
+          {content}
           </div>
         </div>
 
@@ -377,7 +505,7 @@ const contentWrapper = css`
   height: 100%;
 `;
 
-const title = css`
+const titleStyle = css`
   font-family: var(--Font-Family-font-family, "NanumSquare Neo");
   font-size: 0.875rem;
   color: var(--Text-Text-1, #202020);
@@ -396,8 +524,6 @@ const imageArea = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f8f9fa;
-  transition: all 0.2s ease;
   position: relative;
   overflow: hidden;
   /* 이미지 이동 드래그 시 페이지 스크롤 방지함 */
@@ -414,12 +540,6 @@ const imageAbs = css`
   pointer-events: none; 
 `;
 
-const placeholderText = css`
-  text-align: center;
-  color: #666;
-  font-size: 0.875rem;
-`;
-
 const guideText = css`
   color: var(--Text-Text-1, #202020);
   text-align: center;
@@ -428,9 +548,10 @@ const guideText = css`
   font-weight: 700;
   line-height: 1rem; 
   letter-spacing: -0.006rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: nowrap;       
+  overflow: visible;       
+  text-overflow: clip;      
+  word-break: break-all;
 `;
 
 const btnWrapper = css`
@@ -457,8 +578,8 @@ type CornerPos = 'tl' | 'tr' | 'bl' | 'br';
 const corner = (
   pos: CornerPos,
   len = 28,     
-  stroke = 3,    
-  color = '#fff',
+  stroke = 4,    
+  color = '#06c655',
   radius = 12   
 ) => css`
   position: absolute;
@@ -500,4 +621,12 @@ const maskHole = (size: number) => css`
 
 const noPointerCursor = css`
   cursor: default;
+`;
+
+const previewImg = css`
+  width: 100%;
+  height: 100%;
+  object-fit: contain; 
+  user-select: none;
+  pointer-events: none; 
 `;

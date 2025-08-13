@@ -1,25 +1,50 @@
 /** @jsxImportSource @emotion/react */
-"use client"
-import { css } from '@emotion/react';
-import { ReactNode } from 'react';
-import { TopBar, TopBarProps } from '../TopBar/TopBar';
-import { BottomNavigation } from '../BottomNavigation/BottomNavigation';
+"use client";
+import { css } from "@emotion/react";
+import { ReactNode } from "react";
+import { TopBar } from "../TopBar/TopBar";
+import { BottomNavigation } from "../BottomNavigation/BottomNavigation";
 
 interface MobileLayoutProps {
-  topBarProps: TopBarProps;
+  topbarContent?: ReactNode;
   children: ReactNode;
   hasTopPadding?: boolean;
+  topbarMode?: "logo" | "back";
+  topbarBackground?: "filled" | "transparent";
+  topbarTitle?: string;
   showButtomNav?: boolean;
+  searchbarContent?: ReactNode;
 }
 
-export const MobileLayout = ({ children, topBarProps, hasTopPadding=true, showButtomNav=true }: MobileLayoutProps) => {
+export const MobileLayout = ({
+  topbarContent,
+  children,
+  hasTopPadding = true,
+  topbarMode = "logo",
+  topbarBackground = "filled",
+  topbarTitle,
+  showButtomNav = true,
+  searchbarContent,
+}: MobileLayoutProps) => {
   return (
     <div css={layoutStyle}>
-      <TopBar {...topBarProps} />
-      <main css={[contentStyle, !hasTopPadding && noTopPaddingStyle]}>
+      <TopBar
+        mode={topbarMode}
+        backgroundType={topbarBackground}
+        rightContent={topbarContent}
+        title={topbarTitle}
+        searchContent={searchbarContent}
+      />
+      <main
+        css={[
+          contentStyle,
+          !hasTopPadding && noTopPaddingStyle,
+          !showButtomNav && noBottomPaddingStyle,
+        ]}
+      >
         {children}
       </main>
-      { showButtomNav && <BottomNavigation />}
+      {showButtomNav && <BottomNavigation />}
     </div>
   );
 };
@@ -30,8 +55,7 @@ const layoutStyle = css`
   align-items: center;
   min-width: 100vw;
   min-height: 100vh;
-  background-color: #F9F7F7;
-
+  background-color: #f9f7f7;
   margin: 0 auto;
   position: relative;
 `;
@@ -42,23 +66,27 @@ const contentStyle = css`
   box-sizing: border-box;
   padding-right: 20px;
   padding-left: 20px;
-  
-  padding-top: 44px; /* iOS 기준 */
+
+  /* Top padding: iOS / AOS 기준 */
+  padding-top: 44px; /* iOS */
   @media (max-width: 360px) {
-    padding-top: 56px; /* AOS 기준 */
+    padding-top: 56px; /* AOS */
   }
 
-  padding-bottom: 54px; /* iOS 기준 */
+  /* Bottom padding: iOS / AOS 기준 */
+  padding-bottom: 54px; /* iOS */
   @media (max-width: 360px) {
-    padding-bottom: 62px; /* AOS 기준 */
+    padding-bottom: 62px; /* AOS */
   }
 
   overflow-y: auto;
-  -webkit-overflow-scrolling: touch; 
+  -webkit-overflow-scrolling: touch;
 `;
 
 const noTopPaddingStyle = css`
   padding-top: 0 !important;
-  padding-right: 0 !important;
-  padding-left: 0 !important;
+`;
+
+const noBottomPaddingStyle = css`
+  padding-bottom: 0 !important;
 `;

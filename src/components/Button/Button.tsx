@@ -33,11 +33,11 @@ const typeStyles = {
     color: #f2f0f0;
   `,
   secondary: css`
-    background: #E8E7E7;
-    color: #202020;
+    background: var(--BG-BG-4, #E8E7E7);
+    color: var(--Text-Text-1);
   `,
   disabled: css`
-    background: #F2F0F0;
+    background: var(--BG-BG-2, #F2F0F0);
     color: #D0D0D0;
     cursor: not-allowed;
   `,

@@ -55,7 +55,7 @@ const layoutStyle = css`
   align-items: center;
   min-width: 100vw;
   min-height: 100vh;
-  background-color: #f9f7f7;
+  background-color: var(--bg);
   margin: 0 auto;
   position: relative;
 `;

@@ -47,7 +47,7 @@ const icon_wrapper = css`
     justify-content: center;
     align-items: center;
     border-radius: 0.75rem;
-    background-color: #FFFFFF;
+    background-color: var(--BG-BG-3);
     
 `;
 

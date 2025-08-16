@@ -1,10 +1,29 @@
-/* src/app/globals.css */
+/* 라이트 모드 */
+:root {
+  --bg: #F9F7F7;
+  --fg: #202020;
+  --BG-BG-2: #F2F0F0;
+  --BG-BG-3: #FFFFFF;
+  --BG-BG-4: #E8E7E7;
+  --Text-Text-1: #202020;
+}
+
+/* 다크 모드 */
+html[data-app-theme="dark"] {
+  --bg: #202020;
+  --fg: #F2F0F0;
+  --BG-BG-2: #2A2A2A;
+  --BG-BG-3: #2A2A2A;
+  --BG-BG-4: #3A3A3A;
+  --Text-Text-1: #F2F0F0;
+}
+
 html, body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-  background-color: #F9F7F7;
-  color: white;
+  background: var(--bg);
+  color: var(--fg);
   overflow-y: auto;
 }
 
@@ -21,7 +40,6 @@ html::-webkit-scrollbar {
 /* 모바일 (0 ~ 1023px) */
 @media (max-width: 320px) {
   body {
-    background-color: #F9F7F7;
     font-size: 16px;
   }
 }
@@ -29,7 +47,6 @@ html::-webkit-scrollbar {
 /* 노트북 (1024px 이상) */
 @media (min-width: 1024px) {
   body {
-    background-color: #F9F7F7;
     font-size: 20px;
   }
 }

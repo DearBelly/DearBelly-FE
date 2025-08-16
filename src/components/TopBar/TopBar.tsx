@@ -3,11 +3,10 @@ import { css } from '@emotion/react';
 import { ChevronLeft } from "@mynaui/icons-react";
 
 export interface TopBarProps {
-  mode?: 'logo' | 'back';
+  mode?: 'logo' | 'back' | 'whiteLogo';
   backgroundType?: 'filled' | 'transparent';
   title?: string;
-  firstIcon?: React.ReactNode;
-  secondIcon?: React.ReactNode;
+  rightContent ?: React.ReactNode;
   logoColor?: string;
   backStepColor?: string;
   iconColor?: string;
@@ -18,11 +17,11 @@ export const TopBar = ({
   mode = 'logo',
   backgroundType = 'filled',
   title,
-  firstIcon,
-  secondIcon,
+  rightContent,
   logoColor="#FF6257",
   backStepColor="#202020",
   iconColor = "#202020",
+  // 서치바 전용 props 추가함
   searchContent
 }: TopBarProps): React.ReactNode => {
   return (
@@ -45,11 +44,17 @@ export const TopBar = ({
               <ChevronLeft css={css`width: 24px; height: 24px;`} />
               {searchContent}
             </div>
+          )}   
+          {mode === 'whiteLogo' && (
+            <div css={logoSectionStyle(logoColor)}>
+              <img src="/logos/logo_text.svg" alt="logo" width={102} height={20} color="#FFFFFF"/>
+            </div>
           )}
-          <div css={iconGroupStyle(iconColor)}>
-            {firstIcon}
-            {secondIcon}
-          </div>
+          {rightContent && (
+            <div style={{ marginLeft: "auto", display: "flex" }}>
+              {rightContent}
+            </div>
+          )}
         </div>
       </div>
     </header>
@@ -121,13 +126,4 @@ const titleStyle = css`
   font-weight: 700;
   line-height: 24px;
   letter-spacing: -0.32px;
-`;
-
-const iconGroupStyle = (iconColor: string) => css`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 12px;
-  color: ${iconColor};
 `;

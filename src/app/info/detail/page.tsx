@@ -1,4 +1,5 @@
-"use client"
+'use client'; 
+
 import React, {useState, useEffect, useRef} from 'react'
 import { Box, Text } from "@chakra-ui/react";
 import { useGetBreakPointValue } from "../../../context/BreakPointProvider";
@@ -9,6 +10,7 @@ import { Bookmark } from "@mynaui/icons-react";
 import { BookmarkSolid } from "@mynaui/icons-react";
 import { FunnyCircleSolid } from "@mynaui/icons-react";
 import { testData3 } from '../testData';
+import Image from 'next/image'
 
 // 더미데이터
 const testData : string = `
@@ -86,11 +88,22 @@ const InformationDetail = () => {
         <Box className='wrapper1' display="flex" flexDirection="column" alignItems="center" width='100%'>
             {/* 이미지 영역 */}
             <ImageWrapper>
-                <img src="/images/image.png" width='100%' height='auto' />
+                <Image
+                src="/images/image.png"
+                alt="대표 이미지"
+                width={800} 
+                height={500}
+                style={{
+                    width: '100%',
+                    height: 'auto',
+                    objectFit: 'contain',
+                }}
+                priority
+                />
             </ImageWrapper>
 
             {/* 이미지 영역 아래 글 영역 + 추천 글 목록 영역 */}
-            <Box className='wrapper2' margin='0 20px' alignItems='center'>
+            <Box className='wrapper2'>
                 {/* 글 제목 영역 */}
                 <Box className='title_wrapper'  marginTop='4vh'>
                     <TextTitle>
@@ -223,7 +236,7 @@ const TextContent = ({ children, marginTop }: { children: React.ReactNode, margi
 
 export const RecommendText = ({ children }: { children: React.ReactNode }) => (
     <Text
-      as="span"
+      as="div"
       color="var(--Text-Text-2, #6C6B6B)"
       fontFamily="NanumSquare Neo"
       fontSize="0.875rem"

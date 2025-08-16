@@ -1,4 +1,5 @@
-'use client'
+'use client';
+
 import React, {useState} from 'react'
 import { Box } from "@chakra-ui/react";
 import { CategoryIconOutput } from '@/components/CategoryIcon/CategoryIconOutput';
@@ -26,12 +27,13 @@ const InfoInventory = () => {
     // 아이콘의 index를 사용하여 해당 아이콘에서 보여줄 데이터들을 연결하기 위해 정의한 함수임 
     const getInformationData = () => {
       switch (selectIndex) {
-        case 0: return testData_education;
-        case 1: return testData_preg_all;
-        case 2: return testData_ready;
-        case 3: return testData_health;
-        case 4: return testData_mind;
-        case 5: return testData_money;
+        case 0 : return testData_all;
+        case 1: return testData_education;
+        case 2: return testData_preg_all;
+        case 3: return testData_ready;
+        case 4: return testData_health;
+        case 5: return testData_mind;
+        case 6: return testData_money;
         default: return testData_all;
       }
     }

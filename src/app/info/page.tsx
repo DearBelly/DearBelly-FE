@@ -1,6 +1,7 @@
-"use client"
-import React, { useEffect, useState } from 'react'
-import { useRouter } from "next/navigation";
+'use client';
+
+import React, { useMemo, useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation';
 import { Box, Text } from "@chakra-ui/react";
 import { useGetBreakPointValue } from "../../context/BreakPointProvider";
 import { MobileLayout } from "../../components/Layouts/MobileLayout";
@@ -14,15 +15,28 @@ import { FunnySquareSolid } from "@mynaui/icons-react";
 import { ChevronRight } from "@mynaui/icons-react";
 import { testData, testData2, testData3 } from './testData';
 
+// 탑바에 보낼 데이터터
+const TopRightIcons = () => {
+  const router = useRouter();
+  const handleSearchInventoryClick = () => {
+    router.push('/info/search');
+  };
+
+  return (
+    <div style={{display:"flex", gap: 16, cursor: 'pointer'}}>
+      <Search onClick={handleSearchInventoryClick}/>
+    </div>
+  );
+};
+
 export default function Information() {
   const isPc = useGetBreakPointValue();
   const isMobile = !isPc;
 
   const router = useRouter();
 
-  
-  const handleSearchClick = () => {
-    router.push('/info/search');
+  const handleInventoryClick = () => {
+    router.push('/info/category');
   };
 
   const handleInventoryClick = () => {

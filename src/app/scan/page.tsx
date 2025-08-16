@@ -1,6 +1,7 @@
-"use client"
+'use client';
+
 import React from 'react'
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation';
 import { Box } from "@chakra-ui/react";
 import { useGetBreakPointValue } from "@/context/BreakPointProvider";
 import { MobileLayout } from "@/components/Layouts/MobileLayout";
@@ -21,11 +22,9 @@ export default function Scan() {
   };
 
   const content = (
-    <Box display="flex" flexDirection="column" alignItems="center" minH="60vh">
-      <ImageSelectButton icon={<CameraSolid width="4rem" height="4rem" />} text="카메라로 촬영하기" onClick={handleCameraClick} />
-      <Box mt="1.25rem">
-        <ImageSelectButton icon={<ImageSolid width="4rem" height="4rem" />} text="갤러리에서 선택하기" onClick={handleGalleryClick}/>
-      </Box>
+    <Box display="flex" flexDirection="column" alignItems="center" minH="60vh" mt='3.008vh'>
+      <ImageSelectButton icon={<CameraSolid width="3rem" height="3rem" />} text="카메라로 촬영하기" onClick={handleCameraClick} />
+      <ImageSelectButton icon={<ImageSolid width="3rem" height="3rem" />} text="갤러리에서 선택하기" onClick={handleGalleryClick} />
     </Box>
   );
 
@@ -37,6 +36,8 @@ export default function Scan() {
       {content}
     </MobileLayout>
   ) : (
-    "웹용"
+    <MobileLayout>
+      {content}
+    </MobileLayout>
   );
 }

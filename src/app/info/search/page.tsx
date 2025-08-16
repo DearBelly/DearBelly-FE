@@ -1,4 +1,5 @@
-'use client'
+'use client';
+
 import React, {useState, useEffect} from 'react'
 import { Box, Text } from "@chakra-ui/react";
 import { SearchBox } from '@/components/Search/SearchBox';
@@ -6,7 +7,7 @@ import { useGetBreakPointValue } from "../../../context/BreakPointProvider";
 import { MobileLayout } from "../../../components/Layouts/MobileLayout";
 import { SearchInventory } from '@/components/SearchInventory/SearchInventory';
 
-// 가로 길이 확장되도록 수정정
+// 가로 길이 확장되도록 수정
 const SearchIcon = ({ onSearch }: { onSearch: (text: string) => void }) => (
     <div style={{ display: "flex", flex: 1, minWidth: 0 }}>
       <SearchBox onSearch={onSearch} />

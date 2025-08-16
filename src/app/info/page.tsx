@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation';
 import { Box, Text } from "@chakra-ui/react";
 import { useGetBreakPointValue } from "../../context/BreakPointProvider";
@@ -34,10 +34,6 @@ export default function Information() {
   const isMobile = !isPc;
 
   const router = useRouter();
-
-  const handleInventoryClick = () => {
-    router.push('/info/category');
-  };
 
   const handleInventoryClick = () => {
     router.push('/info/category');

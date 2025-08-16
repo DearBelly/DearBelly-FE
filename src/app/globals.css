@@ -5,6 +5,17 @@ html, body {
   font-family: sans-serif;
   background-color: #F9F7F7;
   color: white;
+  overflow-y: auto;
+}
+
+/* 스크롤바 숨기기 */
+/* Firefox */
+html {
+  scrollbar-width: none;  
+}
+/* Chrome/Safari/Edge */
+html::-webkit-scrollbar {
+  display: none;            
 }
 
 /* 모바일 (0 ~ 1023px) */

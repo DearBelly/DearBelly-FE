@@ -48,7 +48,7 @@ const Container = styled.div`
   
   padding-top: 44px; /* iOS 기준 */
   @media (max-width: 360px) {
-    padding-top: 56px; /* AOS 기준 */
+    padding-top: 56px; /* AOS */
   }
 `;
 

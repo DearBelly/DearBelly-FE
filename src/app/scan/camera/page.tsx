@@ -11,7 +11,6 @@ import { X } from "@mynaui/icons-react";
 export default function Camera() {
   const isPc = useGetBreakPointValue();
   const isMobile = !isPc;
-
   const router = useRouter();
   
   const handleBackClick = () => {
@@ -73,8 +72,10 @@ export default function Camera() {
         <PhotoBtn variant="primary" data-role="confirm">
           결과보기
         </PhotoBtn>
+
       </PhotoGuideModal>
     </Box>
   );
+
   return isMobile ? content : 'hi';
 }

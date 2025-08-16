@@ -6,13 +6,14 @@ import { TopBar } from "../TopBar/TopBar";
 import { BottomNavigation } from "../BottomNavigation/BottomNavigation";
 
 interface MobileLayoutProps {
-  topBarProps: TopBarProps;
+  topbarContent?: ReactNode;
   children: ReactNode;
   hasTopPadding?: boolean;
   topbarMode?: "logo" | "back";
   topbarBackground?: "filled" | "transparent";
   topbarTitle?: string;
   showButtomNav?: boolean;
+  searchbarContent?: ReactNode;
 }
 
 export const MobileLayout = ({

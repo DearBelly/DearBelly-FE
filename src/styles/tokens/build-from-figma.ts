@@ -120,7 +120,8 @@ function buildPrimitives(raw: Raw) {
   const fonts: Record<string, any> = {};
   const fontFamilies = meta.fontFamilies ?? {};
   for (const [k, v] of Object.entries<any>(fontFamilies)) {
-    fonts[toCamel(k)] = { value: v.value };
+    const family = String(v.value ?? "");
+    fonts[toCamel(k)] = { value: family.replace(/\s+/g, "") };
   }
 
   const fontWeightsRaw = meta.fontWeights ?? {};
@@ -198,53 +199,78 @@ function buildSemantic(raw: Raw) {
   return result;
 }
 
-function buildTextStyles(raw: Raw) {
+function buildTextStyles(raw: Raw, primitives: ReturnType<typeof buildPrimitives>) {
   const meta = raw[""] ?? {};
   const head = meta.Head ?? {};
   const body = meta.Body ?? {};
   const caption = meta.Caption ?? {};
 
   function resolveToken(str: string) {
-    // "{fontFamilies.nanumsquare-neo}" -> "fonts.nanumsquareNeo"
     const m = String(str).match(/^\{([^}]+)\}$/);
     if (!m) return str;
     const parts = m[1].split(".");
     const root = parts.shift();
     if (!root) return str;
-    // map root keys
     const mapping: Record<string, string> = {
       fontFamilies: "fonts",
       fontWeights: "fontWeights",
       fontSize: "fontSizes",
       lineHeights: "lineHeights",
       letterSpacing: "letterSpacings",
-      paragraphSpacing: "", // not used in chakra textStyle
+      paragraphSpacing: "",
       paragraphIndent: "",
-      textCase: "", textDecoration: "",
+      textCase: "",
+      textDecoration: "",
     };
     const mappedRoot = mapping[root] ?? root;
     const rest = parts.map(toCamel).join(".");
     return mappedRoot ? `{${mappedRoot}.${rest}}` : undefined;
   }
 
+  function getPrimitiveFromRef(ref?: string) {
+    if (!ref) return undefined;
+    const m = ref.match(/^\{([^}]+)\}$/);
+    if (!m) return undefined;
+    const [root, key] = m[1].split(".");
+    if (!root || !key) return undefined;
+    const dict = (primitives as any)[root];
+    return dict?.[key]?.value;
+  }
+
+  function percentToEm(input: string) {
+    const n = parseFloat(input);
+    if (isNaN(n)) return input;
+    return `${n / 100}em`;
+  }
+
   function pickStyle(v: any) {
     const val = v.value ?? {};
     const style: Record<string, any> = {};
 
-    const fontFamily = resolveToken(val.fontFamily);
-    if (fontFamily) style.fontFamily = fontFamily;
+    const fontFamilyRef = resolveToken(val.fontFamily);
+    if (fontFamilyRef) style.fontFamily = fontFamilyRef;
 
-    const fontWeight = resolveToken(val.fontWeight);
-    if (fontWeight) style.fontWeight = fontWeight;
+    const fontWeightRef = resolveToken(val.fontWeight);
+    if (fontWeightRef) style.fontWeight = fontWeightRef;
 
-    const fontSize = resolveToken(val.fontSize);
-    if (fontSize) style.fontSize = fontSize;
+    const fontSizeRef = resolveToken(val.fontSize);
+    if (fontSizeRef) style.fontSize = fontSizeRef;
 
-    const lineHeight = resolveToken(val.lineHeight);
-    if (lineHeight) style.lineHeight = lineHeight;
+    const lineHeightRef = resolveToken(val.lineHeight);
+    if (lineHeightRef) style.lineHeight = lineHeightRef;
 
-    const letterSpacing = resolveToken(val.letterSpacing);
-    if (letterSpacing) style.letterSpacing = letterSpacing;
+    const letterSpacingRef = resolveToken(val.letterSpacing);
+    if (letterSpacingRef) {
+      const lsRaw = String(getPrimitiveFromRef(letterSpacingRef) ?? "");
+      if (lsRaw.endsWith("%")) {
+        style.letterSpacing = percentToEm(lsRaw); 
+      } else {
+        style.letterSpacing = letterSpacingRef;
+      }
+    }
+
+    if (val.fontStyle) style.fontStyle = String(val.fontStyle);
+    if (val.fontFeatureSettings) style.fontFeatureSettings = String(val.fontFeatureSettings);
 
     return { value: style };
   }
@@ -272,7 +298,7 @@ function main() {
 
   const primitives = buildPrimitives(raw);
   const semantic = buildSemantic(raw);
-  const textStyles = buildTextStyles(raw);
+  const textStyles = buildTextStyles(raw, primitives);
 
   writeModule(path.join(OUT_DIR, "primitives.ts"), "primitives", primitives);
   writeModule(path.join(OUT_DIR, "semantic.ts"), "semantic", { colors: semantic });

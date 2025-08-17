@@ -190,7 +190,7 @@ export const primitives = {
   },
   "fonts": {
     "nanumsquareNeo": {
-      "value": "NanumSquare Neo"
+      "value": "NanumSquareNeo"
     }
   },
   "fontSizes": {
@@ -238,6 +238,17 @@ export const primitives = {
     },
     "14": {
       "value": "9px"
+    }
+  },
+  "fontWeights": {
+    "nanumsquareNeo0": {
+      "value": "800"
+    },
+    "nanumsquareNeo1": {
+      "value": "700"
+    },
+    "nanumsquareNeo2": {
+      "value": "400"
     }
   },
   "lineHeights": {

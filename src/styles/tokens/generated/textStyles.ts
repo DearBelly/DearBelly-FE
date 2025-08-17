@@ -6,7 +6,7 @@ export const textStyles = {
       "fontWeight": "{fontWeights.nanumsquareNeo0}",
       "fontSize": "{fontSizes.0}",
       "lineHeight": "{lineHeights.0}",
-      "letterSpacing": "{letterSpacings.0}"
+      "letterSpacing": "-0.01em"
     }
   },
   "head_18700": {
@@ -15,7 +15,7 @@ export const textStyles = {
       "fontWeight": "{fontWeights.nanumsquareNeo0}",
       "fontSize": "{fontSizes.1}",
       "lineHeight": "{lineHeights.1}",
-      "letterSpacing": "{letterSpacings.0}"
+      "letterSpacing": "-0.01em"
     }
   },
   "body_166002": {
@@ -24,7 +24,7 @@ export const textStyles = {
       "fontWeight": "{fontWeights.nanumsquareNeo1}",
       "fontSize": "{fontSizes.2}",
       "lineHeight": "{lineHeights.2}",
-      "letterSpacing": "{letterSpacings.2}"
+      "letterSpacing": "-0.02em"
     }
   },
   "body_147001": {
@@ -33,7 +33,7 @@ export const textStyles = {
       "fontWeight": "{fontWeights.nanumsquareNeo0}",
       "fontSize": "{fontSizes.3}",
       "lineHeight": "{lineHeights.3}",
-      "letterSpacing": "{letterSpacings.0}"
+      "letterSpacing": "-0.01em"
     }
   },
   "body_147002": {
@@ -42,7 +42,7 @@ export const textStyles = {
       "fontWeight": "{fontWeights.nanumsquareNeo0}",
       "fontSize": "{fontSizes.3}",
       "lineHeight": "{lineHeights.3}",
-      "letterSpacing": "{letterSpacings.2}"
+      "letterSpacing": "-0.02em"
     }
   },
   "body_12700": {
@@ -51,7 +51,7 @@ export const textStyles = {
       "fontWeight": "{fontWeights.nanumsquareNeo0}",
       "fontSize": "{fontSizes.5}",
       "lineHeight": "{lineHeights.5}",
-      "letterSpacing": "{letterSpacings.0}"
+      "letterSpacing": "-0.01em"
     }
   },
   "body_126001": {
@@ -60,7 +60,7 @@ export const textStyles = {
       "fontWeight": "{fontWeights.nanumsquareNeo1}",
       "fontSize": "{fontSizes.5}",
       "lineHeight": "{lineHeights.6}",
-      "letterSpacing": "{letterSpacings.0}"
+      "letterSpacing": "-0.01em"
     }
   },
   "body_12400224": {
@@ -69,7 +69,7 @@ export const textStyles = {
       "fontWeight": "{fontWeights.nanumsquareNeo2}",
       "fontSize": "{fontSizes.5}",
       "lineHeight": "{lineHeights.2}",
-      "letterSpacing": "{letterSpacings.2}"
+      "letterSpacing": "-0.02em"
     }
   },
   "body_12400220": {
@@ -78,7 +78,7 @@ export const textStyles = {
       "fontWeight": "{fontWeights.nanumsquareNeo2}",
       "fontSize": "{fontSizes.5}",
       "lineHeight": "{lineHeights.5}",
-      "letterSpacing": "{letterSpacings.2}"
+      "letterSpacing": "-0.02em"
     }
   },
   "body_106002": {
@@ -87,7 +87,7 @@ export const textStyles = {
       "fontWeight": "{fontWeights.nanumsquareNeo2}",
       "fontSize": "{fontSizes.9}",
       "lineHeight": "{lineHeights.2}",
-      "letterSpacing": "{letterSpacings.2}"
+      "letterSpacing": "-0.02em"
     }
   },
   "caption_10700": {
@@ -96,7 +96,7 @@ export const textStyles = {
       "fontWeight": "{fontWeights.nanumsquareNeo0}",
       "fontSize": "{fontSizes.9}",
       "lineHeight": "{lineHeights.10}",
-      "letterSpacing": "{letterSpacings.0}"
+      "letterSpacing": "-0.01em"
     }
   },
   "caption_10400": {
@@ -105,7 +105,7 @@ export const textStyles = {
       "fontWeight": "{fontWeights.nanumsquareNeo2}",
       "fontSize": "{fontSizes.9}",
       "lineHeight": "{lineHeights.10}",
-      "letterSpacing": "{letterSpacings.0}"
+      "letterSpacing": "-0.01em"
     }
   },
   "caption_94001": {
@@ -114,7 +114,7 @@ export const textStyles = {
       "fontWeight": "{fontWeights.nanumsquareNeo2}",
       "fontSize": "{fontSizes.12}",
       "lineHeight": "{lineHeights.12}",
-      "letterSpacing": "{letterSpacings.0}"
+      "letterSpacing": "-0.01em"
     }
   },
   "caption_96001": {
@@ -123,7 +123,7 @@ export const textStyles = {
       "fontWeight": "{fontWeights.nanumsquareNeo1}",
       "fontSize": "{fontSizes.12}",
       "lineHeight": "{lineHeights.12}",
-      "letterSpacing": "{letterSpacings.0}"
+      "letterSpacing": "-0.01em"
     }
   },
   "caption_96004": {
@@ -132,7 +132,7 @@ export const textStyles = {
       "fontWeight": "{fontWeights.nanumsquareNeo1}",
       "fontSize": "{fontSizes.12}",
       "lineHeight": "{lineHeights.12}",
-      "letterSpacing": "{letterSpacings.14}"
+      "letterSpacing": "-0.04em"
     }
   }
 } as const;

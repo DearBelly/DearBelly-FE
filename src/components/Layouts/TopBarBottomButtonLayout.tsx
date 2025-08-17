@@ -32,6 +32,7 @@ export const TopBarBottomButtonLayout = ({
           >
             다음
           </Button>
+          <BackgroundShadow />
         </ButtonWrapper>
       </Container>
     </>
@@ -39,9 +40,8 @@ export const TopBarBottomButtonLayout = ({
 };
 
 const Container = styled.div`
-  background-color: #f9f7f7;
   min-width: 360px;
-  min-height: 100vh;
+  min-height: 100dvh;
   padding: 0 20px;
   display: flex;
   flex-direction: column;
@@ -53,13 +53,19 @@ const Container = styled.div`
 `;
 
 const ButtonWrapper = styled.div`
-  margin-bottom: 1.23vh;
+  z-index: 1;
   width: 100%;
   margin-top: auto;
-  padding-top: 1.23vh;
-  background: linear-gradient(180deg, rgba(249, 247, 247, 0) 6.13%, #F9F7F7 58.93%);
+  padding-top: 1.23dvh;
+  padding-bottom: 1.23dvh;
+  position: relative;
 `;
 
-
-
+// 우선 라이트모드 컬러로만 적용
+const BackgroundShadow = styled.div`
+  z-index: -1;
+  position: absolute;
+  inset: 0 calc(50% - 50dvw);
+  background: linear-gradient(180deg, rgba(249, 247, 247, 0.00) 6.13%, #F9F7F7 58.93%);
+`;
 

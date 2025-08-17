@@ -1,60 +1,47 @@
 "use client";
 
 import { useState } from "react";
-import { Box } from "@chakra-ui/react";
-import { ProfileStepLayout } from "@/components/Layouts/ProfileStepLayout";
+import { Box, Text } from "@chakra-ui/react";
+import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";
 import { InputBox } from "@/components/TextField/InputBox";
-import { Button } from "@/components/Button/Button";
-import { useGetBreakPointValue } from "@/context/BreakPointProvider";
 
 export default function FamilyStep() {
-  const isPc = useGetBreakPointValue();
-  const isMobile = !isPc;
-
   const [familyCode, setFamilyCode] = useState("");
   const [isFamilyCodeError, setIsFamilyCodeError] = useState(false);
 
-  /* 추후 서버와 연동하여 코드 인증 로직 수정 예정 */
-  const handleVerifyClick = () => {
-    if (familyCode !== "123456") {
-      setIsFamilyCodeError(true);
-    } else {
-      setIsFamilyCodeError(false);
-      console.log("가족 코드 인증 성공");
+  const verify = (code: string) => code === "123456";
+
+  const handleNextClick = () => {
+    const ok = verify(familyCode);
+    setIsFamilyCodeError(!ok);
+    if (ok) {
+      console.log("가족 코드 인증 성공 → 다음 단계로 진행");
     }
   };
 
-  const handleNextClick = () => {
-    console.log("다음");
-  };
+  return (
+    <TopBarBottomButtonLayout onNext={handleNextClick}>
+      <Box as="form" w="100%" mt="20px" onSubmit={(e) => {
+        e.preventDefault();
+        handleNextClick();
+      }}>
+        <Text textStyle="head_18700">가족 공유 코드를 입력해 주세요</Text>
+        <Text textStyle="body_147002" mt="4px">
+          코드를 입력하거나 다른 가족에게 전달해 주세요
+        </Text>
 
-  const content = (
-    <ProfileStepLayout
-      title="가족 공유 코드를 입력해 주세요"
-      description="코드를 입력하거나 다른 가족에게 전달해 주세요"
-      onNext={handleNextClick}
-    >
-      <InputBox
-        mode="default"
-        title="가족 공유 코드"
-        placeholder="코드를 입력해 주세요"
-        value={familyCode}
-        onChange={(e) => setFamilyCode(e.target.value)}
-        isError={isFamilyCodeError}
-        errorMessage="잘못된 인증 코드입니다"
-      />
-      <Box mt="12px">
-        <Button
-          type="secondary"
-          size="medium"
-          width="100%"
-          onClick={handleVerifyClick}
-        >
-          코드 인증하기
-        </Button>
+        <Box mt="5.66dvh">
+          <InputBox
+            mode="default"
+            title="가족 공유 코드"
+            placeholder="코드를 입력해 주세요"
+            value={familyCode}
+            onChange={(e) => setFamilyCode(e.target.value)}
+            isError={isFamilyCodeError}
+            errorMessage="잘못된 코드입니다."
+          />
+        </Box>
       </Box>
-    </ProfileStepLayout>
+    </TopBarBottomButtonLayout>
   );
-
-  return isMobile ? content : content;
 }

@@ -60,7 +60,7 @@ export default function SetupStep() {
         placeholder="닉네임을 입력해 주세요"
         value={nickname}
         onChange={handleNicknameChange}
-        message="공백 포함 최대 10자까지 설정할 수 있어요"
+        guideMessage="공백 포함 최대 10자까지 설정할 수 있어요"
         isError={isNicknameError}
         errorMessage="닉네임을 설정해주세요"
       />

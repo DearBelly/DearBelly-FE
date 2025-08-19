@@ -43,25 +43,19 @@ export const InputBox = ({
         <Text textStyle="caption_12700">{title}</Text>
 
         <Box display="flex" alignItems="center" gap="10px" mt="0.25rem">
-          <Input
-            type="text"
-            aria-label={title}
-            aria-invalid={isError || undefined}
-            aria-describedby={messageId}
-            data-invalid={isError ? "" : undefined}
-            value={value ?? ""}
-            onChange={onChange}
-            placeholder={placeholder}
-            variant="outline"
-            border="0"
-            boxShadow="none"
-            px="0"
-            bg="transparent"
-            _placeholder={{ color: "text.text4" }}
-            _focusVisible={{ boxShadow: "none", borderColor: "transparent" }}
-            _hover={{ borderColor: "transparent" }}
-            _invalid={{ color: "text.error" }}
-            onClick={onClick}
+        <Input
+          variant="outline"
+          textStyle="body_14400224"
+          css={{ "--input-border-width": "0px" }}
+          border="0"
+          boxShadow="none"
+          px="0"
+          bg="transparent"
+          _placeholder={{ color: "text.text4" }}
+          _focusVisible={{ boxShadow: "none", borderColor: "transparent", outline: "none", "--input-border-width": "0px" }}
+          _hover={{ borderColor: "transparent", "--input-border-width": "0px" }}
+          _invalid={{ color: "text.error" }}
+          onClick={onClick}
           />
           {icon}
         </Box>

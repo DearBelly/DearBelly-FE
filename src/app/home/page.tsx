@@ -12,7 +12,7 @@ export default function Home() {
   );
 
   return isMobile ? (
-    <MobileLayout topBarConfig={{
+    <MobileLayout ={{
       mode: 'logo',
       backgroundType: 'filled',
     }}>

@@ -26,7 +26,7 @@ export default function FamilyStep() {
         handleNextClick();
       }}>
         <Text textStyle="head_18700">가족 공유 코드를 입력해 주세요</Text>
-        <Text textStyle="body_147002" mt="4px">
+        <Text textStyle="body_14400224" mt="4px">
           코드를 입력하거나 다른 가족에게 전달해 주세요
         </Text>
 

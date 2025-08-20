@@ -97,7 +97,7 @@ const contentStyle = css`
 const toggleContainer = (isOn: boolean) => css`
   width: 2.5rem;  
   height: 1.375rem;
-  background: ${isOn ? '#FF6257' : '#ffa6a0'};
+  background: ${isOn ? '#FF6257' : '#FF746a'};
   border-radius: 9999px;
   cursor: pointer;
   display: flex;

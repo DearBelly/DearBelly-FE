@@ -1,0 +1,13 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+      "module": "CommonJS",
+      "moduleResolution": "Node",
+      "resolveJsonModule": true,
+      "esModuleInterop": true,
+      "noEmit": true,
+      "types": ["node"]
+    },
+    "include": ["src/styles/tokens/build-from-figma.ts"]
+  }
+  

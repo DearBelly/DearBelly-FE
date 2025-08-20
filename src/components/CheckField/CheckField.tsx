@@ -1,6 +1,6 @@
 import React from 'react';
 import { CheckSquareSolid } from "@mynaui/icons-react";
-import { Box, Text } from '@chakra-ui/react';
+import { Box, Text, useToken } from '@chakra-ui/react';
 
 interface CheckFieldProps {
   label: string;
@@ -9,7 +9,8 @@ interface CheckFieldProps {
 }
 
 export const CheckField = ({ label, onClick, checked = false }: CheckFieldProps) => {
-  const iconColor = checked ? "#FF6257" : "#D0D0D0"; 
+  const [primary, gray] = useToken("colors", ["iconPrimary", "icon.icon.4"])
+  const iconColor = checked ? primary : gray; 
 
   return (
     <Box
@@ -25,7 +26,7 @@ export const CheckField = ({ label, onClick, checked = false }: CheckFieldProps)
       <Box mt="2px">
         <CheckSquareSolid width="20px" height="20px" color={iconColor} />
       </Box>
-      <Text fontSize="14px" color="#000" fontFamily="NanumSquare Neo" fontWeight="400" lineHeight="24px" letterSpacing="-0.28px">
+      <Text textStyle="body_14700124">
         {label}
       </Text>
     </Box>

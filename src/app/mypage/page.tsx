@@ -1,7 +1,7 @@
 'use client';
 
 import React, {type ReactNode, useEffect } from 'react'
-import { Box, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { useGetBreakPointValue } from "../../context/BreakPointProvider";
 import { MobileLayout } from "../../components/Layouts/MobileLayout";
 import { ChevronRight } from "@mynaui/icons-react";
@@ -31,8 +31,8 @@ export default function Mypage () {
         <>
         <Box className='allContainer'>
             <Box className='profileHeaderContainer' mt='1rem'>
-                <img src='/images/Profile.svg'/>
-                <Box className='UserNameBox' display='flex' alignItems='center' gap='0.62rem' mt='0.69rem'>
+                <img src='/images/profile.svg'/>
+                <Box className='UserNameBox' display='flex' alignItems='center' gap='0.62rem' mt='0.69rem' onClick={() => router.push('mypage/profileChange')} style={{cursor: 'pointer'}}>
                     <UserName>가나다라마바</UserName>
                     <ChevronRight cursor='pointer'/>
                 </Box>
@@ -51,6 +51,7 @@ export default function Mypage () {
                 <ProfileContent content='북마크 모음' onClick={() => router.push('mypage/bookMark')}/>
             </Box>
 
+            {/* 라이트, 다크 설정 토글 버튼 */}
             <Box className='ThemeContainer' width='100%' padding='0.63rem 0.5rem' background='var(--BG-BG-3, #FFF)' borderRadius='0.75rem' mt='1.25rem'>
                 <ContentName>테마</ContentName>
                 <ProfileContent

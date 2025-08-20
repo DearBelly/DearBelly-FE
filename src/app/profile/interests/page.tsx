@@ -1,6 +1,6 @@
 "use client";
-import { Box, Separator } from "@chakra-ui/react";
-import { ProfileStepLayout } from "@/components/Layouts/ProfileStepLayout";
+import { Box, Separator, Text, useToken } from "@chakra-ui/react";
+import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";
 import { CheckField } from "@/components/CheckField/CheckField";
 import { useCategoryStore } from "@/store/useCategoryStore";
 import { useGetBreakPointValue } from "@/context/BreakPointProvider";
@@ -31,13 +31,20 @@ export default function InterestsStep() {
     // 추후 서버 전송 등 추가 로직 작성 가능
   };
 
+  const [borderColor] = useToken("colors", ["border.border"]);
+
   const content = (
-    <ProfileStepLayout
-      title="관심있는 정보 항목을 눌러주세요"
-      description="눌러주신 카테고리를 위주로 준비해드릴게요"
-      onNext={handleNextClick}
-    >
-      <Box>
+    <TopBarBottomButtonLayout onNext={handleNextClick}>
+      <Box as="form" w="100%" mt="20px" onSubmit={(e) => {
+        e.preventDefault();
+        handleNextClick();
+      }}>
+        <Text textStyle="head_18700">관심있는 정보 항목을 눌러주세요</Text>
+        <Text textStyle="body_14400224" mt="4px">
+          눌러주신 카테고리를 위주로 준비해드릴게요
+        </Text>
+      </Box>
+      <Box mt="5.66dvh">
         <CheckField
           label={CATEGORY_ALL}
           key="all-category"
@@ -46,7 +53,7 @@ export default function InterestsStep() {
         />
       </Box>
 
-      <Separator mt="16px" mb="16px" borderColor="#E8E7E7" height="1px" />
+      <Separator mt="16px" mb="16px" borderColor={borderColor} height="1px" />
 
       <Box display="flex" flexDirection="column" gap="12px">
         {CATEGORY_LIST.map((category) => (
@@ -58,7 +65,7 @@ export default function InterestsStep() {
           />
         ))}
       </Box>
-    </ProfileStepLayout>
+    </TopBarBottomButtonLayout>
   );
 
   return isMobile ? content : content;

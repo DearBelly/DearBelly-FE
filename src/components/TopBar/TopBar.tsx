@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import { ChevronLeft } from "@mynaui/icons-react";
 
 export interface TopBarProps {
-  mode?: 'logo' | 'back';
+  mode?: 'logo' | 'back' | 'whiteLogo';
   backgroundType?: 'filled' | 'transparent';
   title?: string;
   rightContent ?: React.ReactNode;
@@ -44,7 +44,12 @@ export const TopBar = ({
               <ChevronLeft css={css`width: 24px; height: 24px;`} />
               {searchContent}
             </div>
-          )}          
+          )}   
+          {mode === 'whiteLogo' && (
+            <div css={logoSectionStyle(logoColor)}>
+              <img src="/logos/logo_text.svg" alt="logo" width={102} height={20} color="#FFFFFF"/>
+            </div>
+          )}
           {rightContent && (
             <div style={{ marginLeft: "auto", display: "flex" }}>
               {rightContent}

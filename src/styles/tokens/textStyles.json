@@ -1,0 +1,203 @@
+{
+  "fileName": "[ Dear Belly ] Mobile",
+  "textStyles": [
+    {
+      "name": "Head/26_800_-1",
+      "fontFamily": "NanumSquare Neo",
+      "fontWeight": "ExtraBold",
+      "fontSize": 26,
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": -1
+      },
+      "textCase": "ORIGINAL"
+    },
+    {
+      "name": "Head/18_800_-1",
+      "fontFamily": "NanumSquare Neo",
+      "fontWeight": "ExtraBold",
+      "fontSize": 18,
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": -1
+      },
+      "textCase": "ORIGINAL"
+    },
+    {
+      "name": "Body/18_700_-2",
+      "fontFamily": "NanumSquare Neo",
+      "fontWeight": "Bold",
+      "fontSize": 18,
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": -2
+      },
+      "textCase": "ORIGINAL"
+    },
+    {
+      "name": "Body/16_700_-1",
+      "fontFamily": "NanumSquare Neo",
+      "fontWeight": "Bold",
+      "fontSize": 16,
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": -1
+      },
+      "textCase": "ORIGINAL"
+    },
+    {
+      "name": "Body/16_800_-1",
+      "fontFamily": "NanumSquare Neo",
+      "fontWeight": "ExtraBold",
+      "fontSize": 16,
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": -1
+      },
+      "textCase": "ORIGINAL"
+    },
+    {
+      "name": "Body/16_800_-2",
+      "fontFamily": "NanumSquare Neo",
+      "fontWeight": "ExtraBold",
+      "fontSize": 16,
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": -1
+      },
+      "textCase": "ORIGINAL"
+    },
+    {
+      "name": "Body/14_800_-1",
+      "fontFamily": "NanumSquare Neo",
+      "fontWeight": "ExtraBold",
+      "fontSize": 14,
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": -1
+      },
+      "textCase": "ORIGINAL"
+    },
+    {
+      "name": "Body/14_700_-1_20",
+      "fontFamily": "NanumSquare Neo",
+      "fontWeight": "Bold",
+      "fontSize": 14,
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": -1
+      },
+      "textCase": "ORIGINAL"
+    },
+    {
+      "name": "Body/14_700_-1_24",
+      "fontFamily": "NanumSquare Neo",
+      "fontWeight": "Bold",
+      "fontSize": 14,
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": -1
+      },
+      "textCase": "ORIGINAL"
+    },
+    {
+      "name": "Body/14_400_-2_24",
+      "fontFamily": "NanumSquare Neo",
+      "fontWeight": "Regular",
+      "fontSize": 14,
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": -2
+      },
+      "textCase": "ORIGINAL"
+    },
+    {
+      "name": "Body/14_400_-2_22",
+      "fontFamily": "NanumSquare Neo",
+      "fontWeight": "Regular",
+      "fontSize": 14,
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": -2
+      },
+      "textCase": "ORIGINAL"
+    },
+    {
+      "name": "Body/12_700",
+      "fontFamily": "NanumSquare Neo",
+      "fontWeight": "Bold",
+      "fontSize": 12,
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "textCase": "ORIGINAL"
+    },
+    {
+      "name": "Body/12_400_-2",
+      "fontFamily": "NanumSquare Neo",
+      "fontWeight": "Regular",
+      "fontSize": 12,
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": -2
+      },
+      "textCase": "ORIGINAL"
+    },
+    {
+      "name": "Caption/12_800",
+      "fontFamily": "NanumSquare Neo",
+      "fontWeight": "ExtraBold",
+      "fontSize": 12,
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": -1
+      },
+      "textCase": "ORIGINAL"
+    },
+    {
+      "name": "Caption/12_400",
+      "fontFamily": "NanumSquare Neo",
+      "fontWeight": "Regular",
+      "fontSize": 12,
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": -1
+      },
+      "textCase": "ORIGINAL"
+    },
+    {
+      "name": "Caption/10_400_-1",
+      "fontFamily": "NanumSquare Neo",
+      "fontWeight": "Regular",
+      "fontSize": 10,
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": -1
+      },
+      "textCase": "ORIGINAL"
+    },
+    {
+      "name": "Caption/10_700_-1",
+      "fontFamily": "NanumSquare Neo",
+      "fontWeight": "Bold",
+      "fontSize": 10,
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": -1
+      },
+      "textCase": "ORIGINAL"
+    },
+    {
+      "name": "Caption/9_700_-4",
+      "fontFamily": "NanumSquare Neo",
+      "fontWeight": "Bold",
+      "fontSize": 9,
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": -4
+      },
+      "textCase": "ORIGINAL"
+    }
+  ]
+}

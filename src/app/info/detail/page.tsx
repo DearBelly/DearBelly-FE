@@ -35,9 +35,9 @@ const testData : string = `
 본인과 아기의 건강을 최우선으로 하는 선택이 최선일 것입니다.\n\n
 `
 
-const TopRightIcons = () => (
+const TopRightIcons = ({ onKakaoShare }: { onKakaoShare: () => void }) => (
     <div style={{display:"flex", gap: 16}}>
-      <ExternalLink />
+      <ExternalLink onClick={onKakaoShare} cursor='pointer'/>
       <Bookmark />
     </div>
 );
@@ -45,6 +45,34 @@ const TopRightIcons = () => (
 const InformationDetail = () => {
     const isPc = useGetBreakPointValue();
     const isMobile = !isPc;
+
+    // SDK 초기화
+    useEffect(() => {
+        if (typeof window !== "undefined" && window.Kakao && !window.Kakao.isInitialized()) {
+          window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY);
+        }
+      }, []);
+
+    // 공유하기 함수
+    const handleShare = () => {
+        if (!window.Kakao) {
+          alert("카카오 SDK가 로드되지 않음");
+          return;
+        }
+        if (!window.Kakao.Share) {
+          alert("카카오 Share 모듈이 준비되지 않음");
+          return;
+        }
+      
+        window.Kakao.Share.sendDefault({
+          objectType: "text",
+          text: `깊이 잠들고 싶은 당신에게 추천하는 5가지 방법`,
+          link: {
+            mobileWebUrl: "http://localhost:3000/info/detail",
+            webUrl: "http://localhost:3000/info/detail",
+          },
+        });
+    };
 
     // 본문 데이터 '\n\n' 문단 띄우기, '** ~ **' 강조 (받은 데이터 글 양식 설정) 
     const parseText = (text: string) => {
@@ -101,7 +129,7 @@ const InformationDetail = () => {
                 width={800} 
                 height={500}
                 style={{
-                    width: '100%',
+                    width: '100vw',
                     height: 'auto',
                     objectFit: 'contain',
                 }}
@@ -149,7 +177,7 @@ const InformationDetail = () => {
         <MobileLayout 
             topbarMode='back'
             topbarBackground={topbarBG}
-            topbarContent={<TopRightIcons/>} 
+            topbarContent={<TopRightIcons onKakaoShare={handleShare} />}
             hasTopPadding={false}
             showButtomNav={false}
         >
@@ -159,7 +187,7 @@ const InformationDetail = () => {
         <MobileLayout 
             topbarMode='back'
             topbarBackground={topbarBG}
-            topbarContent={<TopRightIcons/>} 
+            topbarContent={<TopRightIcons onKakaoShare={handleShare} />}
             hasTopPadding={false}
             showButtomNav={false}
         >
@@ -170,24 +198,24 @@ const InformationDetail = () => {
 
 const ImageWrapper = ({ children }: { children: React.ReactNode }) => (
     <Box
-        position="relative" 
-        width='100%'
-        height='auto'
+      position="relative"
+      width="100vw"
+      margin="0 -1.5rem"   
     >
-        <Box position="relative" zIndex={1}>
-            {children}
-        </Box>
-        <Box
-            position="absolute"
-            top="0"
-            left="0"
-            width="100%"
-            height= '5.5rem'
-            zIndex={1}
-            background="linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0))"
-        />
+      <Box position="relative" zIndex={1}>
+        {children}
+      </Box>
+      <Box
+        position="absolute"
+        top="0"
+        left="0"
+        width="100%"
+        height="5.5rem"
+        zIndex={1}
+        background="linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0))"
+      />
     </Box>
-)
+  );
 
 
 const TextTitle = ({ children }: { children: React.ReactNode }) => (

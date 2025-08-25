@@ -9,7 +9,7 @@ export default function FamilyCodeShare() {
     const familyCode='14X5TR27YJ';
     const name='김서진';
 
-    // SDK 초기화화
+    // SDK 초기화
     useEffect(() => {
         if (typeof window !== "undefined" && window.Kakao && !window.Kakao.isInitialized()) {
           window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY);

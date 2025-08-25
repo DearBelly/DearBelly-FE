@@ -40,7 +40,7 @@ export default function Mypage () {
 
             <Box className='familyContainer' width='100%' padding='0.63rem 0.5rem' background='var(--BG-BG-3, #FFF)' borderRadius='0.75rem' mt='1.88rem'>
                 <ContentName>가족</ContentName>
-                <ProfileContent content='가족 코드' onClick={() => router.push('mypage/familyCode')}/>
+                <ProfileContent content='가족 코드' onClick={() => router.push('mypage/familyCodeEdit')}/>
                 <ProfileContent content='가족 정보' onClick={() => router.push('mypage/familyInventory')}/>
                 <ProfileContent content='태아 정보' onClick={() => router.push('mypage/babyInfo')}/>
             </Box>
@@ -78,7 +78,9 @@ export default function Mypage () {
           {content_mobile}
         </MobileLayout>
     ) : (
-        '웹'
+        <MobileLayout>
+          {content_mobile}
+        </MobileLayout>
     );
 }
 

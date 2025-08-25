@@ -1,5 +1,5 @@
 "use client";
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Separator, useToken } from "@chakra-ui/react";
 import { InputBox } from "@/components/TextField/InputBox";
 import Image from "next/image";
 import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";
@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useGetBreakPointValue } from "@/context/BreakPointProvider";
 import { Toast } from "@/components/Toast/Toast";
 
-export default function ProfileChange() {
+export default function ProfileChange_p() {
   const name = '최푸른';
   const isPc = useGetBreakPointValue();
   const isMobile = !isPc;
@@ -18,6 +18,7 @@ export default function ProfileChange() {
   const [showToast, setShowToast] = useState(false);
   // 토스트 버튼이 띄워지고 나면 버튼도 사라지고 이를 계속 유지해야 함
   const [hideButton, setHideButton] = useState(false);
+  const [borderColor] = useToken("colors", ["border.border"]);
 
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -75,6 +76,8 @@ export default function ProfileChange() {
         errorMessage="닉네임을 설정해주세요"
         disabled={hideButton}
       />
+
+      <Separator mt="1rem" mb="1rem" borderColor={borderColor} height="1px" />
     </TopBarBottomButtonLayout>
   );
 

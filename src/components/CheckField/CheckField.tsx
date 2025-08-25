@@ -9,8 +9,12 @@ interface CheckFieldProps {
 }
 
 export const CheckField = ({ label, onClick, checked = false }: CheckFieldProps) => {
-  const [primary, gray] = useToken("colors", ["iconPrimary", "icon.icon.4"])
-  const iconColor = checked ? primary : gray; 
+  // 적용이 안 되길래 임시적으로 바꿈 (나중에 필요하면 주석 없애서 사용)
+  // const [primary, gray] = useToken("colors", ["iconPrimary", "icon.icon.4"])
+  // const iconColor = checked ? primary : gray; 
+
+   // checked 상태에 따라 색상 지정
+   const iconColor = checked ? 'var(--Icon-primary, #FF6257)' : 'var(--Icon-4, #D0D0D0)';
 
   return (
     <Box

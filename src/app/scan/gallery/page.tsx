@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Box } from '@chakra-ui/react';
 import { useGetBreakPointValue } from '../../../context/BreakPointProvider';
 import { PhotoGuideModal } from '../../../components/ComputerVision/Photo/PhotoGuideModal';
@@ -12,6 +12,15 @@ export default function Gallery() {
   const isPc = useGetBreakPointValue();
   const isMobile = !isPc;
   const router = useRouter();
+
+  // 라이트 모드인지, 다크 모드인지 판별
+  const [isLight, setIsLight] = useState(true);
+
+  useEffect(() => {
+    const lightMode_save = localStorage.getItem('lightMode');
+    const mode = lightMode_save === null ? true : lightMode_save === 'true';
+    setIsLight(mode);
+  }, []);
 
   const handleBackClick = () => {
     router.push('/scan');
@@ -48,7 +57,7 @@ export default function Gallery() {
         accept="image/*"
         onImageUpload={handleImageUpload}
         onCrop={handleCrop}
-        initialImage="/images/med.svg" 
+        initialImage={isLight ? "/images/computerVision/camera_light.png" : "/images/computerVision/camera_dark.png"}
         title="의약품 촬영 가이드"     
         content={
           <>

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Box } from '@chakra-ui/react';
 import { useGetBreakPointValue } from '../../../context/BreakPointProvider';
 import { PhotoGuideModal } from '../../../components/ComputerVision/Photo/PhotoGuideModal';
@@ -12,15 +12,27 @@ export default function Camera() {
   const isPc = useGetBreakPointValue();
   const isMobile = !isPc;
   const router = useRouter();
+
+  // 라이트 모드인지, 다크 모드인지 판별
+  const [isLight, setIsLight] = useState(true);
+
+  useEffect(() => {
+    const lightMode_save = localStorage.getItem('lightMode');
+    const mode = lightMode_save === null ? true : lightMode_save === 'true';
+    setIsLight(mode);
+  }, []);
+
   
   const handleBackClick = () => {
     router.push('/scan');
   };
 
+  // 이미지 업로드 함수
   const handleImageUpload = (file: File) => {
     console.log('촬영된 이미지:', file);
   };
 
+  // 크롭 함수
   const handleCrop = (dataUrl: string | null) => {
     if (!dataUrl) {
       alert('이미지를 먼저 업로드하고, 가이드 안에 맞춰주세요.');
@@ -50,7 +62,7 @@ export default function Camera() {
         onImageUpload={handleImageUpload}
          // confirm 버튼 누르면 여기로 데이터 URL이 옴
         onCrop={handleCrop}           
-        initialImage="/images/med.svg" 
+        initialImage={isLight ? "/images/computerVision/camera_light.png" : "/images/computerVision/camera_dark.png"}
         title="의약품 촬영 가이드"     
         content={
           <>

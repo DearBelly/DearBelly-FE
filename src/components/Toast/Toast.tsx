@@ -1,20 +1,30 @@
 import React from 'react';
 import { FunnyCircleSolid } from "@mynaui/icons-react";
+import { motion } from "framer-motion";
 
 export const Toast = () => (
-  <div style={{
-    display: 'flex',
-    width: 'calc(100vw - 2.5rem)',
-    height: '3rem',
-    flexDirection: 'row',
-    alignItems: 'center',        
-    gap: '0.5rem',
-    borderRadius: '6.1875rem',
-    background: 'var(--Toast-Toast-BG, rgba(0, 0, 0, 0.50))',
-    backdropFilter: 'blur(5px)',
-    paddingLeft: '0.5rem',
-    margin: '0 1.25rem'
-  }}>
+  <motion.div
+    initial={{ opacity: 0, y: 30 }}  
+    animate={{ opacity: 1, y: 0 }}    
+    exit={{ opacity: 0, y: 30 }}     
+    transition={{
+      duration: 0.4,
+      ease: [0.25, 0.1, 0.25, 1]    
+    }}
+    style={{
+      display: 'flex',
+      width: 'calc(100vw - 2.5rem)',
+      height: '3rem',
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: '0.5rem',
+      borderRadius: '6.1875rem',
+      background: 'var(--Toast-Toast-BG, rgba(0, 0, 0, 0.50))',
+      backdropFilter: 'blur(5px)',
+      paddingLeft: '0.5rem',
+      margin: '0 1.25rem',
+    }}
+  >
     <div 
         className='iconBox' 
         style={{
@@ -43,6 +53,6 @@ export const Toast = () => (
     >
         변경이 완료되었습니다
     </span>
-  </div>
+  </motion.div>
 );
 

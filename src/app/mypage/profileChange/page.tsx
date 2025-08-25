@@ -51,7 +51,7 @@ export default function ProfileChange() {
     >
       {/* 토스트 띄우기 */}
       {showToast && (
-        <Box position="fixed" top="5.25rem" left="50%" transform="translateX(-50%)" zIndex={9999}>
+        <Box position="fixed" top="3rem" left="50%" transform="translateX(-50%)" zIndex={9999}>
           <Toast/>
         </Box>
       )}

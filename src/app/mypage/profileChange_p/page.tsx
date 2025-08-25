@@ -1,11 +1,12 @@
 "use client";
-import { Box, Separator, useToken } from "@chakra-ui/react";
+import { Box, Separator, useToken, Text } from "@chakra-ui/react";
 import { InputBox } from "@/components/TextField/InputBox";
 import Image from "next/image";
 import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";
 import { useState } from "react";
 import { useGetBreakPointValue } from "@/context/BreakPointProvider";
 import { Toast } from "@/components/Toast/Toast";
+import { InputBoxCalendar } from '@/components/TextField/InputBoxCalendar';
 
 export default function ProfileChange_p() {
   const name = '최푸른';
@@ -65,19 +66,43 @@ export default function ProfileChange_p() {
         />
       </Box>
 
-      <InputBox
-        mode="default"
-        title="닉네임"
-        placeholder={name}
-        value={nickname}
-        onChange={handleNicknameChange}
-        guideMessage="공백 포함 최대 10자까지 설정할 수 있어요"
-        isError={isNicknameError}
-        errorMessage="닉네임을 설정해주세요"
-        disabled={hideButton}
-      />
+      <Box 
+        className="wrapper"
+        display="flex" 
+        flexDirection="column" 
+        padding="0.75rem 0.5rem"
+        borderRadius= '0.75rem'
+        background= 'var(--Background-3, #FFF)'
+      >
+        <InputBox
+          mode="transparent"
+          title="닉네임"
+          placeholder={name}
+          value={nickname}
+          onChange={handleNicknameChange}
+          isError={isNicknameError}
+          errorMessage="닉네임을 설정해주세요"
+          disabled={hideButton}
+        />
 
-      <Separator mt="1rem" mb="1rem" borderColor={borderColor} height="1px" />
+        <Separator mb='1rem' borderColor={borderColor} height="1px" />
+
+        <InputBoxCalendar
+          mode="transparent"
+          title="마지막 생리 시작일"
+          placeholder="0000.00.00."
+          disabled={hideButton}
+        />
+      </Box>
+
+      <Text
+          textStyle="caption_12400"
+          mt="0.8rem"
+          ml="1rem"
+          color="text.text3"
+        >
+        공백 포함 최대 10자까지 설정할 수 있어요.
+      </Text>
     </TopBarBottomButtonLayout>
   );
 

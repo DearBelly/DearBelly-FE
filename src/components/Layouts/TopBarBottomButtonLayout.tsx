@@ -8,26 +8,33 @@ interface TopBarBottomButtonLayoutProps {
   children: React.ReactNode;
   onNext?: () => void;
   nextDisabled?: boolean;
+<<<<<<< HEAD
   // 바텀버튼 안의 문구가 페이지마다 다르기 때문에 props로 받음
   nextLabel?: string;
   // 프로필 변경에서 버튼을 숨길 수 있는 옵션 추가함
   hideButton?: boolean;
   // 탑바 타이틀 줄 수 있게 변경
   topbarTitle?: string;
+=======
+>>>>>>> 0ce65ae2686c422d4d9eb170518ca43462541ddb
 }
 
 export const TopBarBottomButtonLayout = ({
   children,
   onNext,
   nextDisabled = true,
+<<<<<<< HEAD
   // 기본값은 '다음'으로 설정
   nextLabel='다음', 
   hideButton=false,
   topbarTitle,
+=======
+>>>>>>> 0ce65ae2686c422d4d9eb170518ca43462541ddb
 }: TopBarBottomButtonLayoutProps) => {
 
   return (
     <>
+<<<<<<< HEAD
       <TopBar mode="back" backgroundType="filled" title={topbarTitle}/>
       <Container>
         {children}
@@ -47,6 +54,24 @@ export const TopBarBottomButtonLayout = ({
             <BackgroundShadow />
           </ButtonWrapper>
         )}
+=======
+      <TopBar mode="back" backgroundType="filled" />
+      <Container>
+        {children}
+        <ButtonWrapper>
+          <Button
+            type="primary"
+            size="large"
+            width="100%"
+            onClick={onNext}
+            isDisabled={nextDisabled}
+            aria-label="다음"
+          >
+            다음
+          </Button>
+          <BackgroundShadow />
+        </ButtonWrapper>
+>>>>>>> 0ce65ae2686c422d4d9eb170518ca43462541ddb
       </Container>
     </>
   );

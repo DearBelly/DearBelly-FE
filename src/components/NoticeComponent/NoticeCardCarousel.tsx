@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Slider from "react-slick";
-// 이거 없애면 안 됩니다!!!!
+// 이거 이 위치에 넣어주세요!!
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Box } from "@chakra-ui/react";

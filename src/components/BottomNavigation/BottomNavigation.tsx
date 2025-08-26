@@ -27,10 +27,10 @@ const containerStyle = css`
   left: 0;
   z-index: 1000;
   width: 100%;
-  background: #fff;
-  border-top: 0.5px solid #e8e7e7;
-  border-right: 0.5px solid #e8e7e7;
-  border-left: 0.5px solid #e8e7e7;
+  background: var(--BG-BG-3, #FFF);
+  border-top: 0.5px solid var(--Border-Border, #E8E7E7);
+  border-right: 0.5px solid var(--Border-Border, #E8E7E7);
+  border-left: 0.5px solid var(--Border-Border, #E8E7E7);
   border-radius: 1.25rem 1.25rem 0 0;
   padding-bottom: 10px;
 `;

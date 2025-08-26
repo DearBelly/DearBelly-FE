@@ -10,7 +10,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "tokens:generate": "ts-node -P tsconfig.scripts.json \"src/styles/tokens/build-from-figma.ts\"",
-    "typegen": "chakra-cli typegen src/theme/system.ts",
+    "typegen": "npx @chakra-ui/cli typegen src/theme/system.ts",
     "postinstall": "npm run typegen"
   },
   "dependencies": {
@@ -21,11 +21,13 @@
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^7.1.2",
     "@mynaui/icons-react": "^0.3.9",
+    "date-fns": "4.1.0",
     "framer-motion": "^10.18.0",
     "motion": "12.23.9",
     "next": "15.3.2",
     "next-themes": "^0.4.6",
     "react": "18.3.1",
+    "react-datepicker": "8.7.0",
     "react-dom": "18.3.1",
     "react-icons": "^5.5.0",
     "react-indiana-drag-scroll": "2.2.1",
@@ -35,7 +37,7 @@
     "zustand": "^5.0.7"
   },
   "devDependencies": {
-    "@chakra-ui/cli": "^3.24.2",
+    "@chakra-ui/cli": "3.24.2",
     "@chromatic-com/storybook": "^4.0.1",
     "@eslint/eslintrc": "^3",
     "@storybook/addon-docs": "^9.0.16",

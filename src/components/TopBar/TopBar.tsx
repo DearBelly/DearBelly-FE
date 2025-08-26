@@ -77,7 +77,7 @@ const transparentStyle = css`
 `;
 
 const filledStyle = css`
-  background-color: #F9F7F7;
+  background-color: var(--bg);
 `;
 
 const barStyle = css`

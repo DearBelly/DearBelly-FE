@@ -1,7 +1,7 @@
 "use client";
 import { Box, Text } from "@chakra-ui/react";
 import { InputBox } from "@/components/TextField/InputBox";
-import { Maternity } from "@/components/UserInfoForm/Maternity";
+import Maternity from "@/components/UserInfoForm/Maternity";
 import Image from "next/image";
 import { ProfileStepLayout } from "@/components/Layouts/ProfileStepLayout";
 import { useState } from "react";

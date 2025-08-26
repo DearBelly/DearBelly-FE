@@ -14,6 +14,8 @@ export interface InputBoxProps {
   onClick?: () => void;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  // 입력값 변경 못 하도록 막음
+  disabled?: boolean;
 }
 
 export const InputBox = ({
@@ -27,6 +29,7 @@ export const InputBox = ({
   onClick,
   value,
   onChange,
+  disabled=false,
 }: InputBoxProps) => {
   const displayMessage = isError ? errorMessage : guideMessage;
   const messageId = displayMessage ? `input-msg-${title}` : undefined;
@@ -51,11 +54,15 @@ export const InputBox = ({
           boxShadow="none"
           px="0"
           bg="transparent"
+          placeholder={placeholder} 
+          value={value}             
+          onChange={onChange}   
           _placeholder={{ color: "text.text4" }}
           _focusVisible={{ boxShadow: "none", borderColor: "transparent", outline: "none", "--input-border-width": "0px" }}
           _hover={{ borderColor: "transparent", "--input-border-width": "0px" }}
           _invalid={{ color: "text.error" }}
           onClick={onClick}
+          disabled={disabled}
           />
           {icon}
         </Box>

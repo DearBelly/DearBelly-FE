@@ -50,7 +50,7 @@ export const ProfileStepLayout = ({
 };
 
 const Container = styled.div`
-  background-color: #f9f7f7;
+  background-color: var(--bg);
   min-width: 360px;
   min-height: 100vh;
   padding: 0 20px;
@@ -69,7 +69,7 @@ const TitleWrapper = styled.div`
 `;
 
 const Title = styled.h1`
-  color: #202020;
+  color: var(--Text-Text-1);
   font-family: "NanumSquare Neo";
   font-size: 18px;
   font-weight: 800;
@@ -78,7 +78,7 @@ const Title = styled.h1`
 `;
 
 const Description = styled.p`
-  color: #202020;
+  color: var(--Text-Text-1);
   font-family: "NanumSquare Neo";
   font-size: 12px;
   font-weight: 400;

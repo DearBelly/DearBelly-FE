@@ -83,21 +83,21 @@ export default function CategoryEdit() {
       <Separator mt="1rem" mb="1rem" borderColor={borderColor} height="1px" />
 
       <Box display="flex" flexDirection="column" gap="12px">
-      {CATEGORY_LIST.map((category) => (
-            <CheckField
-            key={category.id}
-            label={category.label}
-            checked={checkedIds.includes(category.id)}
-            onClick={() => {
-                toggle(category.id);
-                console.log(
-                checkedIds.includes(category.id)
-                    ? `선택 해제됨: ${category.label}`
-                    : `선택됨: ${category.label}`
-                );
-            }}
-            />
-        ))}
+        {CATEGORY_LIST.map((category) => (
+              <CheckField
+                key={category.id}
+                label={category.label}
+                checked={checkedIds.includes(category.id)}
+                onClick={() => {
+                    toggle(category.id);
+                    console.log(
+                    checkedIds.includes(category.id)
+                        ? `선택 해제됨: ${category.label}`
+                        : `선택됨: ${category.label}`
+                    );
+                }}
+              />
+          ))}
       </Box>
     </Box>
     </TopBarBottomButtonLayout>

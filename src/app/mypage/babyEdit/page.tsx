@@ -68,16 +68,16 @@ export default function BabyEdit() {
                     <Text textStyle="caption_12700" mb="0.25rem">
                         성별
                     </Text>
-                    <div style={{ display: 'flex', gap: '4vw' }}>
+                    <Box gap='4vw' display='flex'>
                         {options.map((label, idx) => (
-                        <RadioField
-                            key={idx}
-                            label={label}
-                            checked={selected === idx}
-                            onClick={() => setSelected(idx)}
-                        />
+                            <RadioField
+                                key={idx}
+                                label={label}
+                                checked={selected === idx}
+                                onClick={() => setSelected(idx)}
+                            />
                         ))}
-                    </div>
+                    </Box>
                 </Box>
             </Box>
         </TopBarBottomButtonLayout>

@@ -8,7 +8,7 @@ import { ProfileList } from '@/components/ProfileList/ProfileList';
 import { ProfileListOutput } from '@/components/ProfileList/ProfileListOutput';
 import { testData } from '../testData';
 
-const InfoInventory = () => {
+export default function familyInventory() {
     const isPc = useGetBreakPointValue();
     const isMobile = !isPc;
 
@@ -70,5 +70,3 @@ const InfoInventory = () => {
         </MobileLayout>
       );
     }
-
-export default InfoInventory

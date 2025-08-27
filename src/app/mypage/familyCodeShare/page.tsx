@@ -39,10 +39,10 @@ export default function FamilyCodeShare() {
 
     return (
         <TopBarBottomButtonLayout 
-        nextLabel="가족 코드 공유하기"
-        topbarTitle='가족 공유 코드'
-        nextDisabled={false} 
-        onNext={handleShare}
+          nextLabel="가족 코드 공유하기"
+          topbarTitle='가족 공유 코드'
+          nextDisabled={false} 
+          onNext={handleShare}
         >
             <Box mt="2.5vh">
             <InputBox

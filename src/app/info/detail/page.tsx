@@ -65,12 +65,26 @@ const InformationDetail = () => {
         }
       
         window.Kakao.Share.sendDefault({
-          objectType: "text",
-          text: `깊이 잠들고 싶은 당신에게 추천하는 5가지 방법`,
-          link: {
-            mobileWebUrl: "http://localhost:3000/info/detail",
-            webUrl: "http://localhost:3000/info/detail",
-          },
+            objectType: "feed",
+            content: {
+              title: "깊이 잠들고 싶은 당신에게 추천하는 5가지 방법",
+              description: "편안한 수면을 위한 꿀팁 모음",
+            //   "https://myapp.vercel.app/images/shareImage.png"
+              imageUrl: "http://localhost:3000/images/shareImage.png",
+              link: {
+                mobileWebUrl: "http://localhost:3000/info/detail",
+                webUrl: "http://localhost:3000/info/detail",
+              },
+            },
+            buttons: [
+              {
+                title: "자세히 보기",
+                link: {
+                  mobileWebUrl: "http://localhost:3000/info/detail",
+                  webUrl: "http://localhost:3000/info/detail",
+                },
+              },
+            ],
         });
     };
 

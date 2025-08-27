@@ -1,5 +1,5 @@
 "use client";
-import { Box, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { InputBox } from "@/components/TextField/InputBox";
 import Image from "next/image";
 import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";

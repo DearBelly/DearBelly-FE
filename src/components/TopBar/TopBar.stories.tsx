@@ -18,8 +18,6 @@ export const LogoOnly: Story = {
   args: {
     mode: "logo",
     backgroundType: "filled",
-    firstIcon: <Bell />,
-    secondIcon: <Bell />,
   },
 };
 
@@ -28,7 +26,6 @@ export const BackOnly: Story = {
     mode: "back",
     title: "뒤로가기 전용",
     backgroundType: "filled",
-    firstIcon: <Bell />,
   },
 };
 

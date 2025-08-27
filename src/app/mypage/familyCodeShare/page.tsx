@@ -31,8 +31,8 @@ export default function FamilyCodeShare() {
           objectType: "text",
           text: `${name}님의 가족 공유 코드: ${familyCode}`,
           link: {
-            mobileWebUrl: "http://localhost:3000/mypage/familyCodeShare",
-            webUrl: "http://localhost:3000/mypage/familyCodeShare",
+            mobileWebUrl: "http://localhost:3000",
+            webUrl: "http://localhost:3000",
           },
         });
     };

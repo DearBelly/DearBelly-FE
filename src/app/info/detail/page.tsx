@@ -35,10 +35,18 @@ const testData : string = `
 본인과 아기의 건강을 최우선으로 하는 선택이 최선일 것입니다.\n\n
 `
 
-const TopRightIcons = ({ onKakaoShare }: { onKakaoShare: () => void }) => (
+const TopRightIcons = ({ onKakaoShare, isBookMark, onToggleBookmark }: { 
+  onKakaoShare: () => void;
+  isBookMark: boolean;
+  onToggleBookmark: () => void;
+}) => (
     <div style={{display:"flex", gap: 16}}>
       <ExternalLink onClick={onKakaoShare} cursor='pointer'/>
-      <Bookmark />
+      {isBookMark ? (
+         <BookmarkSolid onClick={onToggleBookmark} cursor="pointer" />
+      ): (
+         <Bookmark onClick={onToggleBookmark} cursor="pointer" />
+      )}
     </div>
 );
 
@@ -132,6 +140,13 @@ const InformationDetail = () => {
         };
     }, []);
 
+    // 북마크가 되어 있는지 아닌지 판별
+    const [isBookMark, setIsBookMark] = useState(false);
+
+    // 북마크 토글 함수
+    const handleToggleBookmark = () => {
+      setIsBookMark((prev) => !prev);
+    };
 
     const content_mobile = (
         <Box className='wrapper1' display="flex" flexDirection="column" alignItems="center">
@@ -187,27 +202,23 @@ const InformationDetail = () => {
         </Box>
     )
     
-    return isMobile ? (
-        <MobileLayout 
-            topbarMode='back'
-            topbarBackground={topbarBG}
-            topbarContent={<TopRightIcons onKakaoShare={handleShare} />}
-            hasTopPadding={false}
-            showButtomNav={false}
-        >
-            {content_mobile}
-        </MobileLayout>
-    ) : (
-        <MobileLayout 
-            topbarMode='back'
-            topbarBackground={topbarBG}
-            topbarContent={<TopRightIcons onKakaoShare={handleShare} />}
-            hasTopPadding={false}
-            showButtomNav={false}
-        >
-            {content_mobile}
-        </MobileLayout>
-    )
+    return (
+      <MobileLayout 
+          topbarMode='back'
+          topbarBackground={topbarBG}
+          topbarContent={
+            <TopRightIcons 
+              onKakaoShare={handleShare}
+              isBookMark={isBookMark}
+              onToggleBookmark={handleToggleBookmark}
+            />
+          }
+          hasTopPadding={false}
+          showButtomNav={false}
+      >
+          {content_mobile}
+      </MobileLayout>
+    );
 }
 
 const ImageWrapper = ({ children }: { children: React.ReactNode }) => (

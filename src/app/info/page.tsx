@@ -45,7 +45,7 @@ export default function Information() {
   },[]);
 
   const content_mobile = (
-    <Box className='wrapper' display="flex" flexDirection="column" alignItems="center" margin='0 5.56vw'>
+    <Box className='wrapper' display="flex" flexDirection="column" alignItems="center" margin='1rem 5.56vw'>
       {/* 히어로 카드 영역 */}
       <Box className='hero_card'>
         <HeroCard {...randomHeroCard} />

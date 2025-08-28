@@ -3,35 +3,38 @@ import React, {useState} from 'react';
 import styled from 'styled-components';
 import { Search } from "@mynaui/icons-react";
 export interface SearchBoxProps {
+    value: string;
+    onChange: (value: string) => void;  
     onSearch?: (value: string) => void;
     placeholder?: string;
 }
 
-export const SearchBox = ({onSearch, placeholder = "검색어를 입력해주세요"} : SearchBoxProps) => {
-    const [inputValue, setInputValue] = useState("");
-
+export const SearchBox = ({
+    value,
+    onChange,
+    onSearch,
+    placeholder = "검색어를 입력해주세요",
+  }: SearchBoxProps) => {
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setInputValue(e.target.value);
+      onChange(e.target.value);
     };
-
+  
     const handleClick = () => {
-        if(inputValue.trim() !== "") {
-            onSearch?.(inputValue.trim());
-            setInputValue("");
-        }
+      if (value.trim() !== "") {
+        onSearch?.(value.trim());
+      }
     };
 
     //  enter로도 인식되도록 추가
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter' && inputValue.trim() !== ''){
-            onSearch?.(inputValue.trim());
-            setInputValue('');
+        if (e.key === 'Enter' && value.trim() !== ''){
+            onSearch?.(value.trim());
         }
     };
     
     return (
         <SearchBoxWrapper>
-            <InputBox placeholder={placeholder} value={inputValue} onChange={handleInputChange} onKeyDown={handleKeyDown}/>
+            <InputBox placeholder={placeholder} value={value} onChange={handleInputChange} onKeyDown={handleKeyDown}/>
             <SearchButton onClick={handleClick}>
                 <Search width={24} height={24} />
             </SearchButton>
@@ -42,7 +45,7 @@ export const SearchBox = ({onSearch, placeholder = "검색어를 입력해주세
 const SearchBoxWrapper = styled.div`
     position: relative;
     display: flex;
-    width: 100%;
+    width: calc(100vw - 5rem);
     height: 2rem;
     padding: 0.25rem 0.5rem 0.25rem 0.75rem;
     justify-content: space-between;

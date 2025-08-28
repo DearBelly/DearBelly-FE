@@ -23,7 +23,7 @@ export const SearchInventory = ({ onClick, description }: SearchInventoryProps) 
 
 const Wrapper = styled.div`
     position: relative;
-    width: 20.9rem;
+    width: calc(100vw - 2.5rem);
     height: 1.5rem;
     display: flex;
     align-items: center;

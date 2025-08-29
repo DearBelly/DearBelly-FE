@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import React, {
   useState,
   useRef,
@@ -6,7 +5,13 @@ import React, {
   forwardRef,
   useImperativeHandle,
 } from 'react';
-import { css } from '@emotion/react';
+import {
+  Box,
+  Input,
+  Text,
+  Heading,
+  Image as ChakraImage,  
+} from '@chakra-ui/react';
 
 // 카메라 페이지에서는 카메라 촬영을, 갤러리 페이지에서는 사진 업로드 할 수 있도록 분리함 
 type SourceMode = 'camera' | 'gallery';
@@ -391,15 +396,58 @@ export const PhotoGuideModal = forwardRef<{ cropToGuide: () => Promise<string | 
     });
 
   return (
-    <div css={wrapper}>
-      <div css={modalWrapper}>
-        <div css={contentWrapper}>
-          <h3 css={titleStyle}>{title}</h3>
+    <>
+    {/* wrapper */}
+    <Box
+      w="100%"
+      h="100%"
+      px="2.81rem"
+      boxSizing="border-box"
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+    >
+      {/* modalWrapper */}
+      <Box
+        position="relative"
+        borderRadius="1.25rem"
+        p="1.75rem 1rem 1rem 1rem"
+        bg="var(--BG-BG-3, #fff)"
+        w="100%"
+        h="100%"
+        boxSizing="content-box"
+        alignItems="flex-start"
+      >
+        {/* contentWrapper */}
+        <Box px="3.22rem" w="100%" h="100%">
+          <Heading
+            as="h3"
+            fontFamily='"NanumSquare Neo"'
+            fontSize="0.875rem"
+            color="var(--Text-Text-1, #202020)"
+            textAlign="center"
+            fontWeight="600"
+            lineHeight="1.125rem"
+            letterSpacing="-0.01rem"
+            mb="1rem"
+            mt="-0.5rem"
+          >
+            {title}
+          </Heading>
 
           {/* 이미지 영역 */}
-          <div
+          <Box
             ref={containerRef}
-            css={[imageArea, selectedImage && noPointerCursor]}
+            w="100%"
+            aspectRatio="1 / 1"
+            m="0 auto 1rem"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            position="relative"
+            overflow="hidden"
+            touchAction="none" // 이미지 이동 드래그 시 페이지 스크롤 방지함
+            cursor={selectedImage ? 'default' : 'pointer'}
             onMouseDown={selectedImage ? handleMouseDown : undefined}
             onMouseMove={selectedImage ? handleMouseMove : undefined}
             onMouseUp={selectedImage ? handleMouseUp : undefined}
@@ -415,218 +463,138 @@ export const PhotoGuideModal = forwardRef<{ cropToGuide: () => Promise<string | 
                 {(() => {
                   const L = getLayout();
                   const left = L ? -L.offsetX + pan.x : 0;
-                  const top  = L ? -L.offsetY + pan.y : 0;
-                  const w    = L ? L.displayedW : '100%';
-                  const h    = L ? L.displayedH : '100%';
+                  const top = L ? -L.offsetY + pan.y : 0;
+                  const w = L ? L.displayedW : '100%';
+                  const h = L ? L.displayedH : '100%';
                   return (
-                    <img
+                    <ChakraImage
                       ref={imgRef}
                       src={selectedImage}
                       alt="업로드된 이미지"
-                      css={imageAbs}
+                      position="absolute"
+                      userSelect="none"
+                      pointerEvents="none"
+                      draggable={false}
                       style={{ left, top, width: w as number | string, height: h as number | string }}
                       onLoad={(e) => {
                         const target = e.currentTarget;
-                        setNaturalSize({ w: target.naturalWidth, h: target.naturalHeight });
+                        setNaturalSize({
+                          w: (target as HTMLImageElement).naturalWidth,
+                          h: (target as HTMLImageElement).naturalHeight,
+                        });
                       }}
-                      draggable={false}
                     />
                   );
                 })()}
                 {/* 사진 크롭 가이드라인 */}
-                <div css={cropGuideBox(CROP_SIZE)}>
-                  <span css={corner('tl')} />
-                  <span css={corner('tr')} />
-                  <span css={corner('bl')} />
-                  <span css={corner('br')} />
-                </div>
+                <Box
+                  position="absolute"
+                  left="50%"
+                  top="50%"
+                  w={`${CROP_SIZE}px`}
+                  h={`${CROP_SIZE}px`}
+                  transform="translate(-50%, -50%)"
+                  pointerEvents="none"
+                  zIndex={2}
+                >
+                  {/* 네 귀퉁이 corner들 */}
+                  <Box
+                    position="absolute"
+                    w="28px"
+                    h="28px"
+                    border="4px solid #06c655"
+                    left={0}
+                    top={0}
+                    borderRight="none"
+                    borderBottom="none"
+                    borderTopLeftRadius="12px"
+                  />
+                  <Box
+                    position="absolute"
+                    w="28px"
+                    h="28px"
+                    border="4px solid #06c655"
+                    right={0}
+                    top={0}
+                    borderLeft="none"
+                    borderBottom="none"
+                    borderTopRightRadius="12px"
+                  />
+                  <Box
+                    position="absolute"
+                    w="28px"
+                    h="28px"
+                    border="4px solid #06c655"
+                    left={0}
+                    bottom={0}
+                    borderRight="none"
+                    borderTop="none"
+                    borderBottomLeftRadius="12px"
+                  />
+                  <Box
+                    position="absolute"
+                    w="28px"
+                    h="28px"
+                    border="4px solid #06c655"
+                    right={0}
+                    bottom={0}
+                    borderLeft="none"
+                    borderTop="none"
+                    borderBottomRightRadius="12px"
+                  />
+                </Box>
                 {/* 바깥 마스킹 */}
-                <div css={maskHole(CROP_SIZE)} />
+                <Box position="absolute" inset={0} pointerEvents="none" zIndex={1} />
               </>
             ) : (
-              <img src={initialImage} alt="초기 이미지" css={previewImg} draggable={false}/>
+              <ChakraImage
+                src={initialImage}
+                alt="초기 이미지"
+                w="100%"
+                h="100%"
+                objectFit="contain"
+                userSelect="none"
+                pointerEvents="none"
+                draggable={false}
+              />
             )}
-          </div>
+          </Box>
 
           {/* 파일 선택 / 카메라 촬영을 담당하는 입력창(숨겨져있음) */}
-          {/* ref로 클릭을 대신 눌러 동작시킴 */}
-          <input
-            // 바깥 컨테이너를 탭했을 때 파일 선택창을 open (또는 카메라 촬영)
+          <Input
             ref={fileInputRef}
             type="file"
-            // 선택한 파일 형식 (image/* -> 이미지 파일만 선택 가능함)
             accept={accept}
-            // capture: 'environment' -> 후면 카메라를 우선 
             {...(source === 'camera' ? { capture: 'environment' as any } : {})}
             onChange={handleFileInputChange}
-            // 화면에서는 숨김 
-            style={{ display: 'none' }}
+            display="none"
           />
 
           {/* 안내 텍스트 */}
-          <div css={guideText}>
-          {content}
-          </div>
-        </div>
+          <Text
+            color="var(--Text-Text-1, #202020)"
+            textAlign="center"
+            fontFamily='"NanumSquare Neo"'
+            fontSize="0.75rem"
+            fontWeight="700"
+            lineHeight="1rem"
+            letterSpacing="-0.006rem"
+            whiteSpace="nowrap"
+            overflow="visible"
+            textOverflow="clip"
+            wordBreak="break-all"
+          >
+            {content}
+          </Text>
+        </Box>
 
         {/* 버튼 영역 - children에 역할별 클릭 이벤트 주입 */}
-        <div css={btnWrapper}>
+        <Box display="flex" gap="0.5rem" justifyContent="center" mt="1.5rem" px="0.5rem">
           {injectButtons(children)}
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
+  </>
   );
 });
 
-const wrapper = css`
-  width: 100%;
-  height: 100%;
-  padding: 0 2.81rem;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const modalWrapper = css`
-  position: relative;
-  border-radius: 1.25rem;
-  padding: 1.75rem 1rem 1rem 1rem;
-  background: var(--BG-BG-3, #fff);
-  width: 100%;
-  height: 100%;
-  box-sizing: content-box;
-  align-items: flex-start;
-`;
-
-const contentWrapper = css`
-  padding: 0 3.22rem;
-  width: 100%;
-  height: 100%;
-`;
-
-const titleStyle = css`
-  font-family: var(--Font-Family-font-family, "NanumSquare Neo");
-  font-size: 0.875rem;
-  color: var(--Text-Text-1, #202020);
-  text-align: center;
-  font-weight: 600;
-  line-height: 1.125rem;
-  letter-spacing: -0.01rem;
-  margin-bottom: 1rem;
-  margin-top: -0.5rem;
-`;
-
-const imageArea = css`
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  margin: 0 auto 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-  /* 이미지 이동 드래그 시 페이지 스크롤 방지함 */
-  touch-action: none;
-  cursor: pointer;
-`;
-
-// 드래그용 절대 배치 이미지
-const imageAbs = css`
-  position: absolute;
-  will-change: left, top;
-  user-select: none;
-  // 드래그 이벤트는 컨테이너에 바인딩
-  pointer-events: none; 
-`;
-
-const guideText = css`
-  color: var(--Text-Text-1, #202020);
-  text-align: center;
-  font-family: "NanumSquare Neo";
-  font-size: 0.75rem;
-  font-weight: 700;
-  line-height: 1rem; 
-  letter-spacing: -0.006rem;
-  white-space: nowrap;       
-  overflow: visible;       
-  text-overflow: clip;      
-  word-break: break-all;
-`;
-
-const btnWrapper = css`
-  display: flex;
-  gap: 0.5rem;
-  justify-content: center;
-  margin-top: 1.5rem;
-`;
-
-// 크롭 가이드라인 css
-const cropGuideBox = (size: number) => css`
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: ${size}px;
-  height: ${size}px;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  z-index: 2;
-`;
-
-type CornerPos = 'tl' | 'tr' | 'bl' | 'br';
-
-const corner = (
-  pos: CornerPos,
-  len = 28,     
-  stroke = 4,    
-  color = '#06c655',
-  radius = 12   
-) => css`
-  position: absolute;
-  width: ${len}px;
-  height: ${len}px;
-  border: ${stroke}px solid ${color};
-
-  ${pos === 'tl' ? `
-    left: 0; top: 0;
-    border-right: none; border-bottom: none;
-    border-top-left-radius: ${radius}px;
-  ` : ''}
-
-  ${pos === 'tr' ? `
-    right: 0; top: 0;
-    border-left: none; border-bottom: none;
-    border-top-right-radius: ${radius}px;
-  ` : ''}
-
-  ${pos === 'bl' ? `
-    left: 0; bottom: 0;
-    border-right: none; border-top: none;
-    border-bottom-left-radius: ${radius}px;
-  ` : ''}
-
-  ${pos === 'br' ? `
-    right: 0; bottom: 0;
-    border-left: none; border-top: none;
-    border-bottom-right-radius: ${radius}px;
-  ` : ''}
-`;
-
-const maskHole = (size: number) => css`
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-`;
-
-const noPointerCursor = css`
-  cursor: default;
-`;
-
-const previewImg = css`
-  width: 100%;
-  height: 100%;
-  object-fit: contain; 
-  user-select: none;
-  pointer-events: none; 
-`;

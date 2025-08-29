@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { CategoryIcon } from "./CategoryIcon";
 import type { CategoryIconProps } from './CategoryIcon';
 import { Box } from '@chakra-ui/react';
+import { useGetBreakPointValue } from "../../context/BreakPointProvider";
 
 interface CategoryIconOutputProps {
   cards: CategoryIconProps[];
@@ -10,6 +11,9 @@ interface CategoryIconOutputProps {
 }
 
 export const CategoryIconOutput = ({ cards, onSelectIndex }: CategoryIconOutputProps) => {
+  const isPc = useGetBreakPointValue();
+  const isMobile = !isPc;
+
   // 선택된 아이콘의 인덱스를 알기 위해 상태 관리
   const [selectIndex, setSelectIndex] = useState<number>(0);
 
@@ -58,7 +62,7 @@ export const CategoryIconOutput = ({ cards, onSelectIndex }: CategoryIconOutputP
 
   return (
     <Box position="relative">
-      <Wrapper ref={containerRef}>
+      <Wrapper ref={containerRef} isPc={isPc}>
       {cards.map((card, index) => {
           const refCallback = (el: HTMLDivElement) => {
             iconRefs.current[index] = el;
@@ -72,7 +76,8 @@ export const CategoryIconOutput = ({ cards, onSelectIndex }: CategoryIconOutputP
                 justifyContent="center"
                 height="5.25rem"
                 flexShrink={0}
-                ml={index === 0 ? '0' : '1.4rem' }
+                ml='5vw'
+                mr={index === cards.length - 1 ? '5vw' : '0'}
                 style={{ 
                     cursor: 'pointer',
                 }}
@@ -90,12 +95,13 @@ export const CategoryIconOutput = ({ cards, onSelectIndex }: CategoryIconOutputP
   );
 };
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ isPc: boolean }>`
+  width: 100vw;
   display: flex;
-  width: 23rem;
   overflow-x: auto;
   overflow-y: hidden;
   align-items: center;
+  justify-content: ${({ isPc }) => (isPc ? "center" : "flex-start")};
   white-space: nowrap;
   cursor: pointer;
 

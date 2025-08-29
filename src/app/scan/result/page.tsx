@@ -95,7 +95,7 @@ export default function Result() {
             alignItems="center"    
             gap='0.5rem'
           >
-            <DangerCircle size='8vh' color='#DADADA' />
+            <DangerCircle size='7vh' color='#DADADA' />
             <ErrorContent>조회된 알약 데이터가 없습니다</ErrorContent>
           </Box>
         )}

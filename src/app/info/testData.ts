@@ -54,15 +54,11 @@ export const testData2 : NoticeBoxProps[] = [
 export const iconData: CategoryIconProps[] = [
   {
     name: '전체',
-    imageSrc: '/images/information/mind_light.svg',
+    imageSrc: '/images/information/all_light.svg',
   },
   {
     name: '지원금',
     imageSrc: '/images/information/money_light.svg',
-  },
-  {
-    name: '교육',
-    imageSrc: '/images/information/education_light.svg',
   },
   {
     name: '임신전반',

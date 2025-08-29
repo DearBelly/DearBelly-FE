@@ -1,25 +1,36 @@
 'use client';
 
-import React, {type ReactNode, useEffect } from 'react'
+import React, {type ReactNode, useEffect, useState } from 'react'
 import { Box } from "@chakra-ui/react";
 import { useGetBreakPointValue } from "../../context/BreakPointProvider";
 import { MobileLayout } from "../../components/Layouts/MobileLayout";
 import { ChevronRight } from "@mynaui/icons-react";
 import { useRouter } from 'next/navigation';
 import { ProfileContent } from '@/components/ProfileContent/ProfileContent';
+import { LoginModal } from '@/components/LoginModal/LoginModal';
 
 export default function Mypage () {
     const isPc = useGetBreakPointValue();
     const isMobile = !isPc;
     const router = useRouter();
 
-    // 라이트 모드, 다크 모드 판별 
+    // 더미 토큰값 넣기 
+    localStorage.setItem('token', 'ㄴㅇㅁㄴㅇㅁㄴㅇ');
+
+    // 로그인이 되어있는지, 안 되어 있는지 상태저장
+    const [isLogin, setIsLogin] = useState(false);
+
+    // 라이트 모드, 다크 모드 판별 && 토큰 체크
     useEffect(() => {
         const lightMode_save = localStorage.getItem('lightMode');
         const isLight = lightMode_save === null ? true : lightMode_save === 'true';
         applyTheme(isLight);
 
         localStorage.setItem('chakra-ui-color-mode', isLight ? 'light' : 'dark');
+
+        // 토큰 유무 확인
+        const token = localStorage.getItem('token');
+        setIsLogin(!!token);
     }, []);
 
     // 라이트냐 다크냐에 따라 테마 적용
@@ -69,6 +80,8 @@ export default function Mypage () {
                 <ProfileContent content='개인 정보 확인' onClick={() => router.push('mypage/personalInfo')}/>
                 <ProfileContent content='개인 정보 수집 동의' onClick={() => router.push('mypage/personalInfoAgree')}/>
             </Box>
+
+            {!isLogin && <LoginModal />}
         </Box>
         </>
     );

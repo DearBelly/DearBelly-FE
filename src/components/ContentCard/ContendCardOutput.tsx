@@ -9,10 +9,8 @@ export const ContendCardOutput = ({ cards }:ContendCardOutputProps) => {
     return(
         <Box>
             {cards.map((card, index) => (
-                <Box key={index}>
-                    <Box width="21rem">
-                        <ContendCard {...card}/>
-                    </Box>
+                <Box key={index} width="21rem">
+                    <ContendCard {...card} isLast={index === cards.length-1}/>
                 </Box>
             ))}
         </Box>

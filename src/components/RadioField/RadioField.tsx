@@ -10,7 +10,15 @@ interface RadioFieldProps {
 
 export const RadioField = ({ label, checked, onClick, name, value }: RadioFieldProps) => {
   return (
-    <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 16 }}>
+    <label
+      style={{
+        cursor: 'pointer',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '0.25rem',   
+        flexDirection: 'row',
+      }}
+    >
       <input
         type="radio"
         name={name}

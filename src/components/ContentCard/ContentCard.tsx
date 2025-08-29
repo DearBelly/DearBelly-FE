@@ -11,9 +11,10 @@ export interface ContendCardProps {
   imageSrc?: string;
   routerSrc?: string;
   onClick?: () => void;
+  isLast?: boolean;
 }
 
-export const ContendCard = ({ id, title, description, imageSrc, onClick }: ContendCardProps) => {
+export const ContendCard = ({ id, title, description, imageSrc, isLast }: ContendCardProps) => {
   // 각 컨텐트 카드를 클릭하면 해당 id의 디테일 페이지가 보이도록 수정 필요함 
   const router = useRouter();
   const handleDetailClick = () => {
@@ -21,7 +22,7 @@ export const ContendCard = ({ id, title, description, imageSrc, onClick }: Conte
   };
 
   return (
-    <div css={cardContainer} onClick={handleDetailClick}>
+    <div css={cardContainer(isLast)} onClick={handleDetailClick}>
       <div css={textWrapper}>
         <h2 css={titleStyle}>{title}</h2>
         <p css={descriptionStyle}>{description}</p>
@@ -40,7 +41,7 @@ export const ContendCard = ({ id, title, description, imageSrc, onClick }: Conte
   );
 };
 
-const cardContainer = css`
+const cardContainer = (isLast?: boolean) => css`
   display: flex;
   width: 20.9375rem;
   padding: 0.75rem 0;
@@ -49,7 +50,7 @@ const cardContainer = css`
   justify-content: space-between;
   gap: 0.625rem;
   cursor: pointer;
-  border-bottom: 0.0625rem solid #E8E7E7;
+  border-bottom: ${isLast ? 'none' : '0.0625rem solid #E8E7E7'};
 `;
 
 const textWrapper = css`

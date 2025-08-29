@@ -32,7 +32,7 @@ export default function Mypage () {
         <Box className='allContainer'>
             <Box className='profileHeaderContainer' mt='1rem'>
                 <img src='/images/profile.svg'/>
-                <Box className='UserNameBox' display='flex' alignItems='center' gap='0.62rem' mt='0.69rem' onClick={() => router.push('mypage/profileChange')} style={{cursor: 'pointer'}}>
+                <Box className='UserNameBox' display='flex' alignItems='center' gap='0.62rem' mt='0.69rem' onClick={() => router.push('mypage/profileChange_p')} style={{cursor: 'pointer'}}>
                     <UserName>가나다라마바</UserName>
                     <ChevronRight cursor='pointer'/>
                 </Box>

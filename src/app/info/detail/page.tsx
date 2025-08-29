@@ -35,10 +35,18 @@ const testData : string = `
 본인과 아기의 건강을 최우선으로 하는 선택이 최선일 것입니다.\n\n
 `
 
-const TopRightIcons = ({ onKakaoShare }: { onKakaoShare: () => void }) => (
+const TopRightIcons = ({ onKakaoShare, isBookMark, onToggleBookmark }: { 
+  onKakaoShare: () => void;
+  isBookMark: boolean;
+  onToggleBookmark: () => void;
+}) => (
     <div style={{display:"flex", gap: 16}}>
       <ExternalLink onClick={onKakaoShare} cursor='pointer'/>
-      <Bookmark />
+      {isBookMark ? (
+         <BookmarkSolid onClick={onToggleBookmark} cursor="pointer" />
+      ): (
+         <Bookmark onClick={onToggleBookmark} cursor="pointer" />
+      )}
     </div>
 );
 
@@ -65,12 +73,26 @@ const InformationDetail = () => {
         }
       
         window.Kakao.Share.sendDefault({
-          objectType: "text",
-          text: `깊이 잠들고 싶은 당신에게 추천하는 5가지 방법`,
-          link: {
-            mobileWebUrl: "http://localhost:3000/info/detail",
-            webUrl: "http://localhost:3000/info/detail",
-          },
+            objectType: "feed",
+            content: {
+              title: "깊이 잠들고 싶은 당신에게 추천하는 5가지 방법",
+              description: "편안한 수면을 위한 꿀팁 모음",
+            //   "https://myapp.vercel.app/images/shareImage.png"
+              imageUrl: "http://localhost:3000/images/shareImage.png",
+              link: {
+                mobileWebUrl: "http://localhost:3000/info/detail",
+                webUrl: "http://localhost:3000/info/detail",
+              },
+            },
+            buttons: [
+              {
+                title: "자세히 보기",
+                link: {
+                  mobileWebUrl: "http://localhost:3000/info/detail",
+                  webUrl: "http://localhost:3000/info/detail",
+                },
+              },
+            ],
         });
     };
 
@@ -118,6 +140,13 @@ const InformationDetail = () => {
         };
     }, []);
 
+    // 북마크가 되어 있는지 아닌지 판별
+    const [isBookMark, setIsBookMark] = useState(false);
+
+    // 북마크 토글 함수
+    const handleToggleBookmark = () => {
+      setIsBookMark((prev) => !prev);
+    };
 
     const content_mobile = (
         <Box className='wrapper1' display="flex" flexDirection="column" alignItems="center">
@@ -173,27 +202,23 @@ const InformationDetail = () => {
         </Box>
     )
     
-    return isMobile ? (
-        <MobileLayout 
-            topbarMode='back'
-            topbarBackground={topbarBG}
-            topbarContent={<TopRightIcons onKakaoShare={handleShare} />}
-            hasTopPadding={false}
-            showButtomNav={false}
-        >
-            {content_mobile}
-        </MobileLayout>
-    ) : (
-        <MobileLayout 
-            topbarMode='back'
-            topbarBackground={topbarBG}
-            topbarContent={<TopRightIcons onKakaoShare={handleShare} />}
-            hasTopPadding={false}
-            showButtomNav={false}
-        >
-            {content_mobile}
-        </MobileLayout>
-    )
+    return (
+      <MobileLayout 
+          topbarMode='back'
+          topbarBackground={topbarBG}
+          topbarContent={
+            <TopRightIcons 
+              onKakaoShare={handleShare}
+              isBookMark={isBookMark}
+              onToggleBookmark={handleToggleBookmark}
+            />
+          }
+          hasTopPadding={false}
+          showButtomNav={false}
+      >
+          {content_mobile}
+      </MobileLayout>
+    );
 }
 
 const ImageWrapper = ({ children }: { children: React.ReactNode }) => (

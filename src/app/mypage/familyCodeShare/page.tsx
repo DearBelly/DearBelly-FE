@@ -31,18 +31,18 @@ export default function FamilyCodeShare() {
           objectType: "text",
           text: `${name}님의 가족 공유 코드: ${familyCode}`,
           link: {
-            mobileWebUrl: "http://localhost:3000/mypage/familyCodeShare",
-            webUrl: "http://localhost:3000/mypage/familyCodeShare",
+            mobileWebUrl: "http://localhost:3000",
+            webUrl: "http://localhost:3000",
           },
         });
     };
 
     return (
         <TopBarBottomButtonLayout 
-        nextLabel="가족 코드 공유하기"
-        topbarTitle='가족 공유 코드'
-        nextDisabled={false} 
-        onNext={handleShare}
+          nextLabel="가족 코드 공유하기"
+          topbarTitle='가족 공유 코드'
+          nextDisabled={false} 
+          onNext={handleShare}
         >
             <Box mt="2.5vh">
             <InputBox

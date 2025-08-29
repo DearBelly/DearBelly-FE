@@ -28,13 +28,27 @@ export default function FamilyCodeShare() {
         }
       
         window.Kakao.Share.sendDefault({
-          objectType: "text",
-          text: `${name}님의 가족 공유 코드: ${familyCode}`,
-          link: {
-            mobileWebUrl: "http://localhost:3000",
-            webUrl: "http://localhost:3000",
+          objectType: "feed",
+          content: {
+            title: "엄마를 위한 케어, 아이를 위한 기록 Dear Belly",
+            description: "가족 기반 공유형 임신 기록 서비스",
+          //   "https://myapp.vercel.app/images/shareImage.png"
+            imageUrl: "http://localhost:3000/images/shareImage.png",
+            link: {
+              mobileWebUrl: "http://localhost:3000",
+              webUrl: "http://localhost:3000",
+            },
           },
-        });
+          buttons: [
+            {
+              title: "자세히 보기",
+              link: {
+                mobileWebUrl: "http://localhost:3000/info/detail",
+                webUrl: "http://localhost:3000/info/detail",
+              },
+            },
+          ],
+      });
     };
 
     return (

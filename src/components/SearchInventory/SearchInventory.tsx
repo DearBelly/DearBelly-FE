@@ -1,53 +1,54 @@
-import { css } from '@emotion/react';
-import styled from 'styled-components';
-import { ClockFiveSolid } from "@mynaui/icons-react";
-import { X } from "@mynaui/icons-react";
+'use client'
+import React from 'react';
+import { Box, Text } from '@chakra-ui/react';
+import { ClockFiveSolid, X } from "@mynaui/icons-react";
 
 export interface SearchInventoryProps {
-    onClick?: () => void;
-    description: string;
+  onClick?: () => void;
+  description: string;
 }
 
 export const SearchInventory = ({ onClick, description }: SearchInventoryProps) => {
-    return (
-        <Wrapper>
-            <ClockFiveSolid size='1rem'/>
-            <Text>{description}</Text>
-            <SearchButton onClick={onClick}>
-                <X size='1rem'/>
-            </SearchButton>
-        </Wrapper>
+  return (
+    <Box
+      position="relative"
+      w="calc(100vw - 2.5rem)"
+      h="1.5rem"
+      display="flex"
+      alignItems="center"
+    >
+        <ClockFiveSolid size="1rem" />
 
-    );
+        <Text
+            color="var(--Text-Text-1, #202020)"
+            fontFamily='"NanumSquare Neo"'
+            fontSize="0.625rem"
+            fontStyle="normal"
+            fontWeight="400"
+            lineHeight="1.5rem"
+            letterSpacing="-0.0125rem"
+            ml="0.38rem"
+        >
+            {description}
+        </Text>
+
+        <Box
+            as="button"
+            onClick={onClick}
+            ml="auto"
+            bg="transparent"
+            border="none"
+            p={0}
+            minW="auto"
+            h="auto"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            cursor="pointer"
+            _hover={{ opacity: 0.8 }}
+        >
+            <X size="1rem" />
+        </Box>
+    </Box>
+  );
 };
-
-const Wrapper = styled.div`
-    position: relative;
-    width: calc(100vw - 2.5rem);
-    height: 1.5rem;
-    display: flex;
-    align-items: center;
-`;
-
-const Text = styled.div`
-    color: var(--Text-Text-1, #202020);
-    font-feature-settings: 'liga' off, 'clig' off;
-    font-family: "NanumSquare Neo";
-    font-size: 0.625rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 1.5rem;
-    letter-spacing: -0.0125rem;
-    margin-left: 0.38rem;
-`;
-
-const SearchButton = styled.button`
-    margin-left: auto; 
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-`;

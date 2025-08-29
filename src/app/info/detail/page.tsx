@@ -75,13 +75,13 @@ const InformationDetail = () => {
         window.Kakao.Share.sendDefault({
             objectType: "feed",
             content: {
-              title: "깊이 잠들고 싶은 당신에게 추천하는 5가지 방법",
-              description: "편안한 수면을 위한 꿀팁 모음",
+              title: "엄마를 위한 케어, 아이를 위한 기록 Dear Belly",
+              description: "가족 기반 공유형 임신 기록 서비스",
             //   "https://myapp.vercel.app/images/shareImage.png"
               imageUrl: "http://localhost:3000/images/shareImage.png",
               link: {
-                mobileWebUrl: "http://localhost:3000/info/detail",
-                webUrl: "http://localhost:3000/info/detail",
+                mobileWebUrl: "http://localhost:3000",
+                webUrl: "http://localhost:3000",
               },
             },
             buttons: [
@@ -297,6 +297,7 @@ const TextContent = ({ children, marginTop }: { children: React.ReactNode, margi
         fontWeight={400}
         lineHeight="1.5rem"
         letterSpacing="-0.015rem"
+        textAlign='justify'
     >
         {children}
     </Text>

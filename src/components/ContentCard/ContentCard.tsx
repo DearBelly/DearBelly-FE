@@ -99,3 +99,4 @@ export const ContendCard = ({
     </Box>
   );
 };
+

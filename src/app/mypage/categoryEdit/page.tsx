@@ -5,7 +5,8 @@ import { CheckField } from "@/components/CheckField/CheckField";
 import { useCategoryStore } from "@/store/useCategoryStore";
 import { useGetBreakPointValue } from "@/context/BreakPointProvider";
 import { Toast } from "@/components/Toast/Toast";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { LoginModal } from '@/components/LoginModal/LoginModal';
 
 export default function CategoryEdit() {
   const isPc = useGetBreakPointValue();
@@ -41,6 +42,15 @@ export default function CategoryEdit() {
     setShowToast(true);
     setTimeout(() => setShowToast(false), 2000);
   }
+
+    // 로그인이 되어있는지, 안 되어 있는지 상태저장
+    const [isLogin, setIsLogin] = useState(false);
+
+    // 토큰 체크
+    useEffect(() => {
+      const token = localStorage.getItem('token');
+      setIsLogin(!!token);
+  }, []);
 
   const content = (
     <TopBarBottomButtonLayout 
@@ -99,6 +109,7 @@ export default function CategoryEdit() {
               />
           ))}
       </Box>
+      {!isLogin && <LoginModal />}
     </Box>
     </TopBarBottomButtonLayout>
   );

@@ -1,16 +1,26 @@
 'use client';
 
-import React from 'react'
+import { useState, useEffect } from "react";
 import { Box, Text } from "@chakra-ui/react";
 import { MobileLayout } from "../../../components/Layouts/MobileLayout";
 import { ProfilePersonalContent } from '@/components/ProfilePersonalContent/ProfilePersonalContent';
 import { useRouter } from "next/navigation";
+import { LoginModal } from '@/components/LoginModal/LoginModal';
 
 export default function PersonalInfo() {
     const router = useRouter();
     const handleClick = () => {
       router.push(`/login`);
     };
+
+    // 로그인이 되어있는지, 안 되어 있는지 상태저장
+    const [isLogin, setIsLogin] = useState(false);
+
+    // 토큰 체크
+    useEffect(() => {
+      const token = localStorage.getItem('token');
+      setIsLogin(!!token);
+  }, []);
     
   const content_mobile = (
     <>
@@ -57,6 +67,7 @@ export default function PersonalInfo() {
       topbarBackground="filled"
     >
       {content_mobile}
+      {!isLogin && <LoginModal />}
     </MobileLayout>
   );
 }

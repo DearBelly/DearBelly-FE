@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Box, Text } from "@chakra-ui/react";
 import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";
 import { useRouter } from "next/navigation";
 import { RadioField } from '@/components/RadioField/RadioField';
 import { InputBox } from "@/components/TextField/InputBox";
+import { LoginModal } from '@/components/LoginModal/LoginModal';
 
 export default function BabyEdit() {
     const router = useRouter();
@@ -39,6 +40,18 @@ export default function BabyEdit() {
         handleClick();
     };
 
+    // 토큰 더미데이터
+    localStorage.setItem('token', '');
+
+    // 로그인이 되어있는지, 안 되어 있는지 상태저장
+    const [isLogin, setIsLogin] = useState(false);
+
+    // 토큰 체크
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        setIsLogin(!!token);
+    }, []);
+
     return (
         <TopBarBottomButtonLayout 
             nextLabel="완료"
@@ -52,7 +65,7 @@ export default function BabyEdit() {
                 flexDirection="column" 
                 padding="0.75rem 0.5rem"
                 borderRadius= '0.75rem'
-                background= 'var(--Background-3, #FFF)'     
+                background= 'bg.bg3'     
                 mt='2.5rem'       
             >
                 <InputBox
@@ -79,6 +92,7 @@ export default function BabyEdit() {
                         ))}
                     </Box>
                 </Box>
+                {!isLogin && <LoginModal/>}
             </Box>
         </TopBarBottomButtonLayout>
     );

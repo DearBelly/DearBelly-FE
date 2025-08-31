@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from "react";
 import React from 'react'
 import { useRouter } from 'next/navigation';
 import { Box } from "@chakra-ui/react";
@@ -9,6 +10,7 @@ import { MobileLayout } from "../../../components/Layouts/MobileLayout";
 import { BottomBtn } from '@/components/ComputerVision/BottomBtn/BottomBtn';
 import { DangerCircle } from "@mynaui/icons-react";
 import { X } from "@mynaui/icons-react";
+import { LoginModal } from '@/components/LoginModal/LoginModal';
 
 // 더미 데이터
 const testDataName : string = 
@@ -57,6 +59,15 @@ export default function Result() {
     // 더미데이터
     const safe_num:number = 1;
 
+    // 로그인이 되어있는지, 안 되어 있는지 상태저장
+    const [isLogin, setIsLogin] = useState(false);
+
+    // 토큰 체크
+    useEffect(() => {
+      const token = localStorage.getItem('token');
+      setIsLogin(!!token);
+  }, []);
+
     const content_mobile = (
       <Box className='all_wrapper'>
         {testData?.trim() ? (
@@ -99,6 +110,7 @@ export default function Result() {
             <ErrorContent>조회된 알약 데이터가 없습니다</ErrorContent>
           </Box>
         )}
+        {!isLogin && <LoginModal />}
       </Box>
     );
     

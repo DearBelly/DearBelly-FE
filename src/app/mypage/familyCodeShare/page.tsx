@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Box } from "@chakra-ui/react";
 import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";
 import { InputBox } from "@/components/TextField/InputBox";
+import { LoginModal } from '@/components/LoginModal/LoginModal';
 
 export default function FamilyCodeShare() {
     const familyCode='14X5TR27YJ';
@@ -51,6 +52,15 @@ export default function FamilyCodeShare() {
       });
     };
 
+    // 로그인이 되어있는지, 안 되어 있는지 상태저장
+    const [isLogin, setIsLogin] = useState(false);
+
+    // 토큰 체크
+    useEffect(() => {
+      const token = localStorage.getItem('token');
+      setIsLogin(!!token);
+  }, []);
+
     return (
         <TopBarBottomButtonLayout 
           nextLabel="가족 코드 공유하기"
@@ -59,12 +69,13 @@ export default function FamilyCodeShare() {
           onNext={handleShare}
         >
             <Box mt="2.5vh">
-            <InputBox
-                mode="default"
-                title="가족 공유 코드"
-                value={familyCode}
-            />
+              <InputBox
+                  mode="default"
+                  title="가족 공유 코드"
+                  value={familyCode}
+              />
             </Box>
+            {!isLogin && <LoginModal />}
         </TopBarBottomButtonLayout>
     );
 }

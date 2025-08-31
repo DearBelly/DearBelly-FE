@@ -67,7 +67,7 @@ const Container = styled.div`
 
 const ButtonWrapper = styled.div`
   z-index: 1;
-  width: 100%;
+  width: calc(100vw - 2.5rem);
   margin-top: auto;
   padding-top: 1.23dvh;
   padding-bottom: 1.23dvh;

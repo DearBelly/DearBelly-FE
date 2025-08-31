@@ -41,7 +41,7 @@ export default function BabyEdit() {
     };
 
     // 토큰 더미데이터
-    localStorage.setItem('token', '');
+    localStorage.setItem('token', 'sadfdsd');
 
     // 로그인이 되어있는지, 안 되어 있는지 상태저장
     const [isLogin, setIsLogin] = useState(false);

@@ -291,6 +291,7 @@ const TextDate = ({ children }: { children: React.ReactNode }) => (
 
 const TextContent = ({ children, marginTop }: { children: React.ReactNode, marginTop?:string }) => (
     <Text
+        as="div" 
         mt={marginTop}
         color="var(--Text-Text-2, #6C6B6B)"
         fontFamily="NanumSquare Neo"

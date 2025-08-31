@@ -4,7 +4,6 @@ import { Box, Image, Text } from '@chakra-ui/react';
 import { DotsVertical } from '@mynaui/icons-react';
 import { DropdownMenu } from '../DropdownMenu/DropdownMenu';
 import { useState, useRef, useEffect } from 'react';
-
 export interface ProfileListProps {
   id?: number;
   profileSrc?: string;

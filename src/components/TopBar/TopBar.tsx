@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { ChevronLeft } from "@mynaui/icons-react";
+import { useRouter } from "next/navigation";
 
 export interface TopBarProps {
   mode?: 'logo' | 'back' | 'whiteLogo';
@@ -11,6 +12,7 @@ export interface TopBarProps {
   backStepColor?: string;
   iconColor?: string;
   searchContent ?: React.ReactNode;
+  backurl?: string;  
 }
 
 export const TopBar = ({
@@ -22,8 +24,17 @@ export const TopBar = ({
   backStepColor="#202020",
   iconColor = "#202020",
   // 서치바 전용 props 추가함
-  searchContent
+  searchContent,
+  // 뒤로가기 버튼 url
+  backurl,
 }: TopBarProps): React.ReactNode => {
+
+  const router = useRouter();
+
+  const handleBackClick = () => {
+    router.back(); 
+  };
+
   return (
     <header css={[containerStyle, backgroundType === 'transparent' ? transparentStyle : filledStyle]}>
       <div css={barStyle}>
@@ -35,13 +46,19 @@ export const TopBar = ({
           )}
           {mode === 'back' && !searchContent && (
             <div css={backSectionStyle(backStepColor)}>
-              <ChevronLeft css={css`width: 24px; height: 24px;`} />
+              <ChevronLeft 
+                css={css`width: 24px; height: 24px; cursor: pointer;`}
+                onClick={handleBackClick} 
+              />
               {title && <span css={titleStyle}>{title}</span>}
             </div>
           )}
           {mode === 'back' && searchContent && (
             <div css={backSectionStyle(backStepColor)}>
-              <ChevronLeft css={css`width: 24px; height: 24px;`} />
+              <ChevronLeft 
+                css={css`width: 24px; height: 24px; cursor: pointer;`} 
+                onClick={handleBackClick} 
+              />
               {searchContent}
             </div>
           )}   

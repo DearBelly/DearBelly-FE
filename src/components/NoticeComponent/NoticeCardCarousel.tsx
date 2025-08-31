@@ -36,7 +36,7 @@ export const NoticeCardCarousel = ({ cards }: NoticeCardCarouselProps) => {
         display: "flex",
         justifyContent: "center",
         "& .slick-slider": {
-          width: "21rem",
+          width: "100%",
         },
         "& .slick-slide > div": {
           display: "flex",
@@ -60,7 +60,7 @@ export const NoticeCardCarousel = ({ cards }: NoticeCardCarouselProps) => {
             display="flex"
             justifyContent="center"
           >
-            <Box width="21rem">
+            <Box width="100%">
               <NoticeBox {...card} />
             </Box>
           </Box>

@@ -4,7 +4,6 @@ import { css } from "@emotion/react";
 import { ReactNode } from "react";
 import { TopBar } from "../TopBar/TopBar";
 import { BottomNavigation } from "../BottomNavigation/BottomNavigation";
-
 interface MobileLayoutProps {
   topbarContent?: ReactNode;
   children: ReactNode;
@@ -14,6 +13,7 @@ interface MobileLayoutProps {
   topbarTitle?: string;
   showButtomNav?: boolean;
   searchbarContent?: ReactNode;
+  backurl?:string;
 }
 
 export const MobileLayout = ({
@@ -28,6 +28,7 @@ export const MobileLayout = ({
 }: MobileLayoutProps) => {
   return (
     <div css={layoutStyle}>
+      {/* 백버튼일 경우, 클릭 시 뒤로가기 구현 */}
       <TopBar
         mode={topbarMode}
         backgroundType={topbarBackground}

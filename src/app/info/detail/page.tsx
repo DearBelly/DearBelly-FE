@@ -2,7 +2,6 @@
 
 import React, {useState, useEffect, useRef} from 'react'
 import { Box, Text } from "@chakra-ui/react";
-import { useGetBreakPointValue } from "../../../context/BreakPointProvider";
 import { MobileLayout } from "../../../components/Layouts/MobileLayout";
 import { ContendCardOutput } from '@/components/ContentCard/ContendCardOutput';
 import { ExternalLink } from "@mynaui/icons-react";
@@ -51,9 +50,6 @@ const TopRightIcons = ({ onKakaoShare, isBookMark, onToggleBookmark }: {
 );
 
 const InformationDetail = () => {
-    const isPc = useGetBreakPointValue();
-    const isMobile = !isPc;
-
     // SDK 초기화
     useEffect(() => {
         if (typeof window !== "undefined" && window.Kakao && !window.Kakao.isInitialized()) {
@@ -147,60 +143,6 @@ const InformationDetail = () => {
     const handleToggleBookmark = () => {
       setIsBookMark((prev) => !prev);
     };
-
-    const content_mobile = (
-        <Box className='wrapper1' display="flex" flexDirection="column" alignItems="center">
-            {/* 이미지 영역 */}
-            <ImageWrapper>
-                <Image
-                src="/images/image.png"
-                alt="대표 이미지"
-                width={800} 
-                height={500}
-                style={{
-                    width: '100vw',
-                    height: 'auto',
-                    objectFit: 'contain',
-                }}
-                priority
-                />
-            </ImageWrapper>
-
-            {/* 이미지 영역 아래 글 영역 + 추천 글 목록 영역 */}
-            <Box className='wrapper2'>
-                {/* 글 제목 영역 */}
-                <Box className='title_wrapper' width='20.9375rem' marginTop='4vh'>
-                    <TextTitle>
-                        깊이 잠들고 싶은 당신에게 추천하는 5가지 방법
-                    </TextTitle>
-                    <TextSubTitle>
-                        깊은 숙면을 도와주는 5가지 습관
-                    </TextSubTitle>
-                    <TextDate>
-                        2025년04월09일
-                    </TextDate>
-                </Box>
-
-                {/* 글 내용 영역 */}
-                <Box className='content_wrapper' width='20.9375rem' marginTop='3vh'>
-                    <TextContent>
-                        {parseText(testData)}
-                    </TextContent>
-                </Box>
-
-                {/* 추천 글 목록 영역 */}
-                <Box className='recommend_wrapper' width='20.9375rem' marginTop='5vh' marginBottom='3vh'>
-                    <Box className='title' display='flex' alignItems="center" gap='0.5rem'>
-                        <FunnyCircleSolid color='#FF6257'/>
-                        <RecommendText >이런 콘텐츠는 어때요?</RecommendText>
-                    </Box>
-                    <Box className='content'>
-                        <ContendCardOutput cards={testData3}/>
-                    </Box>
-                </Box>
-            </Box>
-        </Box>
-    )
     
     return (
       <MobileLayout 
@@ -216,7 +158,67 @@ const InformationDetail = () => {
           hasTopPadding={false}
           showButtomNav={false}
       >
-          {content_mobile}
+        <Box className='wrapper1' display="flex" flexDirection="column" alignItems="center">
+            {/* 이미지 영역 */}
+            <ImageWrapper>
+              <Box w='100vw' maxH='18rem' overflow='hidden'>
+                  <Image
+                  src="/images/image.png"
+                  alt="대표 이미지"
+                  width={800} 
+                  height={500}
+                  style={{
+                      width: '100vw',
+                      height: 'auto',
+                      maxHeight: '18rem',
+                      objectFit: 'cover',
+                  }}
+                  priority
+                  />
+                </Box>
+            </ImageWrapper>
+
+            {/* 이미지 영역 아래 글 영역 + 추천 글 목록 영역 */}
+            <Box 
+              className='wrapper2' 
+              display='flex' 
+              flexDirection='column'
+              alignItems='center' 
+              justifyContent='center'
+              width='100%'
+            >
+                {/* 글 제목 영역 */}
+                <Box className='title_wrapper' width='calc(100vw - 2.5rem)' marginTop='4vh'>
+                    <TextTitle>
+                        깊이 잠들고 싶은 당신에게 추천하는 5가지 방법
+                    </TextTitle>
+                    <TextSubTitle>
+                        깊은 숙면을 도와주는 5가지 습관
+                    </TextSubTitle>
+                    <TextDate>
+                        2025년04월09일
+                    </TextDate>
+                </Box>
+
+                {/* 글 내용 영역 */}
+                <Box className='content_wrapper' width='calc(100vw - 2.5rem)' marginTop='3vh'>
+                    <TextContent>
+                        {parseText(testData)}
+                    </TextContent> 
+                </Box>
+
+                {/* 추천 글 목록 영역 */}
+                <Box className='recommend_wrapper' marginTop='5vh' marginBottom='3vh'>
+                    <Box className='title' display='flex' alignItems="center" gap='0.5rem'>
+                        <FunnyCircleSolid color='#FF6257'/>
+                        <RecommendText >이런 콘텐츠는 어때요?</RecommendText>
+                    </Box>
+                    <Box className='content'>
+                        <ContendCardOutput cards={testData3}/>
+                    </Box>
+                </Box>
+            </Box>
+        </Box>
       </MobileLayout>
     );
 }

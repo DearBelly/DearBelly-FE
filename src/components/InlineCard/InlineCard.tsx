@@ -24,11 +24,11 @@ export const InlineCard = ({
 }: InlineCardProps) => {
   return (
     <Box
+      w="calc(100vw - 2.5rem)"
       h="100%"
       display="flex"
       flexDirection="row"
       alignItems="flex-start"
-      w="20.9375rem"
       p="1rem"
       gap="0.75rem"
       borderRadius="1rem"
@@ -74,6 +74,7 @@ export const InlineCard = ({
         position="relative"
         w="4rem"
         h="4rem"
+        maxW="100%"
         overflow="hidden"
         flexShrink={0}
         borderRadius="0.5rem"

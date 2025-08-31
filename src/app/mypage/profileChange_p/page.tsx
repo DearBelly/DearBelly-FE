@@ -4,15 +4,12 @@ import { InputBox } from "@/components/TextField/InputBox";
 import Image from "next/image";
 import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";
 import { useState, useEffect } from "react";
-import { useGetBreakPointValue } from "@/context/BreakPointProvider";
 import { Toast } from "@/components/Toast/Toast";
 import { InputBoxCalendar } from '@/components/TextField/InputBoxCalendar';
 import { LoginModal } from '@/components/LoginModal/LoginModal';
 
 export default function ProfileChange_p() {
     const name = '최푸른';
-    const isPc = useGetBreakPointValue();
-    const isMobile = !isPc;
 
     const [nickname, setNickname] = useState("");
     const [isNicknameError, setIsNicknameError] = useState(false);
@@ -53,7 +50,7 @@ export default function ProfileChange_p() {
       setIsLogin(!!token);
   }, []);
 
-    const content = (
+    return (
       <TopBarBottomButtonLayout 
         onNext={handleNextClick} 
         nextLabel="완료"
@@ -116,6 +113,4 @@ export default function ProfileChange_p() {
         {!isLogin && <LoginModal />}
       </TopBarBottomButtonLayout>
     );
-
-    return isMobile ? content : content;
 }

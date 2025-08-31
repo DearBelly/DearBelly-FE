@@ -5,7 +5,6 @@ import React from 'react'
 import { useRouter } from 'next/navigation';
 import { Box } from "@chakra-ui/react";
 import { ReactNode } from "react";
-import { useGetBreakPointValue } from "../../../context/BreakPointProvider";
 import { MobileLayout } from "../../../components/Layouts/MobileLayout";
 import { BottomBtn } from '@/components/ComputerVision/BottomBtn/BottomBtn';
 import { DangerCircle } from "@mynaui/icons-react";
@@ -35,9 +34,6 @@ const TopRightIcons = () => {
 };
 
 export default function Result() {
-    const isPc = useGetBreakPointValue();
-    const isMobile = !isPc;
-
     const router = useRouter();
     const handleScanClick = () => {
       router.push('/scan');
@@ -68,65 +64,58 @@ export default function Result() {
       setIsLogin(!!token);
   }, []);
 
-    const content_mobile = (
-      <Box className='all_wrapper'>
-        {testData?.trim() ? (
-          <>
-            <Box className='image_wrapper' width='100%' height='100%' padding='0 3.91rem' mt='1.25rem'>
-              <img src="/images/med.svg" width='100%' height='auto' />
-            </Box>
-    
-            <Box className='content_wrapper' width='100%' height='100%' padding='0 1.25rem' mt='1.88rem'>
-              <SafeDangerStyle isSafe={safe_num === 1}>
-                {safe_num === 1 ? "해당 약품은 복용 시, 안전합니다." : "해당 약품은 복용 시, 위험합니다."}
-              </SafeDangerStyle>
-
-              <Box className='title_wrapper' display="flex" gap="0.2rem">
-                <MediName fontWeight='700'>약품명 :</MediName>
-                <MediName fontWeight='500'>{testDataName}</MediName>
-              </Box>
-    
-              <MediContent>{parseText(testData)}</MediContent>
-            </Box>
-    
-            <Box className='btn_wrapper'>
-              <BottomBtn onClick={handleScanClick}>확인 완료</BottomBtn>
-            </Box>
-          </>
-        ) : (
-          <Box 
-            className="error_wrapper"
-            position="absolute" 
-            top="50%"
-            left="50%"
-            transform="translate(-50%, -50%)"  
-            display="flex"
-            flexDirection="column"
-            justifyContent="center"
-            alignItems="center"    
-            gap='0.5rem'
-          >
-            <DangerCircle size='7vh' color='#DADADA' />
-            <ErrorContent>조회된 알약 데이터가 없습니다</ErrorContent>
-          </Box>
-        )}
-        {!isLogin && <LoginModal />}
-      </Box>
-    );
-    
-
-    return isMobile ? (
+    return (
         <MobileLayout 
             topbarMode='back'
             topbarTitle= '분석결과'
             showButtomNav={false}
             topbarContent={<TopRightIcons/>}
         >
-            {content_mobile}
+          <Box className='all_wrapper'>
+            {testData?.trim() ? (
+              <>
+                <Box className='image_wrapper' width='100%' height='100%' padding='0 3.91rem' mt='1.25rem'>
+                  <img src="/images/med.svg" width='100%' height='auto' />
+                </Box>
+        
+                <Box className='content_wrapper' width='100%' height='100%' padding='0 1.25rem' mt='1.88rem'>
+                  <SafeDangerStyle isSafe={safe_num === 1}>
+                    {safe_num === 1 ? "해당 약품은 복용 시, 안전합니다." : "해당 약품은 복용 시, 위험합니다."}
+                  </SafeDangerStyle>
+
+                  <Box className='title_wrapper' display="flex" gap="0.2rem">
+                    <MediName fontWeight='700'>약품명 :</MediName>
+                    <MediName fontWeight='500'>{testDataName}</MediName>
+                  </Box>
+        
+                  <MediContent>{parseText(testData)}</MediContent>
+                </Box>
+        
+                <Box className='btn_wrapper'>
+                  <BottomBtn onClick={handleScanClick}>확인 완료</BottomBtn>
+                </Box>
+              </>
+            ) : (
+              <Box 
+                className="error_wrapper"
+                position="absolute" 
+                top="50%"
+                left="50%"
+                transform="translate(-50%, -50%)"  
+                display="flex"
+                flexDirection="column"
+                justifyContent="center"
+                alignItems="center"    
+                gap='0.5rem'
+              >
+                <DangerCircle size='7vh' color='#DADADA' />
+                <ErrorContent>조회된 알약 데이터가 없습니다</ErrorContent>
+              </Box>
+            )}
+            {!isLogin && <LoginModal />}
+          </Box>
         </MobileLayout>
-    ) : (
-        '웹'
-    )
+    ) 
 }
 
 interface MediNameProps {

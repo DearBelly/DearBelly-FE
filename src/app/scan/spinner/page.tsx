@@ -2,14 +2,11 @@
 
 import React, {useEffect} from 'react';
 import { Box } from '@chakra-ui/react';
-import { useGetBreakPointValue } from '../../../context/BreakPointProvider';
 import { PhotoGuideModal } from '../../../components/ComputerVision/Photo/PhotoGuideModal';
 import { useRouter } from 'next/navigation';
 import { X } from "@mynaui/icons-react";
 
 export default function Spinner() {
-    const isPc = useGetBreakPointValue();
-    const isMobile = !isPc;
     const router = useRouter();
 
     const handleBackClick = () => {
@@ -24,7 +21,7 @@ export default function Spinner() {
       return() => clearTimeout(timer);
     },[router]);
 
-    const content = (
+    return (
         <Box bg="#737373" minH="100vh" display="flex" alignItems="center" justifyContent="center">
           <Box 
             position='fixed'
@@ -48,11 +45,5 @@ export default function Spinner() {
             }
           />
         </Box>
-    );
-
-    return isMobile ? (
-        content
-    ) : (
-      content
     );
 }

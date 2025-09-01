@@ -3,7 +3,6 @@
 import React, {useState, useEffect, ReactNode} from 'react'
 import { Box, Text } from "@chakra-ui/react";
 import { SearchBox } from '@/components/Search/SearchBox';
-import { useGetBreakPointValue } from "../../../context/BreakPointProvider";
 import { MobileLayout } from "../../../components/Layouts/MobileLayout";
 import { SearchInventory } from '@/components/SearchInventory/SearchInventory';
 import { ContendCardOutput } from '@/components/ContentCard/ContendCardOutput';
@@ -16,10 +15,7 @@ interface keyInterface {
     text: string;
 }
 
-export default function InfoSearchInventory() {
-    const isPc = useGetBreakPointValue();
-    const isMobile = !isPc;
-
+export default function InfoSearch() {
     // 로컬 스토리지에 저장한 검색어를 관리 
     const [keywords, setKeyWords] = useState<keyInterface[]>([]);
     // 실제 검색 결과
@@ -121,7 +117,9 @@ export default function InfoSearchInventory() {
     const searchResultContent = (
         <Box className='body_wrapper' display="flex" flexDirection="column" alignItems="center" margin='0 5.56vw'>
             {searchResult.length > 0 ? (
-                <ContendCardOutput cards={searchResult} />
+                <Box className='recommend_wrapper' mt='0.92vh' mb='3.704vh'>
+                    <ContendCardOutput cards={searchResult} />
+                </Box>
             ) : (
                 <Box 
                     className="error_wrapper"
@@ -142,7 +140,7 @@ export default function InfoSearchInventory() {
         </Box>
     );
 
-    return isMobile ? (
+    return (
         <MobileLayout
             topbarMode='back'
             topbarBackground='transparent'
@@ -157,22 +155,7 @@ export default function InfoSearchInventory() {
         >
             {currentSearch === "" ? recentSearchContent : searchResultContent}
         </MobileLayout>
-    ) : (
-        <MobileLayout
-            topbarMode='back'
-            topbarBackground='transparent'
-            showButtomNav={false} 
-            searchbarContent={
-                <SearchBox
-                    value={currentSearch}
-                    onChange={handleInputChange}
-                    onSearch={handleAddKeyword}
-                />
-            }
-        >
-            {currentSearch === "" ? recentSearchContent : searchResultContent}
-        </MobileLayout>
-    );
+    ) 
 }
 
 export const SearchText = ({ children }: { children: React.ReactNode }) => {

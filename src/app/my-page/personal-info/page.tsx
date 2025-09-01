@@ -21,9 +21,13 @@ export default function PersonalInfo() {
       const token = localStorage.getItem('token');
       setIsLogin(!!token);
   }, []);
-    
-  const content_mobile = (
-    <>
+
+  return (
+    <MobileLayout
+      topbarMode="back"
+      topbarTitle="개인 정보 확인"
+      topbarBackground="filled"
+    >
       {/* 개인정보 */}
       <Box
         className="personal_wrapper"
@@ -57,16 +61,6 @@ export default function PersonalInfo() {
         <LogoutText onClick={handleClick}>로그아웃</LogoutText>
         <LogoutText>계정 탈퇴</LogoutText>
       </Box>
-    </>
-  );
-
-  return (
-    <MobileLayout
-      topbarMode="back"
-      topbarTitle="개인 정보 확인"
-      topbarBackground="filled"
-    >
-      {content_mobile}
       {!isLogin && <LoginModal />}
     </MobileLayout>
   );

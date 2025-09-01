@@ -31,7 +31,7 @@ export const ContendCard = ({
   return (
     <Box
       display="flex"
-      w="20.9375rem"
+      w="calc(100vw - 2.5rem)"
       p="0.75rem 0"
       flexDirection="row"
       alignItems="center"
@@ -85,6 +85,7 @@ export const ContendCard = ({
         position="relative"
         w="4rem"
         h="4rem"
+        maxW="100%"
         overflow="hidden"
         flexShrink={0}
         borderRadius="0.5rem"

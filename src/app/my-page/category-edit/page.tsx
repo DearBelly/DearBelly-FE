@@ -3,15 +3,11 @@ import { Box, Separator, useToken } from "@chakra-ui/react";
 import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";
 import { CheckField } from "@/components/CheckField/CheckField";
 import { useCategoryStore } from "@/store/useCategoryStore";
-import { useGetBreakPointValue } from "@/context/BreakPointProvider";
 import { Toast } from "@/components/Toast/Toast";
 import { useState, useEffect } from "react";
 import { LoginModal } from '@/components/LoginModal/LoginModal';
 
 export default function CategoryEdit() {
-  const isPc = useGetBreakPointValue();
-  const isMobile = !isPc;
-
   const CATEGORY_ALL = "전체";
   const CATEGORY_LIST = [
     { id: "health", label: "신체건강" },
@@ -52,7 +48,7 @@ export default function CategoryEdit() {
       setIsLogin(!!token);
   }, []);
 
-  const content = (
+  return (
     <TopBarBottomButtonLayout 
         onNext={handleNextClick} 
         nextLabel="적용하기"
@@ -112,7 +108,5 @@ export default function CategoryEdit() {
       {!isLogin && <LoginModal />}
     </Box>
     </TopBarBottomButtonLayout>
-  );
-
-  return isMobile ? content : content;
+  )
 }

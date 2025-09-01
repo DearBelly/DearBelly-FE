@@ -11,7 +11,8 @@ export const NoticeBox = ({ label }: NoticeBoxProps) => {
   return (
     <Box
       display="flex"
-      w="20.9375rem"
+      w="100%"
+      h="3.5rem"
       p="1rem"
       flexDirection="column"
       alignItems="center"

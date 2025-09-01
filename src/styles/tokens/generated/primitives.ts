@@ -149,7 +149,7 @@ export const primitives = {
       "value": "#88cd7a"
     },
     "apricot100": {
-      "value": "#fae9cd"
+      "value": "#917348"
     },
     "cyan300": {
       "value": "#4fcad2"
@@ -186,6 +186,144 @@ export const primitives = {
     },
     "orange": {
       "value": "#ff7b00"
+    },
+    "bubblegum90": {
+      "value": "#7098a5"
+    },
+    "bubblegum10": {
+      "value": "#cae1e8"
+    },
+    "soda90": {
+      "value": "#668497"
+    },
+    "soda10": {
+      "value": "#c3deee"
+    },
+    "matcha90": {
+      "value": "#528a62"
+    },
+    "matcha10": {
+      "value": "#c4e6c9"
+    },
+    "olive90": {
+      "value": "#71856a"
+    },
+    "mugwort90": {
+      "value": "#588173"
+    },
+    "olive10": {
+      "value": "#d7ecca"
+    },
+    "apricot90": {
+      "value": "#a98e67"
+    },
+    "apricot10": {
+      "value": "#f3debe"
+    },
+    "mugwort10": {
+      "value": "#c6e3d6"
+    },
+    "orange300": {
+      "value": "#ff8500"
+    },
+    "orange200": {
+      "value": "#ec8347"
+    },
+    "orange100": {
+      "value": "#ffa471"
+    },
+    "red": {
+      "value": "#ff0000"
+    },
+    "blue": {
+      "value": "#2f00ff"
+    },
+    "apricot70": {
+      "value": "#d9a252"
+    },
+    "apricot50": {
+      "value": "#e8af5f"
+    },
+    "apricot30": {
+      "value": "#f3be77"
+    },
+    "olive70": {
+      "value": "#7e9e54"
+    },
+    "olive50": {
+      "value": "#8ead61"
+    },
+    "olive30": {
+      "value": "#9ab86e"
+    },
+    "mugwort70": {
+      "value": "#4e8f7e"
+    },
+    "mugwort50": {
+      "value": "#599c89"
+    },
+    "mugwort30": {
+      "value": "#66a794"
+    },
+    "matcha70": {
+      "value": "#4f9a66"
+    },
+    "matcha50": {
+      "value": "#5ca771"
+    },
+    "matcha30": {
+      "value": "#6bb281"
+    },
+    "soda70": {
+      "value": "#3e91ba"
+    },
+    "soda50": {
+      "value": "#4c9fc8"
+    },
+    "soda30": {
+      "value": "#5baad2"
+    },
+    "bubblegum70": {
+      "value": "#479ab0"
+    },
+    "bubblegum50": {
+      "value": "#55a8be"
+    },
+    "bubblegum30": {
+      "value": "#67b3c8"
+    },
+    "bubblegum20": {
+      "value": "#7dcde3"
+    },
+    "soda20": {
+      "value": "#90cceb"
+    },
+    "apricot20": {
+      "value": "#f6cd97"
+    },
+    "matcha20": {
+      "value": "#83cf9b"
+    },
+    "olive20": {
+      "value": "#b0d37e"
+    },
+    "mugwort20": {
+      "value": "#85d0ba"
+    },
+    "soda100": {
+      "value": "#43667c"
+    },
+    "bubblegum100": {
+      "value": "#437788"
+    },
+    "matcha100": {
+      "value": "#397249"
+    },
+    "mugwort100": {
+      "value": "#387560"
+    },
+    "olive100": {
+      "value": "#516e47"
     }
   },
   "fonts": {
@@ -201,42 +339,51 @@ export const primitives = {
       "value": "18px"
     },
     "2": {
-      "value": "16px"
+      "value": "18px"
     },
     "3": {
-      "value": "14px"
+      "value": "16px"
     },
     "4": {
-      "value": "14px"
+      "value": "16px"
     },
     "5": {
-      "value": "12px"
+      "value": "16px"
     },
     "6": {
-      "value": "12px"
+      "value": "14px"
     },
     "7": {
-      "value": "12px"
+      "value": "14px"
     },
     "8": {
-      "value": "12px"
+      "value": "14px"
     },
     "9": {
-      "value": "10px"
+      "value": "14px"
     },
     "10": {
-      "value": "10px"
+      "value": "14px"
     },
     "11": {
-      "value": "10px"
+      "value": "12px"
     },
     "12": {
-      "value": "9px"
+      "value": "12px"
     },
     "13": {
-      "value": "9px"
+      "value": "12px"
     },
     "14": {
+      "value": "12px"
+    },
+    "15": {
+      "value": "10px"
+    },
+    "16": {
+      "value": "10px"
+    },
+    "17": {
       "value": "9px"
     }
   },
@@ -262,39 +409,48 @@ export const primitives = {
       "value": "24px"
     },
     "3": {
-      "value": "18px"
+      "value": "22px"
     },
     "4": {
-      "value": "18px"
+      "value": "22px"
     },
     "5": {
-      "value": "20px"
+      "value": "22px"
     },
     "6": {
-      "value": "16px"
+      "value": "20px"
     },
     "7": {
-      "value": "24px"
+      "value": "20px"
     },
     "8": {
-      "value": "20px"
+      "value": "24px"
     },
     "9": {
       "value": "24px"
     },
     "10": {
-      "value": "14px"
+      "value": "22px"
     },
     "11": {
-      "value": "14px"
+      "value": "12px"
     },
     "12": {
-      "value": "11px"
+      "value": "24px"
     },
     "13": {
-      "value": "11px"
+      "value": "14px"
     },
     "14": {
+      "value": "14px"
+    },
+    "15": {
+      "value": "11px"
+    },
+    "16": {
+      "value": "11px"
+    },
+    "17": {
       "value": "11px"
     }
   },
@@ -312,7 +468,7 @@ export const primitives = {
       "value": "-1%"
     },
     "4": {
-      "value": "-2%"
+      "value": "-1%"
     },
     "5": {
       "value": "-1%"
@@ -321,27 +477,36 @@ export const primitives = {
       "value": "-1%"
     },
     "7": {
-      "value": "-2%"
+      "value": "-1%"
     },
     "8": {
-      "value": "-2%"
+      "value": "-1%"
     },
     "9": {
       "value": "-2%"
     },
     "10": {
-      "value": "-1%"
+      "value": "-2%"
     },
     "11": {
-      "value": "-1%"
+      "value": "0%"
     },
     "12": {
-      "value": "-1%"
+      "value": "-2%"
     },
     "13": {
       "value": "-1%"
     },
     "14": {
+      "value": "-1%"
+    },
+    "15": {
+      "value": "-1%"
+    },
+    "16": {
+      "value": "-1%"
+    },
+    "17": {
       "value": "-4%"
     }
   }

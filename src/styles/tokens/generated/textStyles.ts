@@ -18,25 +18,7 @@ export const textStyles = {
       "letterSpacing": "-0.01em"
     }
   },
-  "head_26700": {
-    "value": {
-      "fontFamily": "{fonts.nanumsquareNeo}",
-      "fontWeight": "{fontWeights.nanumsquareNeo1}",
-      "fontSize": "{fontSizes.0}",
-      "lineHeight": "{lineHeights.0}",
-      "letterSpacing": "-0.01em"
-    }
-  },
-  "head_18700": {
-    "value": {
-      "fontFamily": "{fonts.nanumsquareNeo}",
-      "fontWeight": "{fontWeights.nanumsquareNeo0}",
-      "fontSize": "{fontSizes.1}",
-      "lineHeight": "{lineHeights.1}",
-      "letterSpacing": "-0.01em"
-    }
-  },
-  "body_186002": {
+  "body_187002": {
     "value": {
       "fontFamily": "{fonts.nanumsquareNeo}",
       "fontWeight": "{fontWeights.nanumsquareNeo1}",
@@ -45,34 +27,34 @@ export const textStyles = {
       "letterSpacing": "-0.02em"
     }
   },
-  "body_166001": {
-    "value": {
-      "fontFamily": "{fonts.nanumsquareNeo}",
-      "fontWeight": "{fontWeights.nanumsquareNeo1}",
-      "fontSize": "{fontSizes.3}",
-      "lineHeight": "{lineHeights.1}",
-      "letterSpacing": "-0.01em"
-    }
-  },
   "body_167001": {
     "value": {
       "fontFamily": "{fonts.nanumsquareNeo}",
+      "fontWeight": "{fontWeights.nanumsquareNeo1}",
+      "fontSize": "{fontSizes.3}",
+      "lineHeight": "{lineHeights.1}",
+      "letterSpacing": "-0.01em"
+    }
+  },
+  "body_168001": {
+    "value": {
+      "fontFamily": "{fonts.nanumsquareNeo}",
       "fontWeight": "{fontWeights.nanumsquareNeo0}",
       "fontSize": "{fontSizes.3}",
       "lineHeight": "{lineHeights.1}",
       "letterSpacing": "-0.01em"
     }
   },
-  "body_167002": {
+  "body_168002": {
     "value": {
       "fontFamily": "{fonts.nanumsquareNeo}",
       "fontWeight": "{fontWeights.nanumsquareNeo0}",
       "fontSize": "{fontSizes.3}",
       "lineHeight": "{lineHeights.1}",
-      "letterSpacing": "-0.02em"
+      "letterSpacing": "-0.01em"
     }
   },
-  "body_14700": {
+  "body_148001": {
     "value": {
       "fontFamily": "{fonts.nanumsquareNeo}",
       "fontWeight": "{fontWeights.nanumsquareNeo0}",
@@ -81,7 +63,7 @@ export const textStyles = {
       "letterSpacing": "-0.01em"
     }
   },
-  "body_14600120": {
+  "body_14700120": {
     "value": {
       "fontFamily": "{fonts.nanumsquareNeo}",
       "fontWeight": "{fontWeights.nanumsquareNeo1}",
@@ -90,7 +72,7 @@ export const textStyles = {
       "letterSpacing": "-0.01em"
     }
   },
-  "body_14600124": {
+  "body_14700124": {
     "value": {
       "fontFamily": "{fonts.nanumsquareNeo}",
       "fontWeight": "{fontWeights.nanumsquareNeo1}",
@@ -117,13 +99,13 @@ export const textStyles = {
       "letterSpacing": "-0.02em"
     }
   },
-  "body_12600": {
+  "body_12700": {
     "value": {
       "fontFamily": "{fonts.nanumsquareNeo}",
       "fontWeight": "{fontWeights.nanumsquareNeo1}",
       "fontSize": "{fontSizes.11}",
       "lineHeight": "{lineHeights.11}",
-      "letterSpacing": "-0.01em"
+      "letterSpacing": "0em"
     }
   },
   "body_124002": {
@@ -135,79 +117,7 @@ export const textStyles = {
       "letterSpacing": "-0.02em"
     }
   },
-  "body_166002": {
-    "value": {
-      "fontFamily": "{fonts.nanumsquareNeo}",
-      "fontWeight": "{fontWeights.nanumsquareNeo1}",
-      "fontSize": "{fontSizes.2}",
-      "lineHeight": "{lineHeights.2}",
-      "letterSpacing": "-0.02em"
-    }
-  },
-  "body_147001": {
-    "value": {
-      "fontFamily": "{fonts.nanumsquareNeo}",
-      "fontWeight": "{fontWeights.nanumsquareNeo0}",
-      "fontSize": "{fontSizes.3}",
-      "lineHeight": "{lineHeights.3}",
-      "letterSpacing": "-0.01em"
-    }
-  },
-  "body_147002": {
-    "value": {
-      "fontFamily": "{fonts.nanumsquareNeo}",
-      "fontWeight": "{fontWeights.nanumsquareNeo0}",
-      "fontSize": "{fontSizes.3}",
-      "lineHeight": "{lineHeights.3}",
-      "letterSpacing": "-0.02em"
-    }
-  },
-  "body_12700": {
-    "value": {
-      "fontFamily": "{fonts.nanumsquareNeo}",
-      "fontWeight": "{fontWeights.nanumsquareNeo0}",
-      "fontSize": "{fontSizes.5}",
-      "lineHeight": "{lineHeights.5}",
-      "letterSpacing": "-0.01em"
-    }
-  },
-  "body_126001": {
-    "value": {
-      "fontFamily": "{fonts.nanumsquareNeo}",
-      "fontWeight": "{fontWeights.nanumsquareNeo1}",
-      "fontSize": "{fontSizes.5}",
-      "lineHeight": "{lineHeights.6}",
-      "letterSpacing": "-0.01em"
-    }
-  },
-  "body_12400224": {
-    "value": {
-      "fontFamily": "{fonts.nanumsquareNeo}",
-      "fontWeight": "{fontWeights.nanumsquareNeo2}",
-      "fontSize": "{fontSizes.5}",
-      "lineHeight": "{lineHeights.2}",
-      "letterSpacing": "-0.02em"
-    }
-  },
-  "body_12400220": {
-    "value": {
-      "fontFamily": "{fonts.nanumsquareNeo}",
-      "fontWeight": "{fontWeights.nanumsquareNeo2}",
-      "fontSize": "{fontSizes.5}",
-      "lineHeight": "{lineHeights.5}",
-      "letterSpacing": "-0.02em"
-    }
-  },
-  "body_106002": {
-    "value": {
-      "fontFamily": "{fonts.nanumsquareNeo}",
-      "fontWeight": "{fontWeights.nanumsquareNeo2}",
-      "fontSize": "{fontSizes.9}",
-      "lineHeight": "{lineHeights.2}",
-      "letterSpacing": "-0.02em"
-    }
-  },
-  "caption_12700": {
+  "caption_12800": {
     "value": {
       "fontFamily": "{fonts.nanumsquareNeo}",
       "fontWeight": "{fontWeights.nanumsquareNeo0}",
@@ -234,7 +144,7 @@ export const textStyles = {
       "letterSpacing": "-0.01em"
     }
   },
-  "caption_106001": {
+  "caption_107001": {
     "value": {
       "fontFamily": "{fonts.nanumsquareNeo}",
       "fontWeight": "{fontWeights.nanumsquareNeo1}",
@@ -243,48 +153,12 @@ export const textStyles = {
       "letterSpacing": "-0.01em"
     }
   },
-  "caption_10700": {
-    "value": {
-      "fontFamily": "{fonts.nanumsquareNeo}",
-      "fontWeight": "{fontWeights.nanumsquareNeo0}",
-      "fontSize": "{fontSizes.9}",
-      "lineHeight": "{lineHeights.10}",
-      "letterSpacing": "-0.01em"
-    }
-  },
-  "caption_10400": {
-    "value": {
-      "fontFamily": "{fonts.nanumsquareNeo}",
-      "fontWeight": "{fontWeights.nanumsquareNeo2}",
-      "fontSize": "{fontSizes.9}",
-      "lineHeight": "{lineHeights.10}",
-      "letterSpacing": "-0.01em"
-    }
-  },
-  "caption_94001": {
-    "value": {
-      "fontFamily": "{fonts.nanumsquareNeo}",
-      "fontWeight": "{fontWeights.nanumsquareNeo2}",
-      "fontSize": "{fontSizes.12}",
-      "lineHeight": "{lineHeights.12}",
-      "letterSpacing": "-0.01em"
-    }
-  },
-  "caption_96001": {
+  "caption_97004": {
     "value": {
       "fontFamily": "{fonts.nanumsquareNeo}",
       "fontWeight": "{fontWeights.nanumsquareNeo1}",
-      "fontSize": "{fontSizes.12}",
-      "lineHeight": "{lineHeights.12}",
-      "letterSpacing": "-0.01em"
-    }
-  },
-  "caption_96004": {
-    "value": {
-      "fontFamily": "{fonts.nanumsquareNeo}",
-      "fontWeight": "{fontWeights.nanumsquareNeo1}",
-      "fontSize": "{fontSizes.12}",
-      "lineHeight": "{lineHeights.12}",
+      "fontSize": "{fontSizes.17}",
+      "lineHeight": "{lineHeights.15}",
       "letterSpacing": "-0.04em"
     }
   }

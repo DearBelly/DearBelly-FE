@@ -4,19 +4,16 @@ import { MobileLayout } from "@/components/Layouts/MobileLayout";
 import { useGetBreakPointValue } from "@/context/BreakPointProvider";
 import { EnvelopeSolid, StoreSolid } from "@mynaui/icons-react";
 import { Box, Flex, Grid, Image, Text } from "@chakra-ui/react";
+import { NoticeCard } from "@/components/Home/NoticeCard/NoticeCard";
+import { ImageCard } from "@/components/Home/ImageCard/ImageCard";
 import { Button } from "@/components/Button/Button";
+import ShaderBg from "@/components/Home/Background/ShaderBg";
 import { useRouter } from "next/navigation";
-import dynamic from "next/dynamic";
 
 export default function Home() {
   const isPc = useGetBreakPointValue();
   const isMobile = !isPc;
   const router = useRouter();
-
-  const ShaderBg = dynamic(
-    () => import("@/components/Home/Background/ShaderBg"),
-    { ssr: false }
-  );
 
   const handleImageCardClick = (url: string) => {
     router.push(url);
@@ -31,8 +28,12 @@ export default function Home() {
 
   return isMobile ? (
     <MobileLayout
+      topbarMode="whiteLogo"
       topbarBackground="transparent"
+      hasSidePadding={false}
       topbarContent={topBarIconContent}
+      hasTopPadding={false}
+      hasBottomPadding={false}
     >
       {/* 배경 */}
       <ShaderBg
@@ -40,13 +41,14 @@ export default function Home() {
       />
       <Grid
         templateRows="auto 1fr auto"
-        minH="100dvh"
+        h="100dvh"
         w="100%"
         position="relative"
         zIndex={1}
       >
         {/* 공지 */}
-        <Box gridRow="1" w="fit-content" ml="auto" mt="16px" mr="20px">
+        <Box gridRow="1" w="fit-content" ml="auto" mt="3.75rem" mr="20px">
+          <NoticeCard mode="default" noticeText="분홍이를 만난 지\n3주가 되었어요!" />
         </Box>
 
         {/* 일러스트 + 버튼 */}
@@ -57,10 +59,11 @@ export default function Home() {
           justify="center"
           gap="20px"
           w="72vw"
+          my="auto"
           mx="auto"
         >
           <Image src="/images/letter.svg" alt="편지" h="7.5dvh" objectFit="contain" onClick={() => router.push("/letters")}/>
-          <Image src="/images/babyCharacter/step1.svg" alt="아기" h="16.6dvh" objectFit="contain" />
+          <Image src="/images/babyCharacter/step2.svg" alt="아기" h="16.6dvh" objectFit="contain" />
           <Button size="small" type="primary" width="104px" onClick={() => router.push("/letters/new")}>
             <Text textStyle="caption_12800" color="button.button.text.secondary">
               편지 쓰러가기
@@ -72,13 +75,15 @@ export default function Home() {
         <Box
           gridRow="3"
           display="flex"
+          bottom="0"
           flexDirection="row"
           gap="10px"
           overflowX="auto"
           flexWrap="nowrap"
           w="100%"
           px="20px"
-          pb="120px"
+          pb="77px"
+
           css={{
             WebkitOverflowScrolling: "touch",
             scrollbarWidth: "none",
@@ -86,6 +91,9 @@ export default function Home() {
             "&::-webkit-scrollbar": { display: "none" },
           }}
         >
+          <ImageCard imageUrl="/images/image.png" title="깊이 잠들고 싶은 당신에게 추천하는 5가지 방법" description="깊이 숙면하는 방법" onClick={() => handleImageCardClick("/info/detail")}/>
+          <ImageCard imageUrl="/images/image.png" title="임산부 불면증에 좋은 요가" description="음악과 함께하는 요가" onClick={() => handleImageCardClick("/info/detail")}/>
+          <ImageCard imageUrl="/images/image.png" title="겨울에 집에서 하기 좋은 운동 10가지" description="집안에서 가볍게 할 수 있는 운동법" onClick={() => handleImageCardClick("/info/detail")}/>
         </Box>
       </Grid>
     </MobileLayout>

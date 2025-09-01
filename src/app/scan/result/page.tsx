@@ -202,7 +202,7 @@ export const ErrorContent = ({ children }: { children: ReactNode }) => (
 
 export const SafeDangerStyle = ({ children, isSafe }: SafeDangerStyleProps) => (
   <Box
-    width="fit-content" // ✅ 글자 너비에 맞춤
+    width="fit-content" 
     background={isSafe ? "#C4E6C9" : "#FFA471"}
     color="var(--Text-Text-1, #202020)"
     fontFamily="NanumSquare Neo"

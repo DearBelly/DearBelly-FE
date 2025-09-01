@@ -6,7 +6,6 @@ import { MobileLayout } from "../../components/Layouts/MobileLayout";
 import { ChevronRight } from "@mynaui/icons-react";
 import { useRouter } from 'next/navigation';
 import { ProfileContent } from '@/components/ProfileContent/ProfileContent';
-import { LoginModal } from '@/components/LoginModal/LoginModal';
 
 export default function Mypage () {
     const router = useRouter();

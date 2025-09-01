@@ -15,7 +15,7 @@ interface keyInterface {
     text: string;
 }
 
-export default function InfoSearchInventory() {
+export default function InfoSearch() {
     // 로컬 스토리지에 저장한 검색어를 관리 
     const [keywords, setKeyWords] = useState<keyInterface[]>([]);
     // 실제 검색 결과

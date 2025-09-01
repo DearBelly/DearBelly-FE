@@ -49,7 +49,7 @@ const TopRightIcons = ({ onKakaoShare, isBookMark, onToggleBookmark }: {
     </div>
 );
 
-const InformationDetail = () => {
+const InfoDetail = () => {
     // SDK 초기화
     useEffect(() => {
         if (typeof window !== "undefined" && window.Kakao && !window.Kakao.isInitialized()) {
@@ -321,4 +321,4 @@ export const RecommendText = ({ children }: { children: React.ReactNode }) => (
     </Text>
 )
 
-export default InformationDetail
+export default InfoDetail

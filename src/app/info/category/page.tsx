@@ -17,7 +17,7 @@ import {
 } from '../testData';
 
 
-const InfoInventory = () => {
+const InfoCategory = () => {
     const [selectIndex, setSelectIndex] = useState<number | null>(null);
 
     // 아이콘의 index를 사용하여 해당 아이콘에서 보여줄 데이터들을 연결하기 위해 정의한 함수임 
@@ -54,4 +54,4 @@ const InfoInventory = () => {
     ) 
   }
 
-export default InfoInventory
+export default InfoCategory

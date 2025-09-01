@@ -100,3 +100,7 @@ export const ContendCard = ({
     </Box>
   );
 };
+<<<<<<< HEAD
+=======
+
+>>>>>>> 701f1ccc2ea1c5ba3b9861b5102e05fe337ee06c

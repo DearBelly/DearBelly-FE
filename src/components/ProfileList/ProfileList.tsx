@@ -4,6 +4,10 @@ import { Box, Image, Text } from '@chakra-ui/react';
 import { DotsVertical } from '@mynaui/icons-react';
 import { DropdownMenu } from '../DropdownMenu/DropdownMenu';
 import { useState, useRef, useEffect } from 'react';
+<<<<<<< HEAD
+=======
+        
+>>>>>>> 701f1ccc2ea1c5ba3b9861b5102e05fe337ee06c
 export interface ProfileListProps {
   id?: number;
   profileSrc?: string;
@@ -21,6 +25,10 @@ export const ProfileList = ({
   isMe = false,
   isDot = false,
 }: ProfileListProps) => {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 701f1ccc2ea1c5ba3b9861b5102e05fe337ee06c
   const [open, setOpen] = useState(false);
   const iconRef = useRef<HTMLDivElement | null>(null);
 

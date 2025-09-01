@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Box } from "@chakra-ui/react";
 import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";
 import { InputBox } from "@/components/TextField/InputBox";
+import { LoginModal } from '@/components/LoginModal/LoginModal';
 
 export default function FamilyCodeEdit() {
   const [familyCode, setFamilyCode] = useState("");
@@ -18,6 +19,15 @@ export default function FamilyCodeEdit() {
       console.log("가족 코드 인증 성공 → 다음 단계로 진행");
     }
   };
+
+  // 로그인이 되어있는지, 안 되어 있는지 상태저장
+  const [isLogin, setIsLogin] = useState(false);
+
+  // 토큰 체크
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsLogin(!!token);
+}, []);
 
   return (
     <TopBarBottomButtonLayout 
@@ -41,6 +51,7 @@ export default function FamilyCodeEdit() {
             errorMessage="잘못된 코드입니다."
           />
         </Box>
+        {!isLogin && <LoginModal/>}
       </Box>
     </TopBarBottomButtonLayout>
   );

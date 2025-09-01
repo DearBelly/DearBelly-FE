@@ -1,11 +1,12 @@
 'use client';
 
-import React from 'react'
+import { useState, useEffect } from "react";
 import { Box, Text } from "@chakra-ui/react";
 import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";
 import { ProfileListOutput } from '@/components/ProfileList/ProfileListOutput';
 import { testData2 } from '../testData';
 import { useRouter } from "next/navigation";
+import { LoginModal } from '@/components/LoginModal/LoginModal';
 
 export default function BabyInfo() {
     const router = useRouter();
@@ -14,6 +15,15 @@ export default function BabyInfo() {
     };
 
     const pregnantDate='2025.08.23';
+
+    // 로그인이 되어있는지, 안 되어 있는지 상태저장
+    const [isLogin, setIsLogin] = useState(false);
+
+    // 토큰 체크
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        setIsLogin(!!token);
+    }, []);
 
     return (
         <TopBarBottomButtonLayout 
@@ -39,6 +49,7 @@ export default function BabyInfo() {
                     </Box>
                     <ProfileListOutput cards={testData2}/>
                 </Box>
+                {!isLogin && <LoginModal />}
             </Box>
         </TopBarBottomButtonLayout>
     );

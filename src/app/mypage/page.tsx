@@ -1,19 +1,20 @@
 'use client';
 
-import React, {type ReactNode, useEffect } from 'react'
+import React, {type ReactNode, useEffect, useState } from 'react'
 import { Box } from "@chakra-ui/react";
 import { useGetBreakPointValue } from "../../context/BreakPointProvider";
 import { MobileLayout } from "../../components/Layouts/MobileLayout";
 import { ChevronRight } from "@mynaui/icons-react";
 import { useRouter } from 'next/navigation';
 import { ProfileContent } from '@/components/ProfileContent/ProfileContent';
+import { LoginModal } from '@/components/LoginModal/LoginModal';
 
 export default function Mypage () {
     const isPc = useGetBreakPointValue();
     const isMobile = !isPc;
     const router = useRouter();
 
-    // 라이트 모드, 다크 모드 판별 
+    // 라이트 모드, 다크 모드 판별 && 토큰 체크
     useEffect(() => {
         const lightMode_save = localStorage.getItem('lightMode');
         const isLight = lightMode_save === null ? true : lightMode_save === 'true';

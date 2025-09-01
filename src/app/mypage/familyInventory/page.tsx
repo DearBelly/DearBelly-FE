@@ -1,16 +1,26 @@
 'use client';
 
-import React from 'react'
+import { useState, useEffect } from "react";
 import { Box, Text } from "@chakra-ui/react";
 import { useGetBreakPointValue } from "../../../context/BreakPointProvider";
 import { MobileLayout } from "../../../components/Layouts/MobileLayout";
 import { ProfileList } from '@/components/ProfileList/ProfileList';
 import { ProfileListOutput } from '@/components/ProfileList/ProfileListOutput';
 import { testData } from '../testData';
+import { LoginModal } from '@/components/LoginModal/LoginModal';
 
 export default function familyInventory() {
     const isPc = useGetBreakPointValue();
     const isMobile = !isPc;
+
+    // 로그인이 되어있는지, 안 되어 있는지 상태저장
+    const [isLogin, setIsLogin] = useState(false);
+
+    // 토큰 체크
+    useEffect(() => {
+      const token = localStorage.getItem('token');
+      setIsLogin(!!token);
+  }, []);
 
     const content_mobile = (
         <Box className='body_wrapper' display="flex" flexDirection="column" alignItems="center">
@@ -49,6 +59,7 @@ export default function familyInventory() {
                 </Text>
                 <ProfileListOutput cards={testData}/>
             </Box>
+            {!isLogin && <LoginModal />}
         </Box>
     );
     

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Box } from '@chakra-ui/react';
 import { useGetBreakPointValue } from '../../../context/BreakPointProvider';
 import { PhotoGuideModal } from '../../../components/ComputerVision/Photo/PhotoGuideModal';
@@ -16,9 +16,13 @@ export default function Spinner() {
         router.push('/scan');
     };
 
-    const handleCompleteClick = () => {
-        router.push('/scan/complete');
-    };
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        router.push('/scan/result');
+      }, 5000);
+
+      return() => clearTimeout(timer);
+    },[router]);
 
     const content = (
         <Box bg="#737373" minH="100vh" display="flex" alignItems="center" justifyContent="center">

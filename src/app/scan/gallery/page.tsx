@@ -1,12 +1,13 @@
 'use client';
 
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box } from '@chakra-ui/react';
 import { useGetBreakPointValue } from '../../../context/BreakPointProvider';
 import { PhotoGuideModal } from '../../../components/ComputerVision/Photo/PhotoGuideModal';
 import { PhotoBtn } from '../../../components/ComputerVision/Photo/PhotoBtn';
 import { useRouter } from 'next/navigation';
 import { X } from "@mynaui/icons-react";
+import { LoginModal } from '@/components/LoginModal/LoginModal';
 
 export default function Gallery() {
   const isPc = useGetBreakPointValue();
@@ -35,22 +36,31 @@ export default function Gallery() {
       alert('이미지를 먼저 업로드하고, 가이드 안에 맞춰주세요.');
       return;
     }
-    // 결과 페이지에서 읽어 쓰게 임시 저장 (원하면 recoil/zustand/서버 업로드로 교체)
     sessionStorage.setItem('scanCrop', dataUrl);
-    router.push('/scan/result');
+    router.push('/scan/spinner');
   };
 
-  const content = (
+  // 로그인 여부
+  const [isLogin, setIsLogin] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsLogin(!!token);
+  }, []);
+
+  const content = !isLogin ? (
+    <LoginModal />
+  ) : (
     <Box bg="#737373" minH="100vh" display="flex" alignItems="center" justifyContent="center">
-      <Box 
+      <Box
         position='fixed'
         top='1.25rem'
-        right='1.25rem' 
+        right='1.25rem'
         zIndex='1000'
         display='flex'
         cursor='pointer'
-      > 
-        <X size='1.5rem' color='white' strokeWidth={1.5} onClick={handleBackClick}/> 
+      >
+        <X size='1.5rem' color='white' strokeWidth={1.5} onClick={handleBackClick} />
       </Box>
       <PhotoGuideModal
         source="gallery"
@@ -58,10 +68,10 @@ export default function Gallery() {
         onImageUpload={handleImageUpload}
         onCrop={handleCrop}
         initialImage={isLight ? "/images/computerVision/camera_light.png" : "/images/computerVision/camera_dark.png"}
-        title="의약품 촬영 가이드"     
+        title="의약품 촬영 가이드"
         content={
           <>
-            단일 알약만 인식됩니다<br/>
+            단일 알약만 인식됩니다<br />
             가이드라인 안에 알약 하나만 맞춰주세요
           </>
         }
@@ -73,9 +83,5 @@ export default function Gallery() {
     </Box>
   );
 
-  return isMobile ? (
-      content
-  ) : (
-    content
-  );
+  return isMobile ? content : content;
 }

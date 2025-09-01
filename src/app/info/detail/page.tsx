@@ -303,16 +303,11 @@ const TextContent = ({ children, marginTop }: { children: React.ReactNode, margi
     </Text>
 )
 
-export const RecommendText = ({ children }: { children: React.ReactNode }) => (
+const RecommendText = ({ children }: { children: React.ReactNode }) => (
     <Text
       as="div"
-      color="var(--Text-Text-2, #6C6B6B)"
-      fontFamily="NanumSquare Neo"
-      fontSize="0.875rem"
-      fontStyle="normal"
-      fontWeight={600}
-      lineHeight="1.25rem"
-      letterSpacing="-0.00875rem"
+      color="text.text2"
+      textStyle="body_14700120"
     >
       {children}
     </Text>

@@ -100,17 +100,12 @@ export default function Information() {
   ) 
 }
 
-export const RecommendText = ({ children }: { children: React.ReactNode }) => (
+const RecommendText = ({ children }: { children: React.ReactNode }) => (
   <Text
-    as="span"
-    color="var(--Text-Text-2, #6C6B6B)"
-    fontFamily="NanumSquare Neo"
-    fontSize="0.875rem"
-    fontStyle="normal"
-    fontWeight={600}
-    lineHeight="1.25rem"
-    letterSpacing="-0.00875rem"
+    color="text.text2"
+    textStyle="body_148001"
+    alignSelf="stretch"
   >
     {children}
   </Text>
-);
+)

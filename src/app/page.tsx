@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useGetBreakPointValue } from "../context/BreakPointProvider";
 import { motion } from "framer-motion";
 
-const MotionBox = motion(Box);
+const MotionBox = motion.create(Box);
 
 export default function Splash() {
   const isPc = useGetBreakPointValue();

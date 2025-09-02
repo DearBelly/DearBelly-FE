@@ -158,35 +158,25 @@ export default function InfoSearch() {
     ) 
 }
 
-export const SearchText = ({ children }: { children: React.ReactNode }) => {
+const SearchText = ({ children }: { children: React.ReactNode }) => {
     return (
         <Text
-            color="var(--Text-Text-1, #202020)"
-            fontFamily="NanumSquare Neo"
-            fontSize="0.625rem"
-            fontStyle="normal"
-            fontWeight={700}
-            lineHeight="0.75rem"
+            textStyle="body_12700"
         >
             {children}
         </Text>
     );
 };
 
-export const DeleteText = ({ onClick, children, disabled }: { onClick?: () => void; children: React.ReactNode; disabled?:boolean; }) => {
+const DeleteText = ({ onClick, children, disabled }: { onClick?: () => void; children: React.ReactNode; disabled?:boolean; }) => {
     return (
       <Text
         onClick={onClick}  
-        color="var(--Text-Text-2, #6C6B6B)"
-        fontFamily="NanumSquare Neo"
-        fontSize="0.625rem"
-        fontStyle="normal"
-        fontWeight={400}
-        lineHeight="1.5rem"
-        letterSpacing="-0.0125rem"
+        color="text.text2"
+        textStyle="body_124002"
         cursor={disabled ? 'default' : 'pointer'}
         _hover={
-            disabled ? undefined : { color: '#202020', fontWeight: 600 }
+            disabled ? undefined : { fontWeight: 600 }
         }
       >
         {children}
@@ -194,7 +184,7 @@ export const DeleteText = ({ onClick, children, disabled }: { onClick?: () => vo
     );
   };
 
-  export const ErrorContent = ({ children }: { children: ReactNode }) => (
+  const ErrorContent = ({ children }: { children: ReactNode }) => (
     <Box
     display="flex"
     alignItems="center"

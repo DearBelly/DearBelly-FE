@@ -183,9 +183,7 @@ const InformationDetail = () => {
 
                 {/* 글 내용 영역 */}
                 <Box className='content_wrapper' width='20.9375rem' marginTop='3vh'>
-                    <TextContent>
-                        {parseText(testData)}
-                    </TextContent>
+                  {parseText(testData)}
                 </Box>
 
                 {/* 추천 글 목록 영역 */}
@@ -245,13 +243,8 @@ const ImageWrapper = ({ children }: { children: React.ReactNode }) => (
 
 const TextTitle = ({ children }: { children: React.ReactNode }) => (
     <Text
-        color="var(--Text-Text-1, #202020)"
-        fontFamily="NanumSquare Neo"
-        fontSize="1.125rem"
-        fontStyle="normal"
-        fontWeight={800}
-        lineHeight="1.375rem"
-        letterSpacing="-0.01125rem"
+        textStyle="head_188001"
+        alignSelf="stretch"
     >
         {children}
     </Text>
@@ -259,13 +252,9 @@ const TextTitle = ({ children }: { children: React.ReactNode }) => (
 
 const TextSubTitle = ({ children }: { children: React.ReactNode }) => (
     <Text
-        color="var(--Text-Text-2, #6C6B6B)"
-        fontFamily="NanumSquare Neo"
-        fontSize="0.75rem"
-        fontStyle="normal"
-        fontWeight={700}
-        lineHeight="1rem"
-        letterSpacing="-0.0075rem"
+        color="text.text2"
+        textStyle="body_14700120"
+        alignSelf="stretch"
         marginTop='1vh'
     >
         {children}
@@ -274,13 +263,8 @@ const TextSubTitle = ({ children }: { children: React.ReactNode }) => (
 
 const TextDate = ({ children }: { children: React.ReactNode }) => (
     <Text
-        color="var(--Text-Text-3, #949393)"
-        fontFamily="NanumSquare Neo"
-        fontSize="0.5625rem"
-        fontStyle="normal"
-        fontWeight={700}
-        lineHeight="0.6875rem"
-        letterSpacing="-0.00563rem"
+        color="text.text3"
+        textStyle="caption_107001"
         marginTop='1.5vh'
     >
         {children}
@@ -290,14 +274,10 @@ const TextDate = ({ children }: { children: React.ReactNode }) => (
 const TextContent = ({ children, marginTop }: { children: React.ReactNode, marginTop?:string }) => (
     <Text
         mt={marginTop}
-        color="var(--Text-Text-2, #6C6B6B)"
-        fontFamily="NanumSquare Neo"
-        fontSize="0.75rem"
-        fontStyle="normal"
-        fontWeight={400}
-        lineHeight="1.5rem"
-        letterSpacing="-0.015rem"
+        color="text.text2"
+        textStyle="body_14400224"
         textAlign='justify'
+        alignSelf="stretch"
     >
         {children}
     </Text>
@@ -305,9 +285,9 @@ const TextContent = ({ children, marginTop }: { children: React.ReactNode, margi
 
 const RecommendText = ({ children }: { children: React.ReactNode }) => (
     <Text
-      as="div"
       color="text.text2"
-      textStyle="body_14700120"
+      textStyle="body_148001"
+      alignSelf="stretch"
     >
       {children}
     </Text>

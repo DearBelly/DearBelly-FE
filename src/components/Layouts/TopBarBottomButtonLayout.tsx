@@ -3,36 +3,38 @@
 import styled from "@emotion/styled";
 import { TopBar } from "@/components/TopBar/TopBar";
 import { Button } from "@/components/Button/Button";
+import { ReactNode } from "react";
 
 interface TopBarBottomButtonLayoutProps {
   children: React.ReactNode;
   onNext?: () => void;
   nextDisabled?: boolean;
-  // 바텀버튼 안의 문구가 페이지마다 다르기 때문에 props로 받음
   nextLabel?: string;
-  // 프로필 변경에서 버튼을 숨길 수 있는 옵션 추가함
   hideButton?: boolean;
-  // 탑바 타이틀 줄 수 있게 변경
   topbarTitle?: string;
+  topbarRightContent?: ReactNode;
 }
 
 export const TopBarBottomButtonLayout = ({
   children,
   onNext,
-  nextDisabled = true,
-  // 기본값은 '다음'으로 설정
-  nextLabel='다음', 
-  hideButton=false,
+  nextDisabled = false,
+  nextLabel = "다음",
+  hideButton = false,
   topbarTitle,
+  topbarRightContent,
 }: TopBarBottomButtonLayoutProps) => {
-
   return (
     <>
-      <TopBar mode="back" backgroundType="filled" title={topbarTitle}/>
+      <TopBar
+        mode="back"
+        backgroundType="filled"
+        title={topbarTitle}
+        rightContent={topbarRightContent}
+      />
       <Container>
         {children}
-
-        {!hideButton && ( 
+        {!hideButton && (
           <ButtonWrapper>
             <Button
               type="primary"
@@ -58,7 +60,7 @@ const Container = styled.div`
   padding: 0 20px;
   display: flex;
   flex-direction: column;
-  
+
   padding-top: 44px; /* iOS 기준 */
   @media (max-width: 360px) {
     padding-top: 56px; /* AOS */
@@ -67,18 +69,20 @@ const Container = styled.div`
 
 const ButtonWrapper = styled.div`
   z-index: 1;
-  width: calc(100vw - 2.5rem);
+  width: 100%;
   margin-top: auto;
   padding-top: 1.23dvh;
   padding-bottom: 1.23dvh;
   position: relative;
 `;
 
-// 우선 라이트모드 컬러로만 적용
 const BackgroundShadow = styled.div`
   z-index: -1;
   position: absolute;
   inset: 0 calc(50% - 50dvw);
-  background: linear-gradient(180deg, rgba(249, 247, 247, 0.00) 6.13%, #F9F7F7 58.93%);
+  background: linear-gradient(
+    180deg,
+    rgba(249, 247, 247, 0.0) 6.13%,
+    #f9f7f7 58.93%
+  );
 `;
-

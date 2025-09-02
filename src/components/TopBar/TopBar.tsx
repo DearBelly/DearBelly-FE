@@ -1,7 +1,9 @@
 /** @jsxImportSource @emotion/react */
+'use client';
+
 import { css } from '@emotion/react';
 import { ChevronLeft } from "@mynaui/icons-react";
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation';
 
 export interface TopBarProps {
   mode?: 'logo' | 'back' | 'whiteLogo';
@@ -12,7 +14,6 @@ export interface TopBarProps {
   backStepColor?: string;
   iconColor?: string;
   searchContent ?: React.ReactNode;
-  backurl?: string;  
 }
 
 export const TopBar = ({
@@ -24,16 +25,9 @@ export const TopBar = ({
   backStepColor="#202020",
   iconColor = "#202020",
   // 서치바 전용 props 추가함
-  searchContent,
-  // 뒤로가기 버튼 url
-  backurl,
+  searchContent
 }: TopBarProps): React.ReactNode => {
-
   const router = useRouter();
-
-  const handleBackClick = () => {
-    router.back(); 
-  };
 
   return (
     <header css={[containerStyle, backgroundType === 'transparent' ? transparentStyle : filledStyle]}>
@@ -41,30 +35,24 @@ export const TopBar = ({
         <div css={contentStyle}>
           {mode === 'logo' && (
             <div css={logoSectionStyle(logoColor)}>
-              <img src="/logos/logo_text.svg" alt="logo" width={102} height={20} />
+              <img src="/logos/logo_text.svg" alt="logo" width={102} height={20} onClick={() => router.push('/home')}/>
             </div>
           )}
           {mode === 'back' && !searchContent && (
             <div css={backSectionStyle(backStepColor)}>
-              <ChevronLeft 
-                css={css`width: 24px; height: 24px; cursor: pointer;`}
-                onClick={handleBackClick} 
-              />
+              <ChevronLeft css={css`width: 24px; height: 24px; cursor: pointer;`} onClick={() => router.back()} />
               {title && <span css={titleStyle}>{title}</span>}
             </div>
           )}
           {mode === 'back' && searchContent && (
             <div css={backSectionStyle(backStepColor)}>
-              <ChevronLeft 
-                css={css`width: 24px; height: 24px; cursor: pointer;`} 
-                onClick={handleBackClick} 
-              />
+              <ChevronLeft css={css`width: 24px; height: 24px; cursor: pointer;`} onClick={() => router.back()} />
               {searchContent}
             </div>
           )}   
           {mode === 'whiteLogo' && (
             <div css={logoSectionStyle(logoColor)}>
-              <img src="/logos/logo_text.svg" alt="logo" width={102} height={20} color="#FFFFFF"/>
+              <img src="/logos/white_logo_text.svg" alt="logo" width={102} height={20} onClick={() => router.push('/home')}/>
             </div>
           )}
           {rightContent && (
@@ -94,7 +82,7 @@ const transparentStyle = css`
 `;
 
 const filledStyle = css`
-  background-color: var(--bg);
+  background-color: #F9F7F7;
 `;
 
 const barStyle = css`

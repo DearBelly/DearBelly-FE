@@ -94,27 +94,27 @@ const InfoDetail = () => {
 
     // 본문 데이터 '\n\n' 문단 띄우기, '** ~ **' 강조 (받은 데이터 글 양식 설정) 
     const parseText = (text: string) => {
-        return text.split('\n\n').map((para, i) => (
-          <TextContent key={i} marginTop={i === 0 ? "0" : "-0.75rem"}>
-            {para
-              .split(/(\*\*[^*]+\*\*)/g)
-              .map((part, j) => {
-                if (part.startsWith('**') && part.endsWith('**')) {
-                    return (
-                        <span key={`b-${j}`} style={{ fontWeight: '800', fontSize: '0.875rem', color: 'var(--Text-Text-1, #202020)', lineHeight: '1.125rem', letterSpacing: '-0.0175rem'}}>
-                          {part.slice(2, -2)}
-                        </span>
-                    );
-                }
+      return text.split("\n\n").map((paragraph, pIdx) => (
+        <TextContent key={`p-${pIdx}`} marginTop={pIdx === 0 ? "0" : "-0.75rem"}>
+            {paragraph
+            .split(/(\*\*[^*]+\*\*)/g)
+            .map((segment, sIdx) => {
+              if (segment.startsWith("**") && segment.endsWith("**")) {
+                return (
+                  <Text key={`b-${pIdx}-${sIdx}`} color="text.text1" textStyle="body_168002">
+                    {segment.slice(2, -2)}
+                  </Text>
+                );
+              }
 
-                // 문단 띄우기 ( 첫 번째 문단에서는 위로 띄우는거 없앰) 
-                return part.split('\n').map((line, k, arr) => (
-                  <React.Fragment key={`${j}-${k}`}>
+              // 문단 띄우기 ( 첫 번째 문단에서는 위로 띄우는거 없앰) 
+              return segment.split("\n").map((line, lIdx, all) => (
+                <React.Fragment key={`l-${pIdx}-${sIdx}-${lIdx}`}>
                     {line}
-                    {i !== 0 && <br />}
-                  </React.Fragment>
-                ));
-              })}
+                    {lIdx < all.length - 1 && <br />}
+                </React.Fragment>
+              ));
+            })}
           </TextContent>
         ));
     };

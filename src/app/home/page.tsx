@@ -2,13 +2,13 @@
 
 import { MobileLayout } from "@/components/Layouts/MobileLayout";
 import { useGetBreakPointValue } from "@/context/BreakPointProvider";
-import { EnvelopeSolid, StoreSolid } from "@mynaui/icons-react";
 import { Box, Flex, Grid, Image, Text } from "@chakra-ui/react";
 import { NoticeCard } from "@/components/Home/NoticeCard/NoticeCard";
 import { ImageCard } from "@/components/Home/ImageCard/ImageCard";
 import { Button } from "@/components/Button/Button";
 import ShaderBg from "@/components/Home/Background/ShaderBg";
 import { useRouter } from "next/navigation";
+import { ChakraIcons } from "@/utils/withChakraIcon";
 
 export default function Home() {
   const isPc = useGetBreakPointValue();
@@ -21,8 +21,8 @@ export default function Home() {
 
   const topBarIconContent = (
     <Flex gap="12px" color="icon.icon5">
-      <EnvelopeSolid size={24} />
-      <StoreSolid size={24} />
+      <ChakraIcons.EnvelopeSolid size={24} onClick={() => router.push("/letters")}/>
+      <ChakraIcons.StoreSolid size={24} onClick={() => router.push("/store")}/>
     </Flex>
   );
 

@@ -94,27 +94,27 @@ const InfoDetail = () => {
 
     // 본문 데이터 '\n\n' 문단 띄우기, '** ~ **' 강조 (받은 데이터 글 양식 설정) 
     const parseText = (text: string) => {
-        return text.split('\n\n').map((para, i) => (
-          <TextContent key={i} marginTop={i === 0 ? "0" : "-0.75rem"}>
-            {para
-              .split(/(\*\*[^*]+\*\*)/g)
-              .map((part, j) => {
-                if (part.startsWith('**') && part.endsWith('**')) {
-                    return (
-                        <span key={`b-${j}`} style={{ fontWeight: '800', fontSize: '0.875rem', color: 'var(--Text-Text-1, #202020)', lineHeight: '1.125rem', letterSpacing: '-0.0175rem'}}>
-                          {part.slice(2, -2)}
-                        </span>
-                    );
-                }
+      return text.split("\n\n").map((paragraph, pIdx) => (
+        <TextContent key={`p-${pIdx}`} marginTop={pIdx === 0 ? "0" : "-0.75rem"}>
+            {paragraph
+            .split(/(\*\*[^*]+\*\*)/g)
+            .map((segment, sIdx) => {
+              if (segment.startsWith("**") && segment.endsWith("**")) {
+                return (
+                  <Text key={`b-${pIdx}-${sIdx}`} color="text.text1" textStyle="body_168002">
+                    {segment.slice(2, -2)}
+                  </Text>
+                );
+              }
 
-                // 문단 띄우기 ( 첫 번째 문단에서는 위로 띄우는거 없앰) 
-                return part.split('\n').map((line, k, arr) => (
-                  <React.Fragment key={`${j}-${k}`}>
+              // 문단 띄우기 ( 첫 번째 문단에서는 위로 띄우는거 없앰) 
+              return segment.split("\n").map((line, lIdx, all) => (
+                <React.Fragment key={`l-${pIdx}-${sIdx}-${lIdx}`}>
                     {line}
-                    {i !== 0 && <br />}
-                  </React.Fragment>
-                ));
-              })}
+                    {lIdx < all.length - 1 && <br />}
+                </React.Fragment>
+              ));
+            })}
           </TextContent>
         ));
     };
@@ -202,9 +202,7 @@ const InfoDetail = () => {
 
                 {/* 글 내용 영역 */}
                 <Box className='content_wrapper' width='calc(100vw - 2.5rem)' marginTop='3vh'>
-                    <TextContent>
-                        {parseText(testData)}
-                    </TextContent> 
+                  {parseText(testData)}
                 </Box>
 
                 {/* 추천 글 목록 영역 */}
@@ -247,13 +245,8 @@ const ImageWrapper = ({ children }: { children: React.ReactNode }) => (
 
 const TextTitle = ({ children }: { children: React.ReactNode }) => (
     <Text
-        color="var(--Text-Text-1, #202020)"
-        fontFamily="NanumSquare Neo"
-        fontSize="1.125rem"
-        fontStyle="normal"
-        fontWeight={800}
-        lineHeight="1.375rem"
-        letterSpacing="-0.01125rem"
+        textStyle="head_188001"
+        alignSelf="stretch"
     >
         {children}
     </Text>
@@ -261,13 +254,9 @@ const TextTitle = ({ children }: { children: React.ReactNode }) => (
 
 const TextSubTitle = ({ children }: { children: React.ReactNode }) => (
     <Text
-        color="var(--Text-Text-2, #6C6B6B)"
-        fontFamily="NanumSquare Neo"
-        fontSize="0.75rem"
-        fontStyle="normal"
-        fontWeight={700}
-        lineHeight="1rem"
-        letterSpacing="-0.0075rem"
+        color="text.text2"
+        textStyle="body_14700120"
+        alignSelf="stretch"
         marginTop='1vh'
     >
         {children}
@@ -276,13 +265,8 @@ const TextSubTitle = ({ children }: { children: React.ReactNode }) => (
 
 const TextDate = ({ children }: { children: React.ReactNode }) => (
     <Text
-        color="var(--Text-Text-3, #949393)"
-        fontFamily="NanumSquare Neo"
-        fontSize="0.5625rem"
-        fontStyle="normal"
-        fontWeight={700}
-        lineHeight="0.6875rem"
-        letterSpacing="-0.00563rem"
+        color="text.text3"
+        textStyle="caption_107001"
         marginTop='1.5vh'
     >
         {children}
@@ -293,29 +277,20 @@ const TextContent = ({ children, marginTop }: { children: React.ReactNode, margi
     <Text
         as="div" 
         mt={marginTop}
-        color="var(--Text-Text-2, #6C6B6B)"
-        fontFamily="NanumSquare Neo"
-        fontSize="0.75rem"
-        fontStyle="normal"
-        fontWeight={400}
-        lineHeight="1.5rem"
-        letterSpacing="-0.015rem"
+        color="text.text2"
+        textStyle="body_14400224"
         textAlign='justify'
+        alignSelf="stretch"
     >
         {children}
     </Text>
 )
 
-export const RecommendText = ({ children }: { children: React.ReactNode }) => (
+const RecommendText = ({ children }: { children: React.ReactNode }) => (
     <Text
-      as="div"
-      color="var(--Text-Text-2, #6C6B6B)"
-      fontFamily="NanumSquare Neo"
-      fontSize="0.875rem"
-      fontStyle="normal"
-      fontWeight={600}
-      lineHeight="1.25rem"
-      letterSpacing="-0.00875rem"
+      color="text.text2"
+      textStyle="body_148001"
+      alignSelf="stretch"
     >
       {children}
     </Text>

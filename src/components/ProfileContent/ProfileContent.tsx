@@ -12,7 +12,7 @@ interface ProfileContentProps {
   onToggleChange?: (on: boolean) => void;
 }
 
-const MotionBox = motion(Box);
+const MotionBox = motion.create(Box);
 
 export const ProfileContent = ({
   content,

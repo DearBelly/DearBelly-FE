@@ -9,7 +9,7 @@ export interface BottomBtnProps {
   onClick?: () => void;
 }
 
-const MotionButton = motion(Button);
+const MotionButton = motion.create(Button);
 
 export const BottomBtn = ({ children, onClick }: BottomBtnProps) => {
   return (

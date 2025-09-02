@@ -4,7 +4,7 @@ import { Box, Text } from '@chakra-ui/react';
 import { FunnyCircleSolid } from "@mynaui/icons-react";
 import { motion } from "framer-motion";
 
-const MotionBox = motion(Box);
+const MotionBox = motion.create(Box);
 
 export const Toast = () => (
   <MotionBox

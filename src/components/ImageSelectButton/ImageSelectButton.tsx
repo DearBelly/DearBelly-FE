@@ -10,7 +10,7 @@ interface ImageSelectButtonProps {
   onClick?: () => void;
 }
 
-const MotionBox = motion(Box);
+const MotionBox = motion.create(Box);
 
 export const ImageSelectButton = ({ icon, text, onClick }: ImageSelectButtonProps) => {
   return (

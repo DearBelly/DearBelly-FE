@@ -40,7 +40,7 @@ export const semantic = {
       },
       "text7": {
         "value": {
-          "base": "{colors.white}",
+          "base": "{colors.coral500}",
           "_dark": "{colors.coral200}"
         }
       },
@@ -52,8 +52,46 @@ export const semantic = {
       },
       "textError": {
         "value": {
-          "base": "{colors.orange}",
-          "_dark": "{colors.orange}"
+          "base": "{colors.orange300}",
+          "_dark": "{colors.orange300}"
+        }
+      },
+      "text5": {
+        "value": {
+          "base": "{colors.neutral200}",
+          "_dark": "{colors.neutral200}"
+        }
+      },
+      "textSafe": {
+        "value": {
+          "base": "{colors.matcha20}",
+          "_dark": "{colors.matcha90}"
+        }
+      },
+      "textDanger": {
+        "value": {
+          "base": "{colors.orange100}",
+          "_dark": "{colors.orange200}"
+        }
+      },
+      "textCalendar": {
+        "textCalendarDay": {
+          "value": {
+            "base": "{colors.black}",
+            "_dark": "{colors.whiteopacity90}"
+          }
+        },
+        "textCalendarSun": {
+          "value": {
+            "base": "{colors.red}",
+            "_dark": "{colors.red}"
+          }
+        },
+        "textCalendarSat": {
+          "value": {
+            "base": "{colors.blue}",
+            "_dark": "{colors.blue}"
+          }
         }
       }
     },
@@ -80,6 +118,48 @@ export const semantic = {
         "value": {
           "base": "{colors.neutral300}",
           "_dark": "{colors.neutral1000}"
+        }
+      },
+      "bg5": {
+        "value": {
+          "base": "{colors.whiteopacity50}",
+          "_dark": "{colors.blackopacity50}"
+        }
+      },
+      "calendar2": {
+        "value": {
+          "base": "{colors.bubblegum10}",
+          "_dark": "{colors.bubblegum90}"
+        }
+      },
+      "calendar1": {
+        "value": {
+          "base": "{colors.soda10}",
+          "_dark": "{colors.soda90}"
+        }
+      },
+      "calendar3": {
+        "value": {
+          "base": "{colors.matcha10}",
+          "_dark": "{colors.matcha90}"
+        }
+      },
+      "calendar5": {
+        "value": {
+          "base": "{colors.olive10}",
+          "_dark": "{colors.olive90}"
+        }
+      },
+      "calendar6": {
+        "value": {
+          "base": "{colors.apricot10}",
+          "_dark": "{colors.apricot90}"
+        }
+      },
+      "calendar4": {
+        "value": {
+          "base": "{colors.mugwort10}",
+          "_dark": "{colors.mugwort90}"
         }
       }
     },
@@ -139,7 +219,7 @@ export const semantic = {
       "icon5": {
         "value": {
           "base": "{colors.white}",
-          "_dark": "{colors.neutral900}"
+          "_dark": "{colors.white}"
         }
       }
     },
@@ -201,6 +281,92 @@ export const semantic = {
           "value": {
             "base": "{colors.neutral1300}",
             "_dark": "{colors.black}"
+          }
+        },
+        "secondary": {
+          "value": {
+            "base": "{colors.neutral200}",
+            "_dark": "{colors.neutral200}"
+          }
+        },
+        "teritery": {
+          "value": {
+            "base": "{colors.neutral1300}",
+            "_dark": "{colors.neutral1300}"
+          }
+        }
+      },
+      "calendar": {
+        "sodaPri": {
+          "value": {
+            "base": "{colors.soda50}",
+            "_dark": "{colors.soda30}"
+          }
+        },
+        "bubbleGumPri": {
+          "value": {
+            "base": "{colors.bubblegum50}",
+            "_dark": "{colors.bubblegum30}"
+          }
+        },
+        "matchaPri": {
+          "value": {
+            "base": "{colors.matcha50}",
+            "_dark": "{colors.matcha30}"
+          }
+        },
+        "mugwortPri": {
+          "value": {
+            "base": "{colors.mugwort50}",
+            "_dark": "{colors.mugwort30}"
+          }
+        },
+        "olivePri": {
+          "value": {
+            "base": "{colors.olive50}",
+            "_dark": "{colors.olive30}"
+          }
+        },
+        "apricotPri": {
+          "value": {
+            "base": "{colors.apricot50}",
+            "_dark": "{colors.apricot30}"
+          }
+        },
+        "apricotSub": {
+          "value": {
+            "base": "{colors.apricot20}",
+            "_dark": "{colors.apricot100}"
+          }
+        },
+        "bubbleGumSub": {
+          "value": {
+            "base": "{colors.bubblegum20}",
+            "_dark": "{colors.bubblegum100}"
+          }
+        },
+        "oliveSub": {
+          "value": {
+            "base": "{colors.olive20}",
+            "_dark": "{colors.olive100}"
+          }
+        },
+        "matchaSub": {
+          "value": {
+            "base": "{colors.matcha20}",
+            "_dark": "{colors.matcha100}"
+          }
+        },
+        "mugwortSub": {
+          "value": {
+            "base": "{colors.mugwort20}",
+            "_dark": "{colors.mugwort100}"
+          }
+        },
+        "sodaSub": {
+          "value": {
+            "base": "{colors.soda20}",
+            "_dark": "{colors.soda100}"
           }
         }
       }

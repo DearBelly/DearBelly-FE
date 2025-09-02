@@ -8,7 +8,9 @@ interface MobileLayoutProps {
   topbarContent?: ReactNode;
   children: ReactNode;
   hasTopPadding?: boolean;
-  topbarMode?: "logo" | "back";
+  hasSidePadding?: boolean;
+  hasBottomPadding?: boolean;
+  topbarMode?: "logo" | "back" | "whiteLogo";
   topbarBackground?: "filled" | "transparent";
   topbarTitle?: string;
   showButtomNav?: boolean;
@@ -20,6 +22,8 @@ export const MobileLayout = ({
   topbarContent,
   children,
   hasTopPadding = true,
+  hasSidePadding = true,
+  hasBottomPadding = true,
   topbarMode = "logo",
   topbarBackground = "filled",
   topbarTitle,
@@ -40,7 +44,9 @@ export const MobileLayout = ({
         css={[
           contentStyle,
           !hasTopPadding && noTopPaddingStyle,
+          !hasBottomPadding && noBottomPaddingStyle,
           !showButtomNav && noBottomPaddingStyle,
+          !hasSidePadding && noSidePaddingStyle,
         ]}
       >
         {children}
@@ -56,7 +62,7 @@ const layoutStyle = css`
   align-items: center;
   min-width: 100vw;
   min-height: 100vh;
-  background-color: var(--bg);
+  background-color: #f9f7f7;
   margin: 0 auto;
   position: relative;
 `;
@@ -90,4 +96,9 @@ const noTopPaddingStyle = css`
 
 const noBottomPaddingStyle = css`
   padding-bottom: 0 !important;
+`;
+
+const noSidePaddingStyle = css`
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 `;

@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { Box } from '@chakra-ui/react';
-import { useGetBreakPointValue } from '../../../context/BreakPointProvider';
 import { PhotoGuideModal } from '../../../components/ComputerVision/Photo/PhotoGuideModal';
 import { PhotoBtn } from '../../../components/ComputerVision/Photo/PhotoBtn';
 import { useRouter } from 'next/navigation';
@@ -10,8 +9,6 @@ import { X } from "@mynaui/icons-react";
 import { LoginModal } from '@/components/LoginModal/LoginModal';
 
 export default function Camera() {
-    const isPc = useGetBreakPointValue();
-    const isMobile = !isPc;
     const router = useRouter();
 
     // 라이트 모드인지, 다크 모드인지 판별
@@ -53,7 +50,7 @@ export default function Camera() {
       setIsLogin(!!token);
   }, []);
 
-  const content = (
+  return (
     !isLogin ? (
       <LoginModal />
     ) : (
@@ -100,6 +97,4 @@ export default function Camera() {
       </Box>
     )
   );
-
-    return isMobile ? content : 'hi';
 }

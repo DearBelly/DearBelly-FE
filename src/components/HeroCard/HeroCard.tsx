@@ -18,7 +18,7 @@ export const HeroCard = ({ title, description, imageSrc, mode }: HeroCardProps) 
   return (
     <Box
       display="flex"
-      w="20.9375rem"
+      w="calc(100vw - 2.5rem)"
       p="1rem"
       gap="1rem"
       flexDirection="column"
@@ -80,6 +80,7 @@ export const HeroCard = ({ title, description, imageSrc, mode }: HeroCardProps) 
           <Box
             position="relative"
             w="7.5rem"
+            maxW="100%"    
             h="5rem"
             overflow="hidden"
             flexShrink={0}

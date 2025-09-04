@@ -11,7 +11,7 @@ export default function Login() {
   const isMobile = !isPc;
   const content = (
     <Box
-      bg="#F9F7F7"
+      bg="bg.bg1"
       minW="100dvw"
       minH="100dvh"
       display="flex"
@@ -52,12 +52,9 @@ export default function Login() {
         alignSelf="stretch"
       >
         <Text
-          color="#949393"
+          color="text.text3"
           textAlign="center"
-          fontSize="0.625rem"
-          fontWeight={700}
-          lineHeight="0.6875rem"
-          letterSpacing="-0.00625rem"
+          textStyle="caption_107001"
         >
           가입하면 Mom4U의<br />
           이용약관 및 개인정보처리방침에 동의하게 됩니다

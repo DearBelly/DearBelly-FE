@@ -37,9 +37,10 @@ export const CategoryIcon = ({
         justifyContent="center"
         alignItems="center"
         borderRadius="0.75rem"
-        bg="var(--BG-BG-3)"
-        border={isSelected ? '2px solid var(--Text-Text-1, #202020)' : 'none'}
-      >
+        bg="bg.bg3"
+        border={isSelected ? "2px solid" : "none"}
+        borderColor={isSelected ? "text.text1" : "transparent"}
+>
         {imageSrc && (
           <Image
             src={imageSrc}
@@ -53,11 +54,8 @@ export const CategoryIcon = ({
         overflow="hidden"
         textOverflow="ellipsis"
         textAlign="center"
-        color="var(--Text-Text-1, #202020)"
-        fontFamily="NanumSquare Neo"
-        fontSize="0.625rem"
-        fontWeight="700"
-        lineHeight="0.75rem"
+        color="text.text1"
+        textStyle="body_12700"
       >
         {name}
       </Text>

@@ -5,13 +5,10 @@ import React, {useState, useEffect, useRef} from 'react'
 import { Box, Text } from "@chakra-ui/react";
 import { MobileLayout } from "../../../../components/Layouts/MobileLayout";
 import { ContendCardOutput } from '@/components/ContentCard/ContendCardOutput';
-import { ExternalLink } from "@mynaui/icons-react";
-import { Bookmark } from "@mynaui/icons-react";
-import { BookmarkSolid } from "@mynaui/icons-react";
-import { FunnyCircleSolid } from "@mynaui/icons-react";
 import { testData3 } from '../../testData';
 import Image from 'next/image'
 import Loading from '@/app/loading';
+import { ChakraIcons } from "@/utils/withChakraIcon";
 
 const TopRightIcons = ({ onKakaoShare, isBookMark, onToggleBookmark }: { 
   onKakaoShare: () => void;
@@ -19,11 +16,11 @@ const TopRightIcons = ({ onKakaoShare, isBookMark, onToggleBookmark }: {
   onToggleBookmark: () => void;
 }) => (
     <div style={{display:"flex", gap: 16}}>
-      <ExternalLink onClick={onKakaoShare} cursor='pointer'/>
+      <ChakraIcons.ExternalLink onClick={onKakaoShare} cursor='pointer' color='icon.icon1'/>
       {isBookMark ? (
-         <BookmarkSolid onClick={onToggleBookmark} cursor="pointer" />
+         <ChakraIcons.BookmarkSolid onClick={onToggleBookmark} cursor="pointer" color='icon.icon1'/>
       ): (
-         <Bookmark onClick={onToggleBookmark} cursor="pointer" />
+         <ChakraIcons.Bookmark onClick={onToggleBookmark} cursor="pointer" color='icon.icon1'/>
       )}
     </div>
 );
@@ -35,7 +32,7 @@ const InfoDetail = () => {
 
     useEffect(() => {
       const token = localStorage.getItem('token');
-      fetch(`http://43.200.249.9:8080/api/v1/news/${id}`, {
+      fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/news/${id}`, {
         method: 'GET',
         headers: {
           "Authorization": `Bearer ${token}`,
@@ -93,32 +90,37 @@ const InfoDetail = () => {
         });
     };
 
-    // 본문 데이터 '\n\n' 문단 띄우기, '** ~ **' 강조 (받은 데이터 글 양식 설정) 
+    // 본문 데이터 '\n\n' 문단 띄우기, '### 제목' 강조
     const parseText = (text: string) => {
-        return text.split('\n\n').map((para, i) => (
-          <TextContent key={i} marginTop={i === 0 ? "0" : "-0.75rem"}>
-            {para
-              .split(/(\*\*[^*]+\*\*)/g)
-              .map((part, j) => {
-                if (part.startsWith('**') && part.endsWith('**')) {
-                    return (
-                        <span key={`b-${j}`} style={{ fontWeight: '800', fontSize: '0.875rem', color: 'var(--Text-Text-1, #202020)', lineHeight: '1.125rem', letterSpacing: '-0.0175rem'}}>
-                          {part.slice(2, -2)}
-                        </span>
-                    );
-                }
-
-                // 문단 띄우기 ( 첫 번째 문단에서는 위로 띄우는거 없앰) 
-                return part.split('\n').map((line, k, arr) => (
-                  <React.Fragment key={`${j}-${k}`}>
-                    {line}
-                    {i !== 0 && <br />}
-                  </React.Fragment>
-                ));
-              })}
+      return text.split('\n\n').map((para, i) => {
+        if (/^#{3,4}\s/.test(para)) {
+          const title = para.replace(/^#{3,4}\s*/, "").trim(); 
+          return (
+            <Text
+              key={`title-${i}`}
+              textStyle="body_168002"   
+              color="text.text1"
+              mt={i === 0 ? "0" : "1rem"}
+              mb="0.5rem"
+            >
+              {title}
+            </Text>
+          );
+        }
+    
+        return (
+          <TextContent key={i} marginTop={i === 0 ? "0" : "1rem"}>
+            {para.split('\n').map((line, k, arr) => (
+              <React.Fragment key={`${i}-${k}`}>
+                {line}
+                {k !== arr.length - 1 && <br />} 
+              </React.Fragment>
+            ))}
           </TextContent>
-        ));
+        );
+      });
     };
+
 
     // 이미지 영역보다 스크롤을 아래로 내릴 경우, topbar의 색이 transparent -> filled로 바뀌도록 수정
     const [topbarBG, setTopbarBG] = useState<'transparent' | 'filled'>('transparent');
@@ -166,18 +168,22 @@ const InfoDetail = () => {
         <Box className='wrapper1' display="flex" flexDirection="column" alignItems="center">
             {/* 이미지 영역 */}
             <ImageWrapper>
-              <Box w='100vw' maxH='18rem' overflow='hidden'>
+              <Box overflow='hidden'>
                 {detail && (
                   <Image
                     src={detail.imageUrl || "/images/default_image.svg"}
                     alt="대표 이미지"
-                    width={800} 
+                    width={800}
                     height={500}
                     style={{
-                      width: '100vw',
-                      height: 'auto',
-                      maxHeight: '18rem',
-                      objectFit: 'cover',
+                      width: '100vw',        
+                      maxWidth: '40rem',     
+                      height: 'auto',       
+                      maxHeight: '17rem', 
+                      objectFit: 'cover',    
+                      objectPosition: 'top', 
+                      margin: '0 auto',
+                      display: 'block',
                     }}
                     priority
                   />
@@ -192,24 +198,25 @@ const InfoDetail = () => {
               flexDirection='column'
               alignItems='center' 
               justifyContent='center'
-              width='100%'
+              width='calc(100vw - 2.5rem)'
+              maxW='35rem'
             >
                 {/* 글 제목 영역 */}
-                <Box className='title_wrapper' width='calc(100vw - 2.5rem)' marginTop='4vh'>
+                <Box className='title_wrapper' width='100%'  marginTop='4vh'>
                     <TextTitle>{detail.title}</TextTitle>
                     <TextSubTitle>{detail.subTitle}</TextSubTitle>
                     <TextDate>{detail.link}</TextDate>
                 </Box>
 
                 {/* 글 내용 영역 */}
-                <Box className='content_wrapper' width='calc(100vw - 2.5rem)' marginTop='3vh'>
+                <Box className='content_wrapper' width='100%' margin='7vh 0'>
                     <TextContent>{parseText(detail.content)}</TextContent> 
                 </Box>
 
                 {/* 추천 글 목록 영역 */}
-                <Box className='recommend_wrapper' marginTop='5vh' marginBottom='3vh'>
+                <Box className='recommend_wrapper' marginTop='5vh' marginBottom='3vh' width='100%'>
                     <Box className='title' display='flex' alignItems="center" gap='0.5rem'>
-                        <FunnyCircleSolid color='#FF6257'/>
+                        <ChakraIcons.FunnyCircleSolid color='icon.iconPrimary'/>
                         <RecommendText >이런 콘텐츠는 어때요?</RecommendText>
                     </Box>
                     <Box className='content'>
@@ -226,7 +233,10 @@ const ImageWrapper = ({ children }: { children: React.ReactNode }) => (
     <Box
       position="relative"
       width="100vw"
-      margin="0 -1.5rem"   
+      maxW="40rem"
+      margin="0 calc(-1.25rem)"  
+      display="flex"
+      justifyContent="center"
     >
       <Box position="relative" zIndex={1}>
         {children}
@@ -292,7 +302,6 @@ const RecommendText = ({ children }: { children: React.ReactNode }) => (
     <Text
       color="text.text2"
       textStyle="body_148001"
-      alignSelf="stretch"
     >
       {children}
     </Text>

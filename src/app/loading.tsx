@@ -15,7 +15,7 @@ export default function Loading() {
             backgroundColor='bg.bg1'
             height='100vh'
         >
-            {isPc ? <Image src='/images/computerVision/spinner.gif' alt='로딩 스피너' width='10vw'/> : <Image src='/images/computerVision/spinner.gif' alt='로딩 스피너' width='30vw'/>}
+            {isPc ? <Image src='/images/computerVision/spinner.svg' alt='로딩 스피너' width='10vw'/> : <Image src='/images/computerVision/spinner.svg' alt='로딩 스피너' width='30vw'/>}
         </Box>
     );
 }

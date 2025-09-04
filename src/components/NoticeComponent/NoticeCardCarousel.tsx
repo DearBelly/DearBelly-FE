@@ -45,8 +45,8 @@ export const NoticeCardCarousel = ({ cards }: NoticeCardCarouselProps) => {
         "& .slick-dots li": {
           margin: "0 -0.2rem",
         },
-        "& button:before": {
-          color: "#F2F0F0",
+        "& .slick-dots li.slick-active button:before": {
+          color: "text.text1",    
         },
       }}
     >

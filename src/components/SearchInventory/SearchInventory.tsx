@@ -12,7 +12,7 @@ export const SearchInventory = ({ onClick, description }: SearchInventoryProps) 
   return (
     <Box
       position="relative"
-      w="calc(100vw - 2.5rem)"
+      w="100%"
       h="1.5rem"
       display="flex"
       alignItems="center"
@@ -21,6 +21,7 @@ export const SearchInventory = ({ onClick, description }: SearchInventoryProps) 
 
         <Text
             color="text.text1"
+            textStyle="body_124002"
             ml="0.38rem"
         >
             {description}

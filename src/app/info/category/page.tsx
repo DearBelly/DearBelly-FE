@@ -19,7 +19,7 @@ const InfoCategory = () => {
       if (selectIndex === null) return;
 
       const token = localStorage.getItem('token');
-      fetch(`http://43.200.249.9:8080/api/v1/news/category/${selectIndex}?page=${page}`, {
+      fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/news/category/${selectIndex}?page=${page}`, {
         headers: {
           "Authorization": `Bearer ${token}`,
           "Accept" : "application/json",
@@ -61,7 +61,7 @@ const InfoCategory = () => {
               </Box>
 
               {/* 카테고리별 글 목록 영역 */}
-              <Box className='inventory_wrapper' width='calc(100vw - 2.5rem' margin='0 5.56vw' mt='0.992vh'>
+              <Box className='inventory_wrapper' width='calc(100vw - 2.5rem)' maxW='35rem' mt='0.992vh'>
                 <ContendCardOutput cards={items}/>
               </Box>
           </Box>

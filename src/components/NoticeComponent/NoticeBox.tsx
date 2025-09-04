@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Box, Text } from '@chakra-ui/react';
-import { SparklesSolid } from "@mynaui/icons-react";
+import { ChakraIcons } from "@/utils/withChakraIcon";
 
 export interface NoticeBoxProps {
   label: string;
@@ -15,23 +15,17 @@ export const NoticeBox = ({ label }: NoticeBoxProps) => {
       w="100%"
       p="1rem"
       flexDirection="row"
-      // alignItems="center"
-      // justifyContent="center" 
-      alignItems="flex-start"
+      alignItems="center"
+      justifyContent="center"
       gap="0.625rem"
       borderRadius="1rem"
-      bg="#F2F0F0"
+      bg="bg.bg2"
       cursor="pointer"
     >
-      <SparklesSolid color='#FF6257'/>
+      <ChakraIcons.SparklesSolid color='icon.iconPrimary'/>
       <Text
-        color="#6C6B6B"
-        fontFamily='var(--Font-Family-font-family, "NanumSquare Neo")'
-        fontSize="var(--Primitive-md, 0.875rem)"
-        fontStyle="normal"
-        fontWeight="700"
-        lineHeight="var(--Line-Height-line-height-M, 1.5rem)"
-        letterSpacing="-0.00875rem"
+        color="text.text2"
+        textStyle="body_14700120"
         whiteSpace="normal"       
         overflow="visible"        
         textOverflow="clip"  

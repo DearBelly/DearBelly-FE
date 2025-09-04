@@ -19,7 +19,7 @@ export default function InfoSearch() {
 
     useEffect(() => {
       const token = localStorage.getItem('token');
-      fetch("http://43.200.249.9/api/v1/news/category", {
+      fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/news/category`, {
         method: 'GET',
         headers: {
           "Authorization": `Bearer ${token}`,
@@ -126,7 +126,7 @@ export default function InfoSearch() {
 
     const recentSearchContent = (
         <Box className='body_wrapper' display="flex" flexDirection="column" alignItems="center" margin='0 5.56vw'>
-            <Box className='searchInventory_wrapper' width='calc(100vw - 2.5rem)' mt='0.992vh'>
+            <Box className='searchInventory_wrapper' width='calc(100vw - 2.5rem)' maxW='35rem' mt='0.992vh'>
                 <Box className='text_wrapper' display="flex" justifyContent="space-between" alignItems="center">
                     <SearchText>최근 검색</SearchText>
                     <DeleteText onClick={handleClearKeywords} disabled={keywords.length===0}>전체 삭제</DeleteText>
@@ -147,7 +147,7 @@ export default function InfoSearch() {
     const searchResultContent = (
         <Box className='body_wrapper' display="flex" flexDirection="column" alignItems="center" margin='0 5.56vw'>
             {searchResult.length > 0 ? (
-                <Box className='recommend_wrapper' mt='0.92vh' mb='3.704vh'>
+                <Box className='recommend_wrapper' mt='0.92vh' mb='3.704vh' width='calc(100vw - 2.5rem)' maxW='35rem'>
                     <ContendCardOutput cards={searchResult} />
                 </Box>
             ) : (

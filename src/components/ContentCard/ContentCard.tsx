@@ -31,14 +31,15 @@ export const ContendCard = ({
   return (
     <Box
       display="flex"
-      w="calc(100vw - 2.5rem)"
+      w="100%"
       p="0.75rem 0"
       flexDirection="row"
       alignItems="center"
       justifyContent="space-between"
       gap="0.625rem"
       cursor="pointer"
-      borderBottom={isLast ? 'none' : '0.0625rem solid border.border'}
+      borderBottom={isLast ? "none" : "0.0625rem solid"}
+      borderColor={isLast ? "transparent" : "border.border"}
       onClick={handleDetailClick}
     >
       {/* textWrapper */}

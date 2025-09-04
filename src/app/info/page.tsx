@@ -4,7 +4,6 @@ import React, { useMemo, useEffect, useState, ReactNode } from 'react'
 import { useRouter } from 'next/navigation';
 import { Box, Text } from "@chakra-ui/react";
 import { MobileLayout } from "../../components/Layouts/MobileLayout";
-import { Search } from "@mynaui/icons-react";
 import { NoticeCardCarousel } from '@/components/NoticeComponent/NoticeCardCarousel';
 import { ContendCardOutput } from '@/components/ContentCard/ContendCardOutput';
 import { InlineCard } from '@/components/InlineCard/InlineCard';
@@ -13,7 +12,7 @@ import { testData, testData2, testData3 } from './testData';
 import { ChakraIcons } from "@/utils/withChakraIcon";
 
 
-// 탑바에 보낼 데이터터
+// 탑바에 보낼 데이터
 const TopRightIcons = () => {
   const router = useRouter();
   const handleSearchInventoryClick = () => {
@@ -22,7 +21,7 @@ const TopRightIcons = () => {
 
   return (
     <div style={{display:"flex", gap: 16, cursor: 'pointer'}}>
-      <Search onClick={handleSearchInventoryClick}/>
+      <ChakraIcons.Search onClick={handleSearchInventoryClick} color='icon.icon3'/>
     </div>
   );
 };
@@ -39,14 +38,11 @@ export default function Information() {
     return testData[index];
   },[]);
 
-  // 토큰 더미데이터
-  localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0Iiwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTc1Njk1MjY4OCwiZXhwIjoxNzU2OTU2Mjg4fQ.KVG7J8t8J5Ls4_AN3-CFT4b8EmQW-_NxLjG39MEFE40');
-
   const [contentCard, setContentCard] = useState<any[]>([]);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    fetch("http://43.200.249.9:8080/api/v1/news/category", {
+    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/news/category`, {
       method: 'GET',
       headers: {
         "Authorization": `Bearer ${token}`,
@@ -80,12 +76,12 @@ export default function Information() {
         </Box>
 
         {/* 공지 카드 영역 */}
-        <Box className='notice_card' mt='1.5vh' width="calc(100vw - 2.5rem)">
+        <Box className='notice_card' mt='1.5vh' width="calc(100vw - 2.5rem)" maxW="35rem">
           <NoticeCardCarousel cards={testData2} />
         </Box>
 
         {/* 추천 글 목록 영역 */}
-        <Box className='recommend_wrapper' mt='5vh' width="calc(100vw - 2.5rem)">
+        <Box className='recommend_wrapper' mt='5vh' width="calc(100vw - 2.5rem)" maxW="35rem">
           <Box className='title' display='flex' alignItems="center" gap='0.5rem'>
             <ChakraIcons.FunnyCircleSolid color='icon.iconPrimary'/>
             <RecommendText>당신을 위한 추천</RecommendText>
@@ -96,7 +92,7 @@ export default function Information() {
         </Box>
 
         {/* 새로운 기능 홍보하는 카드 영역 */}
-        <Box className='inlinecard_wrapper' height='6rem' mt='3.704vh'>
+        <Box className='inlinecard_wrapper' height='6rem' mt='3.704vh' width="calc(100vw - 2.5rem)" maxW="35rem">
           <InlineCard
             imageSrc="/images/letter.svg"
             imageDescription="기본 이미지"
@@ -107,7 +103,7 @@ export default function Information() {
         </Box>
 
         {/* 전체 글 목록 영역 */}
-        <Box className='recommend_wrapper' mt='3.704vh' mb='3.704vh' width="calc(100vw - 2.5rem)">
+        <Box className='recommend_wrapper' mt='3.704vh' mb='3.704vh' width="calc(100vw - 2.5rem)" maxW="35rem">
           <Box className='title' display='flex' alignItems="center" gap='0.5rem'>
             <ChakraIcons.FunnySquareSolid  color='icon.iconPrimary'/>
             <RecommendText>알아두면 좋은 정보 모음집</RecommendText>

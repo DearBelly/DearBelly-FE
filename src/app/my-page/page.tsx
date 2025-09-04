@@ -6,22 +6,15 @@ import { MobileLayout } from "../../components/Layouts/MobileLayout";
 import { ChevronRight } from "@mynaui/icons-react";
 import { useRouter } from 'next/navigation';
 import { ProfileContent } from '@/components/ProfileContent/ProfileContent';
+import { useTheme } from "next-themes"; 
 
 export default function Mypage () {
     const router = useRouter();
 
-    // 라이트 모드, 다크 모드 판별 && 토큰 체크
-    useEffect(() => {
-        const lightMode_save = localStorage.getItem('lightMode');
-        const isLight = lightMode_save === null ? true : lightMode_save === 'true';
-        applyTheme(isLight);
-
-        localStorage.setItem('chakra-ui-color-mode', isLight ? 'light' : 'dark');
-    }, []);
-
-    // 라이트냐 다크냐에 따라 테마 적용
-    const applyTheme = (isLight: boolean) => {
-        document.documentElement.setAttribute('data-app-theme', isLight ? 'light' : 'dark');
+    // 라이트 모드, 다크 모드 판별 
+    const { theme, setTheme } = useTheme();
+    const handleThemeToggle = (on: boolean) => {
+        setTheme(on ? "light" : "dark");
     };
 
     return (
@@ -54,10 +47,8 @@ export default function Mypage () {
                     <ProfileContent
                         content='라이트 모드'
                         showToggle
-                        onToggleChange={(on) => {
-                            applyTheme(on);
-                            localStorage.setItem('chakra-ui-color-mode', on ? 'light' : 'dark')
-                        }}
+                        onToggleChange={handleThemeToggle}
+                        toggleDefault={theme === "light"}
                     />
                 </Box>
 

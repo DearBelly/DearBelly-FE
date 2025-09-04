@@ -27,6 +27,7 @@ export const useFamilyCodeStore = create<FamilyCodeState>()(
         const { familyCode } = get();
         set({ isLoading: true });
 
+        // 예시 
         const ok = await new Promise<boolean>((resolve) => {
           setTimeout(() => {
             resolve(familyCode === "123456");
@@ -53,7 +54,7 @@ export const useFamilyCodeStore = create<FamilyCodeState>()(
     }),
     {
       name: "dearbelly_family_code", 
-      partialize: (s) => ({ isVerified: s.isVerified }),
+      partialize: (state) => ({ isVerified: state.isVerified }),
     }
   )
 );

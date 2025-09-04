@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Box, Text, Flex } from "@chakra-ui/react";
 import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";
 import { InputBox } from "@/components/TextField/InputBox";
@@ -11,8 +10,15 @@ import { useFamilyCodeStore } from "@/store/useFamilyCodeStore";
 export default function FamilyStep() {
   const router = useRouter();
 
-  const { isVerified, isError, isLoading, verify, reset } = useFamilyCodeStore();
-  const [familyCode, setFamilyCode] = useState("");
+  const {
+    familyCode,
+    setFamilyCode,
+    isVerified,
+    isError,
+    isLoading,
+    verify,
+    reset,
+  } = useFamilyCodeStore();
 
   const titleText = "가족 공유 코드를 입력해 주세요";
   const subTitleText = "코드를 입력하거나 다른 가족에게 전달해 주세요";
@@ -20,13 +26,12 @@ export default function FamilyStep() {
   const handleFamilyCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     if (value.length <= 20) {
-      setFamilyCode(value);
-      reset();
+      setFamilyCode(value); 
     }
   };
 
   const handleVerifyFamilyCodeClick = async () => {
-    await verify();
+    await verify(); 
   };
 
   const handleNextClick = () => {
@@ -61,7 +66,7 @@ export default function FamilyStep() {
             placeholder="코드를 입력해 주세요"
             value={familyCode}
             onChange={handleFamilyCodeChange}
-            isError={isError} 
+            isError={isError}
             errorMessage="잘못된 코드입니다."
           />
           <Button
@@ -87,6 +92,7 @@ export default function FamilyStep() {
           bottom="4.5rem"
           onClick={() => {
             router.push("/home");
+            reset(); 
           }}
         >
           지금은 넘어가기

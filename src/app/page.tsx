@@ -15,7 +15,7 @@ export default function Splash() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.push('/info');
+      router.push('/home');
     }, 2700);
 
     return () => clearTimeout(timer);
@@ -23,7 +23,7 @@ export default function Splash() {
 
   return (
     <Box
-      bg="#F9F7F7"
+      bg="bg.bg1"
       display="flex"
       justifyContent="center"
       width="100dvw"

@@ -41,11 +41,12 @@ export const HeroCard = ({ title, description, imageSrc, mode }: HeroCardProps) 
           fontFamily='"NanumSquare Neo"'
           fontSize="1.25rem"
           fontWeight="800"
-          lineHeight="1.375rem"
+          lineHeight="1.5rem"
           letterSpacing="-0.0125rem"
-          m={0}
+          mb="0.2rem"
           w="100%"
           display="-webkit-box"
+          whiteSpace="pre-line"
         >
           {title}
         </Text>
@@ -56,49 +57,42 @@ export const HeroCard = ({ title, description, imageSrc, mode }: HeroCardProps) 
           fontFamily='"NanumSquare Neo"'
           fontSize="0.875rem"
           fontWeight="700"
-          lineHeight="1rem"
+          lineHeight="1.2rem"
           letterSpacing="-0.00875rem"
-          m={0}
-          w="100%"
-          overflow="hidden"
-          whiteSpace="nowrap"
-          textOverflow="ellipsis"
+          mb="0.5rem"
+          whiteSpace="normal"      
+          overflow="visible"
+          textOverflow="clip"
+          wordBreak="keep-all"
         >
           {description}
         </Text>
       </Box>
 
-      {/* 버튼, 이미지 영역 */}
+      {/* 이미지 영역 */}
       <Box
         display="flex"
         alignItems="center"
-        justifyContent={mode === 'imageMode' ? 'flex-end' : 'flex-start'}
+        justifyContent="flex-end"
         gap="0.625rem"
         alignSelf="stretch"
       >
-        {mode === 'imageMode' && (
-          <Box
-            position="relative"
-            w="7.5rem"
-            maxW="100%"    
-            h="5rem"
-            overflow="hidden"
-            flexShrink={0}
-            borderRadius="0.5rem"
-          >
-            <Image
-              src={imageSrc || fallbackImage}
-              alt={title}
-              fill
-              style={{ objectFit: 'cover' }}
-            />
-          </Box>
-        )}
-        {mode === 'buttonMode' && (
-          <Button type="secondary" size="small" width="7.875rem">
-            {buttonText}
-          </Button>
-        )}
+        <Box
+          position="relative"
+          w="7.5rem"
+          maxW="100%"    
+          h="5rem"
+          overflow="hidden"
+          flexShrink={0}
+          borderRadius="0.5rem"
+        >
+          <Image
+            src={imageSrc || fallbackImage}
+            alt={title}
+            fill
+            style={{ objectFit: 'cover' }}
+          />
+        </Box>
       </Box>
     </Box>
   );

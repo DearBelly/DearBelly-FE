@@ -45,6 +45,10 @@ export const InlineCard = ({
           lineHeight="1rem"
           letterSpacing="-0.00875rem"
           display="-webkit-box"
+          whiteSpace="normal"      
+          overflow="visible"
+          textOverflow="clip"
+          wordBreak="keep-all"
         >
           {description}
         </Text>

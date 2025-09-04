@@ -25,7 +25,7 @@ export const ContendCard = ({
 }: ContendCardProps) => {
   const router = useRouter();
   const handleDetailClick = () => {
-    router.push(`/info/detail`);
+    router.push(`/info/detail/${id}`);
   };
 
   return (

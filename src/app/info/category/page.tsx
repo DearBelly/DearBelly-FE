@@ -1,38 +1,46 @@
 'use client';
 
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { Box } from "@chakra-ui/react";
 import { CategoryIconOutput } from '@/components/CategoryIcon/CategoryIconOutput';
 import { MobileLayout } from "../../../components/Layouts/MobileLayout";
 import { ContendCardOutput } from '@/components/ContentCard/ContendCardOutput';
 import { 
   iconData, 
-  testData_all, 
-  testData_education,
-  testData_preg_all,
-  testData_ready,
-  testData_health,
-  testData_mind,
-  testData_money,
 } from '../testData';
 
-
 const InfoCategory = () => {
-    const [selectIndex, setSelectIndex] = useState<number | null>(null);
+    const [selectIndex, setSelectIndex] = useState<number>(0);
+    
+    const [items, setItems] = useState<any[]>([]);
+    const [page, setPage] = useState(0);
 
-    // 아이콘의 index를 사용하여 해당 아이콘에서 보여줄 데이터들을 연결하기 위해 정의한 함수임 
-    const getInformationData = () => {
-      switch (selectIndex) {
-        case 0 : return testData_all;
-        case 1: return testData_education;
-        case 2: return testData_preg_all;
-        case 3: return testData_ready;
-        case 4: return testData_health;
-        case 5: return testData_mind;
-        case 6: return testData_money;
-        default: return testData_all;
-      }
-    }
+    useEffect(() => {
+      if (selectIndex === null) return;
+
+      const token = localStorage.getItem('token');
+      fetch(`http://43.200.249.9:8080/api/v1/news/category/${selectIndex}?page=${page}`, {
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Accept" : "application/json",
+        },
+      })
+      .then(response => response.json())
+      .then(data => {
+        if(data.success && Array.isArray(data.data.content)) {
+          const formatted = data.data.content.map((item: any) => ({
+            id: item.newsId,
+            title: item.title,
+            subTitle: item.subTitle,
+            imageSrc: item.imageUrl ?? "/images/default_image.svg",
+          }));
+
+          // page마다 append (무한 스크롤)
+          setItems(prev => [...prev, ...formatted]);
+        }
+      })
+      .catch(error => console.error("카테고리 연동 실패: ", error));
+    }, [selectIndex, page]);
     
     return (
         <MobileLayout
@@ -42,12 +50,19 @@ const InfoCategory = () => {
           <Box className='body_wrapper' display="flex" flexDirection="column" alignItems="center">
               {/* 아이콘 카테고리 영역 */}
               <Box className='category_icon_wrapper' height='5.25rem'>
-                  <CategoryIconOutput cards={iconData} onSelectIndex={setSelectIndex}/>
+                  <CategoryIconOutput 
+                    cards={iconData} 
+                    onSelectIndex={(idx) => {
+                      setSelectIndex(idx ?? 0);
+                      setItems([]);
+                      setPage(0);
+                    }}
+                  />
               </Box>
 
               {/* 카테고리별 글 목록 영역 */}
               <Box className='inventory_wrapper' width='calc(100vw - 2.5rem' margin='0 5.56vw' mt='0.992vh'>
-                <ContendCardOutput cards={getInformationData()}/>
+                <ContendCardOutput cards={items}/>
               </Box>
           </Box>
         </MobileLayout>

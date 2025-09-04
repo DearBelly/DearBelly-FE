@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo } from 'react'
+import React, { useMemo, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation';
 import { Box, Text } from "@chakra-ui/react";
 import { MobileLayout } from "../../components/Layouts/MobileLayout";
@@ -40,6 +40,38 @@ export default function Information() {
     return testData[index];
   },[]);
 
+  // 토큰 더미데이터
+  localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0Iiwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTc1NjkxMzMzMSwiZXhwIjoxNzU2OTE2OTMxfQ.Cj-YXVKnfBRT05rZ1Wb6sYrh5dFQc5-p-ldLHAlOyuk');
+
+  const [contentCard, setContentCard] = useState<any[]>([]);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    fetch("http://43.200.249.9:8080/api/v1/news/category", {
+      method: 'GET',
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Accept": "application/json",
+      },
+    })
+    .then(response => response.json())
+    .then((data) => {
+      if(data.success && Array.isArray(data.data))  {
+        const formatted = data.data.map((item: any) => ({
+          id: item.newsId,
+          title: item.title,
+          subtitle: item.subTitle,
+          imageSrc:  item.imageUrl || "/images/default_image.svg",
+          category: item.category,
+        }));
+        setContentCard(formatted);
+      }
+    })
+    .catch((error) => {
+      console.error('백엔드 요청 실패:', error);
+    });
+  }, []);
+
   return (
     <MobileLayout topbarContent={<TopRightIcons/>}>
       <Box className='wrapper' display="flex" flexDirection="column" alignItems="center" margin='1rem 0'>
@@ -56,7 +88,7 @@ export default function Information() {
         {/* 추천 글 목록 영역 */}
         <Box className='recommend_wrapper' mt='5vh'>
           <Box className='title' display='flex' alignItems="center" gap='0.5rem'>
-            <FunnyCircleSolid color='#FF6257'/>
+            <FunnyCircleSolid color='icon.icon.primary'/>
             <RecommendText >당신을 위한 추천</RecommendText>
           </Box>
           <Box className='content'>
@@ -67,17 +99,18 @@ export default function Information() {
         {/* 새로운 기능 홍보하는 카드 영역 */}
         <Box className='inlinecard_wrapper' height='6rem' mt='3.704vh'>
           <InlineCard
+            imageSrc="/images/letter.svg"
             imageDescription="기본 이미지"
-            description="다른 기능들을 사용하도록 유도하는 메세지를 적어요."
+            description="소중한 아이에게서 도착한 편지에 답장을 작성해 보세요"
             shortcutLink="자세히 보기"
-            shortcutHref="/guide/folic"
+            shortcutHref="/letters" 
           />
         </Box>
 
         {/* 전체 글 목록 영역 */}
         <Box className='recommend_wrapper' mt='3.704vh' mb='3.704vh'>
           <Box className='title' display='flex' alignItems="center" gap='0.5rem'>
-            <FunnySquareSolid  color='#FF6257'/>
+            <FunnySquareSolid  color='icon.icon.primary'/>
             <RecommendText>알아두면 좋은 정보 모음집</RecommendText>
             <Box 
               marginLeft="auto" 
@@ -87,11 +120,11 @@ export default function Information() {
               alignItems="center"
               cursor="pointer"
             >
-              <ChevronRight color='#6C6B6B' onClick={handleInventoryClick}/>
+              <ChevronRight color='icon.icon2' onClick={handleInventoryClick}/>
             </Box>
           </Box>
           <Box className='content'>
-            <ContendCardOutput cards={testData3}/>
+            <ContendCardOutput cards={contentCard}/>
           </Box>
         </Box>
 

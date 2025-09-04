@@ -4,6 +4,7 @@ import React from 'react';
 import { Box, Text, Image } from '@chakra-ui/react';
 
 export interface CategoryIconProps {
+  page: number;
   name: string;
   imageSrc?: string;
   onClick?: () => void;
@@ -11,6 +12,7 @@ export interface CategoryIconProps {
 }
 
 export const CategoryIcon = ({
+  page,
   name,
   imageSrc,
   onClick,

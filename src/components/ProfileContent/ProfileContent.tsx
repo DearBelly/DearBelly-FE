@@ -10,6 +10,7 @@ interface ProfileContentProps {
   onClick?: () => void;
   showToggle?: boolean;
   onToggleChange?: (on: boolean) => void;
+  toggleDefault?: boolean;
 }
 
 const MotionBox = motion.create(Box);
@@ -19,27 +20,19 @@ export const ProfileContent = ({
   showToggle = false,
   onToggleChange,
   onClick,
+  toggleDefault = true,
 }: ProfileContentProps) => {
-  const [isOn, setIsOn] = useState<boolean>(true);
+  const [isOn, setIsOn] = useState<boolean>(toggleDefault);
 
-  // 마운트 시 로컬 스토리지 값 반영
   useEffect(() => {
-    const lightMode_save = localStorage.getItem('lightMode');
-    if (lightMode_save !== null) {
-      setIsOn(lightMode_save === 'true');
-    } else {
-      localStorage.setItem('lightMode', 'true');
-    }
-  }, []);
+    setIsOn(toggleDefault); 
+  }, [toggleDefault]);
 
   // 토글 클릭 시 상태 변경
   const handleToggleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     const next = !isOn;
     setIsOn(next);
-
-    localStorage.setItem('lightMode', String(next));
-    localStorage.setItem('chakra-ui-color-mode', next ? 'light' : 'dark');
     onToggleChange?.(next);
   };
 
@@ -53,16 +46,11 @@ export const ProfileContent = ({
       pl="0.5rem"
       cursor="pointer"
       onClick={showToggle ? undefined : onClick}
-      role={!showToggle && onClick ? 'button' : undefined}
     >
       <Text
         flex="1"
-        color="var(--Text-Text-1, #202020)"
-        fontFamily='"NanumSquare Neo"'
-        fontSize="0.875rem"
-        fontWeight="400"
-        lineHeight="1.5rem"
-        letterSpacing="-0.0175rem"
+        color="text.text1"
+        textStyle="body_14400224"
         whiteSpace="nowrap"
         overflow="hidden"
         textOverflow="ellipsis"

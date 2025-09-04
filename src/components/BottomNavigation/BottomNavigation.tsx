@@ -35,7 +35,7 @@ export const BottomNavigation = () => {
         <BottomNavigationItem icon={<BookOpenSolid />} label="정보" href="/info" isActive={pathname === '/info'} />
         <BottomNavigationItem icon={<HomeSmileSolid />} label="홈" href="/home" isActive={pathname === '/home'} />
         <BottomNavigationItem icon={<CenterFocusSolid />} label="스캔" href="/scan" isActive={pathname === '/scan'} />
-        <BottomNavigationItem icon={<UserSquareSolid />} label="마이" href="/mypage" isActive={pathname === '/mypage'} />
+        <BottomNavigationItem icon={<UserSquareSolid />} label="마이" href="/my-page" isActive={pathname === '/my-page'} />
       </Flex>
     </Flex>
   );

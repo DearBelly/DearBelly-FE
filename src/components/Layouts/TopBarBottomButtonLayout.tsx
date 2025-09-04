@@ -1,9 +1,9 @@
-/** @jsxImportSource @emotion/react */
 "use client";
-import styled from "@emotion/styled";
+
 import { TopBar } from "@/components/TopBar/TopBar";
 import { Button } from "@/components/Button/Button";
 import { ReactNode } from "react";
+import { Box, Text } from "@chakra-ui/react";
 
 interface TopBarBottomButtonLayoutProps {
   children: React.ReactNode;
@@ -25,17 +25,30 @@ export const TopBarBottomButtonLayout = ({
   topbarRightContent,
 }: TopBarBottomButtonLayoutProps) => {
   return (
-    <>
+    <Box>
       <TopBar
         mode="back"
         backgroundType="filled"
         title={topbarTitle}
         rightContent={topbarRightContent}
       />
-      <Container>
+      <Box
+      w="100%"
+      h="100dvh"
+      pt="44px"
+      px="20px"
+      display="flex"
+      flexDirection="column"
+      >
         {children}
         {!hideButton && (
-          <ButtonWrapper>
+          <Box
+          w="100%"
+          mt="auto"
+          pt="1.23dvh"
+          pb="1.23dvh"
+          position="relative"
+          zIndex={1}>
             <Button
               type="primary"
               size="large"
@@ -44,45 +57,20 @@ export const TopBarBottomButtonLayout = ({
               isDisabled={nextDisabled}
               aria-label={nextLabel}
             >
-              {nextLabel}
+              <Text textStyle="body_148001">{nextLabel}</Text>
             </Button>
-            <BackgroundShadow />
-          </ButtonWrapper>
+            <Box
+            zIndex={-1}
+            position="absolute"
+            inset="0 calc(50% - 50dvw)"
+            bg="linear-gradient(180deg, rgba(249, 247, 247, 0.0) 6.13%, #f9f7f7 58.93%)"
+            _dark={{
+              bg: "linear-gradient(180deg, rgba(249, 247, 247, 0.0) 6.13%, #202020 58.93%)"
+            }}
+            />
+          </Box>
         )}
-      </Container>
-    </>
+      </Box>
+    </Box>
   );
 };
-
-const Container = styled.div`
-  min-width: 360px;
-  min-height: 100dvh;
-  padding: 0 20px;
-  display: flex;
-  flex-direction: column;
-
-  padding-top: 44px; /* iOS 기준 */
-  @media (max-width: 360px) {
-    padding-top: 56px; /* AOS */
-  }
-`;
-
-const ButtonWrapper = styled.div`
-  z-index: 1;
-  width: 100%;
-  margin-top: auto;
-  padding-top: 1.23dvh;
-  padding-bottom: 1.23dvh;
-  position: relative;
-`;
-
-const BackgroundShadow = styled.div`
-  z-index: -1;
-  position: absolute;
-  inset: 0 calc(50% - 50dvw);
-  background: linear-gradient(
-    180deg,
-    rgba(249, 247, 247, 0.0) 6.13%,
-    #f9f7f7 58.93%
-  );
-`;

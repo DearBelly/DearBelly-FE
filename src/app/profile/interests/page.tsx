@@ -1,72 +1,61 @@
 "use client";
+
 import { Box, Separator, Text, useToken } from "@chakra-ui/react";
 import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";
 import { CheckField } from "@/components/CheckField/CheckField";
 import { useCategoryStore } from "@/store/useCategoryStore";
-import { useGetBreakPointValue } from "@/context/BreakPointProvider";
+import { useRouter } from "next/navigation";
 
 export default function InterestsStep() {
-  const isPc = useGetBreakPointValue();
-  const isMobile = !isPc;
+  const router = useRouter();
 
-  const CATEGORY_ALL = "전체 선택";
-  const CATEGORY_LIST = [
-    { id: "health", label: "임신 기간 동안, 임산부의 건강과 관련된 정보를 알고 싶어요." },
-    { id: "money", label: "임신, 출산, 육아와 관련된 정책과 지원금 정보를 알고 싶어요." },
-    { id: "ready", label: "임신 준비 과정에 필요한 정보를 알고 싶어요." },
-    { id: "granulation", label: "출산과 육아에 관한 다양한 정보를 알고 싶어요." },
-    { id: "education", label: "임신, 출산 육아와 관련된 교육 프로그램 정보를 알고 싶어요." },
-    { id: "mind", label: "임신 기간 동안 정서적인 도움을 줄 수 있는 정보에 대해서 알고 싶어요." },
-  ];
+  const categories = useCategoryStore((s) => s.categories);
+  const checkedIds = useCategoryStore((s) => s.checkedIds);
 
-  const checkedIds = useCategoryStore((state) => state.checkedIds);
-  const toggle = useCategoryStore((state) => state.toggle);
-  const toggleAll = useCategoryStore((state) => state.toggleAll);
+  const toggle = useCategoryStore((s) => s.toggle);
+  const toggleAll = useCategoryStore((s) => s.toggleAll);
 
-  const allIds = CATEGORY_LIST.map((c) => c.id);
-  const isAllChecked = checkedIds.length === allIds.length;
+  const isAllChecked = useCategoryStore((s) => s.isAllChecked());
+  const isAnyChecked = useCategoryStore((s) => s.isAnyChecked());
 
   const handleNextClick = () => {
-    console.log("선택된 카테고리:", checkedIds);
-    // 추후 서버 전송 등 추가 로직 작성 가능
+    router.push("/profile/family");
   };
 
   const [borderColor] = useToken("colors", ["border.border"]);
 
-  const content = (
-    <TopBarBottomButtonLayout onNext={handleNextClick}>
+  return (
+    <TopBarBottomButtonLayout onNext={handleNextClick} nextDisabled={!isAnyChecked}>
       <Box as="form" w="100%" mt="20px" onSubmit={(e) => {
         e.preventDefault();
         handleNextClick();
       }}>
-        <Text textStyle="head_18700">관심있는 정보 항목을 눌러주세요</Text>
+        <Text textStyle="head_188001">관심있는 정보 항목을 눌러주세요</Text>
         <Text textStyle="body_14400224" mt="4px">
           눌러주신 카테고리를 위주로 준비해드릴게요
         </Text>
       </Box>
+
       <Box mt="5.66dvh">
         <CheckField
-          label={CATEGORY_ALL}
-          key="all-category"
+          label="전체 선택"
           checked={isAllChecked}
-          onClick={() => toggleAll(allIds)}
+          onClick={toggleAll}
         />
       </Box>
 
       <Separator mt="16px" mb="16px" borderColor={borderColor} height="1px" />
 
       <Box display="flex" flexDirection="column" gap="12px">
-        {CATEGORY_LIST.map((category) => (
+        {categories.map((c) => (
           <CheckField
-            key={category.id}
-            label={category.label}
-            checked={checkedIds.includes(category.id)}
-            onClick={() => toggle(category.id)}
+            key={c.id}
+            label={c.label}
+            checked={checkedIds.includes(c.id)}
+            onClick={() => toggle(c.id)}
           />
         ))}
       </Box>
     </TopBarBottomButtonLayout>
   );
-
-  return isMobile ? content : content;
 }

@@ -8,7 +8,7 @@ import { BreakPointProvider } from "@/context/BreakPointProvider"
 export function Provider({ children }: { children: React.ReactNode }) {
   return (
     <ChakraProvider value={system}>
-      <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+      <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
         <BreakPointProvider>
           {children}
         </BreakPointProvider>

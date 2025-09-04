@@ -1,18 +1,17 @@
 'use client';
 
-import React, { useMemo, useEffect, useState } from 'react'
+import React, { useMemo, useEffect, useState, ReactNode } from 'react'
 import { useRouter } from 'next/navigation';
 import { Box, Text } from "@chakra-ui/react";
 import { MobileLayout } from "../../components/Layouts/MobileLayout";
 import { Search } from "@mynaui/icons-react";
-import { FunnyCircleSolid } from "@mynaui/icons-react";
 import { NoticeCardCarousel } from '@/components/NoticeComponent/NoticeCardCarousel';
 import { ContendCardOutput } from '@/components/ContentCard/ContendCardOutput';
 import { InlineCard } from '@/components/InlineCard/InlineCard';
 import { HeroCard } from '@/components/HeroCard/HeroCard';
-import { FunnySquareSolid } from "@mynaui/icons-react";
-import { ChevronRight } from "@mynaui/icons-react";
 import { testData, testData2, testData3 } from './testData';
+import { ChakraIcons } from "@/utils/withChakraIcon";
+
 
 // 탑바에 보낼 데이터터
 const TopRightIcons = () => {
@@ -41,13 +40,13 @@ export default function Information() {
   },[]);
 
   // 토큰 더미데이터
-  localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0Iiwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTc1NjkxMzMzMSwiZXhwIjoxNzU2OTE2OTMxfQ.Cj-YXVKnfBRT05rZ1Wb6sYrh5dFQc5-p-ldLHAlOyuk');
+  localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0Iiwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTc1Njk1MjY4OCwiZXhwIjoxNzU2OTU2Mjg4fQ.KVG7J8t8J5Ls4_AN3-CFT4b8EmQW-_NxLjG39MEFE40');
 
   const [contentCard, setContentCard] = useState<any[]>([]);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    fetch("http://43.200.249.9:8080/api/v1/news/category", {
+    fetch("http://43.200.249.9/api/v1/news/category", {
       method: 'GET',
       headers: {
         "Authorization": `Bearer ${token}`,
@@ -74,7 +73,7 @@ export default function Information() {
 
   return (
     <MobileLayout topbarContent={<TopRightIcons/>}>
-      <Box className='wrapper' display="flex" flexDirection="column" alignItems="center" margin='1rem 0'>
+      <Box className='wrapper' display="flex" flexDirection="column" alignItems="center" margin='1rem 0' >
         {/* 히어로 카드 영역 */}
         <Box className='hero_card'>
           <HeroCard {...randomHeroCard} />
@@ -86,10 +85,10 @@ export default function Information() {
         </Box>
 
         {/* 추천 글 목록 영역 */}
-        <Box className='recommend_wrapper' mt='5vh'>
+        <Box className='recommend_wrapper' mt='5vh' width="calc(100vw - 2.5rem)">
           <Box className='title' display='flex' alignItems="center" gap='0.5rem'>
-            <FunnyCircleSolid color='icon.icon.primary'/>
-            <RecommendText >당신을 위한 추천</RecommendText>
+            <ChakraIcons.FunnyCircleSolid color='icon.iconPrimary'/>
+            <RecommendText>당신을 위한 추천</RecommendText>
           </Box>
           <Box className='content'>
             <ContendCardOutput cards={testData3}/>
@@ -108,9 +107,9 @@ export default function Information() {
         </Box>
 
         {/* 전체 글 목록 영역 */}
-        <Box className='recommend_wrapper' mt='3.704vh' mb='3.704vh'>
+        <Box className='recommend_wrapper' mt='3.704vh' mb='3.704vh' width="calc(100vw - 2.5rem)">
           <Box className='title' display='flex' alignItems="center" gap='0.5rem'>
-            <FunnySquareSolid  color='icon.icon.primary'/>
+            <ChakraIcons.FunnySquareSolid  color='icon.iconPrimary'/>
             <RecommendText>알아두면 좋은 정보 모음집</RecommendText>
             <Box 
               marginLeft="auto" 
@@ -120,7 +119,7 @@ export default function Information() {
               alignItems="center"
               cursor="pointer"
             >
-              <ChevronRight color='icon.icon2' onClick={handleInventoryClick}/>
+              <ChakraIcons.ChevronRight color='icon.icon2' onClick={handleInventoryClick}/>
             </Box>
           </Box>
           <Box className='content'>
@@ -133,11 +132,10 @@ export default function Information() {
   ) 
 }
 
-const RecommendText = ({ children }: { children: React.ReactNode }) => (
+const RecommendText = ({ children }: { children: ReactNode }) => (
   <Text
     color="text.text2"
     textStyle="body_148001"
-    alignSelf="stretch"
   >
     {children}
   </Text>

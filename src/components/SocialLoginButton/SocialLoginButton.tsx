@@ -52,7 +52,7 @@ export const SocialLoginButton = ({ provider, onClick }: SocialLoginButtonProps)
       _hover={{ opacity: 0.9 }}
     >
       <Image src={icon} alt={`${provider} 아이콘`} w="1.5rem" h="1.5rem" />
-      <Text>{label}</Text>
+      <Text textStyle="body_148001">{label}</Text>
     </Box>
   );
 };

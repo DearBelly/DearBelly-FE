@@ -129,7 +129,7 @@ export default function Result() {
             gap="0.5rem"
           >
             <DangerCircle size="7vh" color="#DADADA" />
-            <ErrorContent>조회된 알약 데이터가 없습니다</ErrorContent>
+            <ErrorContent>조회한 알약 데이터가 없습니다</ErrorContent>
           </Box>
         )}
         {!isLogin && <LoginModal />}

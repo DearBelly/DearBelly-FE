@@ -1,0 +1,68 @@
+/* 툴바 버튼 스타일 */
+.fc .fc-button {
+    background: var(--chakra-colors-bg-bg3) !important;
+    color: var(--chakra-colors-text-text1) !important;
+    border-radius: 8px !important;
+    border: none !important;
+    padding: 4px 8px !important;
+  }
+  
+  /* 툴바 타이틀 (예: 2025년 8월) */
+  .fc .fc-toolbar-title {
+    font-size: 26px !important;
+    font-weight: 800 !important;
+    line-height: 29px !important;
+    letter-spacing: -0.26px !important;
+    color: var(--chakra-colors-text-text1) !important;
+  }
+  
+  /* 요일 헤더 배경 */
+  .fc .fc-col-header-cell {
+    background-color: var(--chakra-colors-bg-bg3);
+  }
+  
+  /* 모든 요일 공통 스타일 */
+  .fc .fc-col-header-cell-cushion {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    line-height: 20px !important;
+    letter-spacing: -1px;
+    color: var(--chakra-colors-text-textCalendar-textCalendarDay) !important;
+  }
+  
+  /* 일요일 */
+  .fc .fc-col-header-cell[data-day="0"] .fc-col-header-cell-cushion {
+    color: var(--chakra-colors-text-textCalendar-textCalendarSun) !important;
+  }
+  
+  /* 토요일 */
+  .fc .fc-col-header-cell[data-day="6"] .fc-col-header-cell-cushion {
+    color: var(--chakra-colors-text-textCalendar-textCalendarSat) !important;
+  }
+  
+  /* ============================= */
+  /*        이벤트 커스터마이징      */
+  /* ============================= */
+  
+  /* dayGrid (month view) 이벤트 */
+  .fc .fc-daygrid-event {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+  
+  /* timeGrid (week/day view) 이벤트 */
+  .fc .fc-timegrid-event {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  
+  /* 이벤트 텍스트 */
+  .fc .fc-event-title {
+    color: var(--chakra-colors-text-text1) !important;
+    font-weight: 600;
+    font-size: 13px;
+  }
+  

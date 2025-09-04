@@ -1,9 +1,10 @@
-/** @jsxImportSource @emotion/react */
 "use client";
-import { css } from "@emotion/react";
+
 import { ReactNode } from "react";
+import { Box, Flex } from "@chakra-ui/react";
 import { TopBar } from "../TopBar/TopBar";
 import { BottomNavigation } from "../BottomNavigation/BottomNavigation";
+
 interface MobileLayoutProps {
   topbarContent?: ReactNode;
   children: ReactNode;
@@ -15,7 +16,7 @@ interface MobileLayoutProps {
   topbarTitle?: string;
   showButtomNav?: boolean;
   searchbarContent?: ReactNode;
-  backurl?:string;
+  backurl?: string;
 }
 
 export const MobileLayout = ({
@@ -31,8 +32,15 @@ export const MobileLayout = ({
   searchbarContent,
 }: MobileLayoutProps) => {
   return (
-    <div css={layoutStyle}>
-      {/* 백버튼일 경우, 클릭 시 뒤로가기 구현 */}
+    <Flex
+      direction="column"
+      align="center"
+      minW="100vw"
+      minH="100vh"
+      bg="bg.bg1"
+      m="0 auto"
+      position="relative"
+    >
       <TopBar
         mode={topbarMode}
         backgroundType={topbarBackground}
@@ -40,65 +48,23 @@ export const MobileLayout = ({
         title={topbarTitle}
         searchContent={searchbarContent}
       />
-      <main
-        css={[
-          contentStyle,
-          !hasTopPadding && noTopPaddingStyle,
-          !hasBottomPadding && noBottomPaddingStyle,
-          !showButtomNav && noBottomPaddingStyle,
-          !hasSidePadding && noSidePaddingStyle,
-        ]}
+
+      <Box
+        as="main"
+        flex="1"
+        w="100%"
+        boxSizing="border-box"
+        pr={hasSidePadding ? "20px" : 0}
+        pl={hasSidePadding ? "20px" : 0}
+        pt={hasTopPadding ? "44px": 0} 
+        pb={hasBottomPadding && showButtomNav ? "54px" : 0}
+        overflowY="auto"
+        css={{ WebkitOverflowScrolling: "touch" }}
       >
         {children}
-      </main>
+      </Box>
+
       {showButtomNav && <BottomNavigation />}
-    </div>
+    </Flex>
   );
 };
-
-const layoutStyle = css`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 100vw;
-  min-height: 100vh;
-  background-color: #f9f7f7;
-  margin: 0 auto;
-  position: relative;
-`;
-
-const contentStyle = css`
-  flex: 1;
-  width: 100%;
-  box-sizing: border-box;
-  padding-right: 20px;
-  padding-left: 20px;
-
-  /* Top padding: iOS / AOS 기준 */
-  padding-top: 44px; /* iOS */
-  @media (max-width: 360px) {
-    padding-top: 56px; /* AOS */
-  }
-
-  /* Bottom padding: iOS / AOS 기준 */
-  padding-bottom: 54px; /* iOS */
-  @media (max-width: 360px) {
-    padding-bottom: 62px; /* AOS */
-  }
-
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-`;
-
-const noTopPaddingStyle = css`
-  padding-top: 0 !important;
-`;
-
-const noBottomPaddingStyle = css`
-  padding-bottom: 0 !important;
-`;
-
-const noSidePaddingStyle = css`
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-`;

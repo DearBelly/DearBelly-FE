@@ -46,7 +46,7 @@ export default function Information() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    fetch("http://43.200.249.9/api/v1/news/category", {
+    fetch("http://43.200.249.9:8080/api/v1/news/category", {
       method: 'GET',
       headers: {
         "Authorization": `Bearer ${token}`,

@@ -38,7 +38,7 @@ export const ContendCard = ({
       justifyContent="space-between"
       gap="0.625rem"
       cursor="pointer"
-      borderBottom={isLast ? 'none' : '0.0625rem solid #E8E7E7'}
+      borderBottom={isLast ? 'none' : '0.0625rem solid border.border'}
       onClick={handleDetailClick}
     >
       {/* textWrapper */}
@@ -53,27 +53,13 @@ export const ContendCard = ({
         <Heading
           as="h2"
           overflow="hidden"
-          color="var(--Text-Text-1, #202020)"
-          textOverflow="ellipsis"
-          fontFamily='"NanumSquare Neo"'
-          fontSize="0.875rem"
-          fontStyle="normal"
-          fontWeight="800"
-          lineHeight="1.125rem"
-          letterSpacing="-0.00875rem"
+          color="text.text1"
         >
           {title}
         </Heading>
         <Text
           overflow="hidden"
-          color="var(--Text-Text-3, #949393)"
-          textOverflow="ellipsis"
-          fontFamily='"NanumSquare Neo"'
-          fontSize="0.75rem"
-          fontStyle="normal"
-          fontWeight="700"
-          lineHeight="1rem"
-          letterSpacing="-0.0075rem"
+          color="text.text3"
           mt="0.5rem"
         >
           {description}

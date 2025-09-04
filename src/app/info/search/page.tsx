@@ -191,6 +191,7 @@ export default function InfoSearch() {
 const SearchText = ({ children }: { children: React.ReactNode }) => {
     return (
         <Text
+            color="text.text1"
             textStyle="body_12700"
         >
             {children}

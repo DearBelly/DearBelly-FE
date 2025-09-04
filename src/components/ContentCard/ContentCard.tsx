@@ -54,12 +54,14 @@ export const ContendCard = ({
           as="h2"
           overflow="hidden"
           color="text.text1"
+          textStyle="body_168001"
         >
           {title}
         </Heading>
         <Text
           overflow="hidden"
           color="text.text3"
+          textStyle="body_14700120"
           mt="0.5rem"
         >
           {description}

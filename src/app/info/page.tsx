@@ -73,7 +73,7 @@ export default function Information() {
 
   return (
     <MobileLayout topbarContent={<TopRightIcons/>}>
-      <Box className='wrapper' display="flex" flexDirection="column" alignItems="center" margin='1rem 0' >
+      <Box className='wrapper' display="flex" flexDirection="column" alignItems="center" mt="1rem">
         {/* 히어로 카드 영역 */}
         <Box className='hero_card'>
           <HeroCard {...randomHeroCard} />

@@ -4,7 +4,6 @@ import { ReactNode } from "react";
 import { Box, Flex } from "@chakra-ui/react";
 import { TopBar } from "../TopBar/TopBar";
 import { BottomNavigation } from "../BottomNavigation/BottomNavigation";
-
 interface MobileLayoutProps {
   topbarContent?: ReactNode;
   children: ReactNode;

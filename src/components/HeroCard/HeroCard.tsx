@@ -69,6 +69,7 @@ export const HeroCard = ({ title, description, imageSrc, mode }: HeroCardProps) 
         gap="0.625rem"
         alignSelf="stretch"
       >
+<<<<<<< HEAD
         <Box
           position="relative"
           w="7.5rem"
@@ -85,6 +86,31 @@ export const HeroCard = ({ title, description, imageSrc, mode }: HeroCardProps) 
             style={{ objectFit: 'cover' }}
           />
         </Box>
+=======
+        {mode === 'imageMode' && (
+          <Box
+            position="relative"
+            w="7.5rem"
+            maxW="100%"    
+            h="5rem"
+            overflow="hidden"
+            flexShrink={0}
+            borderRadius="0.5rem"
+          >
+            <Image
+              src={imageSrc || fallbackImage}
+              alt={title}
+              fill
+              style={{ objectFit: 'cover' }}
+            />
+          </Box>
+        )}
+        {mode === 'buttonMode' && (
+          <Button type="secondary" size="small" width="7.875rem">
+            {buttonText}
+          </Button>
+        )}
+>>>>>>> 2f360f4e6e413ee394434c1159e5c15874fe481e
       </Box>
     </Box>
   );

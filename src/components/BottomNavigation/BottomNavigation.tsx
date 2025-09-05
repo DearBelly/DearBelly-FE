@@ -19,7 +19,7 @@ export const BottomNavigation = () => {
     pb="10px"
     bg="bg.bg3"
     h="54px"
-    borderColor="bottomNavi.bottomNaviBorder"
+    borderColor="border.border"
     borderTop="0.5px solid"
     borderRight="0.5px solid"
     borderLeft="0.5px solid"

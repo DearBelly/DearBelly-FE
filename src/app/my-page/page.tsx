@@ -62,7 +62,7 @@ export default function Mypage () {
     ) 
 }
 
-export const UserName = ({ children }: { children: ReactNode }) => (
+const UserName = ({ children }: { children: ReactNode }) => (
     <Box
       display="inline-block"
       color="var(--Text-Text-1, #202020)"
@@ -77,7 +77,7 @@ export const UserName = ({ children }: { children: ReactNode }) => (
     </Box>
 );
 
-export const ContentName = ({ children }: { children: ReactNode }) => (
+const ContentName = ({ children }: { children: ReactNode }) => (
     <Box
       display="inline-block"
       color="var(--Text-Text-1, #202020)"

@@ -76,8 +76,16 @@ export const CategoryIconOutput = ({ cards, onSelectIndex }: CategoryIconOutputP
                 justifyContent="center"
                 height="5.25rem"
                 flexShrink={0}
-                ml='5vw'
-                mr={index === cards.length - 1 ? '5vw' : '0'}
+                ml={
+                  index === 0
+                    ? { base: "1.5rem", md: "clamp(0.5rem, 3vw, 1.5rem)" }
+                    : { base: "5vw", md: "clamp(1rem, 4vw, 2.45rem)" }
+                }
+                mr={
+                  index === cards.length - 1
+                    ? { base: "1.5rem", md: "clamp(0.5rem, 3vw, 1.5rem)" }
+                    : "0"
+                }
                 style={{ 
                     cursor: 'pointer',
                 }}
@@ -97,6 +105,7 @@ export const CategoryIconOutput = ({ cards, onSelectIndex }: CategoryIconOutputP
 
 const Wrapper = styled.div<{ isPc: boolean }>`
   width: 100vw;
+  max-width: 35rem;
   display: flex;
   overflow-x: auto;
   overflow-y: hidden;

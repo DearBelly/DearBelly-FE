@@ -3,6 +3,7 @@
 import React, { useRef, useState } from "react";
 import { Box, Input, Text } from "@chakra-ui/react";
 import { CalendarSolid } from "@mynaui/icons-react";
+import { format } from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -16,12 +17,19 @@ export interface InputBoxCalendarProps {
 export const InputBoxCalendar = ({
   mode,
   title,
-  placeholder = "텍스트를 입력해 주세요",
+  placeholder,
   disabled = false,
 }: InputBoxCalendarProps) => {
   // 데이트 피커를 사용하여 캘린더 구현하기 위한 상태관리 
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [open, setOpen] = useState(false); 
+  const [inputValue, setInputValue] = useState("");
+  const [isError, setIsError] = useState(false); 
+
+  const validateDate = (value: string) => {
+    const regex = /^\d{4}-\d{2}-\d{2}$/;
+    return regex.test(value);
+  };
 
   return (
     <Box display="flex" flexDirection="column" w="100%">
@@ -34,16 +42,22 @@ export const InputBoxCalendar = ({
       >
         <Text textStyle="caption_12700">{title}</Text>
 
+        {/* Input + 아이콘 */}
         <Box display="flex" alignItems="center" gap="10px" mt="0.25rem" position="relative">
           <DatePicker
             selected={selectedDate}
             onChange={(date) => {
-              setSelectedDate(date);
-              setOpen(false); // 날짜 선택하면 닫기
+              if (date) {
+                setSelectedDate(date);
+                const formatted = format(date, "yyyy-MM-dd");
+                setInputValue(formatted);
+                setIsError(false);
+              }
+              setOpen(false);
             }}
             dateFormat="yyyy-MM-dd"
-            open={open} // 상태에 따라 열림/닫힘 제어
-            onClickOutside={() => setOpen(false)} // 바깥 클릭 시 닫힘
+            open={open}
+            onClickOutside={() => setOpen(false)}
             customInput={
               <Input
                 variant="outline"
@@ -54,7 +68,12 @@ export const InputBoxCalendar = ({
                 px="0"
                 bg="transparent"
                 placeholder={placeholder}
-                value={selectedDate ? selectedDate.toISOString().split("T")[0] : ""}
+                value={inputValue}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setInputValue(value);
+                  setIsError(!validateDate(value));
+                }}
                 _placeholder={{ color: "text.text4" }}
                 _focusVisible={{
                   boxShadow: "none",
@@ -65,18 +84,25 @@ export const InputBoxCalendar = ({
                 _hover={{ borderColor: "transparent", "--input-border-width": "0px" }}
                 _invalid={{ color: "text.error" }}
                 disabled={disabled}
-                readOnly
               />
             }
           />
+
           <Box ml="auto">
             <CalendarSolid
               color="var(--Icon-3, #949393)"
               style={{ cursor: "pointer" }}
-              onClick={() => setOpen((prev) => !prev)}
+              onClick={() => setOpen(true)}
             />
           </Box>
         </Box>
+
+        {/* ✅ 에러 문구는 Input 박스 밖에 따로 위치 */}
+        {isError && (
+          <Text mt="0.5rem" color="red.500" fontSize="0.75rem" fontWeight="600">
+            날짜 양식이 틀렸습니다.
+          </Text>
+        )}
       </Box>
     </Box>
   );

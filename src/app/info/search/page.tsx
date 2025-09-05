@@ -6,8 +6,7 @@ import { SearchBox } from '@/components/Search/SearchBox';
 import { MobileLayout } from "../../../components/Layouts/MobileLayout";
 import { SearchInventory } from '@/components/SearchInventory/SearchInventory';
 import { ContendCardOutput } from '@/components/ContentCard/ContendCardOutput';
-import { testData_all } from '../testData';
-import { DangerCircle } from "@mynaui/icons-react";
+import { ChakraIcons } from "@/utils/withChakraIcon";
 
 // 검색어의 id, text를 받음 
 interface keyInterface {
@@ -16,10 +15,39 @@ interface keyInterface {
 }
 
 export default function InfoSearch() {
+    const [contentCard, setContentCard] = useState<any[]>([]);
+
+    useEffect(() => {
+      const token = localStorage.getItem('token');
+      fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/news/category`, {
+        method: 'GET',
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Accept": "application/json",
+        },
+      })
+      .then(response => response.json())
+      .then((data) => {
+        if(data.success && Array.isArray(data.data))  {
+          const formatted = data.data.map((item: any) => ({
+            id: item.newsId,
+            title: item.title,
+            subtitle: item.subTitle,
+            imageSrc:  item.imageUrl || "/images/default_image.svg",
+            category: item.category,
+          }));
+          setContentCard(formatted);
+        }
+      })
+      .catch((error) => {
+        console.error('백엔드 요청 실패:', error);
+      });
+    }, []);
+
     // 로컬 스토리지에 저장한 검색어를 관리 
     const [keywords, setKeyWords] = useState<keyInterface[]>([]);
     // 실제 검색 결과
-    const [searchResult, setSearchResult] = useState<typeof testData_all>([]);
+    const [searchResult, setSearchResult] = useState<typeof contentCard>([]);
     // 현재 검색어 상태 저장
     const [currentSearch, setCurrentSearch] = useState<string>("");
 
@@ -53,8 +81,10 @@ export default function InfoSearch() {
         }
 
         // 검색어가 포함된 데이터만 필터링함 
-        const filtered = testData_all.filter(
-            (item) => item.title.includes(text) || item.description.includes(text)
+        const filtered = contentCard.filter(
+            (item) =>
+              item.title?.includes(text) ||
+              item.subtitle?.includes(text) 
         );
         setSearchResult(filtered);
     }
@@ -96,7 +126,7 @@ export default function InfoSearch() {
 
     const recentSearchContent = (
         <Box className='body_wrapper' display="flex" flexDirection="column" alignItems="center" margin='0 5.56vw'>
-            <Box className='searchInventory_wrapper' width='calc(100vw - 2.5rem)' mt='0.992vh'>
+            <Box className='searchInventory_wrapper' width='calc(100vw - 2.5rem)' maxW='35rem' mt='0.992vh'>
                 <Box className='text_wrapper' display="flex" justifyContent="space-between" alignItems="center">
                     <SearchText>최근 검색</SearchText>
                     <DeleteText onClick={handleClearKeywords} disabled={keywords.length===0}>전체 삭제</DeleteText>
@@ -117,7 +147,7 @@ export default function InfoSearch() {
     const searchResultContent = (
         <Box className='body_wrapper' display="flex" flexDirection="column" alignItems="center" margin='0 5.56vw'>
             {searchResult.length > 0 ? (
-                <Box className='recommend_wrapper' mt='0.92vh' mb='3.704vh'>
+                <Box className='recommend_wrapper' mt='0.92vh' mb='3.704vh' width='calc(100vw - 2.5rem)' maxW='35rem'>
                     <ContendCardOutput cards={searchResult} />
                 </Box>
             ) : (
@@ -133,8 +163,8 @@ export default function InfoSearch() {
                     alignItems="center"    
                     gap='0.5rem'
                 >
-                    <DangerCircle size='7vh' color='#DADADA' />
-                    <ErrorContent>조회된 정보가 없습니다</ErrorContent>
+                    <ChakraIcons.DangerCircle size='7vh' color='text.text4' />
+                    <ErrorContent>조회한 정보가 없습니다</ErrorContent>
                 </Box>
             )}
         </Box>
@@ -161,6 +191,7 @@ export default function InfoSearch() {
 const SearchText = ({ children }: { children: React.ReactNode }) => {
     return (
         <Text
+            color="text.text1"
             textStyle="body_12700"
         >
             {children}
@@ -189,13 +220,8 @@ const DeleteText = ({ onClick, children, disabled }: { onClick?: () => void; chi
     display="flex"
     alignItems="center"
     justifyContent="center"
-    color="#DADADA"
-    fontFamily="NanumSquare Neo"
-    fontSize="0.9rem"
-    fontStyle="normal"
-    fontWeight={700}
-    lineHeight="1.25rem"
-    letterSpacing="-0.015rem"
+    color="text.text4"
+    textStyle="body_167001"
     px="1rem"
     maxWidth="90%"
 

@@ -6,73 +6,110 @@ import type { CategoryIconProps } from '@/components/CategoryIcon/CategoryIcon';
 // 히어로 카드 데이터 (내용 정해지면 고정 - DB 저장 X)
 export const testData: HeroCardProps[] = [
   {
-    title: '건강한 임신을 위한 팁',
-    description: '임신 중 챙겨야 할 필수 정보를 알려드려요.',
+    title: `10~20주차에는\nIST 검사를 받아야 해요!`,
+    description: '목덜미 투명대와 산모 혈액을 통해 다운증후군 등 염색체 이상 위험을 확인해요.',
     imageSrc: '/images/default_image.svg',
     mode: 'imageMode',
   },
   {
-    title: '1주차에는 aa검사를 받아야 해요!',
-    description: 'aa검사는 bb를 위해 필수적이에요.',
+    title: `10~22주차에는\nNIPT 검사를 받아야 해요!`,
+    description: '산모 혈액 속 태아 DNA로 다운·에드워드·파타우 증후군 여부를 안전하게 선별해요.',
     imageSrc: '/images/default_image.svg',
     mode: 'imageMode',
   },
   {
-    title: '2주차에는 aa검사를 받아야 해요!',
-    description: 'aa검사는 bb를 위해 필수적이에요.',
+    title: `11~13주차에는\n융모막 검사를 받아야 해요!`,
+    description: '고령 산모나 기형아 검사 이상 시 염색체 진단을 위해 시행하는 검사예요.',
     imageSrc: '/images/default_image.svg',
     mode: 'imageMode',
   },
   {
-    title: '3주차에는 aa검사를 받아야 해요!',
-    description: 'aa검사는 bb를 위해 필수적이에요.',
+    title: `16~20주차에는\n양수 검사를 받아야 해요!`,
+    description: '고령 산모나 이상 소견이 있을 때 태아 염색체 이상 여부를 확인해요.',
     imageSrc: '/images/default_image.svg',
     mode: 'imageMode',
   },
   {
-    title: '4주차에는 aa검사를 받아야 해요!',
-    description: 'aa검사는 bb를 위해 필수적이에요.',
+    title: `20~24주차에는\n태아 심장 기형 검사를 받아야 해요!`,
+    description: '심장 기형을 조기 발견하고 초음파로 주요 기형을 확인할 수 있어요.',
+    imageSrc: '/images/default_image.svg',
+    mode: 'imageMode',
+  },
+  {
+    title: `24~28주차에는\n임신성 당뇨 검사를 받아야 해요!`,
+    description: '산모와 아기의 합병증 예방을 위해 당 대사 이상 여부를 점검해요.',
+    imageSrc: '/images/default_image.svg',
+    mode: 'imageMode',
+  },
+  {
+    title: `26~28주차에는\n4D 초음파를 받아야 해요!`,
+    description: '태아의 얼굴·손발을 입체적으로 관찰하고 기형 여부를 확인해요.',
+    imageSrc: '/images/default_image.svg',
+    mode: 'imageMode',
+  },
+  {
+    title: `30~35주차에는\n항문외과 검사를 받아야 해요!`,
+    description: '치질·치루 등 임신 중 흔한 항문 질환을 조기 확인해요.',
+    imageSrc: '/images/default_image.svg',
+    mode: 'imageMode',
+  },
+  {
+    title: `32차주에는\nNST 검사를 받아야 해요!`,
+    description: '태아 심음과 자궁 수축을 측정해 아기의 건강 상태를 진단해요.',
+    imageSrc: '/images/default_image.svg',
+    mode: 'imageMode',
+  },
+  {
+    title: `35주차 이후에는\n분만 전 검사를 받아야 해요!`,
+    description: '혈액검사·초음파 등으로 산모와 태아 상태를 최종 점검해 분만 방법을 결정해요.',
     imageSrc: '/images/default_image.svg',
     mode: 'imageMode',
   },
 ];
 
-// 정책 컴포 데이터 
-export const testData2 : NoticeBoxProps[] = [
+
+// 공지 컴포 데이터 
+export const testData2: NoticeBoxProps[] = [
   { 
-    label: '5월은 ab 정책을 신청할 수 있어요.',
+    label: '약물 판단 기능을 개선 중입니다',
   },
   { 
-    label: '6월은 ab 정책을 신청할 수 있어요.',
+    label: '산전 검사 스케줄러가 곧 더 편리해집니다',
   },
   { 
-    label: '7월은 ab 정책을 신청할 수 있어요.',
+    label: '아이 편지함에 새로운 기능이 추가됩니다',
   },
 ];
 
 // 아이콘 데이터 (고정임 - DB 저장 X)
 export const iconData: CategoryIconProps[] = [
   {
+    page: 0,
     name: '전체',
     imageSrc: '/images/information/all_light.svg',
   },
   {
+    page: 1,
     name: '건강',
     imageSrc: '/images/information/health_light.svg',
   },
   {
+    page: 2,
     name: '지원금',
     imageSrc: '/images/information/money_light.svg',
   },
   {
+    page: 3,
     name: '임신준비',
     imageSrc: '/images/information/ready_light.svg',
   },
   {
+    page: 4,
     name: '출산육아',
     imageSrc: '/images/information/granulation_light.svg',
   },
   {
+    page: 5,
     name: '정신건강',
     imageSrc: '/images/information/mind_light.svg',
   },
@@ -83,56 +120,4 @@ export const testData3 : ContendCardProps[] = [
   { id: 1, title: '깊이 잠들고 싶어요..', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
   { id: 2, title: '깊이 잠들고 싶어요..', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
   { id: 3, title: '깊이 잠들고 싶어요..', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-];
-
-export const testData_preg_all : ContendCardProps[] = [
-  { id: 1, title: '임신에 대한 모든 것', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-];
-
-export const testData_health : ContendCardProps[] = [
-  { id: 1, title: '깊이 잠들고 싶어요..', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-  { id: 2, title: '깊이 잠들고 싶어요..', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-  { id: 3, title: '깊이 잠들고 싶어요..', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-];
-
-export const testData_education : ContendCardProps[] = [
-  { id: 1, title: '오은영 박사의 교육법!', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-  { id: 2, title: '오은영 박사의 교육법!', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-  { id: 3, title: '오은영 박사의 교육법!', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-];
-
-export const testData_ready : ContendCardProps[] = [
-  { id: 1, title: '육아 필수템', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-  { id: 2, title: '육아 필수템', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-  { id: 3, title: '육아 필수템', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-];
-
-export const testData_mind : ContendCardProps[] = [
-  { id: 1, title: '산후 우울증 이겨내는 법', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-  { id: 2, title: '산후 우울증 이겨내는 법', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-  { id: 3, title: '산후 우울증 이겨내는 법', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-];
-
-export const testData_money : ContendCardProps[] = [
-  { id: 1, title: '정부에서 지원금 받으면서 육아해요', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-  { id: 2, title: '정부에서 지원금 받으면서 육아해요', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-  { id: 3, title: '정부에서 지원금 받으면서 육아해요', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-];
-
-export const testData_all : ContendCardProps[] = [
-  { id: 1, title: '깊이 잠들고 싶어요..', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-  { id: 2, title: '깊이 잠들고 싶어요..', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-  { id: 3, title: '깊이 잠들고 싶어요..', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-  { id: 4, title: '오은영 박사의 교육법!', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-  { id: 5, title: '오은영 박사의 교육법!', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-  { id: 6, title: '오은영 박사의 교육법!', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-  { id: 7, title: '육아 필수템', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-  { id: 8, title: '육아 필수템', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-  { id: 9, title: '육아 필수템', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-  { id: 10, title: '산후 우울증 이겨내는 법', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-  { id: 11, title: '산후 우울증 이겨내는 법', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-  { id: 12, title: '산후 우울증 이겨내는 법', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-  { id: 13, title: '정부에서 지원금 받으면서 육아해요', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-  { id: 14, title: '정부에서 지원금 받으면서 육아해요', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-  { id: 15, title: '정부에서 지원금 받으면서 육아해요', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
 ];

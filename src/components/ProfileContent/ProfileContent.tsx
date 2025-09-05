@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Box, Text, Button } from '@chakra-ui/react';
-import { ChevronRight } from '@mynaui/icons-react';
+import { ChakraIcons } from "@/utils/withChakraIcon";
 import { motion } from 'framer-motion';
 
 interface ProfileContentProps {
@@ -63,7 +63,7 @@ export const ProfileContent = ({
           aria-pressed={isOn}
           w="2.5rem"
           h="1.375rem"
-          bg={isOn ? '#FF6257' : '#FF746a'}
+          bg={isOn ? 'icon.iconPrimary' : '#FF746a'}
           borderRadius="9999px"
           cursor="pointer"
           display="flex"
@@ -71,19 +71,19 @@ export const ProfileContent = ({
           justifyContent={isOn ? 'flex-end' : 'flex-start'}
           p="0.125rem"
           border="none"
-          _hover={{ bg: isOn ? '#FF6257' : '#FF746a' }}
+          _hover={{ bg: isOn ? 'icon.iconPrimary' : '#FF746a' }}
         >
           <MotionBox
             w="1rem"
             h="1rem"
             borderRadius="9999px"
-            bg="#FFF"
+            bg="icon.icon5"
             layout
             transition={{ type: 'spring', duration: 0.2, bounce: 0.2 }}
           />
         </Button>
       ) : (
-        <ChevronRight />
+        <ChakraIcons.ChevronRight color='icon.icon1' />
       )}
     </Box>
   );

@@ -2,6 +2,7 @@
 import React from 'react';
 import { Box, Input, IconButton } from '@chakra-ui/react';
 import { Search } from "@mynaui/icons-react";
+import { ChakraIcons } from "@/utils/withChakraIcon";
 
 export interface SearchBoxProps {
   value: string;
@@ -37,6 +38,7 @@ export const SearchBox = ({
       position="relative"
       display="flex"
       w="calc(100vw - 5rem)"
+      maxW="35.5rem"
       h="2rem"
       px="0.5rem"
       pl="0.75rem"
@@ -45,7 +47,7 @@ export const SearchBox = ({
       alignItems="center"
       flex="1 0 0"
       borderRadius="6.1875rem"
-      bg="var(--BG-BG-2, #F2F0F0)"
+      bg="bg.bg2"
     >
         <Input
             value={value}
@@ -55,15 +57,11 @@ export const SearchBox = ({
             border="none"
             outline="none"
             bg="transparent"
-            color="#949393"
-            fontFamily='"NanumSquare Neo"'
-            fontSize="0.75rem"
-            fontWeight={400}
-            lineHeight="1.5rem"
-            letterSpacing="-0.015rem"
+            color="text.text1"
+            textStyle="body_14400224"
             _placeholder={{
-            color: "#949393",
-            textAlign: "left",
+              color: "text.text3",
+              textAlign: "left",
             }}
         />
         <IconButton
@@ -75,7 +73,7 @@ export const SearchBox = ({
             p={0}
             minW="auto"
         >
-            <Search width={24} height={24} color='var(--Icon-3, #949393)' />
+            <ChakraIcons.Search  color='icon.icon3' />
         </IconButton>
     </Box>
   );

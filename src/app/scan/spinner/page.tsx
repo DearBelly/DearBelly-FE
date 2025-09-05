@@ -35,7 +35,7 @@ export default function Spinner() {
           </Box>
           <PhotoGuideModal
             accept="image/*"
-            initialImage="/images/computerVision/spinner.gif" 
+            initialImage="/images/computerVision/spinner.svg" 
             title="의약품 성분 분석중"     
             content={
                 <>

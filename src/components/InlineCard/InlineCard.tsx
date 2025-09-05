@@ -3,7 +3,7 @@
 import { Box, Text, Link as ChakraLink } from '@chakra-ui/react';
 import Image from 'next/image';
 import NextLink from 'next/link';
-import { ChevronRight } from '@mynaui/icons-react';
+import { ChakraIcons } from "@/utils/withChakraIcon";
 
 const fallbackImage = '/images/default_image.svg';
 
@@ -24,7 +24,7 @@ export const InlineCard = ({
 }: InlineCardProps) => {
   return (
     <Box
-      w="calc(100vw - 2.5rem)"
+      w="100%"
       h="100%"
       display="flex"
       flexDirection="row"
@@ -32,19 +32,17 @@ export const InlineCard = ({
       p="1rem"
       gap="0.75rem"
       borderRadius="1rem"
-      bg="var(--BG-BG-4, #e8e7e7)"
+      bg="bg.bg4"
     >
       {/* 텍스트 영역 */}
       <Box flex="1" h="100%" display="flex" flexDirection="column" justifyContent="space-between">
         <Text
-          color="var(--Text-Text-2, #6c6b6b)"
-          m="0"
-          fontSize="0.875rem"
-          fontStyle="normal"
-          fontWeight="700"
-          lineHeight="1rem"
-          letterSpacing="-0.00875rem"
-          display="-webkit-box"
+          color="text.text2"
+          textStyle="body_14700120"
+          whiteSpace="normal"      
+          overflow="visible"
+          textOverflow="clip"
+          wordBreak="keep-all"
         >
           {description}
         </Text>
@@ -54,17 +52,12 @@ export const InlineCard = ({
             as={NextLink}
             href={shortcutHref}
             aria-label={`${shortcutLink} 페이지로 이동`}
-            color="var(--Text-Text-8, #de473d)"
-            fontSize="0.75rem"
-            fontWeight="800"
-            lineHeight="0.875rem"
-            letterSpacing="-0.0075rem"
-            textDecoration="none"
-            display="inline-flex"
+            color="text.text7"
+            textStyle="caption_12800"
             alignItems="center"
           >
             {shortcutLink}
-            <ChevronRight style={{ width: '1.25rem', height: '1.25rem' }} />
+            <ChakraIcons.ChevronRight style={{ width: '1.25rem', height: '1.25rem' }} color='text.text7'/>
           </ChakraLink>
         </Box>
       </Box>

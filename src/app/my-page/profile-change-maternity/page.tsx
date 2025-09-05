@@ -89,7 +89,6 @@ export default function ProfileChangeMaternity() {
             onChange={handleNicknameChange}
             isError={isNicknameError}
             errorMessage="닉네임을 설정해주세요"
-            disabled={hideButton}
           />
 
           <Separator mb='1rem' borderColor={borderColor} height="1px" />

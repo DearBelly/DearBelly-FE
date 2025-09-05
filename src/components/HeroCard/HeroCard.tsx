@@ -19,12 +19,13 @@ export const HeroCard = ({ title, description, imageSrc, mode }: HeroCardProps) 
     <Box
       display="flex"
       w="calc(100vw - 2.5rem)"
+      maxW="35rem"
       p="1rem"
       gap="1rem"
       flexDirection="column"
       alignItems="flex-start"
       borderRadius="1rem"
-      bg="var(--BG-BG-3, #fff)"
+      bg="bg.bg3"
     >
       {/* 텍스트 영역 */}
       <Box
@@ -37,68 +38,53 @@ export const HeroCard = ({ title, description, imageSrc, mode }: HeroCardProps) 
       >
         <Text
           as="h2"
-          color="var(--Text-Text-1, #202020)"
-          fontFamily='"NanumSquare Neo"'
-          fontSize="1.25rem"
-          fontWeight="800"
-          lineHeight="1.375rem"
-          letterSpacing="-0.0125rem"
-          m={0}
+          color="text.text1"
+          textStyle="head_188001"
+          mb="0.2rem"
           w="100%"
-          display="-webkit-box"
+          whiteSpace="normal"
         >
           {title}
         </Text>
 
         <Text
           h="1rem"
-          color="var(--Text-Text-2, #6C6B6B)"
-          fontFamily='"NanumSquare Neo"'
-          fontSize="0.875rem"
-          fontWeight="700"
-          lineHeight="1rem"
-          letterSpacing="-0.00875rem"
-          m={0}
-          w="100%"
-          overflow="hidden"
-          whiteSpace="nowrap"
-          textOverflow="ellipsis"
+          color="text.text2"
+          textStyle="body_14700120"
+          mb="0.5rem"
+          whiteSpace="normal"      
+          overflow="visible"
+          textOverflow="clip"
+          wordBreak="keep-all"
         >
           {description}
         </Text>
       </Box>
 
-      {/* 버튼, 이미지 영역 */}
+      {/* 이미지 영역 */}
       <Box
         display="flex"
         alignItems="center"
-        justifyContent={mode === 'imageMode' ? 'flex-end' : 'flex-start'}
+        justifyContent="flex-end"
         gap="0.625rem"
         alignSelf="stretch"
       >
-        {mode === 'imageMode' && (
-          <Box
-            position="relative"
-            w="7.5rem"
-            maxW="100%"    
-            h="5rem"
-            overflow="hidden"
-            flexShrink={0}
-            borderRadius="0.5rem"
-          >
-            <Image
-              src={imageSrc || fallbackImage}
-              alt={title}
-              fill
-              style={{ objectFit: 'cover' }}
-            />
-          </Box>
-        )}
-        {mode === 'buttonMode' && (
-          <Button type="secondary" size="small" width="7.875rem">
-            {buttonText}
-          </Button>
-        )}
+        <Box
+          position="relative"
+          w="7.5rem"
+          maxW="100%"    
+          h="5rem"
+          overflow="hidden"
+          flexShrink={0}
+          borderRadius="0.5rem"
+        >
+          <Image
+            src={imageSrc || fallbackImage}
+            alt={title}
+            fill
+            style={{ objectFit: 'cover' }}
+          />
+        </Box>
       </Box>
     </Box>
   );

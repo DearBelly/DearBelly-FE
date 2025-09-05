@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';
 import { Box, Text } from '@chakra-ui/react';
-import { ClockFiveSolid, X } from "@mynaui/icons-react";
+import { ChakraIcons } from "@/utils/withChakraIcon";
 
 export interface SearchInventoryProps {
   onClick?: () => void;
@@ -12,21 +12,16 @@ export const SearchInventory = ({ onClick, description }: SearchInventoryProps) 
   return (
     <Box
       position="relative"
-      w="calc(100vw - 2.5rem)"
+      w="100%"
       h="1.5rem"
       display="flex"
       alignItems="center"
     >
-        <ClockFiveSolid size="1rem" />
+        <ChakraIcons.ClockFiveSolid size="1rem" color="text.text1"/>
 
         <Text
-            color="var(--Text-Text-1, #202020)"
-            fontFamily='"NanumSquare Neo"'
-            fontSize="0.625rem"
-            fontStyle="normal"
-            fontWeight="400"
-            lineHeight="1.5rem"
-            letterSpacing="-0.0125rem"
+            color="text.text1"
+            textStyle="body_124002"
             ml="0.38rem"
         >
             {description}
@@ -47,7 +42,7 @@ export const SearchInventory = ({ onClick, description }: SearchInventoryProps) 
             cursor="pointer"
             _hover={{ opacity: 0.8 }}
         >
-            <X size="1rem" />
+            <ChakraIcons.X size="1rem" color="text.text1"/>
         </Box>
     </Box>
   );

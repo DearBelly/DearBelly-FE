@@ -147,7 +147,7 @@ interface SafeDangerStyleProps {
   isSafe: boolean;
 }
 
-export const MediName = ({ children, fontWeight = 700 }: MediNameProps) => (
+const MediName = ({ children, fontWeight = 700 }: MediNameProps) => (
   <Box
     color="#000"
     fontFamily="NanumSquare Neo"
@@ -161,7 +161,7 @@ export const MediName = ({ children, fontWeight = 700 }: MediNameProps) => (
   </Box>
 );
 
-export const MediContent = ({ children }: { children: ReactNode }) => (
+const MediContent = ({ children }: { children: ReactNode }) => (
   <Box
     justifyContent="space-around"
     color="#000"
@@ -178,7 +178,7 @@ export const MediContent = ({ children }: { children: ReactNode }) => (
   </Box>
 );
 
-export const ErrorContent = ({ children }: { children: ReactNode }) => (
+const ErrorContent = ({ children }: { children: ReactNode }) => (
   <Box
     display="flex"
     alignItems="center"
@@ -200,7 +200,7 @@ export const ErrorContent = ({ children }: { children: ReactNode }) => (
   </Box>
 );
 
-export const SafeDangerStyle = ({ children, isSafe }: SafeDangerStyleProps) => (
+const SafeDangerStyle = ({ children, isSafe }: SafeDangerStyleProps) => (
   <Box
     width="fit-content" 
     background={isSafe ? "#C4E6C9" : "#FFA471"}

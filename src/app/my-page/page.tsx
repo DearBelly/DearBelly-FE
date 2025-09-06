@@ -7,9 +7,6 @@ import { ChakraIcons } from "@/utils/withChakraIcon";
 import { useRouter } from 'next/navigation';
 import { ProfileContent } from '@/components/ProfileContent/ProfileContent';
 import { useTheme } from "next-themes"; 
-import Loading from '@/app/loading';
-
-const profileImage = '/images/profile.svg';
 
 const profileImage = '/images/profile.svg';
 

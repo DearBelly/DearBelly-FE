@@ -93,12 +93,6 @@ export const InputBoxCalendar = ({
             />
           </Box>
         </Box>
-
-        {isError && (
-          <Text mt="0.5rem" color="red.500" fontSize="0.75rem" fontWeight="600">
-            날짜 양식이 틀렸습니다.
-          </Text>
-        )}
       </Box>
     </Box>
   );

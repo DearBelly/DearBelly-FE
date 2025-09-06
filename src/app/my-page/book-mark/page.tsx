@@ -18,7 +18,17 @@ export default function BookMark() {
     }, []);
 
     const content_mobile = (
-        <Box className='body_wrapper' display="flex" flexDirection="column" alignItems="center" mt='0.62rem' mb='0.62rem'>
+        <Box 
+            className='body_wrapper' 
+            display="flex" 
+            flexDirection="column" 
+            alignItems="center" 
+            mt='0.62rem' 
+            mb='0.62rem'
+            width='calc(100vw - 2.5rem)'
+            maxW='35rem'
+            mx='auto'
+        >
             <ContendCardOutput cards={testData_all}/>
             {!isLogin  && <LoginModal />}
         </Box>

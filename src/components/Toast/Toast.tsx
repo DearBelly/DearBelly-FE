@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';
 import { Box, Text } from '@chakra-ui/react';
-import { FunnyCircleSolid } from "@mynaui/icons-react";
+import { ChakraIcons } from "@/utils/withChakraIcon";
 import { motion } from "framer-motion";
 
 const MotionBox = motion.create(Box);
@@ -17,12 +17,13 @@ export const Toast = () => (
     }}
     display="flex"
     w="calc(100vw - 2.5rem)"
+    maxW="32.5rem"
     h="3rem"
     flexDirection="row"
     alignItems="center"
     gap="0.5rem"
     borderRadius="6.1875rem"
-    bg="var(--Toast-Toast-BG, rgba(0, 0, 0, 0.50))"
+    bg="toast.toastBg"
     backdropFilter="blur(5px)"
     pl="0.5rem"
     mx="1.25rem"
@@ -34,20 +35,15 @@ export const Toast = () => (
       w="2rem"
       h="2rem"
       borderRadius="50%"
-      bg="var(--Background-3, #FFF)"
+      bg="bg.bg3"
     >
-      <FunnyCircleSolid color="var(--Toast-Background, rgba(0, 0, 0, 0.50))" />
+      <ChakraIcons.FunnyCircleSolid color="toast.toastBg" />
     </Box>
     <Text
-      color="var(--Text-5, #F2F0F0)"
-      fontFamily='"NanumSquare Neo"'
-      fontSize="0.875rem"
-      fontStyle="normal"
-      fontWeight="700"
-      lineHeight="1.25rem"
-      letterSpacing="-0.00875rem"
+      color="text.text5"
+      textStyle="body_14700120"
     >
-      변경이 완료되었습니다
+      정보 변경이 완료되었습니다
     </Text>
   </MotionBox>
 );

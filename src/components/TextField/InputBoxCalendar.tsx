@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from "react";
 import { Box, Input, Text } from "@chakra-ui/react";
-import { CalendarSolid } from "@mynaui/icons-react";
+import { ChakraIcons } from "@/utils/withChakraIcon";
 import { format } from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -24,7 +24,6 @@ export const InputBoxCalendar = ({
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [open, setOpen] = useState(false); 
   const [inputValue, setInputValue] = useState("");
-  const [isError, setIsError] = useState(false); 
 
   const validateDate = (value: string) => {
     const regex = /^\d{4}-\d{2}-\d{2}$/;
@@ -40,7 +39,7 @@ export const InputBoxCalendar = ({
         py="0.75rem"
         gap="0.25rem"
       >
-        <Text textStyle="caption_12700">{title}</Text>
+        <Text textStyle="caption_12800">{title}</Text>
 
         {/* Input + 아이콘 */}
         <Box display="flex" alignItems="center" gap="10px" mt="0.25rem" position="relative">
@@ -51,7 +50,6 @@ export const InputBoxCalendar = ({
                 setSelectedDate(date);
                 const formatted = format(date, "yyyy-MM-dd");
                 setInputValue(formatted);
-                setIsError(false);
               }
               setOpen(false);
             }}
@@ -72,7 +70,6 @@ export const InputBoxCalendar = ({
                 onChange={(e) => {
                   const value = e.target.value;
                   setInputValue(value);
-                  setIsError(!validateDate(value));
                 }}
                 _placeholder={{ color: "text.text4" }}
                 _focusVisible={{
@@ -89,20 +86,13 @@ export const InputBoxCalendar = ({
           />
 
           <Box ml="auto">
-            <CalendarSolid
-              color="var(--Icon-3, #949393)"
+            <ChakraIcons.CalendarSolid
+              color="icon.icon3"
               style={{ cursor: "pointer" }}
               onClick={() => setOpen(true)}
             />
           </Box>
         </Box>
-
-        {/* ✅ 에러 문구는 Input 박스 밖에 따로 위치 */}
-        {isError && (
-          <Text mt="0.5rem" color="red.500" fontSize="0.75rem" fontWeight="600">
-            날짜 양식이 틀렸습니다.
-          </Text>
-        )}
       </Box>
     </Box>
   );

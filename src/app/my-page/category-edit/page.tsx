@@ -62,7 +62,7 @@ export default function CategoryEdit() {
           <Toast/>
         </Box>
       )}
-
+      
     <Box 
         className="wrapper"
         display="flex" 
@@ -70,7 +70,10 @@ export default function CategoryEdit() {
         mt="5.66dvh"
         padding="0.75rem 1rem"
         borderRadius= '0.75rem'
-        background= 'var(--Background-3, #FFF)'
+        background= 'bg.bg3'
+        width='100%'
+        maxW='35rem'
+        mx='auto'
     >
       <Box as="form" w="100%" onSubmit={(e) => {
         e.preventDefault();
@@ -82,7 +85,7 @@ export default function CategoryEdit() {
           label={CATEGORY_ALL}
           key="all-category"
           checked={isAllChecked}
-          onClick={() => toggleAll(allIds)}
+          onClick={() => toggleAll()}
         />
       </Box>
 

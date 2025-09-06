@@ -17,14 +17,8 @@ export const ProfilePersonalContent = ({ title, content }: ProfilePersonalConten
     >
       <Text
         overflow="hidden"
-        color="var(--Text-1, #202020)"
-        textOverflow="ellipsis"
-        fontFamily='"NanumSquare Neo"'
-        fontSize="0.875rem"
-        fontStyle="normal"
-        fontWeight="400"
-        lineHeight="1.5rem"
-        letterSpacing="-0.0175rem"
+        color="text.text1"
+        textStyle="body_1440024"
         mr='auto'
       >
         {title}
@@ -32,15 +26,9 @@ export const ProfilePersonalContent = ({ title, content }: ProfilePersonalConten
 
       <Text
         overflow="hidden"
-        color="var(--Text-3, #949393)"
+        color="text.text3"
         textAlign="right"
-        textOverflow="ellipsis"
-        fontFamily='"NanumSquare Neo"'
-        fontSize="0.75rem"
-        fontStyle="normal"
-        fontWeight="400"
-        lineHeight="0.875rem"
-        letterSpacing="-0.0075rem"
+        textStyle="caption_12400"
         ml='auto'
       >
         {content}

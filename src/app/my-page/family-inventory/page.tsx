@@ -24,15 +24,11 @@ export default function familyInventory() {
           topbarTitle='가족 목록'
           topbarBackground='filled'
         >
-          <Box className='body_wrapper' display="flex" flexDirection="column" alignItems="center">
-              <Box className='me_wrapper' mt='0.63rem' mb='1.62rem'>
+          <Box className='body_wrapper' display="flex" flexDirection="column" alignItems="center" w="100%" maxW="35rem" mx="auto">
+              <Box className='me_wrapper' mt='0.63rem' mb='1.62rem' w="100%">
                   <Text
-                      color="#000"
-                      fontFamily="NanumSquare Neo"
-                      fontSize="0.875rem"
-                      fontWeight="400"
-                      lineHeight="1.5rem"
-                      letterSpacing="-0.0175rem"
+                      color="text.text1"
+                      textStyle="body_1440024"
                       mb='0.31rem'
                       ml='0.5rem'
                   >
@@ -45,14 +41,10 @@ export default function familyInventory() {
                   />
               </Box>
 
-              <Box className='me_wrapper'>
+              <Box className='family_wrapper' w="100%">
                   <Text
-                      color="#000"
-                      fontFamily="NanumSquare Neo"
-                      fontSize="0.875rem"
-                      fontWeight="400"
-                      lineHeight="1.5rem"
-                      letterSpacing="-0.0175rem"
+                      color="text.text1"
+                      textStyle="body_1440024"
                       mb='0.31rem'
                       ml='0.5rem'
                   >

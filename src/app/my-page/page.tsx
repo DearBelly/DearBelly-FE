@@ -11,6 +11,8 @@ import Loading from '@/app/loading';
 
 const profileImage = '/images/profile.svg';
 
+const profileImage = '/images/profile.svg';
+
 export default function Mypage () {
     const router = useRouter();
 

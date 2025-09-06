@@ -72,7 +72,6 @@ export const ProfileContent = ({
           p="0.125rem"
           border="none"
           _hover={{ bg: 'icon.iconPrimary' }}
-        >
           <MotionBox
             w="1rem"
             h="1rem"

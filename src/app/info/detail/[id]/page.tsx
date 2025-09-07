@@ -46,7 +46,7 @@ const InfoDetail = () => {
       .catch((error) =>  {
         console.error('상세 조회 실패:', error);
       })
-    })
+    },[]);
 
     // SDK 초기화
     useEffect(() => {

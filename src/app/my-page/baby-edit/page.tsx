@@ -11,11 +11,11 @@ import { LoginModal } from '@/components/LoginModal/LoginModal';
 export default function BabyEdit() {
     const router = useRouter();
     const handleClick = () => {
-      router.push(`/mypage/babyInfo`);
+      router.push('/my-page/baby-info');
     };
 
     const [selected, setSelected] = useState(0);
-    const options = ['여자', '남자', '미정'];
+    const options = ['여성', '남성', '미정'];
 
     const [nickname, setNickname] = useState("");
     const [isNicknameError, setIsNicknameError] = useState(false);
@@ -62,20 +62,24 @@ export default function BabyEdit() {
                 flexDirection="column" 
                 padding="0.75rem 0.5rem"
                 borderRadius= '0.75rem'
-                background= 'bg.bg3'     
+                background= 'bg.bg3'  
+                width="100%"  
+                maxW="33.75rem" 
                 mt='2.5rem'       
+                mx="auto" 
             >
                 <InputBox
                     mode="transparent"
                     title="태아명"
-                    placeholder='태아의 이름을 입력해주세요'
+                    placeholder="태아명을 입력해주세요"
+                    value={nickname}
                     onChange={handleNicknameChange}
                     isError={isNicknameError}
-                    errorMessage="닉네임을 설정해주세요"
+                    errorMessage="태아명을 설정해주세요"
                 />
 
                 <Box className='gender_wrapper' ml="1rem" mt='0.75rem' mb='0.75rem'>
-                    <Text textStyle="caption_12700" mb="0.25rem">
+                    <Text textStyle="caption_12800" color="text.text1" mb="0.5rem">
                         성별
                     </Text>
                     <Box gap='4vw' display='flex'>

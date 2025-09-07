@@ -1,10 +1,6 @@
 import React from 'react';
-import {
-  Box,
-  Text,
-} from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
 import { Button } from '@/components/Button'; 
-// import { X } from "@mynaui/icons-react";
 import { useRouter } from 'next/navigation';
 
 // export const LoginModal = ({ onClose }: { onClose: () => void }) => {
@@ -30,38 +26,24 @@ export const LoginModal = () => {
             bg="rgba(0, 0, 0, 0.5)"  
             zIndex={9999}
         >
-            {/* <Box 
-                position='fixed'
-                top='1.25rem'
-                right='1.25rem' 
-                zIndex='1000'
-                display='flex'
-                cursor='pointer'
-            > 
-                <X size='1.5rem' color='white' strokeWidth={1.5} onClick={onClose}/> 
-            </Box> */}
             <Box
                 className='modal_wrapper'
                 position="relative"
                 borderRadius="1.25rem"
                 p="1.75rem 1rem 1rem 1rem"
-                bg="var(--BG-BG-3, #fff)"
-                w="70%"
+                bg="bg.bg3"
+                w="80%"
                 maxW="20rem"
                 transform="translateY(-50px)"  
             >
                 <Box px="2rem" textAlign="center">
                     <Text
-                        color="var(--Text-Text-1, #202020)"
-                        fontFamily='"NanumSquare Neo"'
-                        fontSize="0.75rem"
-                        fontWeight="700"
-                        lineHeight="1rem"
-                        letterSpacing="-0.006rem"
-                        whiteSpace= "nowrap"       
-                        overflow= "visible"       
-                        textOverflow= "clip"      
-                        wordBreak= "break-all"
+                        color="text.text1"
+                        textAlign="body_14700120"
+                        whiteSpace="normal"      
+                        overflow="visible"
+                        textOverflow="clip"
+                        wordBreak="keep-all"
                     >
                         로그인이 필요한 서비스입니다.
                     </Text>

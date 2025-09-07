@@ -63,7 +63,7 @@ export const ProfileContent = ({
           aria-pressed={isOn}
           w="2.5rem"
           h="1.375rem"
-          bg={isOn ? 'icon.iconPrimary' : '#FF746a'}
+          bg='icon.iconPrimary'
           borderRadius="9999px"
           cursor="pointer"
           display="flex"
@@ -71,7 +71,7 @@ export const ProfileContent = ({
           justifyContent={isOn ? 'flex-end' : 'flex-start'}
           p="0.125rem"
           border="none"
-          _hover={{ bg: isOn ? 'icon.iconPrimary' : '#FF746a' }}
+          _hover={{ bg: 'icon.iconPrimary' }}
         >
           <MotionBox
             w="1rem"

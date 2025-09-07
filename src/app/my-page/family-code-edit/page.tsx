@@ -36,7 +36,7 @@ export default function FamilyCodeEdit() {
       topbarTitle='가족 공유 코드'
       nextDisabled={familyCode.trim() === ""}
     >
-      <Box as="form" w="100%" mt="20px" onSubmit={(e) => {
+      <Box as="form" w="100%" maxW="35rem" mt="20px" mx="auto" onSubmit={(e) => {
         e.preventDefault();
         handleNextClick();
       }}>

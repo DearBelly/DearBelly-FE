@@ -11,7 +11,6 @@ import { HeroCard } from '@/components/HeroCard/HeroCard';
 import { testData, testData2, testData3 } from './testData';
 import { ChakraIcons } from "@/utils/withChakraIcon";
 
-
 // 탑바에 보낼 데이터
 const TopRightIcons = () => {
   const router = useRouter();

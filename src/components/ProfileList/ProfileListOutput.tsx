@@ -8,7 +8,7 @@ interface ProfileListOutputProps {
 
 export const ProfileListOutput = ({ cards }: ProfileListOutputProps) => {
   return (
-    <Box backgroundColor='var(--Background-3, #FFF)' borderRadius='0.75rem'>
+    <Box backgroundColor='bg.bg3' borderRadius='0.75rem'>
       {cards.map((card, index) => (
         <Box key={index}>
           <ProfileList {...card} />

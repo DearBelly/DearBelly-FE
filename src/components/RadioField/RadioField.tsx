@@ -39,7 +39,8 @@ export const RadioField = ({
         as="span"
         w="1rem"
         h="1rem"
-        border="2px solid #D0D0D0"
+        border="2px solid"
+        borderColor="border.border"
         borderRadius="50%"
         position="relative"
         display="inline-block"
@@ -49,10 +50,11 @@ export const RadioField = ({
             as="span"
             w="0.625rem"
             h="0.625rem"
-            bg="#FF6257"
+            bg="icon.iconPrimary"
             borderRadius="50%"
             boxSizing="border-box"
-            border="1px solid var(--Border-Border, #E8E7E7)"
+            border="1px solid"
+            borderColor="border.border"
             position="absolute"
             top="50%"
             left="50%"
@@ -61,12 +63,8 @@ export const RadioField = ({
         )}
       </Box>
       <Text
-        color={checked ? '#202020' : '#D0D0D0'}
-        fontFamily='var(--Font-Family-font-family, "NanumSquare Neo")'
-        fontSize="0.875rem"
-        fontWeight={400}
-        lineHeight="1.875rem"
-        letterSpacing="-0.0175rem"
+        color={checked ? 'text.text1' : 'text.text2'}
+        textStyle='body_14400224'
       >
         {label}
       </Text>

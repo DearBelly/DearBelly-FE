@@ -412,23 +412,19 @@ export const PhotoGuideModal = forwardRef<{ cropToGuide: () => Promise<string | 
         position="relative"
         borderRadius="1.25rem"
         p="1.75rem 1rem 1rem 1rem"
-        bg="var(--BG-BG-3, #fff)"
+        bg="bg.bg3"
         w="100%"
-        h="100%"
+        h="auto"
+        maxW="22.5rem"
         boxSizing="content-box"
         alignItems="flex-start"
       >
         {/* contentWrapper */}
         <Box px="3.22rem" w="100%" h="100%">
           <Heading
-            as="h3"
-            fontFamily='"NanumSquare Neo"'
-            fontSize="0.875rem"
-            color="var(--Text-Text-1, #202020)"
+            color="text.text1"
+            textStyle="body_168001"
             textAlign="center"
-            fontWeight="600"
-            lineHeight="1.125rem"
-            letterSpacing="-0.01rem"
             mb="1rem"
             mt="-0.5rem"
           >
@@ -439,6 +435,7 @@ export const PhotoGuideModal = forwardRef<{ cropToGuide: () => Promise<string | 
           <Box
             ref={containerRef}
             w="100%"
+            maxW="9.375rem"
             aspectRatio="1 / 1"
             m="0 auto 1rem"
             display="flex"
@@ -502,7 +499,7 @@ export const PhotoGuideModal = forwardRef<{ cropToGuide: () => Promise<string | 
                     position="absolute"
                     w="28px"
                     h="28px"
-                    border="4px solid #06c655"
+                    border="4px solid #43D2DA"
                     left={0}
                     top={0}
                     borderRight="none"
@@ -513,7 +510,7 @@ export const PhotoGuideModal = forwardRef<{ cropToGuide: () => Promise<string | 
                     position="absolute"
                     w="28px"
                     h="28px"
-                    border="4px solid #06c655"
+                    border="4px solid #43D2DA"
                     right={0}
                     top={0}
                     borderLeft="none"
@@ -524,7 +521,7 @@ export const PhotoGuideModal = forwardRef<{ cropToGuide: () => Promise<string | 
                     position="absolute"
                     w="28px"
                     h="28px"
-                    border="4px solid #06c655"
+                    border="4px solid #43D2DA"
                     left={0}
                     bottom={0}
                     borderRight="none"
@@ -535,7 +532,7 @@ export const PhotoGuideModal = forwardRef<{ cropToGuide: () => Promise<string | 
                     position="absolute"
                     w="28px"
                     h="28px"
-                    border="4px solid #06c655"
+                    border="4px solid #43D2DA"
                     right={0}
                     bottom={0}
                     borderLeft="none"
@@ -572,17 +569,13 @@ export const PhotoGuideModal = forwardRef<{ cropToGuide: () => Promise<string | 
 
           {/* 안내 텍스트 */}
           <Text
-            color="var(--Text-Text-1, #202020)"
-            textAlign="center"
-            fontFamily='"NanumSquare Neo"'
-            fontSize="0.75rem"
-            fontWeight="700"
-            lineHeight="1rem"
-            letterSpacing="-0.006rem"
+            color="text.text1"
+            textStyle="body_14700120"
             whiteSpace="nowrap"
             overflow="visible"
             textOverflow="clip"
             wordBreak="break-all"
+            textAlign="center" 
           >
             {content}
           </Text>

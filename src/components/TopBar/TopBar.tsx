@@ -37,6 +37,7 @@ export const TopBar = ({
       top={0}
       left={0}
       w="100%"
+      maxW="40rem"
       zIndex={1000}
       bg={backgroundType === 'transparent' ? 'transparent' : 'bg.bg1'}
     >

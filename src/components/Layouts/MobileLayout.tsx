@@ -34,7 +34,8 @@ export const MobileLayout = ({
   return (
     <Flex
       direction="column"
-      align="center"
+      alignItems="center"
+      justifyItems="center"
       minW="100vw"
       minH="100vh"
       bg="bg.bg1"

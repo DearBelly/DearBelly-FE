@@ -9,17 +9,38 @@ import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButto
 import { ChakraIcons } from "@/utils/withChakraIcon";
 import { LoginModal } from '@/components/LoginModal/LoginModal';
 
-// 더미 데이터
-const testDataName: string = `한림모사프리드정5밀리그램`;
-
-const testData: string = `
-한림모사프리드정5밀리그램은 임산부가 복용해도 안전한 약으로 알려져 있습니다. 하지만, 임신 초기에는 특히 약물에 대한 노출을 최소화하는 것이 좋습니다. 임신 중이거나 임신을 계획 중인 경우, 반드시 의사나 약사와 상의 후 복용해야 합니다.\n\n
-주의사항으로는 다음과 같은 것들이 있습니다. 첫째, 이 약은 식사 후 즉시 복용해야 합니다. 둘째, 복용 시에는 알코올을 피해야 합니다. 셋째, 이 약은 장을 자극할 수 있으므로, 장에 문제가 있는 사람들은 복용에 주의해야 합니다. 넷째, 이 약은 혈압을 올릴 수 있으므로, 고혈압 환자들은 복용에 주의해야 합니다. 다섯째, 이 약은 혈당을 올릴 수 있으므로, 당뇨병 환자들은 복용에 주의해야 합니다.\n\n
-마지막으로, 이 약에 대한 알레르기 반응이 있었던 사람들은 복용을 피해야 합니다. 이외에도 특정 사람들에게는 다른 부작용이 있을 수 있으므로, 복용 전에 의사나 약사와 상의하는 것이 중요합니다.\n\n
-`;
-
 export default function Result() {
   const router = useRouter();
+  
+  const [pillName, setPillName] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [isSafeNum, setIsSafeNum] = useState<number | null>(null);
+  const [cropImage, setCropImage] = useState<string>("");
+
+  // 저장된 스캔한 알약 데이터 불러오기
+  useEffect(() => {
+    const stored = sessionStorage.getItem('scanCrop');
+    if(stored) {
+      try{
+        const parsed = JSON.parse(stored);
+        const data = parsed?.data;
+        if(data) {
+          setCropImage(data.cropImage);
+        }
+        if(data) {
+          setPillName(data.pillName);
+          setDescription(data.description);
+          setIsSafeNum(data.isSafe);
+        }
+        if(parsed.cropImage) {
+          setCropImage(parsed.cropImage);
+        }
+      }catch (err) {
+        console.error('결과 데이터 파싱 오류: ', err);
+      }
+    }
+  },[]);
+
   const handleScanClick = () => {
     router.push('/scan');
   };
@@ -36,9 +57,6 @@ export default function Result() {
       </Box>
     ));
   };
-
-  // 더미데이터
-  const safe_num: number = 1;
 
   // 로그인 상태
   const [isLogin, setIsLogin] = useState(false);
@@ -63,17 +81,23 @@ export default function Result() {
         flexDirection="column"
         w="100%"
       >
-        {testData?.trim() ? (
+        {pillName?.trim() ? (
           <>
             <Box
               className="image_wrapper"
               width="calc(100vw - 10rem)"
               maxW="15.625rem"
               mt="1.25rem"
+              mx="auto"
             >
               <img
-                src="/images/med.svg"
-                style={{ maxWidth: "100%", height: "auto" }}
+                src={cropImage}
+                style={{
+                  width: "100%",       
+                  height: "100%",     
+                  objectFit: "cover", 
+                  imageRendering: "crisp-edges"
+                }}
                 alt="약품 이미지"
               />
             </Box>
@@ -81,19 +105,19 @@ export default function Result() {
             <Box w="100%" maxW="33.75rem" mx="auto">
               <Box className="content_wrapper" width="100%" h="100%" mt="1.88rem">
                 <Box display="flex" flexDirection="column" gap="10px">
-                  <SafeDangerStyle isSafe={safe_num === 1}>
-                    {safe_num === 1
+                  <SafeDangerStyle isSafe={isSafeNum === 1}>
+                    {isSafeNum === 1
                       ? "해당 약품은 복용 시, 안전합니다."
                       : "해당 약품은 복용 시, 위험합니다."}
                   </SafeDangerStyle>
 
                   <Box className="title_wrapper" display="flex" gap="0.2rem">
-                    <MediName>약품명 : {testDataName}</MediName>
+                    <MediName>약품명 : {pillName}</MediName>
                   </Box>
                 </Box>
 
                 <Box display="flex" flexDirection="column" gap="20px" mt="10px">
-                  <MediContent>{parseText(testData)}</MediContent>
+                  <MediContent>{parseText(description)}</MediContent>
 
                   <Box
                     className="warning_wrapper"

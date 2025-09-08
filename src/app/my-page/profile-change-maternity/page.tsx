@@ -18,11 +18,15 @@ export default function ProfileChangeMaternity() {
 
     // 사용자 이름 저장
     const [nicknamePlaceholder, setNicknamePlaceholder] = useState("");
+    const [profileImage, setProfileImage] = useState("");
 
     // 사용자 이름 가져오기
     useEffect(() => {
         const saveNickname = localStorage.getItem('nickname');
+        const saveProfileImage = localStorage.getItem('profileImg');
+
         if(saveNickname) setNicknamePlaceholder(saveNickname);
+        if(saveProfileImage) setProfileImage(saveProfileImage);
     },[]);
 
     // 닉네임 바꾸기 
@@ -74,12 +78,23 @@ export default function ProfileChangeMaternity() {
 
         <Box className="wrapper" width="100%" maxW="35rem" mx="auto">
           <Box display="flex" justifyContent="center" mt="5.66dvh" mb="32px">
-            <Image
-              src="/images/set_profile.svg"
-              alt="profile-setup"
-              width={80}
-              height={80}
-            />
+            <Box 
+              className="imgWrapper"
+              position="relative"
+              w="5rem"
+              h="5rem"
+              maxW="100%"
+              overflow="hidden"
+              flexShrink={0}
+              borderRadius="50%"
+            >
+              <Image
+                src={profileImage || "/images/set_profile.svg"}
+                alt="profile-setup"
+                fill
+                style={{ objectFit: 'cover' }}
+              />
+            </Box>
           </Box>
 
           <Box 

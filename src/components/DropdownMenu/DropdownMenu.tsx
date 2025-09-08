@@ -3,10 +3,44 @@
 import { Box } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 
-export const DropdownMenu = () => {
+interface DropdownMenuProps {
+  babyId: number;
+  onDelete?: (id: number) => void;
+}
+
+export const DropdownMenu = ({ babyId, onDelete }: DropdownMenuProps) => {
   const router = useRouter();
+
+  // 해당 아기의 정보 수정하는 페이지로 이동 
   const handleDetailClick = () => {
-    router.push("/my-page/baby-edit");
+    router.push(`/my-page/baby-edit?id=${babyId}`);
+  };
+
+  // 아기 정보 삭제 
+  const handleDeleteClick = async() => {
+    const token = localStorage.getItem('token');
+
+    try {
+      const response = await fetch(
+         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/baby/${babyId}`,
+         {
+          method: 'DELETE',
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Accept": "application/json",
+          }
+         }
+      );
+
+      if(!response.ok) throw new Error("아기 정보 삭제 실패");
+
+      const json = await response.json();
+      console.log("아기 정보 삭제:", json);
+      
+      if(onDelete) onDelete(babyId);
+    } catch (err) {
+      console.log('아기 정보 삭제 오류: ', err);
+    }
   };
 
   return (
@@ -55,6 +89,7 @@ export const DropdownMenu = () => {
         bg="bg.bg3"
         _hover={{ bg: 'bg.bg2' }}
         cursor='pointer'
+        onClick={handleDeleteClick}
       >
         삭제하기
       </Box>

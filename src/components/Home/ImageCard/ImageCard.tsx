@@ -12,10 +12,10 @@ interface ImageCardProps {
 export const ImageCard = ({ imageUrl, title, description, onClick }: ImageCardProps) => {
   return (
     <Box
-      w="49.6dvw"  
+      w="30.0970873786dvw" 
       minW="186px"
-      maxW="300px"
-      aspectRatio="4/3"
+      maxW="193.33px"
+      h="140px"
       borderRadius="8px"
       overflow="hidden"
       flex="0 0 auto" 

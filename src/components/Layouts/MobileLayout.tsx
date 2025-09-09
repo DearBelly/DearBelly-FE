@@ -8,6 +8,7 @@ import { BottomNavigation } from "../BottomNavigation/BottomNavigation";
 interface MobileLayoutProps {
   topbarContent?: ReactNode;
   children: ReactNode;
+  contentBackground?: "filled" | "transparent";
   hasTopPadding?: boolean;
   hasSidePadding?: boolean;
   hasBottomPadding?: boolean;
@@ -22,6 +23,7 @@ interface MobileLayoutProps {
 export const MobileLayout = ({
   topbarContent,
   children,
+  contentBackground = "filled",
   hasTopPadding = true,
   hasSidePadding = true,
   hasBottomPadding = true,
@@ -36,9 +38,9 @@ export const MobileLayout = ({
       direction="column"
       alignItems="center"
       justifyItems="center"
-      minW="100vw"
+      w="100%"
       minH="100vh"
-      bg="bg.bg1"
+      bg={contentBackground === "filled" ? "bg.bg1" : "transparent"}
       m="0 auto"
       position="relative"
     >

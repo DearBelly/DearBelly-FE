@@ -1,7 +1,6 @@
 'use client'
 import React from 'react';
 import { Box, Input, IconButton } from '@chakra-ui/react';
-import { Search } from "@mynaui/icons-react";
 import { ChakraIcons } from "@/utils/withChakraIcon";
 
 export interface SearchBoxProps {
@@ -73,7 +72,7 @@ export const SearchBox = ({
             p={0}
             minW="auto"
         >
-            <ChakraIcons.Search  color='icon.icon3' />
+            <ChakraIcons.Search color='icon.icon3' />
         </IconButton>
     </Box>
   );

@@ -16,6 +16,7 @@ export default function Login() {
       minH="100dvh"
       display="flex"
       flexDirection="column"
+      alignItems="center"
       justifyContent="center"
     >
       <Box mt="23.6dvh" display="flex" justifyContent="center">
@@ -34,14 +35,14 @@ export default function Login() {
         flexDirection="column"
         justifyContent="center"
         alignItems="center"
-        alignSelf="stretch"
         gap="12px"
-        marginRight="20px"
-        marginLeft="20px"
+        w="100%"
+        maxW="40rem"
+        px="20px"
       >
-      <SocialLoginButton provider="naver" />
-      <SocialLoginButton provider="google" />
-      <SocialLoginButton provider="kakao" />
+        <SocialLoginButton provider="naver" />
+        <SocialLoginButton provider="google" />
+        <SocialLoginButton provider="kakao" />
       </Box>
 
       <Box

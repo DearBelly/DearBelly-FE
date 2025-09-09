@@ -25,7 +25,7 @@ export const TopBarBottomButtonLayout = ({
   topbarRightContent,
 }: TopBarBottomButtonLayoutProps) => {
   return (
-    <Box>
+    <Box w="100%" alignItems="center" justifyItems="center">
       <TopBar
         mode="back"
         backgroundType="filled"
@@ -34,11 +34,14 @@ export const TopBarBottomButtonLayout = ({
       />
       <Box
       w="100%"
+      maxW="40rem"
       h="100dvh"
       pt="44px"
       px="20px"
       display="flex"
       flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
       >
         {children}
         {!hideButton && (
@@ -48,6 +51,8 @@ export const TopBarBottomButtonLayout = ({
           pt="1.23dvh"
           pb="1.23dvh"
           position="relative"
+          display="flex"
+          justifyContent="center"
           zIndex={1}>
             <Button
               type="primary"

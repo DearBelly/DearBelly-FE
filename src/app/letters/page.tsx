@@ -34,38 +34,40 @@ export default function LettersPage() {
 
   return (
     <TopBarBottomButtonLayout topbarTitle="편지함" nextLabel="편지쓰러 가기" onNext={() => router.push("/letters/new")}>
-      {/* 상단 헤더 */}
-      <Box
-        display="flex"
-        flexDirection="row"
-        gap="4px"
-        alignItems="center"
-        justifyContent="flex-end"
-        color="text.text1"
-        mb="8px"
-      >
-        <Text textStyle="body_14400222">2025년 8월</Text>
-        <Calendar size={16} />
-      </Box>
+      <Box w="100%">
+        {/* 상단 헤더 */}
+        <Box
+          display="flex"
+          flexDirection="row"
+          gap="4px"
+          alignItems="center"
+          justifyContent="flex-end"
+          color="text.text1"
+          mb="8px"
+        >
+          <Text textStyle="body_14400222">2025년 8월</Text>
+          <Calendar size={16} />
+        </Box>
 
-      {/* 편지 리스트 */}
-      <Box display="flex" flexDirection="column" gap="16px">
-        {letters.map((letter) => {
-          const href =
-            letter.userName === currentUser.userName
-              ? `/letters/${letter.date}/me?userName=${letter.userName}&content=${encodeURIComponent(
-                  letter.content
-                )}`
-              : `/letters/${letter.date}/${letter.userName}?content=${encodeURIComponent(
-                  letter.content
-                )}`;
+        {/* 편지 리스트 */}
+        <Box display="flex" flexDirection="column" gap="16px">
+          {letters.map((letter) => {
+            const href =
+              letter.userName === currentUser.userName
+                ? `/letters/${letter.date}/me?userName=${letter.userName}&content=${encodeURIComponent(
+                    letter.content
+                  )}`
+                : `/letters/${letter.date}/${letter.userName}?content=${encodeURIComponent(
+                    letter.content
+                  )}`;
 
-          return (
-            <Link key={letter.id} href={href} style={{ textDecoration: "none" }}>
-              <LetterCard {...letter} />
-            </Link>
-          );
-        })}
+            return (
+              <Link key={letter.id} href={href} style={{ textDecoration: "none" }}>
+                <LetterCard {...letter} />
+              </Link>
+            );
+          })}
+        </Box>
       </Box>
     </TopBarBottomButtonLayout>
   );

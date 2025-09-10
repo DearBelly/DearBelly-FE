@@ -248,7 +248,7 @@ const ImageWrapper = ({ children }: { children: React.ReactNode }) => (
         width="100%"
         height="5.5rem"
         zIndex={1}
-        background="linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0))"
+        background="linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0))"
       />
     </Box>
   );

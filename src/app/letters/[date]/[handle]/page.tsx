@@ -14,7 +14,7 @@ export default async function OthersLetterPage({
 
   return (
     <TopBarBottomButtonLayout topbarTitle="편지함" hideButton={true}>
-      <Box display="flex" flexDirection="column" mt="20px">
+      <Box display="flex" flexDirection="column" mt="20px" w="100%" h="100%" maxW="35rem" alignItems="center">
         <LetterCard
           userName={userName ?? "익명"}
           date={date}

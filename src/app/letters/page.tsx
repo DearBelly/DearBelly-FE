@@ -33,24 +33,30 @@ export default function LettersPage() {
   ];
 
   return (
-    <TopBarBottomButtonLayout topbarTitle="편지함" nextLabel="편지쓰러 가기" onNext={() => router.push("/letters/new")}>
-      <Box w="100%">
+    <TopBarBottomButtonLayout 
+    topbarTitle="편지함" 
+    nextLabel="편지쓰러 가기" 
+    onNext={() => router.push("/letters/new")} 
+    onBack={() => router.push("/home")}
+    >
+      <Box w="100%" display="flex" flexDirection="column" alignItems="center" justifyContent="center">
         {/* 상단 헤더 */}
         <Box
-          display="flex"
-          flexDirection="row"
-          gap="4px"
-          alignItems="center"
-          justifyContent="flex-end"
-          color="text.text1"
-          mb="8px"
+        w="100%"
+        display="flex"
+        flexDirection="row"
+        gap="4px"
+        alignItems="center"
+        justifyContent="flex-end"
+        color="text.text1"
+        mb="8px"
         >
           <Text textStyle="body_14400222">2025년 8월</Text>
           <Calendar size={16} />
         </Box>
 
         {/* 편지 리스트 */}
-        <Box display="flex" flexDirection="column" gap="16px">
+        <Box display="flex" flexDirection="column" gap="16px" w="100%" maxW="35rem">
           {letters.map((letter) => {
             const href =
               letter.userName === currentUser.userName

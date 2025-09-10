@@ -21,25 +21,24 @@ export default function Result() {
   useEffect(() => {
     const stored = sessionStorage.getItem('scanCrop');
     if(stored) {
-      try{
+      try {
         const parsed = JSON.parse(stored);
         const data = parsed?.data;
-        if(data) {
-          setCropImage(data.cropImage);
-        }
-        if(data) {
+        if (data) {
           setPillName(data.pillName);
           setDescription(data.description);
           setIsSafeNum(data.isSafe);
         }
-        if(parsed.cropImage) {
+
+        if (parsed.cropImage) {
           setCropImage(parsed.cropImage);
         }
-      }catch (err) {
+      } catch (err) {
         console.error('결과 데이터 파싱 오류: ', err);
       }
     }
-  },[]);
+  }, []);
+  
 
   const handleScanClick = () => {
     router.push('/scan');

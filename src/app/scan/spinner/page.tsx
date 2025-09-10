@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Box } from '@chakra-ui/react';
 import { PhotoGuideModal } from '../../../components/ComputerVision/Photo/PhotoGuideModal';
 import { useRouter } from 'next/navigation';
@@ -8,6 +8,14 @@ import { ChakraIcons } from "@/utils/withChakraIcon";
 
 export default function Spinner() {
   const router = useRouter();
+
+  useEffect(() => {
+    const stored = sessionStorage.getItem("scanCrop");
+    if (stored) {
+      router.push("/scan/result");
+    }
+  }, []);
+
 
   const handleBackClick = () => {
     router.push('/scan');

@@ -68,7 +68,7 @@ export default function FamilyCodeShare() {
           nextDisabled={false} 
           onNext={handleShare}
         >
-            <Box mt="2.5vh">
+            <Box mt="2.5vh" w='100%' maxW='35rem' mx='auto'>
               <InputBox
                   mode="default"
                   title="가족 공유 코드"

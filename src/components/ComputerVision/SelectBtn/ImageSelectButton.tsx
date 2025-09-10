@@ -29,7 +29,7 @@ export const ImageSelectButton = ({ icon, text, onClick }: ImageSelectButtonProp
         gap="0.625rem"
         flexShrink={0}
         borderRadius="1rem"
-        bg="#FFF"
+        bg="bg.bg3"
         border="none"
         cursor="pointer"
         _hover={{ opacity: 0.6 }}
@@ -37,12 +37,8 @@ export const ImageSelectButton = ({ icon, text, onClick }: ImageSelectButtonProp
       >
         {icon}
         <Text
-          color="#202020"
-          fontFamily='var(--Font-Family-font-family, "NanumSquare Neo")'
-          fontSize="0.85rem"
-          fontWeight="bold"
-          lineHeight="1.875rem"
-          letterSpacing="-0.0175rem"
+          color="text.text1"
+          textStyle="body_148001"
           ml="1rem"
         >
           {text}

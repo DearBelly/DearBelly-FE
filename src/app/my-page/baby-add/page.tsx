@@ -3,50 +3,20 @@
 import { useState, useEffect } from "react";
 import { Box, Text } from "@chakra-ui/react";
 import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { RadioField } from '@/components/RadioField/RadioField';
 import { InputBox } from "@/components/TextField/InputBox";
 import { LoginModal } from '@/components/LoginModal/LoginModal';
 
-export default function BabyEdit() {
+export default function BabyAdd() {
     const router = useRouter();
-    const searchParams = useSearchParams();
-    const babyId = searchParams.get("id");
-    
+
+    const [selected, setSelected] = useState(0);
     const options = ['여성', '남성', '미정'];
     const genderMap = ["FEMALE", "MALE", "UNKNOWN"];
 
-    const [selected, setSelected] = useState(2);
     const [nickname, setNickname] = useState("");
     const [isNicknameError, setIsNicknameError] = useState(false);
-    // 로그인이 되어있는지, 안 되어 있는지 상태저장
-    const [isLogin, setIsLogin] = useState(false);
-
-    // 토큰 체크
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        if(!babyId || !token) return;
-
-        fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/baby/${babyId}`, {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Accept": "application/json",
-            },
-        })
-        .then((response) => response.json())
-        .then((json) => {
-            if(json?.data) {
-                setNickname(json.data.name || "");
-                const gender = json.data.babyGender;
-                if(gender === "FEMALE") setSelected(0);
-                else if(gender === "MALE") setSelected(1);
-            }
-        })
-        .catch((err) => console.log("아기 정보 불러오기 실패: ", err));
-        setIsLogin(!!token);
-    }, [babyId]);
-
 
     const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -58,47 +28,57 @@ export default function BabyEdit() {
         }
     };
 
-    // 수정한 아기 정보 저장 
-    const handleNextClick = async () => {
+    // 아이 정보 등록
+    const handleBabyAddClick = async () => {
         if (nickname.trim() === "") {
           setIsNicknameError(true);
           return;
         }
+    
         setIsNicknameError(false);
-        
+
         const token = localStorage.getItem('token');
+        const babyGender = genderMap[selected];
 
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/baby/${babyId}`, {
-                method: "PATCH",
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/baby`, {
+                method: "POST",
                 headers: {
-                  "Content-Type": "application/json",
-                  "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
                 },
                 body: JSON.stringify({
-                    babyId: Number(babyId),
                     name: nickname,
-                    babyGender: genderMap[selected],
+                    babyGender: babyGender,
                 }),
             });
 
-            if(!response.ok) throw new Error("아기 정보 수정 실패");
+            if(!response.ok) throw new Error("아이 등록 실패");
 
             const json = await response.json();
-            console.log("수정 성공: ", json);
+            console.log("아이 등록 성공: ", json);
 
-            router.push('/my-page/baby-info');
-        }catch(err){
-            console.log("아기 정보 수정 오류: ", err);
+            router.push("/my-page/baby-info");
+        } catch (err) {
+            console.log("아이 등록 오류: ", err);
         }
     };
+
+    // 로그인이 되어있는지, 안 되어 있는지 상태저장
+    const [isLogin, setIsLogin] = useState(false);
+
+    // 토큰 체크
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        setIsLogin(!!token);
+    }, []);
 
     return (
         <TopBarBottomButtonLayout 
             nextLabel="완료"
             topbarTitle='태아 정보'
             nextDisabled={nickname.trim() === ""}
-            onNext={handleNextClick} 
+            onNext={handleBabyAddClick} 
         >
             <Box 
                 className="wrapper"

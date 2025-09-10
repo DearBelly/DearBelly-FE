@@ -39,8 +39,8 @@ export const InputBox = ({
   const safeId = `input-${title}`.replace(/\s+/g, "-").toLowerCase();
 
   return (
-          <Field.Root invalid={isError}>
-                <Box display="flex" flexDirection="column" w="100%">
+    <Field.Root invalid={isError}>
+      <Box display="flex" flexDirection="column" w="100%">
       <Box
         borderRadius="1rem"
         bg={mode === "default" ? "bg.bg3" : "transparent"}
@@ -49,7 +49,7 @@ export const InputBox = ({
         pb="0.75rem"
         gap="0.5rem"
       >
-        <Text textStyle="caption_12800">{title}</Text>
+        <Text textStyle="caption_12800" color="text.text1">{title}</Text>
 
         <Box>
             <Field.Label htmlFor={safeId} srOnly>

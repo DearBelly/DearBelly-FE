@@ -19,7 +19,7 @@ export default function NewLetterPage() {
       nextLabel="완료"
       onNext={handleNext}
     >
-      <Box display="flex" flexDirection="column" mt="20px">
+      <Box display="flex" flexDirection="column" mt="20px" w="100%" maxW="35rem" alignItems="center" justifyContent="center">
         <LetterEditBox />
       </Box>
     </TopBarBottomButtonLayout>

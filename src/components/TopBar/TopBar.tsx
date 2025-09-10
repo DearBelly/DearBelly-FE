@@ -35,8 +35,10 @@ export const TopBar = ({
     <Box
       position="fixed"
       top={0}
-      left={0}
+      left="50%"           
+      transform="translateX(-50%)"
       w="100%"
+      maxW="40rem" 
       zIndex={1000}
       bg={backgroundType === 'transparent' ? 'transparent' : 'bg.bg1'}
     >

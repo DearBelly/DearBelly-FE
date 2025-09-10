@@ -23,6 +23,9 @@ export const BottomNavigationItem = ({
       w="100%"
       justifyContent="center"
       gap="auto"
+      _focus={{ boxShadow: 'none', outline: 'none' }}
+      _focusVisible={{ boxShadow: 'none', outline: 'none' }}
+      _hover={{ textDecoration: 'none', color: 'icon.icon1' }}
     >
       <Box
         display="flex"

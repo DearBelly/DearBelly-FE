@@ -29,9 +29,11 @@ export const LetterEditBox = ({ defaultValue = "" }: LetterEditBoxProps) => {
     <Box display="flex" flexDirection="column" w="100%">
       <Box borderRadius="1rem" bg="bg.bg3" px="12px" py="13px" gap="10px">
         <Textarea
+          p="0"
           ref={textareaRef}
           value={content}
           onChange={handleChange}
+          textStyle="body_14400222"
           placeholder="편지 내용을 입력해 주세요"
           resize="none"
           border="none"

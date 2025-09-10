@@ -38,7 +38,7 @@ export default function EditLetterPage({
         router.push(`/letters`);
       }}
     >
-      <Box display="flex" flexDirection="column" mt="20px">
+      <Box display="flex" flexDirection="column" mt="20px" w="100%" maxW="35rem" alignItems="center">
         <LetterEditBox defaultValue={content ?? ""} />
       </Box>
     </TopBarBottomButtonLayout>

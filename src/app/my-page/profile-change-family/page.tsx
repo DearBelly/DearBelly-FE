@@ -8,8 +8,6 @@ import { Toast } from "@/components/Toast/Toast";
 import { LoginModal } from '@/components/LoginModal/LoginModal';
 
 export default function ProfileChangeFamily() {
-    const name = '최푸른';
-
     const [nickname, setNickname] = useState("");
     const [isNicknameError, setIsNicknameError] = useState(false);
     // 토스트 띄우기 위한 상태관리
@@ -17,6 +15,16 @@ export default function ProfileChangeFamily() {
     // 토스트 버튼이 띄워지고 나면 버튼도 사라지고 이를 계속 유지해야 함
     const [hideButton, setHideButton] = useState(false);
 
+    // 미리 저장된 사용자 이름 상태관리
+    const [nicknamePlaceholder, setNicknamePlaceholder] = useState("");
+
+    // 사용자 이름 가져오기
+    useEffect(() => {
+        const saveNickname = localStorage.getItem('nickname');
+        if(saveNickname) setNicknamePlaceholder(saveNickname);
+    },[]);
+
+    // 닉네임 변경 
     const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
       if (value.length <= 10) {
@@ -46,7 +54,7 @@ export default function ProfileChangeFamily() {
     useEffect(() => {
       const token = localStorage.getItem('token');
       setIsLogin(!!token);
-  }, []);
+    }, []);
 
     return (
       <TopBarBottomButtonLayout 
@@ -62,25 +70,28 @@ export default function ProfileChangeFamily() {
             <Toast/>
           </Box>
         )}
-        <Box display="flex" justifyContent="center" mt="5.66dvh" mb="32px">
-          <Image
-            src="/images/set_profile.svg"
-            alt="profile-setup"
-            width={80}
-            height={80}
+
+        <Box className="wrapper" width="100%" maxW="35rem" mx="auto">
+          <Box display="flex" justifyContent="center" mt="5.66dvh" mb="32px">
+            <Image
+              src="/images/set_profile.svg"
+              alt="profile-setup"
+              width={80}
+              height={80}
+            />
+          </Box>
+
+          <InputBox
+            mode="default"
+            title="닉네임"
+            placeholder={nicknamePlaceholder}
+            value={nickname}
+            onChange={handleNicknameChange}
+            guideMessage="공백 포함 최대 10자까지 설정할 수 있어요"
+            isError={isNicknameError}
+            errorMessage="닉네임을 설정해주세요"
           />
         </Box>
-
-        <InputBox
-          mode="default"
-          title="닉네임"
-          placeholder={name}
-          value={nickname}
-          onChange={handleNicknameChange}
-          guideMessage="공백 포함 최대 10자까지 설정할 수 있어요"
-          isError={isNicknameError}
-          errorMessage="닉네임을 설정해주세요"
-        />
         {!isLogin && <LoginModal />}
       </TopBarBottomButtonLayout>
     )

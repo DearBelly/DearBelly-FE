@@ -7,7 +7,7 @@ interface ContendCardOutputProps {
 
 export const ContendCardOutput = ({ cards }:ContendCardOutputProps) => {
     return(
-        <Box>
+        <Box w='100%'>
             {cards.map((card, index) => (
                 <Box key={index}>
                     <ContendCard {...card} isLast={index === cards.length-1}/>

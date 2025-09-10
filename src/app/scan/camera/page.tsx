@@ -5,7 +5,7 @@ import { Box } from '@chakra-ui/react';
 import { PhotoGuideModal } from '../../../components/ComputerVision/Photo/PhotoGuideModal';
 import { PhotoBtn } from '../../../components/ComputerVision/Photo/PhotoBtn';
 import { useRouter } from 'next/navigation';
-import { X } from "@mynaui/icons-react";
+import { ChakraIcons } from "@/utils/withChakraIcon";
 import { LoginModal } from '@/components/LoginModal/LoginModal';
 
 export default function Camera() {
@@ -54,7 +54,7 @@ export default function Camera() {
     !isLogin ? (
       <LoginModal />
     ) : (
-      <Box bg="#737373" minH="100vh" display="flex" alignItems="center" justifyContent="center">
+      <Box bg="toast.toastBg" minH="100vh" display="flex" alignItems="center" justifyContent="center">
         <Box
           position='fixed'
           top='1.25rem'
@@ -63,7 +63,7 @@ export default function Camera() {
           display='flex'
           cursor='pointer'
         >
-          <X size='1.5rem' color='white' strokeWidth={1.5} onClick={handleBackClick} />
+          <ChakraIcons.X size='1.5rem' color='white' strokeWidth={1.5} onClick={handleBackClick} />
         </Box>
 
         <PhotoGuideModal

@@ -1,7 +1,7 @@
 'use client';
 
 import { Box, Image, Text } from '@chakra-ui/react';
-import { DotsVertical } from '@mynaui/icons-react';
+import { ChakraIcons } from "@/utils/withChakraIcon";
 import { DropdownMenu } from '../DropdownMenu/DropdownMenu';
 import { useState, useRef, useEffect } from 'react';
 export interface ProfileListProps {
@@ -12,15 +12,18 @@ export interface ProfileListProps {
   isMe?: boolean;
   isDot?: boolean;
   babyGender?: string;
+  dueDateCalculated?: string; 
 }
 
 export const ProfileList = ({
+  id,
   mode = 'transparent',
   profileSrc,
   name = '알 수 없음',
   isMe = false,
   isDot = false,
-}: ProfileListProps) => {
+  onDelete,
+}: ProfileListProps & { onDelete?: (id:number) => void }) => {
   const [open, setOpen] = useState(false);
   const iconRef = useRef<HTMLDivElement | null>(null);
 
@@ -36,14 +39,14 @@ export const ProfileList = ({
 
   return (
     <Box
-      w="calc(100vw - 2.5rem)"
+      w="100%"
       h="3.5rem"
       px="1rem"
       display="flex"
       alignItems="center"
       gap="0.62rem"
       borderRadius="0.75rem"
-      bg={mode === 'default' ? 'var(--Background-3, #FFF)' : 'transparent'}
+      bg={mode === 'default' ? 'bg.bg3' : 'transparent'}
     >
 
       <Box className="profile_wrapper" w="2.5rem" h="2.5rem">
@@ -70,12 +73,8 @@ export const ProfileList = ({
       <Text
         className='name'
         overflow="hidden"
-        color="var(--Text-1, #202020)"
-        fontFamily='"NanumSquare Neo"'
-        fontSize="0.875rem"
-        fontWeight="700"
-        lineHeight="1.25rem"
-        letterSpacing="-0.00875rem"
+        color="text.text1"
+        textStyle="body_14700120"
         whiteSpace="nowrap"
         textOverflow="ellipsis"
       >
@@ -86,7 +85,7 @@ export const ProfileList = ({
       {isDot && (
         <Box ml="auto" position="relative" ref={iconRef}>
           <Box ml="auto" cursor="pointer" onClick={() => setOpen((prev) => !prev)}>
-            <DotsVertical />
+            <ChakraIcons.DotsVertical color='icon.icon1'/>
           </Box>
           {open && (
             <Box
@@ -96,7 +95,7 @@ export const ProfileList = ({
               mt="0.25rem"
               zIndex={1000}
             >
-              <DropdownMenu />
+              <DropdownMenu babyId={id!} onDelete={onDelete}/>
             </Box>
           )}
         </Box>

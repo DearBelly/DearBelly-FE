@@ -26,8 +26,10 @@ export default function Splash() {
       bg="bg.bg1"
       display="flex"
       justifyContent="center"
+      alignItems="center" 
       width="100dvw"
-      height="100dvh"
+      minH="100dvh"        
+      overflow="hidden"   
     >
       <MotionBox
         initial={{ opacity: 0, scale: 0.5 }}
@@ -40,9 +42,7 @@ export default function Splash() {
         display="flex"
         flexDirection="column"
         alignItems="center"
-        height="100%"
         gap="30.5px"
-        mt={isPc ? "27.4dvh" : "27.4dvh"}
       >
         <Image
           src="/logos/logo.svg"

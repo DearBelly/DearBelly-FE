@@ -3,22 +3,53 @@
 import { Box } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 
-export const DropdownMenu = () => {
+interface DropdownMenuProps {
+  babyId: number;
+  onDelete?: (id: number) => void;
+}
+
+export const DropdownMenu = ({ babyId, onDelete }: DropdownMenuProps) => {
   const router = useRouter();
+
+  // 해당 아기의 정보 수정하는 페이지로 이동 
   const handleDetailClick = () => {
-    router.push(`/mypage/babyEdit`);
+    router.push(`/my-page/baby-edit?id=${babyId}`);
+  };
+
+  // 아기 정보 삭제 
+  const handleDeleteClick = async() => {
+    const token = localStorage.getItem('token');
+
+    try {
+      const response = await fetch(
+         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/baby/${babyId}`,
+         {
+          method: 'DELETE',
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Accept": "application/json",
+          }
+         }
+      );
+
+      if(!response.ok) throw new Error("아기 정보 삭제 실패");
+
+      const json = await response.json();
+      console.log("아기 정보 삭제:", json);
+      
+      if(onDelete) onDelete(babyId);
+    } catch (err) {
+      console.log('아기 정보 삭제 오류: ', err);
+    }
   };
 
   return (
     <Box
       borderRadius="1rem"
-      bg="var(--Background-3, #FFF)"
+      bg="bg.bg3"
       boxShadow="0 0 6px 0 rgba(0, 0, 0, 0.15)"
-      color="var(--Text-1, #202020)"
-      fontFamily='"NanumSquare Neo"'
-      fontSize="0.75rem"
-      fontWeight="700"
-      lineHeight="0.75rem"
+      color="text.text1"
+      textStyle="body_12700"
     >
       <Box
         className='editButton'
@@ -29,7 +60,7 @@ export const DropdownMenu = () => {
         alignItems="center"
         gap="0.625rem"
         borderRadius="1rem 1rem 0 0"
-        bg="var(--Background-3, #FFF)"
+        bg="bg.bg3"
         _after={{
           content: '""',
           position: 'absolute',
@@ -37,9 +68,9 @@ export const DropdownMenu = () => {
           left: '0.25rem',
           right: '0.25rem',
           height: '1.5px',
-          background: 'var(--Border-Border, #E8E7E7)',
+          background: 'border.border',
         }}
-        _hover={{ bg: 'var(--Background-2, #F2F0F0)' }}
+        _hover={{ bg: 'bg.bg2' }}
         onClick={handleDetailClick}
         cursor='pointer'
       >
@@ -55,9 +86,10 @@ export const DropdownMenu = () => {
         gap="0.625rem"
         alignSelf="stretch"
         borderRadius="0 0 1rem 1rem"
-        bg="var(--Background-3, #FFF)"
-        _hover={{ bg: 'var(--Background-2, #F2F0F0)' }}
+        bg="bg.bg3"
+        _hover={{ bg: 'bg.bg2' }}
         cursor='pointer'
+        onClick={handleDeleteClick}
       >
         삭제하기
       </Box>

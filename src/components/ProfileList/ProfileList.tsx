@@ -12,15 +12,18 @@ export interface ProfileListProps {
   isMe?: boolean;
   isDot?: boolean;
   babyGender?: string;
+  dueDateCalculated?: string; 
 }
 
 export const ProfileList = ({
+  id,
   mode = 'transparent',
   profileSrc,
   name = '알 수 없음',
   isMe = false,
   isDot = false,
-}: ProfileListProps) => {
+  onDelete,
+}: ProfileListProps & { onDelete?: (id:number) => void }) => {
   const [open, setOpen] = useState(false);
   const iconRef = useRef<HTMLDivElement | null>(null);
 
@@ -92,7 +95,7 @@ export const ProfileList = ({
               mt="0.25rem"
               zIndex={1000}
             >
-              <DropdownMenu />
+              <DropdownMenu babyId={id!} onDelete={onDelete}/>
             </Box>
           )}
         </Box>

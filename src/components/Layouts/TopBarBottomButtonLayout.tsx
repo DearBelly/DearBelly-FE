@@ -8,6 +8,7 @@ import { Box, Text } from "@chakra-ui/react";
 interface TopBarBottomButtonLayoutProps {
   children: React.ReactNode;
   onNext?: () => void;
+  onBack?: () => void;
   nextDisabled?: boolean;
   nextLabel?: string;
   hideButton?: boolean;
@@ -18,6 +19,7 @@ interface TopBarBottomButtonLayoutProps {
 export const TopBarBottomButtonLayout = ({
   children,
   onNext,
+  onBack,
   nextDisabled = false,
   nextLabel = "다음",
   hideButton = false,
@@ -31,6 +33,7 @@ export const TopBarBottomButtonLayout = ({
         backgroundType="filled"
         title={topbarTitle}
         rightContent={topbarRightContent}
+        onBack={onBack}
       />
       <Box
       w="100%"

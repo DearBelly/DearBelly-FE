@@ -12,6 +12,7 @@ export interface LetterCardProps {
 export default function LetterCard({ userName, date, content }: LetterCardProps) {
   return (
     <Box
+      w="100%"
       flexDirection="column"
       display="flex"
       gap="10px"

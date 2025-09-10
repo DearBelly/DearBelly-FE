@@ -23,7 +23,7 @@ export default function MyLetterPage() {
         );
       }}
     >
-      <Box display="flex" flexDirection="column" mt="20px">
+      <Box display="flex" flexDirection="column" mt="20px" w="100%" maxW="35rem" alignItems="center">
         <LetterCard userName={userName} date={String(date)} content={content} />
       </Box>
     </TopBarBottomButtonLayout>

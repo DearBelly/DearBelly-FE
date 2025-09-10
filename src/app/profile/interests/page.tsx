@@ -35,7 +35,7 @@ export default function InterestsStep() {
           눌러주신 카테고리를 위주로 준비해드릴게요
         </Text>
       </Box>
-
+      <Box w="100%">
       <Box mt="5.66dvh">
         <CheckField
           label="전체 선택"
@@ -44,7 +44,7 @@ export default function InterestsStep() {
         />
       </Box>
 
-      <Separator mt="16px" mb="16px" borderColor={borderColor} height="1px" />
+      <Separator w="100%" my="1rem" borderColor={borderColor} height="1px" color="border.border" />
 
       <Box display="flex" flexDirection="column" gap="12px">
         {categories.map((c) => (
@@ -55,6 +55,7 @@ export default function InterestsStep() {
             onClick={() => toggle(c.id)}
           />
         ))}
+      </Box>
       </Box>
     </TopBarBottomButtonLayout>
   );

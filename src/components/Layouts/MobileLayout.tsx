@@ -4,9 +4,11 @@ import { ReactNode } from "react";
 import { Box, Flex } from "@chakra-ui/react";
 import { TopBar } from "../TopBar/TopBar";
 import { BottomNavigation } from "../BottomNavigation/BottomNavigation";
+
 interface MobileLayoutProps {
   topbarContent?: ReactNode;
   children: ReactNode;
+  contentBackground?: "filled" | "transparent";
   hasTopPadding?: boolean;
   hasSidePadding?: boolean;
   hasBottomPadding?: boolean;
@@ -21,6 +23,7 @@ interface MobileLayoutProps {
 export const MobileLayout = ({
   topbarContent,
   children,
+  contentBackground = "filled",
   hasTopPadding = true,
   hasSidePadding = true,
   hasBottomPadding = true,
@@ -33,10 +36,11 @@ export const MobileLayout = ({
   return (
     <Flex
       direction="column"
-      align="center"
-      minW="100vw"
+      alignItems="center"
+      justifyItems="center"
+      w="100%"
       minH="100vh"
-      bg="bg.bg1"
+      bg={contentBackground === "filled" ? "bg.bg1" : "transparent"}
       m="0 auto"
       position="relative"
     >

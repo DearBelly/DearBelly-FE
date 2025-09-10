@@ -47,21 +47,24 @@ const typeStyles = {
 
 const sizeStyles = {
   large: css`
-    width: 7.4375rem;
+    width: 100%;
+    max-width: 580px;
     height: 3rem;
     font-size: 0.75rem;
     line-height: 1.25rem; /* 166.667% */
     letter-spacing: -0.0075rem;
   `,
   medium: css`
-    width: 6.1875rem;
+    width: 100%;
+    max-width: 580px;
     height: 2.5rem;
     font-size: 0.625rem;
     line-height: 0.875rem; /* 140% */
     letter-spacing: -0.00625rem;
   `,
   small: css`
-    width: 6.1875rem;
+    width: 100%;
+    max-width: 580px;
     height: 2rem;
     font-size: 0.625rem;
     line-height: 0.875rem; /* 140% */

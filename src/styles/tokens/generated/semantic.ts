@@ -554,6 +554,12 @@ export const semantic = {
           "_dark": "{colors.cyan100}"
         }
       }
+    },
+    "letter": {
+      "value": {
+        "base": "{colors.coral25}",
+        "_dark": "{colors.coral550}"
+      }
     }
   }
 } as const;

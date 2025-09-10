@@ -11,15 +11,17 @@ export const BottomNavigation = () => {
   return (
     <Flex
     position="fixed"
-    bottom="0"
-    left="0"
+    bottom={0}
+    left="50%"
+    transform="translateX(-50%)" 
     zIndex="1000"
-    w="100dvw"
+    w="100%"
+    maxW="40rem"
     borderRadius="1.25rem 1.25rem 0 0"
     pb="10px"
     bg="bg.bg3"
     h="54px"
-    borderColor="bottomNavi.bottomNaviBorder"
+    color="border.border"
     borderTop="0.5px solid"
     borderRight="0.5px solid"
     borderLeft="0.5px solid"

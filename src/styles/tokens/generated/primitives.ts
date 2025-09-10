@@ -324,6 +324,12 @@ export const primitives = {
     },
     "olive100": {
       "value": "#516e47"
+    },
+    "coral25": {
+      "value": "#ffedeb"
+    },
+    "coral550": {
+      "value": "#d48e89"
     }
   },
   "fonts": {

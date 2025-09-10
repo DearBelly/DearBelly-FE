@@ -124,7 +124,6 @@ export default function ProfileChangeMaternity() {
               disabled={hideButton}
             />
           </Box>
-
           <Text
               textStyle="caption_12400"
               mt="0.8rem"

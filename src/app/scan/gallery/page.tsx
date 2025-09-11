@@ -5,8 +5,21 @@ import { Box } from '@chakra-ui/react';
 import { PhotoGuideModal } from '../../../components/ComputerVision/Photo/PhotoGuideModal';
 import { PhotoBtn } from '../../../components/ComputerVision/Photo/PhotoBtn';
 import { useRouter } from 'next/navigation';
-import { X } from "@mynaui/icons-react";
+import { ChakraIcons } from "@/utils/withChakraIcon";
 import { LoginModal } from '@/components/LoginModal/LoginModal';
+
+// url을 file형태로 변환
+function dataURLtoFile(dataUrl: string, fileName: string): File {
+  const arr = dataUrl.split(',');
+  const mime = arr[0].match(/:(.*?);/)![1];
+  const bstr = atob(arr[1]);
+  let n = bstr.length;
+  const u8arr = new Uint8Array(n);
+  while(n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new File([u8arr], fileName, {type: mime});
+}
 
 export default function Gallery() {
   const router = useRouter();
@@ -28,13 +41,49 @@ export default function Gallery() {
     console.log('촬영된 이미지:', file);
   };
 
-  const handleCrop = (dataUrl: string | null) => {
+  const handleCrop = async (dataUrl: string | null) => {
     if (!dataUrl) {
       alert('이미지를 먼저 업로드하고, 가이드 안에 맞춰주세요.');
       return;
     }
-    sessionStorage.setItem('scanCrop', dataUrl);
-    router.push('/scan/spinner');
+  
+    try {
+      const file = dataURLtoFile(dataUrl, "scan.png");
+      const formData = new FormData();
+      formData.append("file", file);
+  
+      const token = localStorage.getItem("token");
+  
+      router.push('/scan/spinner');
+  
+      // API 요청
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/scan`, {
+        method: "POST", 
+        headers: {
+          Authorization: `Bearer ${token}` 
+        },
+        body: formData,
+      });
+  
+      if (!response.ok) {
+        throw new Error("이미지 파일 업로드 실패");
+      }
+  
+      const result = await response.json();
+      console.log("이미지 파일 스캔 결과: ", result);
+  
+      // 응답 저장
+      sessionStorage.setItem('scanCrop', JSON.stringify({
+        ...result,
+        cropImage: dataUrl,
+      }));
+  
+      router.push('/scan/result');
+    } catch (err) {
+      console.error("스캔 이미지 파일 업로드 오류:", err);
+      alert("업로드 중 오류가 발생했습니다.");
+      router.push('/scan'); 
+    }
   };
 
   // 로그인 여부
@@ -49,7 +98,7 @@ export default function Gallery() {
      !isLogin ? (
     <LoginModal />
     ) : (
-      <Box bg="#737373" minH="100vh" display="flex" alignItems="center" justifyContent="center">
+      <Box bg="toast.toastBg" minH="100vh" display="flex" alignItems="center" justifyContent="center">
         <Box
           position='fixed'
           top='1.25rem'
@@ -58,7 +107,7 @@ export default function Gallery() {
           display='flex'
           cursor='pointer'
         >
-          <X size='1.5rem' color='white' strokeWidth={1.5} onClick={handleBackClick} />
+          <ChakraIcons.X size='1.5rem' color='white' strokeWidth={1.5} onClick={handleBackClick} />
         </Box>
         <PhotoGuideModal
           source="gallery"

@@ -8,6 +8,19 @@ import { useRouter } from 'next/navigation';
 import { ChakraIcons } from "@/utils/withChakraIcon";
 import { LoginModal } from '@/components/LoginModal/LoginModal';
 
+// url을 file형태로 변환
+function dataURLtoFile(dataUrl: string, fileName: string): File {
+  const arr = dataUrl.split(',');
+  const mime = arr[0].match(/:(.*?);/)![1];
+  const bstr = atob(arr[1]);
+  let n = bstr.length;
+  const u8arr = new Uint8Array(n);
+  while(n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new File([u8arr], fileName, {type: mime});
+}
+
 export default function Camera() {
     const router = useRouter();
 
@@ -31,14 +44,45 @@ export default function Camera() {
     };
 
     // 크롭 함수
-    const handleCrop = (dataUrl: string | null) => {
+    const handleCrop = async (dataUrl: string | null) => {
       if (!dataUrl) {
         alert('이미지를 먼저 업로드하고, 가이드 안에 맞춰주세요.');
         return;
       }
-      // 결과 페이지에서 읽어 쓰게 임시 저장 (원하면 recoil/zustand/서버 업로드로 교체)
-      sessionStorage.setItem('scanCrop', dataUrl);
-      router.push('/scan/spinner');
+
+      try{
+        const file = dataURLtoFile(dataUrl, "/images/computerVision/camera_light.png");
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const token = localStorage.getItem("token");
+
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/scan`, {
+          method: "POST", 
+          headers: {
+            Authorization: `Bearer ${token}` 
+          },
+          body: formData,
+        });
+
+        if(!response.ok) {
+          throw new Error("이미지 파일 업로드 실패");
+        }
+
+        const result = await response.json();
+        console.log("이미지 파일 스캔 결과: ", result);
+
+        // 결과 페이지에서 읽어 쓰게 임시 저장 
+        sessionStorage.setItem('scanCrop', JSON.stringify({
+          ...result,
+          cropImage: dataUrl,
+        }));
+
+        router.push('/scan/spinner');
+      } catch (err) {
+        console.error("스캔 이미지 파일 업로드 오류:", err);
+      }
     };
 
     // 로그인이 되어있는지, 안 되어 있는지 상태저장

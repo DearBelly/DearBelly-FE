@@ -2,6 +2,7 @@
 
 import { MobileLayout } from "@/components/Layouts/MobileLayout";
 import { Box, Flex, Grid, Image, Skeleton, Text } from "@chakra-ui/react";
+import NextImage from "next/image";
 import { NoticeCard } from "@/components/Home/NoticeCard/NoticeCard";
 import { ImageCard } from "@/components/Home/ImageCard/ImageCard";
 import { Button } from "@/components/Button/Button";
@@ -82,12 +83,14 @@ export default function Home() {
                 objectFit="contain"
                 onClick={() => router.push("/letters")}
               />
-              <Image
-                src="/images/babyCharacter/step2.svg"
-                alt="아기"
-                h="16.6dvh"
-                objectFit="contain"
-              />
+              <Box w="100%" position="relative" h="100%">
+                <NextImage
+                  priority
+                  src="/images/babyCharacter/step2.svg"
+                  alt="아기"
+                  objectFit="contain"
+                />
+              </Box>
               <Button
                 size="small"
                 type="primary"

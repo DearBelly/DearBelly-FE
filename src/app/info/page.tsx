@@ -37,8 +37,12 @@ export default function Information() {
     return testData[index];
   },[]);
 
+  // 전체 정보 카드 데이터 저장
   const [contentCard, setContentCard] = useState<any[]>([]);
+  // 추천 정보 카드 데이터 저장
+  const [recommendCard, setRecommendCard] = useState<any[]>([]);
 
+  // 전체 정보 카드 불러오기 
   useEffect(() => {
     const token = localStorage.getItem('token');
     fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/news/category`, {
@@ -57,6 +61,7 @@ export default function Information() {
           subtitle: item.subTitle,
           imageSrc:  item.imageUrl || "/images/default_image.svg",
           category: item.category,
+          bookmark: item.bookmarked || false,
         }));
         setContentCard(formatted);
       }
@@ -65,6 +70,35 @@ export default function Information() {
       console.error('백엔드 요청 실패:', error);
     });
   }, []);
+
+    // 추천 정보 카드 불러오기 api 연동
+    useEffect(() => {
+      const token = localStorage.getItem('token');
+      fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/news`, {
+        method: 'GET',
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Accept": "application/json",
+        },
+      })
+      .then(response => response.json())
+      .then((data) => {
+        if(data.success && Array.isArray(data.data))  {
+          const formatted = data.data.map((item: any) => ({
+            id: item.newsId,
+            title: item.title,
+            subtitle: item.subTitle,
+            imageSrc:  item.imageUrl || "/images/default_image.svg",
+            category: item.category,
+            bookmark: item.bookmarked || false,
+          }));
+          setRecommendCard(formatted);
+        }
+      })
+      .catch((error) => {
+        console.error('백엔드 요청 실패:', error);
+      });
+    }, []);
 
   return (
     <MobileLayout topbarContent={<TopRightIcons/>}>
@@ -86,14 +120,14 @@ export default function Information() {
             <RecommendText>당신을 위한 추천</RecommendText>
           </Box>
           <Box className='content'>
-            <ContendCardOutput cards={testData3}/>
+            <ContendCardOutput cards={recommendCard.length > 0 ? recommendCard : testData3}/>
           </Box>
         </Box>
 
         {/* 새로운 기능 홍보하는 카드 영역 */}
         <Box className='inlinecard_wrapper' height='6rem' mt='3.704vh' width="calc(100vw - 2.5rem)" maxW="35rem">
           <InlineCard
-            imageSrc="/images/letter.svg"
+            imageSrc="/images/Information/letter.svg"
             imageDescription="기본 이미지"
             description="소중한 아이에게서 도착한 편지에 답장을 작성해 보세요"
             shortcutLink="자세히 보기"
@@ -118,7 +152,7 @@ export default function Information() {
             </Box>
           </Box>
           <Box className='content'>
-            <ContendCardOutput cards={contentCard}/>
+            <ContendCardOutput cards={contentCard.length > 0 ? contentCard : testData3}/>
           </Box>
         </Box>
 

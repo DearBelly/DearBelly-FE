@@ -5,7 +5,6 @@ import React, {useState, useEffect, useRef} from 'react'
 import { Box, Text } from "@chakra-ui/react";
 import { MobileLayout } from "../../../../components/Layouts/MobileLayout";
 import { ContendCardOutput } from '@/components/ContentCard/ContendCardOutput';
-import { testData3 } from '../../testData';
 import Image from 'next/image'
 import Loading from '@/app/loading';
 import { ChakraIcons } from "@/utils/withChakraIcon";
@@ -29,7 +28,40 @@ const InfoDetail = () => {
     // URL의 id 받기 
     const { id } = useParams();
     const [detail, setDetail] = useState<any|null>(null);
+    // 추천 정보 카드 데이터 저장
+    const [recommendCard, setRecommendCard] = useState<any[]>([]);
+    // 북마크 상태관리
+    const [isBookMark, setIsBookMark] = useState(false);
 
+    // 북마크 토글 함수
+    const handleToggleBookmark = async() => {
+      const token = localStorage.getItem('token');
+      try {
+        // 북마크가 선택되어 있을 경우 클릭하면 북마크 삭제제
+        if(isBookMark) {
+          await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/news/${id}/bookmark`, {
+            method: "DELETE",
+            headers: {
+              "Authorization": `Bearer ${token}`,
+            },
+          });
+          setIsBookMark(false);
+        } else {
+          // 북마크가 선택되어 있지 않을 경우 클리하면 북마크 등록 
+          await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/news/${id}/bookmark`, {
+            method: "POST",
+            headers: {
+              "Authorization": `Bearer ${token}`,
+            },
+          });
+          setIsBookMark(true);
+        }
+      } catch (error) {
+        console.error("북마크 토글 실패함: ", error);
+      }
+    };
+
+    // 정보 카드 디테일 불러오기 api 연동
     useEffect(() => {
       const token = localStorage.getItem('token');
       fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/news/${id}`, {
@@ -42,11 +74,41 @@ const InfoDetail = () => {
       .then(response => response.json())
       .then(data => {
         setDetail(data.data);
+        setIsBookMark(data.data.bookmarked)
       })
       .catch((error) =>  {
         console.error('상세 조회 실패:', error);
       })
-    },[]);
+    },[id]);
+
+    // 추천 정보 카드 불러오기 api 연동
+    useEffect(() => {
+      const token = localStorage.getItem('token');
+      fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/news`, {
+        method: 'GET',
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Accept": "application/json",
+        },
+      })
+      .then(response => response.json())
+      .then((data) => {
+        if(data.success && Array.isArray(data.data))  {
+          const formatted = data.data.map((item: any) => ({
+            id: item.newsId,
+            title: item.title,
+            subtitle: item.subTitle,
+            imageSrc:  item.imageUrl || "/images/default_image.svg",
+            category: item.category,
+            bookmark: item.bookmarked || false,
+          }));
+          setRecommendCard(formatted);
+        }
+      })
+      .catch((error) => {
+        console.error('백엔드 요청 실패:', error);
+      });
+    }, []);
 
     // SDK 초기화
     useEffect(() => {
@@ -55,7 +117,7 @@ const InfoDetail = () => {
         }
       }, []);
 
-    // 공유하기 함수
+    // 카톡 공유하기 함수
     const handleShare = () => {
         if (!window.Kakao) {
           alert("카카오 SDK가 로드되지 않음");
@@ -121,7 +183,6 @@ const InfoDetail = () => {
       });
     };
 
-
     // 이미지 영역보다 스크롤을 아래로 내릴 경우, topbar의 색이 transparent -> filled로 바뀌도록 수정
     const [topbarBG, setTopbarBG] = useState<'transparent' | 'filled'>('transparent');
     const imageRef = useRef<HTMLDivElement>(null);
@@ -138,14 +199,6 @@ const InfoDetail = () => {
             window.removeEventListener('scroll', handleScroll);
         };
     }, []);
-
-    // 북마크가 되어 있는지 아닌지 판별
-    const [isBookMark, setIsBookMark] = useState(false);
-
-    // 북마크 토글 함수
-    const handleToggleBookmark = () => {
-      setIsBookMark((prev) => !prev);
-    };
 
     if (!detail) {
       return <Loading />;
@@ -220,7 +273,7 @@ const InfoDetail = () => {
                         <RecommendText >이런 콘텐츠는 어때요?</RecommendText>
                     </Box>
                     <Box className='content'>
-                        <ContendCardOutput cards={testData3}/>
+                        <ContendCardOutput cards={recommendCard}/>
                     </Box>
                 </Box>
             </Box>

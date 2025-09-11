@@ -2,10 +2,9 @@
 
 import { Box, Text } from '@chakra-ui/react';
 import Image from 'next/image';
-import { Button } from '@/components/Button';
+import { useGetBreakPointValue } from "../../context/BreakPointProvider";
 
 const fallbackImage = '/images/default_image.png';
-const buttonText = '바로가기';
 
 export interface HeroCardProps {
   title: string;
@@ -15,6 +14,8 @@ export interface HeroCardProps {
 }
 
 export const HeroCard = ({ title, description, imageSrc, mode }: HeroCardProps) => {
+  const isPc = useGetBreakPointValue();
+
   return (
     <Box
       display="flex"
@@ -42,7 +43,7 @@ export const HeroCard = ({ title, description, imageSrc, mode }: HeroCardProps) 
           textStyle="head_188001"
           mb="0.2rem"
           w="100%"
-          whiteSpace="normal"
+          whiteSpace="pre-line"
         >
           {title}
         </Text>
@@ -71,18 +72,21 @@ export const HeroCard = ({ title, description, imageSrc, mode }: HeroCardProps) 
       >
         <Box
           position="relative"
-          w="7.5rem"
-          maxW="100%"    
-          h="5rem"
+          w={isPc ? "8.5rem" : "7.5rem"}
+          h={isPc ? "6rem" : "5rem"}
+          borderRadius="0.5rem"
           overflow="hidden"
           flexShrink={0}
-          borderRadius="0.5rem"
         >
           <Image
             src={imageSrc || fallbackImage}
             alt={title}
             fill
-            style={{ objectFit: 'cover' }}
+            style={{ 
+              objectFit: "fill",  
+              width: "100%",
+              height: "100%"
+            }}
           />
         </Box>
       </Box>

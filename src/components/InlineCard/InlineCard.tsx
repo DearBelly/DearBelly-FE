@@ -32,7 +32,7 @@ export const InlineCard = ({
       p="1rem"
       gap="0.75rem"
       borderRadius="1rem"
-      bg="bg.bg4"
+      bg="bg.bg3"
     >
       {/* 텍스트 영역 */}
       <Box flex="1" h="100%" display="flex" flexDirection="column" justifyContent="space-between">

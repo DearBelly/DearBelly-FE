@@ -1,6 +1,6 @@
-import { News } from "@/types/news";
+import { recommendNews } from "@/types/recommendNews";
 
-export async function fetchNews(): Promise<News[]> {
+export async function fetchNews(): Promise<recommendNews[]> {
     const token = localStorage.getItem("access_token");
     if (!token) throw new Error("No token found");
   

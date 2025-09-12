@@ -1,14 +1,14 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import { Box, Text, Textarea } from "@chakra-ui/react";
 
 export interface LetterEditBoxProps {
-  defaultValue?: string;
+  content: string;
+  onChange?: (value: string) => void;
 }
 
-export const LetterEditBox = ({ defaultValue = "" }: LetterEditBoxProps) => {
-  const [content, setContent] = useState(defaultValue);
+export const LetterEditBox = ({ content = "", onChange }: LetterEditBoxProps) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const getLength = (str: string) => Array.from(str).length;
@@ -16,7 +16,7 @@ export const LetterEditBox = ({ defaultValue = "" }: LetterEditBoxProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
     if (getLength(value) <= 300) {
-      setContent(value);
+      onChange?.(value);
       if (textareaRef.current) {
         textareaRef.current.style.height = "auto";
         textareaRef.current.style.height =

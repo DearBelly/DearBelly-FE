@@ -36,7 +36,7 @@ export default function FamilyStep() {
 
   const handleNextClick = () => {
     if (!isVerified) return;
-    router.push("/home");
+    router.push("/");
   };
 
   return (
@@ -91,7 +91,7 @@ export default function FamilyStep() {
           right="0"
           bottom="4.5rem"
           onClick={() => {
-            router.push("/home");
+            router.push("/");
             reset(); 
           }}
         >

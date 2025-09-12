@@ -126,7 +126,6 @@ export default function Home() {
                 "&::-webkit-scrollbar": { display: "none" },
               }}
             >
-
             </Box>
           </Grid>
         </MobileLayout>

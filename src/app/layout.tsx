@@ -1,23 +1,59 @@
 'use client';
-import { Provider } from "@/components/UI/Provider"
-import "@/app/globals.css"
+import { Provider } from "@/components/UI/Provider";
+import "@/app/globals.css";
 import Script from "next/script"; 
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ko" suppressHydrationWarning>
       <head>
-      {/* <Script
-        src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.6/kakao.min.js"
-        integrity={process.env.NEXT_PUBLIC_KAKAO_SDK_INTEGRITY}
-        crossOrigin="anonymous"
-        strategy="beforeInteractive"
-        onLoad={() => {
-          if (window.Kakao && !window.Kakao.isInitialized()) {
-            window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY);
-          }
-        }}
-      /> */}
+        {/* 폰트 preload */}
+        <link
+          rel="preload"
+          href="https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-aLt.woff"
+          as="font"
+          type="font/woff"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.woff"
+          as="font"
+          type="font/woff"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-cBd.woff"
+          as="font"
+          type="font/woff"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-dEb.woff"
+          as="font"
+          type="font/woff"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-eHv.woff"
+          as="font"
+          type="font/woff"
+          crossOrigin="anonymous"
+        />
+        {/* <Script
+          src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.6/kakao.min.js"
+          integrity={process.env.NEXT_PUBLIC_KAKAO_SDK_INTEGRITY}
+          crossOrigin="anonymous"
+          strategy="beforeInteractive"
+          onLoad={() => {
+            if (window.Kakao && !window.Kakao.isInitialized()) {
+              window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY);
+            }
+          }}
+        /> */}
       </head>
       <body>
         <Provider>{children}</Provider>
@@ -32,5 +68,5 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </body>
     </html>
-  )
+  );
 }

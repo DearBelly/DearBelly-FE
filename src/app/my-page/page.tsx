@@ -15,7 +15,7 @@ export default function Mypage() {
   const [data, setData] = useState<any | null>(null);
 
 //   더미데이터
-  // localStorage.setItem("token", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTc1NzE2NjA0NSwiZXhwIjoxNzU5NzU4MDQ1fQ.tsX0zfweUT91E3JllKKFk55_4rYQB1ikwqLUmeaDjdA");
+  localStorage.setItem("token", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTc1NzE2NjA0NSwiZXhwIjoxNzU5NzU4MDQ1fQ.tsX0zfweUT91E3JllKKFk55_4rYQB1ikwqLUmeaDjdA");
 
   useEffect(() => {
     const token = localStorage.getItem('token');

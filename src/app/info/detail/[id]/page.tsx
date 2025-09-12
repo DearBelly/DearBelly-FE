@@ -8,6 +8,7 @@ import { ContendCardOutput } from '@/components/ContentCard/ContendCardOutput';
 import Image from 'next/image'
 import Loading from '@/app/loading';
 import { ChakraIcons } from "@/utils/withChakraIcon";
+import { LoginModal } from '@/components/LoginModal/LoginModal';
 
 const TopRightIcons = ({ onKakaoShare, isBookMark, onToggleBookmark }: { 
   onKakaoShare: () => void;
@@ -32,10 +33,26 @@ const InfoDetail = () => {
     const [recommendCard, setRecommendCard] = useState<any[]>([]);
     // 북마크 상태관리
     const [isBookMark, setIsBookMark] = useState(false);
+    // 로그인 여부 상태관리 
+    const [isLogin, setIsLogin] = useState(false);
+    const [showLoginModal, setShowLoginModal] = useState(false);
+
+    // 토큰 체크
+    useEffect(() => {
+      const token = localStorage.getItem('token');
+      setIsLogin(!!token);
+    }, []);
 
     // 북마크 토글 함수
     const handleToggleBookmark = async() => {
       const token = localStorage.getItem('token');
+      
+      if (!isLogin || !token) {
+        // 로그인 안 되어 있으면 북마크 대신 모달 띄우기
+        setShowLoginModal(true);
+        return;
+      }
+
       try {
         // 북마크가 선택되어 있을 경우 클릭하면 북마크 삭제제
         if(isBookMark) {
@@ -218,6 +235,8 @@ const InfoDetail = () => {
           hasTopPadding={false}
           showButtomNav={false}
       >
+        {showLoginModal  && <LoginModal />} 
+
         <Box className='wrapper1' display="flex" flexDirection="column" alignItems="center">
             {/* 이미지 영역 */}
             <ImageWrapper>

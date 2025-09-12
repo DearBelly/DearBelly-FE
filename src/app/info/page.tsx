@@ -127,7 +127,7 @@ export default function Information() {
         {/* 새로운 기능 홍보하는 카드 영역 */}
         <Box className='inlinecard_wrapper' height='6rem' mt='3.704vh' width="calc(100vw - 2.5rem)" maxW="35rem">
           <InlineCard
-            imageSrc="/images/Information/letter.svg"
+            imageSrc="/images/Information/letter.png"
             imageDescription="기본 이미지"
             description="소중한 아이에게서 도착한 편지에 답장을 작성해 보세요"
             shortcutLink="자세히 보기"

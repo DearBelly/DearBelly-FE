@@ -73,7 +73,7 @@ export const HeroCard = ({ title, description, imageSrc, mode }: HeroCardProps) 
         <Box
           position="relative"
           w={isPc ? "8.5rem" : "7.5rem"}
-          h={isPc ? "6rem" : "5rem"}
+          h={isPc ? "6.3rem" : "5rem"}
           borderRadius="0.5rem"
           overflow="hidden"
           flexShrink={0}

@@ -1,43 +1,49 @@
 "use client";
+
 import { Box, Text } from "@chakra-ui/react";
 import { InputBox } from "@/components/TextField/InputBox";
 import Image from "next/image";
 import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";
-import { useEffect, useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { useNicknameStore } from "@/store/useNicknameStore";
-import { validateNickname } from "./validateNickname";
+import { useSignupStore } from "@/store/useSignupStore";
+import { validateNickname } from "@/utils/validators";
 
 export default function SetupStep() {
   const router = useRouter();
-  const { nickname: savedNickname, setNickname: saveNickname } = useNicknameStore();
-  const [nickname, setNickname] = useState("");
+  const { data, setData, nextStep } = useSignupStore();
 
-  useEffect(() => {
-    if (savedNickname && nickname === "") {
-      setNickname(savedNickname);
-    }
-  }, [savedNickname, nickname]);
+  const [nickname, setNickname] = useState(data.nickname || "");
+  const [preview, setPreview] = useState<string | null>(null); 
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const validation = validateNickname(nickname);
-
-  const titleText = "프로필을 만들어봐요";
-  const subTitleText = "디어 벨리에서 사용할 닉네임을 만들어주세요";
 
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     if (value.length <= 10) setNickname(value);
   };
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const previewUrl = URL.createObjectURL(file);
+    setPreview(previewUrl); 
+  };
+
   const handleNextClick = () => {
-    const validation = validateNickname(nickname);
-    if (!validation.valid) return;
-    saveNickname(nickname.trim());
+    if (!validation.valid || !preview) return;
+    setData({ nickname: nickname.trim(), profileImage: preview });
+    nextStep();
     router.push("/profile/info");
   };
 
   return (
-    <TopBarBottomButtonLayout onNext={handleNextClick} nextDisabled={!validation.valid}>
+    <TopBarBottomButtonLayout
+      onNext={handleNextClick}
+      nextDisabled={!validation.valid || !preview}
+    >
       <Box
         as="form"
         w="100%"
@@ -47,14 +53,52 @@ export default function SetupStep() {
           handleNextClick();
         }}
       >
-        <Text textStyle="head_188001">{titleText}</Text>
+        <Text textStyle="head_188001">프로필을 만들어봐요</Text>
         <Text textStyle="body_14400224" mt="4px">
-          {subTitleText}
+          디어 벨리에서 사용할 닉네임을 만들어주세요
         </Text>
       </Box>
 
       <Box display="flex" justifyContent="center" mt="5.66dvh" mb="32px">
-        <Image src="/images/set_profile.svg" alt="profile-setup" width={80} height={80} />
+        <input
+          type="file"
+          accept="image/*"
+          ref={fileInputRef}
+          style={{ display: "none" }}
+          onChange={handleImageChange}
+        />
+
+        {preview ? (
+          <Box
+            w="80px"
+            h="80px"
+            position="relative" 
+            borderRadius="100%"
+            overflow="hidden"
+            cursor="pointer"
+            onClick={() => fileInputRef.current?.click()}
+          >
+            <Image
+              src={preview}
+              alt="profile-setup"
+              fill
+              style={{
+                objectFit: "cover",
+              }}
+            />
+          </Box>
+        ) : (
+          <Image
+            src="/images/profile.svg"
+            alt="profile-setup"
+            width={80}
+            height={80}
+            style={{
+              cursor: "pointer",
+            }}
+            onClick={() => fileInputRef.current?.click()}
+          />
+        )}
       </Box>
 
       <InputBox

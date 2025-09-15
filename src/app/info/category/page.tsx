@@ -33,6 +33,7 @@ const InfoCategory = () => {
             title: item.title,
             subTitle: item.subTitle,
             imageSrc: item.imageUrl ?? "/images/default_image.svg",
+            bookmark: item.bookmarked || false,
           }));
 
           // page마다 append (무한 스크롤)

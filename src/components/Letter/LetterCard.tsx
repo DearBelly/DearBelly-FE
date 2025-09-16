@@ -4,12 +4,13 @@ import { Box, Text } from "@chakra-ui/react";
 import Image from "next/image";
 
 export interface LetterCardProps {
-  userName: string;
-  date: string;
+  nickname: string;
+  createdAt: string;
   content: string;
+  imgUrl: string;
 }
 
-export default function LetterCard({ userName, date, content }: LetterCardProps) {
+export default function LetterCard({ nickname, createdAt, content, imgUrl }: LetterCardProps) {
   return (
     <Box
       w="100%"
@@ -25,17 +26,18 @@ export default function LetterCard({ userName, date, content }: LetterCardProps)
         textStyle="body_14400222"
         color="text.text1"
         alignSelf="stretch"
-        textAlign="justify"
+        whiteSpace="pre-line"   
       >
         {content}
       </Text>
       <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center">
         <Box display="flex" flexDirection="row" gap="6px" alignItems="center">
-          <Image src="/images/set_profile.svg" alt="profile" width={20} height={20} />
-          <Text textStyle="caption_104001">{userName}</Text>
+          <Image src={imgUrl || "/images/profile.svg"} alt="profile" width={20} height={20} style={{ objectFit: 'cover' }}/>
+          <Text textStyle="caption_104001">{nickname}</Text>
         </Box>
-        <Text textStyle="caption_104001">{date}</Text>
+        <Text textStyle="caption_104001">{new Date(createdAt).toLocaleDateString()}</Text>
       </Box>
     </Box>
   );
 }
+

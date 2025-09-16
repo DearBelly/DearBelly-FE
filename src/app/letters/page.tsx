@@ -10,17 +10,19 @@ import DatePicker from "react-datepicker";
 import { format } from "date-fns";
 import "react-datepicker/dist/react-datepicker.css";
 import Link from "next/link";
-
-const currentUser = { userName: "푸르니" };
+import { LettersResponse } from "./letter";
+import { Letter } from "./letter";
+import { toUrlDate } from "@/lib/date";
 
 export default function LettersPage() {
   const router = useRouter();
+
   const [selectedMonth, setSelectedMonth] = useState<Date>(new Date());
   const [open, setOpen] = useState(false);
+  const [letters, setLetters] = useState<Letter[]>([]);
 
   const calendarRef = useRef<HTMLDivElement>(null);
 
-  // ✅ 달력 외부 클릭 감지
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -42,26 +44,34 @@ export default function LettersPage() {
     };
   }, [open]);
 
-  const letters = [
-    {
-      id: 1,
-      userName: "푸르니",
-      date: "2025-08-28",
-      content: "사랑하는 아가야, 오늘도 건강하게 잘 자라고 있니?",
-    },
-    {
-      id: 2,
-      userName: "연두",
-      date: "2025-08-27",
-      content: "아빠는 오늘도 열심히 일하면서 너를 생각했단다!",
-    },
-    {
-      id: 3,
-      userName: "지니",
-      date: "2025-08-25",
-      content: "힘든 순간도 있겠지만, 곧 기쁨이 찾아올 거야 🌸",
-    },
-  ];
+  const getLetters = async () => {
+    const token = localStorage.getItem("token") || process.env.NEXT_PUBLIC_TEMP_TOKEN;
+
+    try {
+      const year = selectedMonth.getFullYear();
+      const month = selectedMonth.getMonth() + 1;
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/letters?year=${year}&month=${month}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) throw new Error("편지 조회 오류");
+
+      const json: LettersResponse = await response.json();
+      setLetters(json.data);
+    } catch (err) {
+      console.log("편지 조회 오류: ", err);
+    }
+  };
+  useEffect(() => {
+    getLetters();
+  }, [selectedMonth]);
 
   return (
     <TopBarBottomButtonLayout
@@ -77,7 +87,7 @@ export default function LettersPage() {
         alignItems="center"
         justifyContent="center"
       >
-        {/* 월 선택 */}
+
         <Box w="100%" position="relative" ref={calendarRef}>
           <Box
             display="flex"
@@ -95,8 +105,6 @@ export default function LettersPage() {
             </Text>
             <Calendar size={16} />
           </Box>
-
-          {/* 달력 */}
           {open && (
             <Box
               position="absolute"
@@ -119,7 +127,6 @@ export default function LettersPage() {
           )}
         </Box>
 
-        {/* 편지 리스트 */}
         <Box
           display="flex"
           flexDirection="column"
@@ -129,22 +136,21 @@ export default function LettersPage() {
           mt="16px"
         >
           {letters.map((letter) => {
-            const href =
-              letter.userName === currentUser.userName
-                ? `/letters/${letter.date}/me?userName=${letter.userName}&content=${encodeURIComponent(
-                    letter.content
-                  )}`
-                : `/letters/${letter.date}/${letter.userName}?content=${encodeURIComponent(
-                    letter.content
-                  )}`;
-
+            const href = letter.editable
+              ? `/letters/${letter.id}/me`
+              : `/letters/${letter.id}/${letter.nickname}`;
             return (
               <Link
                 key={letter.id}
                 href={href}
                 style={{ textDecoration: "none" }}
               >
-                <LetterCard {...letter} />
+                <LetterCard
+                  nickname={letter.nickname}
+                  createdAt={letter.createdAt}
+                  content={letter.content}
+                  imgUrl={letter.imgUrl}
+                />
               </Link>
             );
           })}

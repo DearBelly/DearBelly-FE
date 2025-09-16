@@ -1,22 +1,24 @@
 "use client";
 
-import React, { useState, useRef } from "react";
-import { Box, Text, Textarea } from "@chakra-ui/react";
+import React, { useRef } from "react";
+import { Flex, Text, Textarea } from "@chakra-ui/react";
 
 export interface LetterEditBoxProps {
-  defaultValue?: string;
+  value: string;
+  onChange: (value: string) => void;
 }
 
-export const LetterEditBox = ({ defaultValue = "" }: LetterEditBoxProps) => {
-  const [content, setContent] = useState(defaultValue);
+export const LetterEditBox = ({ value, onChange }: LetterEditBoxProps) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-
+  
+  const dailyQuestion = "오늘 하루 어땠나요?";
+  
   const getLength = (str: string) => Array.from(str).length;
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
     if (getLength(value) <= 300) {
-      setContent(value);
+      onChange(value);
       if (textareaRef.current) {
         textareaRef.current.style.height = "auto";
         textareaRef.current.style.height =
@@ -26,20 +28,33 @@ export const LetterEditBox = ({ defaultValue = "" }: LetterEditBoxProps) => {
   };
 
   return (
-    <Box display="flex" flexDirection="column" w="100%">
-      <Box borderRadius="1rem" bg="bg.bg3" px="12px" py="13px" gap="10px">
+    <Flex display="flex" flexDirection="column" w="100%">
+      <Flex flexDirection="column" borderRadius="1rem" bg="bg.bg3" px="12px" py="13px" gap="10px">
+        <Flex display="flex" flexDirection="column" w="100%" borderRadius="10px" px="12px" py="8px" bg="letter">
+          <Text 
+            textStyle="body_14400222" 
+            color="text.text1"
+            whiteSpace="pre-line"
+            wordBreak="keep-all"
+            overflow="visible"
+            textOverflow="clip"
+            display="block"
+          >
+            {dailyQuestion}
+          </Text>
+        </Flex>
         <Textarea
           p="0"
           ref={textareaRef}
-          value={content}
+          value={value}
           onChange={handleChange}
           textStyle="body_14400222"
           placeholder="편지 내용을 입력해 주세요"
           resize="none"
           border="none"
-          maxHeight="300px"
           _focus={{ outline: "none" }}
           wordBreak="break-all"
+          whiteSpace="pre-wrap"
         />
 
         <Text
@@ -51,9 +66,9 @@ export const LetterEditBox = ({ defaultValue = "" }: LetterEditBoxProps) => {
           alignItems="center"
           alignSelf="stretch"
         >
-          {getLength(content)}/300
+          {getLength(value)}/300
         </Text>
-      </Box>
+      </Flex>
 
       <Text
         aria-live="polite"
@@ -64,6 +79,6 @@ export const LetterEditBox = ({ defaultValue = "" }: LetterEditBoxProps) => {
       >
         최대 300자까지 입력 가능합니다.
       </Text>
-    </Box>
+    </Flex>
   );
 };

@@ -1,27 +1,28 @@
 'use client';
 
 import React, { useEffect } from "react";
-import { Box } from "@chakra-ui/react";
-import Image from "next/image";
+import { Box, Flex } from "@chakra-ui/react";
 import { useRouter } from 'next/navigation';
 import { useGetBreakPointValue } from "../context/BreakPointProvider";
-import { motion } from "framer-motion";
-
-const MotionBox = motion.create(Box);
+import dynamic from "next/dynamic";
+import animationData from "@/assets/animation/splash.json";
 
 export default function Splash() {
   const isPc = useGetBreakPointValue();
   const router = useRouter();
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      router.push('/home');
-    }, 2700);
+  const Lottie = dynamic(() => import("@/components/Lottie/Lottie"), { ssr: false });
 
-    return () => clearTimeout(timer);
+  useEffect(() => {
+    router.prefetch("/home");
   }, [router]);
 
+  const handleComplete = () => {
+    router.push('/home');
+  }
+
   return (
+    isPc ? (
     <Box
       bg="bg.bg1"
       display="flex"
@@ -31,34 +32,38 @@ export default function Splash() {
       minH="100dvh"        
       overflow="hidden"   
     >
-      <MotionBox
-        initial={{ opacity: 0, scale: 0.5 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{
-          duration: 1.5,
-          delay: 0.5,
-          ease: [0.25, 0.1, 0.25, 1],
-        }}
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        gap="30.5px"
-      >
-        <Image
-          src="/logos/logo.svg"
-          alt="logo"
-          width={150}
-          height={115}
-          priority
-        />
-        <Image
-          src="/logos/logo_text.svg"
-          alt="logo text"
-          width={152.65}
-          height={30}
-          priority
-        />
-      </MotionBox>
+      <Flex w="400px" h="400px" pt="95px" pb="75px" pl="40px" pr="60px">
+      <Lottie 
+        animationData={animationData} 
+        loop={false}
+        speed={0.25} 
+        style={{ width: "100%", height: "100%" }}
+        segment={[0, 200]}
+        onComplete={handleComplete}
+      />
+      </Flex>
     </Box>
-  );
-}
+    ) : (
+    <Box
+      bg="bg.bg1"
+      display="flex"
+      justifyContent="center"
+      alignItems="center" 
+      width="100dvw"
+      minH="100dvh"        
+      overflow="hidden"   
+    >
+      <Flex w="200px" h="200px" pt="47.5px" pb="37.5px" pl="20px" pr="30px">
+      <Lottie 
+        animationData={animationData} 
+        loop={false}
+        speed={0.25} 
+        style={{ width: "100%", height: "100%" }}
+        segment={[0, 200]}
+        onComplete={handleComplete}
+      />
+      </Flex>
+    </Box>
+    )
+  )
+};

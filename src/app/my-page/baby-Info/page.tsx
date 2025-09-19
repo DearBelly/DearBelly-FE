@@ -75,7 +75,7 @@ export default function BabyInfo() {
             nextDisabled={false}
             onNext={handleBabyAddClick}
         >
-            <Box className='body_wrapper' display="flex" flexDirection="column" alignItems="center" mt='0.62rem'>
+            <Box className='body_wrapper' w='100%' display="flex" flexDirection="column" alignItems="center" mt='0.62rem'>
                 <Box w='100%' maxW='35rem' mx='auto'>
                     <Box 
                         className='text_wrapper'
@@ -85,7 +85,7 @@ export default function BabyInfo() {
                         textAlign='right'
                         mr='0.5rem'
                     >
-                        <Text>출산예정일 : {pregnantDate}</Text>
+                        <Text>출산예정일 : {pregnantDate || '정보 없음'}</Text>
                     </Box>
                     <ProfileListOutput cards={cards} onDelete={(id) => {
                         setCards((prev) => prev.filter((c) => c.id !== id));

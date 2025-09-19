@@ -66,7 +66,7 @@ const InfoDetail = () => {
         } else {
           // 북마크가 선택되어 있지 않을 경우 클리하면 북마크 등록 
           await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/news/${id}/bookmark`, {
-            method: "POST",
+            method: "PUT",
             headers: {
               "Authorization": `Bearer ${token}`,
             },

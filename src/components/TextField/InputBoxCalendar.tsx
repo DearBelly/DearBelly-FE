@@ -12,6 +12,8 @@ export interface InputBoxCalendarProps {
   title: string;
   placeholder?: string;
   disabled?: boolean;
+  value?: string;
+  onChange?: (date: string) => void;
 }
 
 export const InputBoxCalendar = ({
@@ -19,11 +21,13 @@ export const InputBoxCalendar = ({
   title,
   placeholder,
   disabled = false,
+  value,
+  onChange,
 }: InputBoxCalendarProps) => {
   // 데이트 피커를 사용하여 캘린더 구현하기 위한 상태관리 
-  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date | null>(value ? new Date(value) : new Date());
   const [open, setOpen] = useState(false); 
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState(value || "");
 
   const validateDate = (value: string) => {
     const regex = /^\d{4}-\d{2}-\d{2}$/;
@@ -50,6 +54,7 @@ export const InputBoxCalendar = ({
                 setSelectedDate(date);
                 const formatted = format(date, "yyyy-MM-dd");
                 setInputValue(formatted);
+                onChange?.(formatted);
               }
               setOpen(false);
             }}
@@ -70,6 +75,7 @@ export const InputBoxCalendar = ({
                 onChange={(e) => {
                   const value = e.target.value;
                   setInputValue(value);
+                  onChange?.(value);
                 }}
                 _placeholder={{ color: "text.text4" }}
                 _focusVisible={{

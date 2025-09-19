@@ -11,6 +11,8 @@ import { ChakraIcons } from "@/utils/withChakraIcon";
 import { useBackgroundStore } from "@/store/useBackgroundStore";
 import { useEffect, useState } from "react";
 import { Banner } from "@/types/BannerResponse";
+import animationData from "@/assets/animation/interaction.json";
+import dynamic from "next/dynamic";
 
 export default function Home() {
   const router = useRouter();
@@ -46,6 +48,8 @@ export default function Home() {
   const bgState = useBackgroundStore();
   const defaultUrl = "https://www.shadergradient.co/customize?animate=on&axesHelper=on&bgColor1=%23000000&bgColor2=%23000000&brightness=1.5&cAzimuthAngle=60&cDistance=7.1&cPolarAngle=90&cameraZoom=25&color1=%23ff7a33&color2=%2333a0ff&color3=%23ffc53d&destination=onCanvas&embedMode=off&envPreset=dawn&format=gif&fov=50&frameRate=10&grain=off&http%3A%2F%2Flocalhost%3A3002%2Fcustomize%3Fanimate=on&lightType=3d&pixelDensity=1&positionX=0&positionY=-0.15&positionZ=0&range=enabled&rangeEnd=40&rangeStart=0&reflection=0.1&rotationX=0&rotationY=0&rotationZ=0&shader=defaults&toggleAxis=false&type=sphere&uAmplitude=2&uDensity=1.1&uFrequency=5.5&uSpeed=0.05&uStrength=0.4&uTime=0&wireframe=false&zoomOut=false";
 
+  const Lottie = dynamic(() => import("@/components/Lottie/Lottie"), { ssr: false });
+  
   const handleImageCardClick = (url: string) => {
     router.push(url);
   };
@@ -64,13 +68,26 @@ export default function Home() {
   );
 
   return (
-    <Flex w="100%" justify="center">
+    <Flex
+      w="100dvw"
+      h="100dvh" 
+      justify="center"
+      position="relative"
+      overflow="hidden"
+    >
       {/* 배경 */}
       <ShaderBg
         urlString={bgState.backgrounds.find((bg) => bg.id === bgState.appliedId)?.urlPath || defaultUrl}
       />
-      
-      <Flex w="100%" maxW="40rem" m="0 auto" position="relative">
+      <Lottie
+        animationData={animationData}
+        loop={true}
+        speed={0.4}
+        autoplay={true}
+        style={{ width: "150rem", height: "150rem", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", zIndex: -1 }}
+      />
+
+      <Flex w="100%" maxW="40rem" m="0 auto" position="relative" overflow="hidden">
         <MobileLayout
           contentBackground="transparent"
           topbarMode="whiteLogo"
@@ -82,13 +99,13 @@ export default function Home() {
         >
           <Grid
             templateRows="auto 1fr auto"
-            h="100dvh"
+            h="100%"
             w="100%"
             position="relative"
             zIndex={1}
           >
             {/* 공지 */}
-            <Box gridRow="1" w="fit-content" ml="auto" mt="3.75rem" mr="20px">
+            <Box gridRow="1" w="fit-content" ml="auto" pt="3.75rem" pr="20px">
               {bannerInfo?.babyName ? (
                 <NoticeCard
                   mode="default"

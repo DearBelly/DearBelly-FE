@@ -9,12 +9,15 @@ import { useSignupStore } from "@/store/useSignupStore";
 import { useFamilyCodeStore } from "@/store/useFamilyCodeStore";
 import { useState } from "react";
 import { validateFamilyCode } from "@/utils/validators";
+import { Splash } from "@/app/profile/Splash";
 
 export default function FamilyStep() {
   const router = useRouter();
   const { data, setData } = useSignupStore();
   const { familyCode, isVerified } = data;
   const { isLoading, verify, reset } = useFamilyCodeStore();
+
+  const [showSplash, setShowSplash] = useState(false);
 
   // 로컬 에러 메시지 상태
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -51,8 +54,16 @@ const handleVerifyClick = async () => {
 
   const handleNextClick = () => {
     if (!isVerified) return;
-    router.push("/home");
+    handleMoveToHome();
   };
+
+  const handleMoveToHome = () => {
+    setShowSplash(true); 
+  };
+  
+  if (showSplash) {
+    return <Splash />;
+  }
 
   return (
     <TopBarBottomButtonLayout
@@ -101,7 +112,7 @@ const handleVerifyClick = async () => {
           onClick={() => {
             setData({ familyCode: undefined, isVerified: false });
             reset();
-            router.push("/home");
+            handleMoveToHome();
           }}
         >
           지금은 넘어가기

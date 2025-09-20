@@ -6,16 +6,16 @@ import { Box } from "@chakra-ui/react";
 import { TrashSolid } from "@mynaui/icons-react";
 import { useRouter } from "next/navigation";
 
-export default function EditLetterPage({
+export default async function EditLetterPage({
   params,
   searchParams,
 }: {
-  params: { date: string };
-  searchParams?: { content?: string };
+  params: Promise<{ date: string }>;
+  searchParams?: Promise<{ content?: string }>;
 }) {
   const router = useRouter();
-  const { date } = params;
-  const { content } = searchParams ?? {};
+  const { date } = await params;
+  const { content } = await searchParams ?? {};
 
   const deleteText = (
     <Box
@@ -39,7 +39,7 @@ export default function EditLetterPage({
       }}
     >
       <Box display="flex" flexDirection="column" mt="20px" w="100%" maxW="35rem" alignItems="center">
-        <LetterEditBox defaultValue={content ?? ""} />
+        <LetterEditBox value={content ?? ""} onChange={() => {}} />
       </Box>
     </TopBarBottomButtonLayout>
   );

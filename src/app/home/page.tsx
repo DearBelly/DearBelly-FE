@@ -19,16 +19,18 @@ export default function Home() {
 
   const [isLogin, setIsLogin] = useState(false);
   const [bannerInfo, setBannerInfo] = useState<Banner | null>(null);
-  
+  const [recommendCard, setRecommendCard] = useState<any[]>([]); // 추천 카드 데이터 상태
+
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     setIsLogin(!!token);
     getBannerInfo();
+    getRecommendInfo();
   }, []);
 
+  /** 배너 데이터 가져오기 */
   const getBannerInfo = async () => {
     const token = localStorage.getItem("token") || process.env.NEXT_PUBLIC_TEMP_TOKEN;
-
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/letters/top`,
@@ -39,9 +41,7 @@ export default function Home() {
           },
         }
       );
-
       if (!response.ok) throw new Error("배너 정보 조회 오류");
-
       const json = await response.json();
       setBannerInfo(json.data);
     } catch (err) {
@@ -49,46 +49,77 @@ export default function Home() {
     }
   };
 
+  /** 추천 정보 가져오기 */
+  const getRecommendInfo = async () => {
+    const token = localStorage.getItem("token") || process.env.NEXT_PUBLIC_TEMP_TOKEN;
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/news`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+          },
+        }
+      );
+      if (!response.ok) throw new Error("추천 정보 조회 오류");
+      const json = await response.json();
+
+      if (json.success && Array.isArray(json.data)) {
+        const formatted = json.data.map((item: any) => ({
+          id: item.newsId,
+          title: item.title,
+          description: item.subTitle,
+          imageUrl: item.imageUrl || "/images/default_image.svg",
+          href: `/info/detail/${item.newsId}`,
+        }));
+        setRecommendCard(formatted);
+      }
+    } catch (err) {
+      console.error("추천 정보 조회 실패:", err);
+    }
+  };
+
   const bgState = useBackgroundStore();
-  const defaultUrl = "https://www.shadergradient.co/customize?animate=on&axesHelper=on&bgColor1=%23000000&bgColor2=%23000000&brightness=1.5&cAzimuthAngle=60&cDistance=7.1&cPolarAngle=90&cameraZoom=25&color1=%23ff7a33&color2=%2333a0ff&color3=%23ffc53d&destination=onCanvas&embedMode=off&envPreset=dawn&format=gif&fov=50&frameRate=10&grain=off&http%3A%2F%2Flocalhost%3A3002%2Fcustomize%3Fanimate=on&lightType=3d&pixelDensity=1&positionX=0&positionY=-0.15&positionZ=0&range=enabled&rangeEnd=40&rangeStart=0&reflection=0.1&rotationX=0&rotationY=0&rotationZ=0&shader=defaults&toggleAxis=false&type=sphere&uAmplitude=2&uDensity=1.1&uFrequency=5.5&uSpeed=0.05&uStrength=0.4&uTime=0&wireframe=false&zoomOut=false";
+  const defaultUrl =
+    "https://www.shadergradient.co/customize?animate=on&axesHelper=on&bgColor1=%23000000&bgColor2=%23000000&brightness=1.5&cAzimuthAngle=60&cDistance=7.1&cPolarAngle=90&cameraZoom=25&color1=%23ff7a33&color2=%2333a0ff&color3=%23ffc53d&destination=onCanvas&embedMode=off&envPreset=dawn&format=gif&fov=50&frameRate=10&grain=off&http%3A%2F%2Flocalhost%3A3002%2Fcustomize%3Fanimate=on&lightType=3d&pixelDensity=1&positionX=0&positionY=-0.15&positionZ=0&range=enabled&rangeEnd=40&rangeStart=0&reflection=0.1&rotationX=0&rotationY=0&rotationZ=0&shader=defaults&toggleAxis=false&type=sphere&uAmplitude=2&uDensity=1.1&uFrequency=5.5&uSpeed=0.05&uStrength=0.4&uTime=0&wireframe=false&zoomOut=false";
 
   const Lottie = dynamic(() => import("@/components/Lottie/Lottie"), { ssr: false });
-  
+
   const handleImageCardClick = (url: string) => {
     router.push(url);
   };
 
   const topBarIconContent = (
     <Flex gap="12px" color="icon.icon5">
-      <ChakraIcons.EnvelopeSolid
-        size={24}
-        onClick={() => router.push("/letters")}
-      />
-      <ChakraIcons.StoreSolid
-        size={24}
-        onClick={() => router.push("/store")}
-      />
+      <ChakraIcons.EnvelopeSolid size={24} onClick={() => router.push("/letters")} />
+      <ChakraIcons.StoreSolid size={24} onClick={() => router.push("/store")} />
     </Flex>
   );
 
   return (
-    <Flex
-      w="100dvw"
-      h="100dvh" 
-      justify="center"
-      position="relative"
-      overflow="hidden"
-    >
+    <Flex w="100dvw" h="100dvh" justify="center" position="relative" overflow="hidden">
       {/* 배경 */}
       <ShaderBg
-        urlString={bgState.backgrounds.find((bg) => bg.id === bgState.appliedId)?.urlPath || defaultUrl}
+        urlString={
+          bgState.backgrounds.find((bg) => bg.id === bgState.appliedId)?.urlPath || defaultUrl
+        }
       />
       <Lottie
         animationData={animationData}
         loop={true}
         speed={0.4}
         autoplay={true}
-        style={{ width: "150rem", height: "150rem", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", zIndex: 1 }}
+        style={{
+          width: "150rem",
+          height: "150rem",
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          zIndex: 1,
+        }}
       />
 
       <Flex w="100%" maxW="40rem" m="0 auto" position="relative" overflow="hidden">
@@ -101,13 +132,7 @@ export default function Home() {
           hasTopPadding={false}
           hasBottomPadding={false}
         >
-          <Grid
-            templateRows="auto 1fr auto"
-            h="100%"
-            w="100%"
-            position="relative"
-            zIndex={1}
-          >
+          <Grid templateRows="auto 1fr auto" h="100%" w="100%" position="relative" zIndex={1}>
             {/* 공지 */}
             <Box gridRow="1" w="fit-content" ml="auto" pt="3.75rem" pr="20px">
               {bannerInfo?.babyName ? (
@@ -116,10 +141,7 @@ export default function Home() {
                   noticeText={`${bannerInfo?.babyName}를 만난 지\n${bannerInfo?.week}주가 되었어요!`}
                 />
               ) : (
-                <NoticeCard
-                  mode="button"
-                  noticeText="아기 정보를 등록해주세요"
-                />
+                <NoticeCard mode="button" noticeText="아기 정보를 등록해주세요" />
               )}
             </Box>
 
@@ -153,10 +175,7 @@ export default function Home() {
                 width="104px"
                 onClick={() => router.push("/letters/new")}
               >
-                <Text
-                  textStyle="caption_12800"
-                  color="button.button.text.secondary"
-                >
+                <Text textStyle="caption_12800" color="button.button.text.secondary">
                   편지 쓰러가기
                 </Text>
               </Button>
@@ -182,24 +201,38 @@ export default function Home() {
                 "&::-webkit-scrollbar": { display: "none" },
               }}
             >
-              <ImageCard
-                imageUrl="/images/image.png"
-                title="깊이 잠들고 싶은 당신에게 추천하는 5가지 방법"
-                description="깊이 숙면하는 방법"
-                onClick={() => handleImageCardClick("/info/detail")}
-              />
-              <ImageCard
-                imageUrl="/images/image.png"
-                title="임산부 불면증에 좋은 요가"
-                description="음악과 함께하는 요가"
-                onClick={() => handleImageCardClick("/info/detail")}
-              />
-              <ImageCard
-                imageUrl="/images/image.png"
-                title="겨울에 집에서 하기 좋은 운동 10가지"
-                description="집안에서 가볍게 할 수 있는 운동법"
-                onClick={() => handleImageCardClick("/info/detail")}
-              />
+              {recommendCard.length > 0 ? (
+                recommendCard.map((card) => (
+                  <ImageCard
+                    key={card.id}
+                    imageUrl={card.imageUrl}
+                    title={card.title}
+                    description={card.description}
+                    onClick={() => handleImageCardClick(card.href)}
+                  />
+                ))
+              ) : (
+                <>
+                  <ImageCard
+                    imageUrl="/images/image.png"
+                    title="깊이 잠들고 싶은 당신에게 추천하는 5가지 방법"
+                    description="깊이 숙면하는 방법"
+                    onClick={() => handleImageCardClick("/info/detail")}
+                  />
+                  <ImageCard
+                    imageUrl="/images/image.png"
+                    title="임산부 불면증에 좋은 요가"
+                    description="음악과 함께하는 요가"
+                    onClick={() => handleImageCardClick("/info/detail")}
+                  />
+                  <ImageCard
+                    imageUrl="/images/image.png"
+                    title="겨울에 집에서 하기 좋은 운동 10가지"
+                    description="집안에서 가볍게 할 수 있는 운동법"
+                    onClick={() => handleImageCardClick("/info/detail")}
+                  />
+                </>
+              )}
             </Box>
           </Grid>
         </MobileLayout>

@@ -68,7 +68,7 @@ export default function PersonalInfo() {
           <LogoutText>계정 탈퇴</LogoutText>
         </Box>
       </Box>
-      {!isLogin && <LoginModal />}
+      {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.back();}} />}
     </MobileLayout>
   );
 }

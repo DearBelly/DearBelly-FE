@@ -5,8 +5,11 @@ import { Box } from "@chakra-ui/react";
 import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";
 import { InputBox } from "@/components/TextField/InputBox";
 import { LoginModal } from '@/components/LoginModal/LoginModal';
+import { useRouter } from "next/navigation";
 
 export default function FamilyCodeEdit() {
+  const router = useRouter();
+
   const [familyCode, setFamilyCode] = useState("");
   const [isFamilyCodeError, setIsFamilyCodeError] = useState(false);
 
@@ -51,7 +54,7 @@ export default function FamilyCodeEdit() {
             errorMessage="잘못된 코드입니다."
           />
         </Box>
-        {!isLogin && <LoginModal/>}
+        {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
       </Box>
     </TopBarBottomButtonLayout>
   );

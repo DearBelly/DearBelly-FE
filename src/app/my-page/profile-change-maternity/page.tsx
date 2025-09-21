@@ -7,8 +7,10 @@ import { useState, useEffect } from "react";
 import { Toast } from "@/components/Toast/Toast";
 import { InputBoxCalendar } from '@/components/TextField/InputBoxCalendar';
 import { LoginModal } from '@/components/LoginModal/LoginModal';
+import { useRouter } from "next/navigation";
 
 export default function ProfileChangeMaternity() {
+    const router = useRouter();
     const [nickname, setNickname] = useState("");
     const [isNicknameError, setIsNicknameError] = useState(false);
     // 토스트 띄우기 위한 상태관리
@@ -133,7 +135,7 @@ export default function ProfileChangeMaternity() {
             공백 포함 최대 10자까지 설정할 수 있어요.
           </Text>
         </Box>
-        {!isLogin && <LoginModal />}
+        {!isLogin && <LoginModal onClose={() => { setIsLogin(false); router.push('/my-page');}} />}
       </TopBarBottomButtonLayout>
     );
 }

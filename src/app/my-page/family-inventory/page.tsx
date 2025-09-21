@@ -7,8 +7,10 @@ import { ProfileList } from '@/components/ProfileList/ProfileList';
 import { ProfileListOutput } from '@/components/ProfileList/ProfileListOutput';
 import { testData } from '../testData';
 import { LoginModal } from '@/components/LoginModal/LoginModal';
+import { useRouter } from "next/navigation";
 
 export default function familyInventory() {
+    const router = useRouter();
     // 로그인이 되어있는지, 안 되어 있는지 상태저장
     const [isLogin, setIsLogin] = useState(false);
 
@@ -52,7 +54,7 @@ export default function familyInventory() {
                   </Text>
                   <ProfileListOutput cards={testData}/>
               </Box>
-              {!isLogin && <LoginModal />}
+              {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
           </Box>
         </MobileLayout>
       ) 

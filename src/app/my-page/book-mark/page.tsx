@@ -6,8 +6,11 @@ import { MobileLayout } from "../../../components/Layouts/MobileLayout";
 import { testData_all } from '../testData';
 import { ContendCardOutput } from '@/components/ContentCard/ContendCardOutput';
 import { LoginModal } from '@/components/LoginModal/LoginModal';
+import { useRouter } from "next/navigation";
 
 export default function BookMark() {
+    const router = useRouter();
+    
     // 로그인이 되어있는지, 안 되어 있는지 상태저장
     const [isLogin, setIsLogin] = useState(false);
 
@@ -30,7 +33,7 @@ export default function BookMark() {
             mx='auto'
         >
             <ContendCardOutput cards={testData_all}/>
-            {!isLogin  && <LoginModal />}
+            {!isLogin  && <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
         </Box>
     );
     

@@ -91,7 +91,7 @@ export default function BabyInfo() {
                         setCards((prev) => prev.filter((c) => c.id !== id));
                     }}/>
                 </Box>
-                {!isLogin && <LoginModal />}
+                {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
             </Box>
         </TopBarBottomButtonLayout>
     );

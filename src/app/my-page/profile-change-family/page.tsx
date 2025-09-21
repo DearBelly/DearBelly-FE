@@ -6,93 +6,96 @@ import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButto
 import { useState, useEffect } from "react";
 import { Toast } from "@/components/Toast/Toast";
 import { LoginModal } from '@/components/LoginModal/LoginModal';
+import { useRouter } from "next/navigation";
 
 export default function ProfileChangeFamily() {
-    const [nickname, setNickname] = useState("");
-    const [isNicknameError, setIsNicknameError] = useState(false);
-    // 토스트 띄우기 위한 상태관리
-    const [showToast, setShowToast] = useState(false);
-    // 토스트 버튼이 띄워지고 나면 버튼도 사라지고 이를 계속 유지해야 함
-    const [hideButton, setHideButton] = useState(false);
+  const router = useRouter();
 
-    // 미리 저장된 사용자 이름 상태관리
-    const [nicknamePlaceholder, setNicknamePlaceholder] = useState("");
+  const [nickname, setNickname] = useState("");
+  const [isNicknameError, setIsNicknameError] = useState(false);
+  // 토스트 띄우기 위한 상태관리
+  const [showToast, setShowToast] = useState(false);
+  // 토스트 버튼이 띄워지고 나면 버튼도 사라지고 이를 계속 유지해야 함
+  const [hideButton, setHideButton] = useState(false);
 
-    // 사용자 이름 가져오기
-    useEffect(() => {
-        const saveNickname = localStorage.getItem('nickname');
-        if(saveNickname) setNicknamePlaceholder(saveNickname);
-    },[]);
+  // 미리 저장된 사용자 이름 상태관리
+  const [nicknamePlaceholder, setNicknamePlaceholder] = useState("");
 
-    // 닉네임 변경 
-    const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const value = e.target.value;
-      if (value.length <= 10) {
-        setNickname(value);
-        if (value.trim() !== "") {
-          setIsNicknameError(false);
-        }
+  // 사용자 이름 가져오기
+  useEffect(() => {
+    const saveNickname = localStorage.getItem('nickname');
+    if(saveNickname) setNicknamePlaceholder(saveNickname);
+  },[]);
+
+  // 닉네임 변경 
+  const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value.length <= 10) {
+      setNickname(value);
+      if (value.trim() !== "") {
+        setIsNicknameError(false);
       }
-    };
+    }
+  };
 
-    const handleNextClick = () => {
-      if (nickname.trim() === "") {
-        setIsNicknameError(true);
-        return;
-      }
+  const handleNextClick = () => {
+    if (nickname.trim() === "") {
+      setIsNicknameError(true);
+      return;
+    }
 
-      setHideButton(true);
-      setIsNicknameError(false);
-      setShowToast(true);
-      setTimeout(() => setShowToast(false), 2000);
-    };
+    setHideButton(true);
+    setIsNicknameError(false);
+    setShowToast(true);
+    setTimeout(() => setShowToast(false), 2000);
+  };
 
-    // 로그인이 되어있는지, 안 되어 있는지 상태저장
-    const [isLogin, setIsLogin] = useState(false);
+  // 로그인이 되어있는지, 안 되어 있는지 상태저장
+  const [isLogin, setIsLogin] = useState(false);
 
-    // 토큰 체크
-    useEffect(() => {
-      const token = localStorage.getItem('token');
-      setIsLogin(!!token);
-    }, []);
+  // 토큰 체크
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsLogin(!!token);
+  }, []);
 
-    return (
-      <TopBarBottomButtonLayout 
-        onNext={handleNextClick} 
-        nextLabel="완료"
-        // 닉네임이 비어있으면 비활성화시킴
-        nextDisabled={nickname.trim() === ""}
-        hideButton={hideButton}   
-      >
-        {/* 토스트 띄우기 */}
-        {showToast && (
-          <Box position="fixed" top="3rem" left="50%" transform="translateX(-50%)" zIndex={9999}>
-            <Toast/>
-          </Box>
-        )}
+  return (
+    <TopBarBottomButtonLayout 
+      onNext={handleNextClick} 
+      nextLabel="완료"
+      // 닉네임이 비어있으면 비활성화시킴
+      nextDisabled={nickname.trim() === ""}
+      hideButton={hideButton}   
+    >
+      {/* 토스트 띄우기 */}
+      {showToast && (
+        <Box position="fixed" top="3rem" left="50%" transform="translateX(-50%)" zIndex={9999}>
+          <Toast/>
+        </Box>
+      )}
 
-        <Box className="wrapper" width="100%" maxW="35rem" mx="auto">
-          <Box display="flex" justifyContent="center" mt="5.66dvh" mb="32px">
-            <Image
-              src="/images/set_profile.svg"
-              alt="profile-setup"
-              width={80}
-              height={80}
-            />
-          </Box>
-
-          <InputBox
-            mode="default"
-            title="닉네임"
-            placeholder={nicknamePlaceholder}
-            value={nickname}
-            onChange={handleNicknameChange}
-            guideMessage="공백 포함 최대 10자까지 설정할 수 있어요"
-            isError={isNicknameError}
-            errorMessage="닉네임을 설정해주세요"
+      <Box className="wrapper" width="100%" maxW="35rem" mx="auto">
+        <Box display="flex" justifyContent="center" mt="5.66dvh" mb="32px">
+          <Image
+            src="/images/set_profile.svg"
+            alt="profile-setup"
+            width={80}
+            height={80}
           />
         </Box>
-        {!isLogin && <LoginModal />}
-      </TopBarBottomButtonLayout>
-    )
+
+        <InputBox
+          mode="default"
+          title="닉네임"
+          placeholder={nicknamePlaceholder}
+          value={nickname}
+          onChange={handleNicknameChange}
+          guideMessage="공백 포함 최대 10자까지 설정할 수 있어요"
+          isError={isNicknameError}
+          errorMessage="닉네임을 설정해주세요"
+        />
+      </Box>
+      {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
+    </TopBarBottomButtonLayout>
+  )
 }

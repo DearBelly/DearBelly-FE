@@ -117,7 +117,7 @@ export default function BabyAdd() {
                         ))}
                     </Box>
                 </Box>
-                {!isLogin && <LoginModal/>}
+                {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
             </Box>
         </TopBarBottomButtonLayout>
     );

@@ -8,11 +8,10 @@ import { useRouter } from 'next/navigation';
 import { ProfileContent } from '@/components/ProfileContent/ProfileContent';
 import { useTheme } from "next-themes"; 
 
-const profileImage = '/images/profile.svg';
-
 export default function Mypage() {
   const router = useRouter();
   const [data, setData] = useState<any | null>(null);
+  const DEFAULT_PROFILE_IMAGE = "/images/icon_default_profile.svg";
 
 //   더미데이터
   // localStorage.setItem("token", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTc1NzE2NjA0NSwiZXhwIjoxNzU5NzU4MDQ1fQ.tsX0zfweUT91E3JllKKFk55_4rYQB1ikwqLUmeaDjdA");
@@ -62,7 +61,7 @@ export default function Mypage() {
               borderRadius="50%"
             >
               <Image
-                src={data?.imgUrl || profileImage}
+                src={data?.imgUrl ?? DEFAULT_PROFILE_IMAGE}
                 w="100%"
                 h="100%"
                 objectFit="cover"
@@ -77,7 +76,7 @@ export default function Mypage() {
               onClick={() => router.push('my-page/profile-change-maternity')}
               cursor="pointer"
             >
-              <UserName>{data?.nickname || "알 수 없음"}</UserName>
+              <UserName>{data?.nickname || "비회원입니다."}</UserName>
               <ChakraIcons.ChevronRight cursor='pointer' color='icon.icon1' />
             </Box>
           </Box>

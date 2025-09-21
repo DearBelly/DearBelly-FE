@@ -6,8 +6,11 @@ import { useCategoryStore } from "@/store/useCategoryStore";
 import { Toast } from "@/components/Toast/Toast";
 import { useState, useEffect } from "react";
 import { LoginModal } from '@/components/LoginModal/LoginModal';
+import { useRouter } from "next/navigation";
 
 export default function CategoryEdit() {
+  const router = useRouter();
+  
   const CATEGORY_ALL = "전체";
   const CATEGORY_LIST = [
     { id: "health", label: "신체건강" },
@@ -108,7 +111,7 @@ export default function CategoryEdit() {
               />
           ))}
       </Box>
-      {!isLogin && <LoginModal />}
+      {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
     </Box>
     </TopBarBottomButtonLayout>
   )

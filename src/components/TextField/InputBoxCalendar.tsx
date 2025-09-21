@@ -1,10 +1,8 @@
-"use client";
-
-import React, { useRef, useState } from "react";
-import { Box, Input, Text } from "@chakra-ui/react";
+import React, { useState, forwardRef, useEffect } from "react";
+import { Box, Text, Input, InputGroup } from "@chakra-ui/react";
 import { ChakraIcons } from "@/utils/withChakraIcon";
-import { format } from "date-fns";
 import DatePicker from "react-datepicker";
+import { format } from "date-fns";
 import "react-datepicker/dist/react-datepicker.css";
 
 export interface InputBoxCalendarProps {
@@ -12,27 +10,59 @@ export interface InputBoxCalendarProps {
   title: string;
   placeholder?: string;
   disabled?: boolean;
-  value?: string;
-  onChange?: (date: string) => void;
+  value?: Date | null;
+  onChange?: (date: Date | null) => void;
 }
 
 export const InputBoxCalendar = ({
   mode,
   title,
-  placeholder,
+  placeholder = "YYYY-MM-DD",
   disabled = false,
   value,
   onChange,
 }: InputBoxCalendarProps) => {
-  // 데이트 피커를 사용하여 캘린더 구현하기 위한 상태관리 
-  const [selectedDate, setSelectedDate] = useState<Date | null>(value ? new Date(value) : new Date());
-  const [open, setOpen] = useState(false); 
-  const [inputValue, setInputValue] = useState(value || "");
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [open, setOpen] = useState(false);
 
-  const validateDate = (value: string) => {
-    const regex = /^\d{4}-\d{2}-\d{2}$/;
-    return regex.test(value);
-  };
+  // 외부에서 value 들어오면 내부 state 동기화
+  useEffect(() => {
+    setSelectedDate(value ?? null);
+  }, [value]);
+
+  const CustomInput = forwardRef<HTMLInputElement, any>(
+    ({ value, onClick, placeholder }, ref) => (
+      <Input
+        ref={ref}
+        onClick={(e) => {
+          onClick?.(e);
+          setOpen(true);
+        }}
+        value={value}
+        placeholder={placeholder}
+        variant="outline"
+        textStyle="body_14400224"
+        css={{ "--input-border-width": "0px" }}
+        border="0"
+        boxShadow="none"
+        px="0"
+        py="0"
+        h="24px"
+        style={{ width: "100%" }}
+        lineHeight="24px"
+        readOnly
+        _placeholder={{ color: "text.text4" }}
+        _focusVisible={{
+          boxShadow: "none",
+          borderColor: "transparent",
+          outline: "none",
+        }}
+        _hover={{ borderColor: "transparent" }}
+        disabled={disabled}
+      />
+    )
+  );
+  CustomInput.displayName = "CustomInput";
 
   return (
     <Box display="flex" flexDirection="column" w="100%">
@@ -41,63 +71,51 @@ export const InputBoxCalendar = ({
         bg={mode === "default" ? "bg.bg3" : "transparent"}
         px="1rem"
         py="0.75rem"
+        display="flex"
+        flexDirection="column"
         gap="0.25rem"
       >
-        <Text textStyle="caption_12800">{title}</Text>
+        <Text
+          textStyle="caption_12800"
+          color="text.text1"
+          h="22px"
+          display="flex"
+          alignItems="center"
+        >
+          {title}
+        </Text>
 
-        {/* Input + 아이콘 */}
-        <Box display="flex" alignItems="center" gap="10px" mt="0.25rem" position="relative">
-          <DatePicker
-            selected={selectedDate}
-            onChange={(date) => {
-              if (date) {
-                setSelectedDate(date);
-                const formatted = format(date, "yyyy-MM-dd");
-                setInputValue(formatted);
-                onChange?.(formatted);
-              }
-              setOpen(false);
-            }}
-            dateFormat="yyyy-MM-dd"
-            open={open}
-            onClickOutside={() => setOpen(false)}
-            customInput={
-              <Input
-                variant="outline"
-                textStyle="body_14400224"
-                css={{ "--input-border-width": "0px" }}
-                border="0"
-                boxShadow="none"
-                px="0"
-                bg="transparent"
-                placeholder={placeholder}
-                value={inputValue}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  setInputValue(value);
-                  onChange?.(value);
-                }}
-                _placeholder={{ color: "text.text4" }}
-                _focusVisible={{
-                  boxShadow: "none",
-                  borderColor: "transparent",
-                  outline: "none",
-                  "--input-border-width": "0px",
-                }}
-                _hover={{ borderColor: "transparent", "--input-border-width": "0px" }}
-                _invalid={{ color: "text.error" }}
-                disabled={disabled}
+        <Box position="relative" zIndex={2000}>
+          <InputGroup
+            w="100%"
+            endElement={
+              <ChakraIcons.CalendarSolid
+                color="icon.icon3"
+                style={{ cursor: "pointer" }}
+                onClick={() => setOpen((prev) => !prev)}
               />
             }
-          />
-
-          <Box ml="auto">
-            <ChakraIcons.CalendarSolid
-              color="icon.icon3"
-              style={{ cursor: "pointer" }}
-              onClick={() => setOpen(true)}
+          >
+            <DatePicker
+              selected={selectedDate}
+              onChange={(date) => {
+                setSelectedDate(date);
+                setOpen(false);
+                onChange?.(date ?? null);
+              }}
+              dateFormat="yyyy-MM-dd"
+              open={open}
+              onClickOutside={() => setOpen(false)}
+              popperClassName="datepicker-popper"
+              customInput={
+                <CustomInput
+                  placeholder={placeholder}
+                  // 여기서 Date → 문자열 변환해서 Input에 표시
+                  value={selectedDate ? format(selectedDate, "yyyy-MM-dd") : ""}
+                />
+              }
             />
-          </Box>
+          </InputGroup>
         </Box>
       </Box>
     </Box>

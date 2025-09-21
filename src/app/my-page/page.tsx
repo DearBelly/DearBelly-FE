@@ -84,7 +84,6 @@ export default function Mypage() {
               borderRadius="50%"
             >
               <Image
-                src={data?.imgUrl ?? DEFAULT_PROFILE_IMAGE}
                 src={profileImg || DEFAULT_PROFILE_IMAGE}
                 w="100%"
                 h="100%"

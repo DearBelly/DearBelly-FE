@@ -36,7 +36,7 @@ export default function Page() {
       <Lottie 
         animationData={animationData} 
         loop={false}
-        speed={0.4} 
+        speed={0.8} 
         style={{ width: "100%", height: "100%" }}
         segment={[0, 80]}
         onComplete={handleComplete}
@@ -57,7 +57,7 @@ export default function Page() {
       <Lottie 
         animationData={animationData} 
         loop={false}
-        speed={0.4} 
+        speed={0.8} 
         style={{ width: "100%", height: "100%" }}
         segment={[0, 80]}
         onComplete={handleComplete}

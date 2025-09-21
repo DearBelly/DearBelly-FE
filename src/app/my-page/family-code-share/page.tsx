@@ -5,10 +5,40 @@ import { Box } from "@chakra-ui/react";
 import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";
 import { InputBox } from "@/components/TextField/InputBox";
 import { LoginModal } from '@/components/LoginModal/LoginModal';
+import { useUserStore } from "@/store/useUserStore";
 
 export default function FamilyCodeShare() {
-    const familyCode='14X5TR27YJ';
-    const name='김서진';
+    const [familyCode, setFamilyCode] = useState("");
+    // 로그인이 되어있는지, 안 되어 있는지 상태저장
+    const [isLogin, setIsLogin] = useState(false);
+    const { token, username } = useUserStore();
+
+    // 토큰 체크 후 가족 코드 생성 api 호출
+    useEffect(() => {
+      setIsLogin(!!token);
+
+      // 토큰 존재 시 api 호출
+      if(token) {
+        fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/family-code`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+          },
+        })
+        .then((response) => response.json())
+        .then((data) => {
+          if(data.success && data.data) {
+            console.log("가족 코드 생성 성공:", data.data);
+            setFamilyCode(data.data);
+          } else {
+            console.error("가족 코드 생성 실패:", data.message);
+          }
+        }) .catch((err) => {
+          console.error("가족 코드 생성 API 호출 에러:", err);
+        });
+      }
+    }, []);
 
     // SDK 초기화
     useEffect(() => {
@@ -31,49 +61,40 @@ export default function FamilyCodeShare() {
         window.Kakao.Share.sendDefault({
           objectType: "feed",
           content: {
-            title: "엄마를 위한 케어, 아이를 위한 기록 Dear Belly",
-            description: "가족 기반 공유형 임신 기록 서비스",
-          //   "https://myapp.vercel.app/images/shareImage.png"
-            imageUrl: "http://localhost:3000/images/shareImage.png",
+            title: `${username}님이 가족 코드를 공유했습니다`,
+            description: `가족 공유 코드: ${familyCode}`,
+            imageUrl: "https://www.dearbelly.site/images/shareImage.png",
             link: {
-              mobileWebUrl: "http://localhost:3000",
-              webUrl: "http://localhost:3000",
+              mobileWebUrl: "https://www.dearbelly.site/",
+              webUrl: "https://www.dearbelly.site/",
             },
           },
           buttons: [
             {
-              title: "자세히 보기",
+              title: "코드 입력하러 가기",
               link: {
-                mobileWebUrl: "http://localhost:3000/info/detail",
-                webUrl: "http://localhost:3000/info/detail",
+                mobileWebUrl: "https://www.dearbelly.site/my-page/family-code-edit",
+                webUrl: "https://www.dearbelly.site/my-page/family-code-edit",
               },
             },
           ],
       });
     };
 
-    // 로그인이 되어있는지, 안 되어 있는지 상태저장
-    const [isLogin, setIsLogin] = useState(false);
-
-    // 토큰 체크
-    useEffect(() => {
-      const token = localStorage.getItem('token');
-      setIsLogin(!!token);
-  }, []);
-
     return (
         <TopBarBottomButtonLayout 
           nextLabel="가족 코드 공유하기"
           topbarTitle='가족 공유 코드'
-          nextDisabled={false} 
+          nextDisabled={!familyCode}
           onNext={handleShare}
         >
             <Box mt="2.5vh" w='100%' maxW='35rem' mx='auto'>
               <InputBox
                   mode="default"
                   title="가족 공유 코드"
-                  value={familyCode}
-              />
+                  value={familyCode || "코드 생성 중..."}
+                  readOnly 
+              />  
             </Box>
             {!isLogin && <LoginModal />}
         </TopBarBottomButtonLayout>

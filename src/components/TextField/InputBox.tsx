@@ -17,6 +17,7 @@ export interface InputBoxProps {
   inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"];
   maxLength?: number;
   isDisabled?: boolean;
+  readOnly?: boolean;
 }
 
 export const InputBox = ({
@@ -32,7 +33,8 @@ export const InputBox = ({
   type = "text",
   inputMode,
   maxLength,
-  isDisabled = false
+  isDisabled = false,
+  readOnly = false,
 }: InputBoxProps) => {
   const safeId = `input-${title}`.replace(/\s+/g, "-").toLowerCase();
 
@@ -74,7 +76,7 @@ export const InputBox = ({
             bg="transparent"
             placeholder={placeholder}
             value={value ?? ""}
-            onChange={onChange}
+            onChange={readOnly ? undefined : onChange}     
             onClick={onClick}
             aria-invalid={isError || undefined}
             data-invalid={isError ? "" : undefined}
@@ -89,6 +91,7 @@ export const InputBox = ({
             _invalid={{ color: "text.textError" }}
             autoComplete="one-time-code"
             disabled={isDisabled}
+            readOnly={readOnly}   
           />
         </Box>
       </Box>

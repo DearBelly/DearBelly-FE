@@ -6,31 +6,88 @@ import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButto
 import { InputBox } from "@/components/TextField/InputBox";
 import { LoginModal } from '@/components/LoginModal/LoginModal';
 import { useRouter } from "next/navigation";
+import { useUserStore } from "@/store/useUserStore";
 
 export default function FamilyCodeEdit() {
   const router = useRouter();
 
   const [familyCode, setFamilyCode] = useState("");
   const [isFamilyCodeError, setIsFamilyCodeError] = useState(false);
-
-  const verify = (code: string) => code === "123456";
-
-  const handleNextClick = () => {
-    const ok = verify(familyCode);
-    setIsFamilyCodeError(!ok);
-    if (ok) {
-      console.log("가족 코드 인증 성공 → 다음 단계로 진행");
-    }
-  };
-
   // 로그인이 되어있는지, 안 되어 있는지 상태저장
   const [isLogin, setIsLogin] = useState(false);
+  const router = useRouter();
+  const { token } = useUserStore();
 
   // 토큰 체크
   useEffect(() => {
-    const token = localStorage.getItem('token');
     setIsLogin(!!token);
-}, []);
+  }, []);
+
+  // 가족 코드 api 연동
+  const validateFamilyCode = async (code: string) => {
+    const token = localStorage.getItem('token');
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/family-code/members`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      });
+
+      if (!response.ok) throw new Error("가족 코드 유효성 검사 실패");
+      const data = await response.json();
+
+      if(data.success) {
+        console.log("가족 코드 유효함, 사용자 목록: ", data.data);
+        return true;
+      } else {
+        throw new Error("가족 코드 유효하지 않음")
+      } 
+    } catch(error) {
+        console.log("가족 코드 검증 실패: ", error);
+        return false;
+    }
+  };
+
+  // 가족 참여 api
+  const joinFamily = async (code: string) => {
+    const token = localStorage.getItem('token');
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/family-code/join`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ code }),
+      });
+
+      if (!response.ok) throw new Error("가족 참여 실패");
+      const data = await response.json();
+
+      if(data.success) {
+        console.log("가족 참여 성공: ", data.data);
+        // 참여 성공 시 가족 목록 페이지로 이동시키기
+        router.push("/my-page/family-inventory");
+      } else {
+        throw new Error(data.message || "가족 참여 실패");
+      }
+    } catch(err) {
+      console.log("가족 참여 API 실패: ", err);
+    }
+  };
+
+  const handleNextClick = async() => {
+    if(!familyCode.trim()) return;
+    const isValid = await validateFamilyCode(familyCode);
+    if(!isValid) {
+      setIsFamilyCodeError(true);
+      return;
+    } 
+    setIsFamilyCodeError(false);
+    await joinFamily(familyCode);
+  };
 
   return (
     <TopBarBottomButtonLayout 

@@ -22,12 +22,11 @@ export const useCategoryStore = create<CategoryStore>()(
   persist(
     (set, get) => {
       const categories: Category[] = [
-        { id: "health", label: "임신 기간 동안, 임산부의 건강과 관련된 정보를 알고 싶어요." },
-        { id: "money", label: "임신, 출산, 육아와 관련된 정책과 지원금 정보를 알고 싶어요." },
-        { id: "ready", label: "임신 준비 과정에 필요한 정보를 알고 싶어요." },
-        { id: "granulation", label: "출산과 육아에 관한 다양한 정보를 알고 싶어요." },
-        { id: "education", label: "임신, 출산 육아와 관련된 교육 프로그램 정보를 알고 싶어요." },
-        { id: "mind", label: "임신 기간 동안 정서적인 도움을 줄 수 있는 정보에 대해서 알고 싶어요." },
+        { id: "HEALTH", label: "임신 기간 동안, 임산부의 건강과 관련된 정보를 알고 싶어요." },
+        { id: "FINANCIAL", label: "임신, 출산, 육아와 관련된 정책과 지원금 정보를 알고 싶어요." },
+        { id: "PREGNANCY_PLANNING", label: "임신 준비 과정에 필요한 정보를 알고 싶어요." },
+        { id: "CHILD", label: "출산과 육아에 관한 다양한 정보를 알고 싶어요." },
+        { id: "EMOTIONAL", label: "임신 기간 동안 정서적인 도움을 줄 수 있는 정보에 대해서 알고 싶어요." },
       ];
 
       return {

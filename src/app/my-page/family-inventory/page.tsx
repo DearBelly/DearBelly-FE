@@ -5,19 +5,48 @@ import { Box, Text } from "@chakra-ui/react";
 import { MobileLayout } from "../../../components/Layouts/MobileLayout";
 import { ProfileList } from '@/components/ProfileList/ProfileList';
 import { ProfileListOutput } from '@/components/ProfileList/ProfileListOutput';
-import { testData } from '../testData';
 import { LoginModal } from '@/components/LoginModal/LoginModal';
 import { useRouter } from "next/navigation";
+import { useUserStore } from "@/store/useUserStore";
 
 export default function familyInventory() {
     const router = useRouter();
     // 로그인이 되어있는지, 안 되어 있는지 상태저장
     const [isLogin, setIsLogin] = useState(false);
+    // 가족 멤버들을 저장할 수 있도록 상태저장
+    const [familyMembers, setFamilyMembers ] = useState<any[]>([]);
+    const { token, username, profileImg } = useUserStore();
 
-    // 토큰 체크
+    // 토큰 체크 && 가족 목록 조회
     useEffect(() => {
-      const token = localStorage.getItem('token');
       setIsLogin(!!token);
+
+      if(token) {
+        fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/family-code/members`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: "application/json",
+            },
+        })
+
+        .then((response) => response.json())
+        .then((data) => {
+            if(data.success) {
+                console.log("가족 멤버 목록: ", data.data);
+                // 응답을 해당  ProfileListProps형태로 변환
+                const formatted = data.data.map((member: any) => ({
+                    id: member.id,
+                    name: member.nickname,
+                    profileSrc: member.imgUrl,
+                    mode: "default",
+                    isMe: member.isMe || false,
+                }));
+                setFamilyMembers(formatted);
+            }
+        })
+        .catch((err) => console.error("가족 목록 조회 실패:", err));
+      }
     }, []);
 
     return (
@@ -27,6 +56,7 @@ export default function familyInventory() {
           topbarBackground='filled'
         >
           <Box className='body_wrapper' display="flex" flexDirection="column" alignItems="center" w="100%" maxW="35rem" mx="auto">
+              {/* 본인 프로필  */}
               <Box className='me_wrapper' mt='0.63rem' mb='1.62rem' w="100%">
                   <Text
                       color="text.text1"
@@ -34,12 +64,13 @@ export default function familyInventory() {
                       mb='0.31rem'
                       ml='0.5rem'
                   >
-                      임산부
+                      내 정보
                   </Text>
                   <ProfileList
                       mode='default'
-                      name='김서진'
+                      name={username}
                       isMe={true}
+                      profileSrc={profileImg}
                   />
               </Box>
 
@@ -50,9 +81,9 @@ export default function familyInventory() {
                       mb='0.31rem'
                       ml='0.5rem'
                   >
-                      보호자
+                      소중한 가족들
                   </Text>
-                  <ProfileListOutput cards={testData}/>
+                  {familyMembers.length > 0 && <ProfileListOutput cards={familyMembers} />}
               </Box>
               {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
           </Box>

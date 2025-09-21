@@ -1,4 +1,4 @@
-import React, { useState, forwardRef } from "react";
+import React, { useState, forwardRef, useEffect } from "react";
 import { Box, Text, Input, InputGroup } from "@chakra-ui/react";
 import { ChakraIcons } from "@/utils/withChakraIcon";
 import DatePicker from "react-datepicker";
@@ -10,6 +10,7 @@ export interface InputBoxCalendarProps {
   title: string;
   placeholder?: string;
   disabled?: boolean;
+  value?: Date | null;
   onChange?: (date: Date | null) => void;
 }
 
@@ -18,16 +19,25 @@ export const InputBoxCalendar = ({
   title,
   placeholder = "YYYY-MM-DD",
   disabled = false,
+  value,
   onChange,
 }: InputBoxCalendarProps) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [open, setOpen] = useState(false);
 
+  // 외부에서 value 들어오면 내부 state 동기화
+  useEffect(() => {
+    setSelectedDate(value ?? null);
+  }, [value]);
+
   const CustomInput = forwardRef<HTMLInputElement, any>(
     ({ value, onClick, placeholder }, ref) => (
       <Input
         ref={ref}
-        onClick={(e) => { onClick?.(e); setOpen(true); }}
+        onClick={(e) => {
+          onClick?.(e);
+          setOpen(true);
+        }}
         value={value}
         placeholder={placeholder}
         variant="outline"
@@ -74,6 +84,7 @@ export const InputBoxCalendar = ({
         >
           {title}
         </Text>
+
         <Box position="relative" zIndex={2000}>
           <InputGroup
             w="100%"
@@ -90,7 +101,7 @@ export const InputBoxCalendar = ({
               onChange={(date) => {
                 setSelectedDate(date);
                 setOpen(false);
-                onChange?.(date ?? null); 
+                onChange?.(date ?? null);
               }}
               dateFormat="yyyy-MM-dd"
               open={open}
@@ -99,6 +110,7 @@ export const InputBoxCalendar = ({
               customInput={
                 <CustomInput
                   placeholder={placeholder}
+                  // 여기서 Date → 문자열 변환해서 Input에 표시
                   value={selectedDate ? format(selectedDate, "yyyy-MM-dd") : ""}
                 />
               }

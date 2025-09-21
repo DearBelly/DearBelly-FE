@@ -16,7 +16,7 @@ export default function ProfileChangeMaternity() {
   const [showToast, setShowToast] = useState(false);
   const [hideButton, setHideButton] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
-  const { token, username, profileImg } = useUserStore();
+  const { token, username, profileImg, impDate } = useUserStore();
 
   // 마지막 생리 시작일을 Date 기반으로 관리
   const [lastImpDate, setLastImpDate] = useState<Date | null>(null);
@@ -25,7 +25,15 @@ export default function ProfileChangeMaternity() {
 
   useEffect(() => {
     setIsLogin(!!token);
-  }, []);
+    if (impDate) {
+      setLastImpDate(impDate);
+    }
+  }, [token, impDate]);
+
+  useEffect(() => {
+    console.log("zustand impDate:", impDate);
+    console.log("local lastImpDate:", lastImpDate);
+  }, [impDate, lastImpDate]);
 
   // 닉네임 변경
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {

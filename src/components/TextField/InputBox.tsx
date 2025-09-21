@@ -17,7 +17,6 @@ export interface InputBoxProps {
   inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"];
   maxLength?: number;
   isDisabled?: boolean;
-  name?: string;
   readOnly?: boolean;
 }
 
@@ -35,7 +34,6 @@ export const InputBox = ({
   inputMode,
   maxLength,
   isDisabled = false,
-  name,
   readOnly = false,
 }: InputBoxProps) => {
   const safeId = `input-${title}`.replace(/\s+/g, "-").toLowerCase();

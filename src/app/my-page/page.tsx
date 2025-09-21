@@ -39,7 +39,7 @@ export default function Mypage() {
               userEmail: data.data.email,
               profileImg: data.data.imgUrl,
               isPregnant: data.data.isPregnant,
-              impDate: data.data.ImpDate,
+              impDate: data.data.lmpDate,
               login: data.data.socialType,
               gender: data.data.gender,
               birth: data.data.birthDate,

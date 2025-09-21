@@ -28,12 +28,7 @@ export default function CalendarPage() {
 
   const handleDateClick = (info: any) => {
     setSelectedDate(info.dateStr);
-
-    if (isLogin) {
-      setIsScheduleOpen(true); 
-    } else {
-      setIsLoginOpen(true); 
-    }
+    setIsScheduleOpen(true); 
   };
 
   const handleAddSchedule = (name: string, bgColor: string) => {
@@ -111,7 +106,7 @@ export default function CalendarPage() {
               onClose={() => setIsScheduleOpen(false)}
               date={selectedDate}
               scheduleList={scheduleList}
-              onAddSchedule={handleAddSchedule}
+              onAddSchedule={isLogin ? handleAddSchedule : () => setIsLoginOpen(true)}
             />
           </Box>
         </Box>
@@ -119,7 +114,7 @@ export default function CalendarPage() {
 
       {/* 로그인 모달 */}
       {isLoginOpen && (
-        <LoginModal />
+        <LoginModal onClose={() => setIsLoginOpen(false)} />
       )}
     </MobileLayout>
   );

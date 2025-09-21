@@ -78,7 +78,7 @@ export default function LettersPage() {
       topbarTitle="편지함"
       nextLabel="편지쓰러 가기"
       onNext={() => router.push("/letters/new")}
-      onBack={() => router.push("/")}
+      onBack={() => router.push("/home")}
     >
       <Box
         w="100%"

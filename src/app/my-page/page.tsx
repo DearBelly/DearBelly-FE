@@ -100,7 +100,7 @@ export default function Mypage() {
               onClick={() => router.push(isPregnant ? 'my-page/profile-change-maternity' : 'my-page/profile-change-family')}
               cursor="pointer"
             >
-              <UserName>{data?.nickname || "비회원입니다."}</UserName>
+              <UserName>{username  || "비회원"}</UserName>
               <ChakraIcons.ChevronRight cursor='pointer' color='icon.icon1' />
             </Box>
           </Box>

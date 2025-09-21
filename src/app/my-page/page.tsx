@@ -9,9 +9,7 @@ import { ProfileContent } from '@/components/ProfileContent/ProfileContent';
 import { useTheme } from "next-themes"; 
 import { useUserStore } from '@/store/useUserStore';
 
-const DEFAULT_PROFILE_IMAGE =
-process.env.NEXT_PUBLIC_DEFAULT_IMAGE ||
-"https://dearbelly-s3-bucket.s3.ap-northeast-2.amazonaws.com/images/default-profile.png";
+const DEFAULT_PROFILE_IMAGE = "/images/icon_default_profile.svg";
 
 export default function Mypage() {
   const router = useRouter();
@@ -102,7 +100,7 @@ export default function Mypage() {
               onClick={() => router.push(isPregnant ? 'my-page/profile-change-maternity' : 'my-page/profile-change-family')}
               cursor="pointer"
             >
-              <UserName>{username  || "알 수 없음"}</UserName>
+              <UserName>{username  || "비회원"}</UserName>
               <ChakraIcons.ChevronRight cursor='pointer' color='icon.icon1' />
             </Box>
           </Box>

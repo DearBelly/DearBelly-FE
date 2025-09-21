@@ -7,7 +7,6 @@ import { Box } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";
 import { ChakraIcons } from "@/utils/withChakraIcon";
-import { LoginModal } from '@/components/LoginModal/LoginModal';
 
 export default function Result() {
   const router = useRouter();
@@ -57,13 +56,13 @@ export default function Result() {
     ));
   };
 
-  // 로그인 상태
-  const [isLogin, setIsLogin] = useState(false);
+  // // 결과 페이지는 로그인 상태 확인이 필요 없을 것 같아 주석처리
+  // const [isLogin, setIsLogin] = useState(false);
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    setIsLogin(!!token);
-  }, []);
+  // useEffect(() => {
+  //   const token = localStorage.getItem('token');
+  //   setIsLogin(!!token);
+  // }, []);
 
   return (
     <TopBarBottomButtonLayout
@@ -151,7 +150,6 @@ export default function Result() {
             <ErrorContent>조회한 알약 데이터가 없습니다</ErrorContent>
           </Box>
         )}
-        {!isLogin && <LoginModal />}
       </Box>
     </TopBarBottomButtonLayout>
   );

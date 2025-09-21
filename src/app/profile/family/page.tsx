@@ -9,7 +9,6 @@ import { useSignupStore } from "@/store/useSignupStore";
 import { useFamilyCodeStore } from "@/store/useFamilyCodeStore";
 import { useState } from "react";
 import { validateFamilyCode } from "@/utils/validators";
-import { Splash } from "@/app/profile/Splash";
 
 export default function FamilyStep() {
   const router = useRouter();
@@ -17,9 +16,6 @@ export default function FamilyStep() {
   const { familyCode, isVerified } = data;
   const { isLoading, verify, reset } = useFamilyCodeStore();
 
-  const [showSplash, setShowSplash] = useState(false);
-
-  // 로컬 에러 메시지 상태
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleFamilyCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +36,6 @@ const handleVerifyClick = async () => {
     return;
   }
 
-  // 2차: 서버 인증
   const ok = await verify(familyCode);
   setData({ isVerified: ok });
 
@@ -58,13 +53,9 @@ const handleVerifyClick = async () => {
   };
 
   const handleMoveToHome = () => {
-    setShowSplash(true); 
+    router.push("/home");
   };
   
-  if (showSplash) {
-    return <Splash />;
-  }
-
   return (
     <TopBarBottomButtonLayout
       onNext={handleNextClick}

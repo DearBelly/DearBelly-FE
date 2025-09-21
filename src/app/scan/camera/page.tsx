@@ -96,7 +96,7 @@ export default function Camera() {
 
   return (
     !isLogin ? (
-      <LoginModal />
+      <LoginModal onClose={() => {setIsLogin(false); router.push('/scan');}} />
     ) : (
       <Box bg="toast.toastBg" minH="100vh" display="flex" alignItems="center" justifyContent="center">
         <Box

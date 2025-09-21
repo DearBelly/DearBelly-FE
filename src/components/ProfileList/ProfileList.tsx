@@ -53,7 +53,7 @@ export const ProfileList = ({
         <Box position="relative" w="2.5rem" h="2.5rem" borderRadius="full">
           <Box  position="relative" w="2.5rem" h="2.5rem" borderRadius="50%" overflow="hidden">
             <Image
-              src={profileSrc || '/images/profile.svg'}
+              src={profileSrc || '/images/icon_default_profile.svg'}
               alt="프로필 기본"
               w="100%"
               h="100%"

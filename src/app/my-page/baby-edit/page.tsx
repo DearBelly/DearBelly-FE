@@ -137,7 +137,14 @@ export default function BabyEdit() {
                         ))}
                     </Box>
                 </Box>
-                {!isLogin && <LoginModal/>}
+                {!isLogin && ( 
+                    <LoginModal 
+                        onClose={() => {
+                            setIsLogin(false);
+                            router.back();
+                        }} 
+                    />
+                )}
             </Box>
         </TopBarBottomButtonLayout>
     );

@@ -6,9 +6,11 @@ import { MobileLayout } from "../../../components/Layouts/MobileLayout";
 import { ProfileList } from '@/components/ProfileList/ProfileList';
 import { ProfileListOutput } from '@/components/ProfileList/ProfileListOutput';
 import { LoginModal } from '@/components/LoginModal/LoginModal';
+import { useRouter } from "next/navigation";
 import { useUserStore } from "@/store/useUserStore";
 
 export default function familyInventory() {
+    const router = useRouter();
     // 로그인이 되어있는지, 안 되어 있는지 상태저장
     const [isLogin, setIsLogin] = useState(false);
     // 가족 멤버들을 저장할 수 있도록 상태저장
@@ -83,7 +85,7 @@ export default function familyInventory() {
                   </Text>
                   {familyMembers.length > 0 && <ProfileListOutput cards={familyMembers} />}
               </Box>
-              {!isLogin && <LoginModal />}
+              {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
           </Box>
         </MobileLayout>
       ) 

@@ -9,8 +9,10 @@ import { InputBoxCalendar } from '@/components/TextField/InputBoxCalendar';
 import { LoginModal } from '@/components/LoginModal/LoginModal';
 import { useUserStore } from "@/store/useUserStore";
 import { format } from "date-fns";
+import { useRouter } from "next/navigation";
 
 export default function ProfileChangeMaternity() {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [isNicknameError, setIsNicknameError] = useState(false);
   const [showToast, setShowToast] = useState(false);
@@ -204,7 +206,7 @@ export default function ProfileChangeMaternity() {
           공백 포함 최대 10자까지 설정할 수 있어요.
         </Text>
       </Box>
-      {!isLogin && <LoginModal />}
+      {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
     </TopBarBottomButtonLayout>
   );
 }

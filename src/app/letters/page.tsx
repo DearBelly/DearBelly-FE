@@ -12,14 +12,16 @@ import "react-datepicker/dist/react-datepicker.css";
 import Link from "next/link";
 import { LettersResponse } from "./letter";
 import { Letter } from "./letter";
-import { toUrlDate } from "@/lib/date";
+import { LoginModal } from "@/components/LoginModal/LoginModal";
 
 export default function LettersPage() {
   const router = useRouter();
 
+  const [isLogin, setIsLogin] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState<Date>(new Date());
-  const [open, setOpen] = useState(false);
+  const [calendarOpen, setCalendarOpen] = useState(false);
   const [letters, setLetters] = useState<Letter[]>([]);
+  const DEFAULT_PROFILE_IMAGE = "/images/icon_default_profile.svg";
 
   const calendarRef = useRef<HTMLDivElement>(null);
 
@@ -29,11 +31,11 @@ export default function LettersPage() {
         calendarRef.current &&
         !calendarRef.current.contains(event.target as Node)
       ) {
-        setOpen(false);
+        setCalendarOpen(false);
       }
     };
 
-    if (open) {
+    if (calendarOpen) {
       document.addEventListener("mousedown", handleClickOutside);
     } else {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -42,7 +44,7 @@ export default function LettersPage() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [open]);
+  }, [calendarOpen]);
 
   const getLetters = async () => {
     const token = localStorage.getItem("token") || process.env.NEXT_PUBLIC_TEMP_TOKEN;
@@ -78,7 +80,7 @@ export default function LettersPage() {
       topbarTitle="편지함"
       nextLabel="편지쓰러 가기"
       onNext={() => router.push("/letters/new")}
-      onBack={() => router.push("/")}
+      onBack={() => router.push("/home")}
     >
       <Box
         w="100%"
@@ -98,14 +100,14 @@ export default function LettersPage() {
             color="text.text1"
             pb="8px"
             cursor="pointer"
-            onClick={() => setOpen((prev) => !prev)}
+            onClick={() => setCalendarOpen((prev) => !prev)}
           >
             <Text textStyle="body_14400222">
               {format(selectedMonth, "yyyy년 M월")}
             </Text>
             <Calendar size={16} />
           </Box>
-          {open && (
+          {calendarOpen && (
             <Box
               position="absolute"
               top="100%"
@@ -117,7 +119,7 @@ export default function LettersPage() {
                 selected={selectedMonth}
                 onChange={(date) => {
                   if (date) setSelectedMonth(date);
-                  setOpen(false);
+                  setCalendarOpen(false);
                 }}
                 dateFormat="yyyy-MM"
                 showMonthYearPicker
@@ -149,13 +151,14 @@ export default function LettersPage() {
                   nickname={letter.nickname}
                   createdAt={letter.createdAt}
                   content={letter.content}
-                  imgUrl={letter.imgUrl}
+                  imgUrl={letter.imgUrl ?? DEFAULT_PROFILE_IMAGE}
                 />
               </Link>
             );
           })}
         </Box>
       </Box>
+      {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/home');}} />}
     </TopBarBottomButtonLayout>
   );
 }

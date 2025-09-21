@@ -7,8 +7,11 @@ import { ContendCardOutput } from '@/components/ContentCard/ContendCardOutput';
 import { LoginModal } from '@/components/LoginModal/LoginModal';
 import type { ContendCardProps } from '@/components/ContentCard/ContentCard';
 import { useUserStore } from "@/store/useUserStore";
+import { useRouter } from "next/navigation";
 
 export default function BookMark() {
+    const router = useRouter();
+    
     // 로그인이 되어있는지, 안 되어 있는지 상태저장
     const [isLogin, setIsLogin] = useState(false);
     const [cards, setCards] = useState<ContendCardProps[]>([]);
@@ -58,7 +61,7 @@ export default function BookMark() {
             maxW='35rem'
             mx='auto'
         >
-            {isLogin ? <ContendCardOutput cards={cards}/> : <LoginModal />}
+            {isLogin ? <ContendCardOutput cards={cards}/> : <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
         </Box>
     );
     

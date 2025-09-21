@@ -9,6 +9,8 @@ import { useRouter } from "next/navigation";
 import { useUserStore } from "@/store/useUserStore";
 
 export default function FamilyCodeEdit() {
+  const router = useRouter();
+
   const [familyCode, setFamilyCode] = useState("");
   const [isFamilyCodeError, setIsFamilyCodeError] = useState(false);
   // 로그인이 되어있는지, 안 되어 있는지 상태저장
@@ -109,7 +111,7 @@ export default function FamilyCodeEdit() {
             errorMessage="잘못된 코드입니다."
           />
         </Box>
-        {!isLogin && <LoginModal/>}
+        {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
       </Box>
     </TopBarBottomButtonLayout>
   );

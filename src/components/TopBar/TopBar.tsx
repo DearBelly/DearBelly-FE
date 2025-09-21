@@ -63,7 +63,7 @@ export const TopBar = ({
                 alt="logo"
                 width={102}
                 height={20}
-                onClick={() => router.push('/')}
+                onClick={() => router.push('/home')}
               />
             </Box>
           )}
@@ -92,7 +92,7 @@ export const TopBar = ({
                 alt="logo"
                 width={102}
                 height={20}
-                onClick={() => router.push('/')}
+                onClick={() => router.push('/home')}
               />
             </Box>
           )}

@@ -114,7 +114,7 @@ export default function PersonalInfo() {
           <LogoutText onClick={handleAccountWithdrawal}>계정 탈퇴</LogoutText>
         </Box>
       </Box>
-      {!isLogin && <LoginModal />}
+      {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.back();}} />}
     </MobileLayout>
   );
 }

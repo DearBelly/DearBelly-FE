@@ -13,7 +13,7 @@ interface NoticeCardProps {
 export const NoticeCard = ({ noticeText, mode }: NoticeCardProps) => {
   const router = useRouter();
   const handleBabyInfoSetting = () => {
-    router.push("/my-page");
+    router.push("/my-page/baby-info");
   };
 
   return (

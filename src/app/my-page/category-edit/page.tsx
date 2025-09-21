@@ -7,6 +7,7 @@ import { useUserStore } from '@/store/useUserStore';
 import { Toast } from "@/components/Toast/Toast";
 import { useState, useEffect } from "react";
 import { LoginModal } from '@/components/LoginModal/LoginModal';
+import { useRouter } from "next/navigation";
 
 export default function CategoryEdit() {
   const CATEGORY_ALL = "전체";
@@ -31,6 +32,7 @@ export default function CategoryEdit() {
   const [isLogin, setIsLogin] = useState(false);
   const { token } = useUserStore();
 
+  const router = useRouter();
   // 토큰 체크 && 사용자 프로필에서 관심 카테고리 정보 불러와 해당 zustand에 저장 
   useEffect(() => {
     setIsLogin(!!token);
@@ -142,7 +144,7 @@ export default function CategoryEdit() {
             ))}
           </Box>
         </Box>
-        {!isLogin && <LoginModal />}
+        {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
       </Box>
     </TopBarBottomButtonLayout>
   )

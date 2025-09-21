@@ -5,6 +5,9 @@ import { useState } from "react";
 import { ChakraIcons } from "@/utils/withChakraIcon";
 import { Button } from "../Button/Button";
 import { ScheduleBottomSheet } from "../BottomSheet/ScheduleSheet";
+import { format } from "date-fns";
+import { ko } from "date-fns/locale";
+
 
 interface ScheduleModalProps {
   isOpen: boolean;
@@ -28,10 +31,15 @@ export default function ScheduleModal({
   // 선택한 날짜에 해당하는 일정만 필터링
   const dailySchedules = scheduleList.filter((s) => s.start === date);
 
+  const handleDateFormat = (date: string) => {
+    return format(new Date(date), "M월 d일 (E)", { locale: ko });
+  };
+
   return (
     <>
       <Box
         w="76dvw"
+        maxW="35rem"
         h="28.625rem"
         bg="bg.bg3"
         borderRadius="20px"
@@ -43,7 +51,7 @@ export default function ScheduleModal({
         alignItems="flex-start"
       >
         <Text textStyle="body_168001" color="text.text1">
-          {date ? `${date}` : "날짜 없음"}
+          {date ? `${handleDateFormat(date)}` : "날짜 없음"}
         </Text>
 
         {/* 일정 리스트 */}

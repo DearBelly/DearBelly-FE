@@ -12,6 +12,7 @@ export default async function OthersLetterPage({
 }) {
   const { date } = await params;
   const { nickname, content, imgUrl } = await searchParams ?? {};
+  const DEFAULT_PROFILE_IMAGE = "/images/icon_default_profile.svg";
 
   return (
     <TopBarBottomButtonLayout topbarTitle="편지함" hideButton={true}>
@@ -20,7 +21,7 @@ export default async function OthersLetterPage({
           nickname={nickname ?? "익명"}
           createdAt={date}
           content={content ?? "내용 없음"}
-          imgUrl={imgUrl ?? "/images/profile.svg"}
+          imgUrl={imgUrl ?? DEFAULT_PROFILE_IMAGE}
         />
       </Box>
     </TopBarBottomButtonLayout>

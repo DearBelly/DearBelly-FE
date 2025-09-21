@@ -7,8 +7,10 @@ import React, { useState, useEffect, useRef } from "react";
 import { Toast } from "@/components/Toast/Toast";
 import { LoginModal } from '@/components/LoginModal/LoginModal';
 import { useUserStore } from "@/store/useUserStore";
+import { useRouter } from "next/navigation";
 
 export default function ProfileChangeFamily() {
+    const router = useRouter();
     const [name, setName] = useState("");
     const [isNicknameError, setIsNicknameError] = useState(false);
     // 토스트 띄우기 위한 상태관리
@@ -152,7 +154,7 @@ export default function ProfileChangeFamily() {
             errorMessage="닉네임을 설정해주세요"
           />
         </Box>
-        {!isLogin && <LoginModal />}
+        {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
       </TopBarBottomButtonLayout>
     )
 }

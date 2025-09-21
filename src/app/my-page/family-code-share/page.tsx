@@ -6,8 +6,10 @@ import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButto
 import { InputBox } from "@/components/TextField/InputBox";
 import { LoginModal } from '@/components/LoginModal/LoginModal';
 import { useUserStore } from "@/store/useUserStore";
+import { useRouter } from "next/navigation";
 
 export default function FamilyCodeShare() {
+    const router = useRouter();
     const [familyCode, setFamilyCode] = useState("");
     // 로그인이 되어있는지, 안 되어 있는지 상태저장
     const [isLogin, setIsLogin] = useState(false);
@@ -96,7 +98,7 @@ export default function FamilyCodeShare() {
                   readOnly 
               />  
             </Box>
-            {!isLogin && <LoginModal />}
+            {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
         </TopBarBottomButtonLayout>
     );
 }

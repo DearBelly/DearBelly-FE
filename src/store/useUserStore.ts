@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 interface UserState {
-  token: string | null;
+  token: string | typeof process.env.NEXT_PUBLIC_TEMP_TOKEN;
   username: string;
   userEmail: string;
   profileImg: string;
@@ -25,7 +25,7 @@ interface UserState {
 }
 
 export const useUserStore = create<UserState>((set) => ({
-  token: null,
+  token: process.env.NEXT_PUBLIC_TEMP_TOKEN,
   username: "",
   userEmail: "",
   profileImg: "",

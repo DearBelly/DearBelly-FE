@@ -1,18 +1,25 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+export type CategoryId =
+  | "HEALTH"
+  | "FINANCIAL"
+  | "PREGNANCY_PLANNING"
+  | "CHILD"
+  | "EMOTIONAL";
+
 interface Category {
-  id: string;
+  id: CategoryId;
   label: string;
 }
 
 interface CategoryStore {
   categories: Category[];
-  checkedIds: string[];
-  allIds: string[];
-  toggle: (id: string) => void;
+  checkedIds: CategoryId[];
+  allIds: CategoryId[];
+  toggle: (id: CategoryId) => void;
   toggleAll: () => void;
-  isChecked: (id: string) => boolean;
+  isChecked: (id: CategoryId) => boolean;
   isAllChecked: () => boolean;
   isAnyChecked: () => boolean;
   reset: () => void;

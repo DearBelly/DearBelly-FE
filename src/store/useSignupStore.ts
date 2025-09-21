@@ -1,11 +1,18 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+export type CategoryId =
+  | "HEALTH"
+  | "FINANCIAL"
+  | "PREGNANCY_PLANNING"
+  | "CHILD"
+  | "EMOTIONAL";
+
 export type SignupStep = 1 | 2 | 3 | 4;
 
 export interface SignupData {
   nickname: string;
-  profileImageFile?: File; 
+  profileImageFile?: File;
   profileImage?: string;
 
   isPregnant: boolean;
@@ -14,9 +21,9 @@ export interface SignupData {
   gender: string;
   birth: string;
 
-  interestingInformation: string[];
+  interestingInformation: CategoryId[];
   familyCode?: string;
-  isVerified: boolean; 
+  isVerified: boolean;
 }
 
 interface SignupStore {
@@ -39,7 +46,7 @@ const initialData: SignupData = {
   birth: "",
   interestingInformation: [],
   familyCode: undefined,
-  isVerified: false, 
+  isVerified: false,
 };
 
 export const useSignupStore = create<SignupStore>()(
@@ -47,22 +54,12 @@ export const useSignupStore = create<SignupStore>()(
     (set) => ({
       step: 1,
       data: initialData,
-
       setData: (info) =>
-        set((state) => ({
-          data: { ...state.data, ...info },
-        })),
-
+        set((state) => ({ data: { ...state.data, ...info } })),
       nextStep: () =>
-        set((state) => ({
-          step: (Math.min(state.step + 1, 4) as SignupStep),
-        })),
-
+        set((state) => ({ step: Math.min(state.step + 1, 4) as SignupStep })),
       prevStep: () =>
-        set((state) => ({
-          step: (Math.max(state.step - 1, 1) as SignupStep),
-        })),
-
+        set((state) => ({ step: Math.max(state.step - 1, 1) as SignupStep })),
       reset: () => set({ step: 1, data: initialData }),
     }),
     { name: "dearbelly-info" }

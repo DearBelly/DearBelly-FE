@@ -32,7 +32,7 @@ export default function LetterCard({ nickname, createdAt, content, imgUrl }: Let
       </Text>
       <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center">
         <Box display="flex" flexDirection="row" gap="6px" alignItems="center">
-          <Image src={imgUrl || "/images/profile.svg"} alt="profile" width={20} height={20} style={{ objectFit: 'cover' }}/>
+          <Image src={imgUrl || "/images/icon_default_profile.svg"} alt="profile" width={20} height={20} style={{ objectFit: 'cover' }}/>
           <Text textStyle="caption_104001">{nickname}</Text>
         </Box>
         <Text textStyle="caption_104001">{new Date(createdAt).toLocaleDateString()}</Text>

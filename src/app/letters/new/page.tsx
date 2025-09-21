@@ -5,6 +5,7 @@ import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButto
 import { LetterEditBox } from "@/components/TextField/LetterEditBox";
 import { Box } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
+import { LoginModal } from "@/components/LoginModal/LoginModal";
 
 export default function NewLetterPage() {
   const router = useRouter();
@@ -67,6 +68,7 @@ export default function NewLetterPage() {
       >
         <LetterEditBox value={content} onChange={setContent} />
       </Box>
+      {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/home');}} />}
     </TopBarBottomButtonLayout>
   );
 }

@@ -12,6 +12,7 @@ import { useState } from "react";
 export default function InfoStep() {
   const router = useRouter();
 
+  const nextStep = useSignupStore((state) => state.nextStep);
   const setData = useSignupStore((state) => state.setData);
   const nickname = useSignupStore((state) => state.data.nickname);
   const isExpectingMother = useSignupStore(
@@ -20,7 +21,9 @@ export default function InfoStep() {
   const LMP = useSignupStore((state) => state.data.LMP);
   const birth = useSignupStore((state) => state.data.birth);
 
-  const [userType, setUserType] = useState<number | null>(null);
+  const initialUserType = useSignupStore((state) => state.data.isPregnant ? 0 : 1);
+  const [userType, setUserType] = useState<number | null>(initialUserType);
+
   const [selectedGender, setSelectedGender] = useState<number | null>(null);
 
   const titleText = `${nickname}에 대해 알려주세요`;
@@ -43,10 +46,16 @@ export default function InfoStep() {
     if (selectedGender !== null) {
       setData({ gender: genderMap[selectedGender] });
     }
+    nextStep();
     router.push("/profile/interests");
+  };  
+
+  const handleBackClick = () => {
+    router.push("/profile/setup");
   };
 
   const isPregnant = userType !== null && userTypeMap[userType] === "PREGNANT";
+
 
   return (
     <TopBarBottomButtonLayout
@@ -57,6 +66,7 @@ export default function InfoStep() {
         !birth ||
         (isPregnant && !LMP) 
       }
+      onBack={handleBackClick}
     >
       <Box w="100%" mt="20px">
         <Text textStyle="head_188001">{titleText}</Text>

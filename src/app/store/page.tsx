@@ -20,7 +20,7 @@ export default function StorePage() {
       topbarTitle="상점"
       nextLabel="완료"
       onNext={handleApply}
-      onBack={() => router.push("/home")}
+      onBack={() => router.push("/")}
     >
       <Grid mt="20px" templateColumns="repeat(2, 1fr)" gap="12px">
         {bgState.backgrounds.map((bg) => {

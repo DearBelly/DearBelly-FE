@@ -1,75 +1,156 @@
 "use client";
 
+import { useState, useRef, useEffect } from "react";
 import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";
 import LetterCard from "@/components/Letter/LetterCard";
 import { Box, Text } from "@chakra-ui/react";
 import { Calendar } from "@mynaui/icons-react";
 import { useRouter } from "next/navigation";
+import DatePicker from "react-datepicker";
+import { format } from "date-fns";
+import "react-datepicker/dist/react-datepicker.css";
 import Link from "next/link";
-
-const currentUser = { userName: "푸르니" };
+import { LettersResponse } from "./letter";
+import { Letter } from "./letter";
+import { toUrlDate } from "@/lib/date";
 
 export default function LettersPage() {
   const router = useRouter();
-  const letters = [
-    {
-      id: 1,
-      userName: "푸르니",
-      date: "2025-08-28",
-      content: "사랑하는 아가야, 오늘도 건강하게 잘 자라고 있니?",
-    },
-    {
-      id: 2,
-      userName: "연두",
-      date: "2025-08-27",
-      content: "아빠는 오늘도 열심히 일하면서 너를 생각했단다!",
-    },
-    {
-      id: 3,
-      userName: "지니",
-      date: "2025-08-25",
-      content: "힘든 순간도 있겠지만, 곧 기쁨이 찾아올 거야 🌸",
-    },
-  ];
+
+  const [selectedMonth, setSelectedMonth] = useState<Date>(new Date());
+  const [open, setOpen] = useState(false);
+  const [letters, setLetters] = useState<Letter[]>([]);
+
+  const calendarRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        calendarRef.current &&
+        !calendarRef.current.contains(event.target as Node)
+      ) {
+        setOpen(false);
+      }
+    };
+
+    if (open) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open]);
+
+  const getLetters = async () => {
+    const token = localStorage.getItem("token") || process.env.NEXT_PUBLIC_TEMP_TOKEN;
+
+    try {
+      const year = selectedMonth.getFullYear();
+      const month = selectedMonth.getMonth() + 1;
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/letters?year=${year}&month=${month}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) throw new Error("편지 조회 오류");
+
+      const json: LettersResponse = await response.json();
+      setLetters(json.data);
+    } catch (err) {
+      console.log("편지 조회 오류: ", err);
+    }
+  };
+  useEffect(() => {
+    getLetters();
+  }, [selectedMonth]);
 
   return (
-    <TopBarBottomButtonLayout 
-    topbarTitle="편지함" 
-    nextLabel="편지쓰러 가기" 
-    onNext={() => router.push("/letters/new")} 
-    onBack={() => router.push("/home")}
+    <TopBarBottomButtonLayout
+      topbarTitle="편지함"
+      nextLabel="편지쓰러 가기"
+      onNext={() => router.push("/letters/new")}
+      onBack={() => router.push("/")}
     >
-      <Box w="100%" display="flex" flexDirection="column" alignItems="center" justifyContent="center">
-        {/* 상단 헤더 */}
-        <Box
+      <Box
         w="100%"
         display="flex"
-        flexDirection="row"
-        gap="4px"
+        flexDirection="column"
         alignItems="center"
-        justifyContent="flex-end"
-        color="text.text1"
-        mb="8px"
-        >
-          <Text textStyle="body_14400222">2025년 8월</Text>
-          <Calendar size={16} />
+        justifyContent="center"
+      >
+
+        <Box w="100%" position="relative" ref={calendarRef}>
+          <Box
+            display="flex"
+            flexDirection="row"
+            gap="4px"
+            alignItems="center"
+            justifyContent="flex-end"
+            color="text.text1"
+            pb="8px"
+            cursor="pointer"
+            onClick={() => setOpen((prev) => !prev)}
+          >
+            <Text textStyle="body_14400222">
+              {format(selectedMonth, "yyyy년 M월")}
+            </Text>
+            <Calendar size={16} />
+          </Box>
+          {open && (
+            <Box
+              position="absolute"
+              top="100%"
+              right={0}
+              zIndex={3000}
+              mt="4px"
+            >
+              <DatePicker
+                selected={selectedMonth}
+                onChange={(date) => {
+                  if (date) setSelectedMonth(date);
+                  setOpen(false);
+                }}
+                dateFormat="yyyy-MM"
+                showMonthYearPicker
+                inline
+              />
+            </Box>
+          )}
         </Box>
 
-        {/* 편지 리스트 */}
-        <Box display="flex" flexDirection="column" gap="16px" w="100%" maxW="35rem">
+        <Box
+          display="flex"
+          flexDirection="column"
+          gap="16px"
+          w="100%"
+          maxW="35rem"
+          mt="16px"
+        >
           {letters.map((letter) => {
-            const href =
-              letter.userName === currentUser.userName
-                ? `/letters/${letter.date}/me?userName=${letter.userName}&content=${encodeURIComponent(
-                    letter.content
-                  )}`
-                : `/letters/${letter.date}/${letter.userName}?content=${encodeURIComponent(
-                    letter.content
-                  )}`;
-
+            const href = letter.editable
+              ? `/letters/${letter.id}/me`
+              : `/letters/${letter.id}/${letter.nickname}`;
             return (
-              <Link key={letter.id} href={href} style={{ textDecoration: "none" }}>
-                <LetterCard {...letter} />
+              <Link
+                key={letter.id}
+                href={href}
+                style={{ textDecoration: "none" }}
+              >
+                <LetterCard
+                  nickname={letter.nickname}
+                  createdAt={letter.createdAt}
+                  content={letter.content}
+                  imgUrl={letter.imgUrl}
+                />
               </Link>
             );
           })}

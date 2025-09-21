@@ -23,9 +23,11 @@ export const RadioField = ({
       as="label"
       cursor="pointer"
       display="flex"
-      alignItems="center"
-      gap="0.25rem"
+      alignItems="center" 
+      gap="0.25rem"          
       flexDirection="row"
+      w="100%"
+      pb="4px"
     >
       <Input
         type="radio"
@@ -36,35 +38,28 @@ export const RadioField = ({
         display="none"
       />
       <Box
-        as="span"
-        w="1rem"
-        h="1rem"
-        border="2px solid"
+        w="16px"
+        h="16px"
+        border="1px solid"
         borderColor="border.border"
-        borderRadius="50%"
+        borderRadius="full"
         position="relative"
-        display="inline-block"
+        display="flex"        
+        alignItems="center"
+        justifyContent="center"
       >
         {checked && (
           <Box
-            as="span"
-            w="0.625rem"
-            h="0.625rem"
+            w="10px"
+            h="10px"
             bg="icon.iconPrimary"
-            borderRadius="50%"
-            boxSizing="border-box"
-            border="1px solid"
-            borderColor="border.border"
-            position="absolute"
-            top="50%"
-            left="50%"
-            transform="translate(-50%, -50%)"
+            borderRadius="full"
           />
         )}
       </Box>
       <Text
-        color={checked ? 'text.text1' : 'text.text2'}
-        textStyle='body_14400224'
+        color={checked ? 'text.text1' : 'text.text3'}
+        textStyle="body_14400224"
       >
         {label}
       </Text>

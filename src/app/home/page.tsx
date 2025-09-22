@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { MobileLayout } from "@/components/Layouts/MobileLayout";
 import { Box, Flex, Grid, Image, Text } from "@chakra-ui/react";
@@ -19,39 +19,39 @@ export default function Home() {
 
   const [isLogin, setIsLogin] = useState(false);
   const [bannerInfo, setBannerInfo] = useState<Banner | null>(null);
-  const [recommendCard, setRecommendCard] = useState<any[]>([]); // 추천 카드 데이터 상태
+  const [recommendCard, setRecommendCard] = useState<any[]>([]);
+  const [babyImg, setBabyImg] = useState("/images/babyCharacter/step2.svg");
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsLogin(!!token);
-    getBannerInfo();
-    getRecommendInfo();
-  }, []);
+  const bgState = useBackgroundStore();
+  const defaultUrl =
+    "https://www.shadergradient.co/customize?animate=on&axesHelper=on&bgColor1=%23000000&bgColor2=%23000000&brightness=1.5&cAzimuthAngle=60&cDistance=7.1&cPolarAngle=90&cameraZoom=25&color1=%23ff7a33&color2=%2333a0ff&color3=%23ffc53d&destination=onCanvas&embedMode=off&envPreset=dawn&format=gif&fov=50&frameRate=10&grain=off&lightType=3d&pixelDensity=1&positionX=0&positionY=-0.15&positionZ=0&range=enabled&rangeEnd=40&rangeStart=0&reflection=0.1&rotationX=0&rotationY=0&rotationZ=0&shader=defaults&type=sphere&uAmplitude=2&uDensity=1.1&uFrequency=5.5&uSpeed=0.05&uStrength=0.4&uTime=0&wireframe=false";
 
-  /** 배너 데이터 가져오기 */
+  const Lottie = dynamic(() => import("@/components/Lottie/Lottie"), {
+    ssr: false,
+  });
+
   const getBannerInfo = async () => {
-    const token = localStorage.getItem("token") || process.env.NEXT_PUBLIC_TEMP_TOKEN;
+    const token =
+      localStorage.getItem("token") || process.env.NEXT_PUBLIC_TEMP_TOKEN;
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/letters/top`,
         {
           method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
       if (!response.ok) throw new Error("배너 정보 조회 오류");
       const json = await response.json();
       setBannerInfo(json.data);
     } catch (err) {
-      console.log("배너 정보 조회 오류: ", err);
+      console.error("배너 정보 조회 오류: ", err);
     }
   };
 
-  /** 추천 정보 가져오기 */
   const getRecommendInfo = async () => {
-    const token = localStorage.getItem("token") || process.env.NEXT_PUBLIC_TEMP_TOKEN;
+    const token =
+      localStorage.getItem("token") || process.env.NEXT_PUBLIC_TEMP_TOKEN;
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/news`,
@@ -67,25 +67,32 @@ export default function Home() {
       const json = await response.json();
 
       if (json.success && Array.isArray(json.data)) {
-        const formatted = json.data.map((item: any) => ({
-          id: item.newsId,
-          title: item.title,
-          description: item.subTitle,
-          imageUrl: item.imageUrl || "/images/default_image.svg",
-          href: `/info/detail/${item.newsId}`,
-        }));
-        setRecommendCard(formatted);
+        setRecommendCard(
+          json.data.map((item: any) => ({
+            id: item.newsId,
+            title: item.title,
+            description: item.subTitle,
+            imageUrl: item.imageUrl || "/images/default_image.svg",
+            href: `/info/detail/${item.newsId}`,
+          }))
+        );
       }
     } catch (err) {
       console.error("추천 정보 조회 실패:", err);
     }
   };
 
-  const bgState = useBackgroundStore();
-  const defaultUrl =
-    "https://www.shadergradient.co/customize?animate=on&axesHelper=on&bgColor1=%23000000&bgColor2=%23000000&brightness=1.5&cAzimuthAngle=60&cDistance=7.1&cPolarAngle=90&cameraZoom=25&color1=%23ff7a33&color2=%2333a0ff&color3=%23ffc53d&destination=onCanvas&embedMode=off&envPreset=dawn&format=gif&fov=50&frameRate=10&grain=off&http%3A%2F%2Flocalhost%3A3002%2Fcustomize%3Fanimate=on&lightType=3d&pixelDensity=1&positionX=0&positionY=-0.15&positionZ=0&range=enabled&rangeEnd=40&rangeStart=0&reflection=0.1&rotationX=0&rotationY=0&rotationZ=0&shader=defaults&toggleAxis=false&type=sphere&uAmplitude=2&uDensity=1.1&uFrequency=5.5&uSpeed=0.05&uStrength=0.4&uTime=0&wireframe=false&zoomOut=false";
-
-  const Lottie = dynamic(() => import("@/components/Lottie/Lottie"), { ssr: false });
+  const handleBabyGrowth = () => {
+    if (bannerInfo?.week && bannerInfo.week > 0 && bannerInfo.week < 13) {
+      setBabyImg("/images/babyCharacter/step1.svg");
+    } else if (bannerInfo?.week && bannerInfo.week >= 13 && bannerInfo.week < 28) {
+      setBabyImg("/images/babyCharacter/step2.svg");
+    } else if (bannerInfo?.week && bannerInfo.week >= 28 && bannerInfo.week <= 45) {
+      setBabyImg("/images/babyCharacter/step3.svg");
+    } else {
+      setBabyImg("/images/babyCharacter/step2.svg"); 
+    }
+  };
 
   const handleImageCardClick = (url: string) => {
     router.push(url);
@@ -93,27 +100,45 @@ export default function Home() {
 
   const topBarIconContent = (
     <Flex gap="12px" color="icon.icon5">
-      <ChakraIcons.EnvelopeSolid size={24} onClick={() => router.push("/letters")} />
+      <ChakraIcons.EnvelopeSolid
+        size={24}
+        onClick={() => router.push("/letters")}
+      />
       <ChakraIcons.StoreSolid size={24} onClick={() => router.push("/store")} />
     </Flex>
   );
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsLogin(!!token);
+    getBannerInfo();
+    getRecommendInfo();
+  }, []);
+
+  useEffect(() => {
+    handleBabyGrowth();
+  }, [bannerInfo]);
+
   return (
     <Flex w="100dvw" h="100dvh" justify="center" position="relative" overflow="hidden">
       {/* 배경 */}
-      <ShaderBg
-        urlString={
-          bgState.backgrounds.find((bg) => bg.id === bgState.appliedId)?.urlPath || defaultUrl
-        }
-      />
+      <Box position="absolute" top={0} left={0} w="100%" h="100%" zIndex={0}>
+        <ShaderBg
+          urlString={
+            bgState.backgrounds.find((bg) => bg.id === bgState.appliedId)?.urlPath || defaultUrl
+          }
+        />
+      </Box>
+
+      {/* 인터렉션 */}
       <Lottie
         animationData={animationData}
-        loop={true}
+        loop
         speed={0.4}
-        autoplay={true}
+        autoplay
         style={{
-          width: "150rem",
-          height: "150rem",
+          width: "120rem",
+          height: "120rem",
           position: "absolute",
           top: "50%",
           left: "50%",
@@ -122,7 +147,8 @@ export default function Home() {
         }}
       />
 
-      <Flex w="100%" maxW="40rem" m="0 auto" position="relative" overflow="hidden">
+      {/* 메인 컨텐츠 */}
+      <Flex w="100%" maxW="40rem" m="0 auto" position="relative" overflow="hidden" zIndex={2}>
         <MobileLayout
           contentBackground="transparent"
           topbarMode="whiteLogo"
@@ -132,13 +158,13 @@ export default function Home() {
           hasTopPadding={false}
           hasBottomPadding={false}
         >
-          <Grid templateRows="auto 1fr auto" h="100%" w="100%" position="relative" zIndex={1}>
+          <Grid templateRows="auto 1fr auto" h="100%" w="100%" position="relative">
             {/* 공지 */}
             <Box gridRow="1" w="fit-content" ml="auto" pt="3.75rem" pr="20px">
               {bannerInfo?.babyName ? (
                 <NoticeCard
                   mode="default"
-                  noticeText={`${bannerInfo?.babyName}를 만난 지\n${bannerInfo?.week}주가 되었어요!`}
+                  noticeText={`${bannerInfo.babyName}를 만난 지\n${bannerInfo.week}주가 되었어요!`}
                 />
               ) : (
                 <NoticeCard mode="button" noticeText="아기 정보를 등록해주세요" />
@@ -163,12 +189,7 @@ export default function Home() {
                 objectFit="contain"
                 onClick={() => router.push("/letters")}
               />
-              <Image
-                src="/images/babyCharacter/step2.svg"
-                alt="아기"
-                h="16.6dvh"
-                objectFit="contain"
-              />
+              <Image src={babyImg} alt="아기" maxH="25dvh" objectFit="contain" />
               <Button
                 size="small"
                 type="primary"

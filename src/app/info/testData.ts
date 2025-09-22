@@ -54,7 +54,7 @@ export const testData: HeroCardProps[] = [
     mode: 'imageMode',
   },
   {
-    title: `32차주에는\nNST 검사를 받아야 해요!`,
+    title: `32주차에는\nNST 검사를 받아야 해요!`,
     description: '태아 심음과 자궁 수축을 측정해 아기의 건강 상태를 진단해요.',
     imageSrc: '/images/information_hero/7.png',
     mode: 'imageMode',

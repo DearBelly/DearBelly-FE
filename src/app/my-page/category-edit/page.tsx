@@ -1,4 +1,5 @@
 "use client";
+
 import { Box, Separator, useToken } from "@chakra-ui/react";
 import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";
 import { CheckField } from "@/components/CheckField/CheckField";
@@ -8,10 +9,11 @@ import { Toast } from "@/components/Toast/Toast";
 import { useState, useEffect } from "react";
 import { LoginModal } from '@/components/LoginModal/LoginModal';
 import { useRouter } from "next/navigation";
+import type { CategoryId } from "@/store/useCategoryStore"; 
 
 export default function CategoryEdit() {
   const CATEGORY_ALL = "전체";
-  const CATEGORY_LIST = [
+  const CATEGORY_LIST: { id: CategoryId; label: string }[] = [
     { id: "HEALTH", label: "신체건강" },
     { id: "FINANCIAL", label: "지원금" },
     { id: "PREGNANCY_PLANNING", label: "임신준비" },
@@ -37,7 +39,7 @@ export default function CategoryEdit() {
   useEffect(() => {
     setIsLogin(!!token);
 
-    if(token) {
+    if (token) {
       fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/member/profile`, {
         method: "GET",
         headers: {
@@ -45,15 +47,15 @@ export default function CategoryEdit() {
           Accept: "application/json",
         },
       })
-      .then((res) => res.json())
-      .then((data) => {
-        if(data?.data?.interests) {
-          useCategoryStore.setState({ checkedIds: data.data.interests });
-        }
-      })
-      .catch((err) => console.error("카테고리 불러오기 실패: ", err));
+        .then((res) => res.json())
+        .then((data) => {
+          if (data?.data?.interests) {
+            useCategoryStore.setState({ checkedIds: data.data.interests });
+          }
+        })
+        .catch((err) => console.error("카테고리 불러오기 실패: ", err));
     }
-  }, []);
+  }, [token]);
 
   // 관심 카테고리 변경 
   const handleNextClick = async () => {
@@ -63,64 +65,67 @@ export default function CategoryEdit() {
       const payload = { interests: checkedIds };
       console.log("PATCH payload:", payload);
 
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/member/profile/categories`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(payload),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/member/profile/categories`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(payload),
+        }
+      );
 
-      if(!res.ok) throw new Error("카테고리 수정 실패");
+      if (!res.ok) throw new Error("카테고리 수정 실패");
 
       setHideButton(true);
       setShowToast(true);
       setTimeout(() => setShowToast(false), 2000);
-    } catch(error) {
+    } catch (error) {
       console.error("관심 카테고리 api 에러: ", error);
     }
   };
 
   return (
-    <TopBarBottomButtonLayout 
-        onNext={handleNextClick} 
-        nextLabel="적용하기"
-        topbarTitle='카테고리 수정'
-        hideButton={hideButton}   
-        nextDisabled={false} 
+    <TopBarBottomButtonLayout
+      onNext={handleNextClick}
+      nextLabel="적용하기"
+      topbarTitle="카테고리 수정"
+      hideButton={hideButton}
+      nextDisabled={false}
     >
       {/* 토스트 띄우기 */}
       {showToast && (
-          <Box 
-            position="fixed" 
-            top="5.25rem" 
-            left="50%" 
-            transform="translateX(-50%)" 
-            zIndex={9999}
-          >
-            <Toast/>
-          </Box>
-        )}
-      
-      <Box 
+        <Box
+          position="fixed"
+          top="5.25rem"
+          left="50%"
+          transform="translateX(-50%)"
+          zIndex={9999}
+        >
+          <Toast />
+        </Box>
+      )}
+
+      <Box
         w="100%"
-        flex="1"            
-        display="flex" 
+        flex="1"
+        display="flex"
         flexDirection="column"
         alignItems="center"
       >
-        <Box 
-            className="wrapper"
-            display="flex" 
-            flexDirection="column" 
-            mt="5.66dvh"
-            padding="0.75rem 1rem"
-            borderRadius= '0.75rem'
-            background= 'bg.bg3'
-            w='100%'
-            maxW='35rem'
-            mx='auto'
+        <Box
+          className="wrapper"
+          display="flex"
+          flexDirection="column"
+          mt="5.66dvh"
+          padding="0.75rem 1rem"
+          borderRadius="0.75rem"
+          background="bg.bg3"
+          w="100%"
+          maxW="35rem"
+          mx="auto"
         >
           <Box>
             <CheckField
@@ -144,8 +149,15 @@ export default function CategoryEdit() {
             ))}
           </Box>
         </Box>
-        {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
+        {!isLogin && (
+          <LoginModal
+            onClose={() => {
+              setIsLogin(false);
+              router.push("/my-page");
+            }}
+          />
+        )}
       </Box>
     </TopBarBottomButtonLayout>
-  )
+  );
 }

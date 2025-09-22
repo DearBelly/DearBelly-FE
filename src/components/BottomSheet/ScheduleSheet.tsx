@@ -6,15 +6,18 @@ import { ChakraIcons } from "@/utils/withChakraIcon";
 import Image from "next/image";
 import { DeleteModal } from "../Modals/DeleteModal";
 
+
+export interface ScheduleBottomSheetProps {
+  open: boolean;
+  onClose: () => void;
+  onSubmit: (name: string, bgColor: string) => void;
+}
+
 export const ScheduleBottomSheet = ({
     open,
     onClose,
     onSubmit,
-  }: {
-    open: boolean;
-    onClose: () => void;
-    onSubmit: (name: string, bgColor: string) => void;
-  }) => {
+  }: ScheduleBottomSheetProps) => {
     const [content, setContent] = useState("");
     const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
     const [selectedColor, setSelectedColor] = useState("bg.calendar1");
@@ -31,7 +34,7 @@ export const ScheduleBottomSheet = ({
         <Drawer.Root open={open} onOpenChange={(e) => !e.open && onClose()} placement="bottom">
           <Drawer.Backdrop bg="rgba(0, 0, 0, 0.5)" />
           <Drawer.Positioner>
-            <Drawer.Content borderTopRadius="20px" bg={selectedColor} px="16px" pt="20px" pb="16px">
+            <Drawer.Content borderTopRadius="20px" bg={selectedColor} px="16px" pt="20px" pb="calc(16px + env(safe-area-inset-bottom))">
               {/* 입력창 */}
               <Textarea
                 p="0"

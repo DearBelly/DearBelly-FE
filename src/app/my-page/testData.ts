@@ -1,5 +1,4 @@
 import type { ProfileListProps } from '@/components/ProfileList/ProfileList';
-import type { ContendCardProps } from '@/components/ContentCard/ContentCard';
 
 export const testData : ProfileListProps[] = [
     { 
@@ -80,21 +79,3 @@ export const testData : ProfileListProps[] = [
     isDot: true,
     profileSrc: genderImageMap[item.babyGender??'none']
   }));
-
-  export const testData_all : ContendCardProps[] = [
-    { id: 1, title: '깊이 잠들고 싶어요..', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-    { id: 2, title: '깊이 잠들고 싶어요..', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-    { id: 3, title: '깊이 잠들고 싶어요..', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-    { id: 4, title: '오은영 박사의 교육법!', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-    { id: 5, title: '오은영 박사의 교육법!', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-    { id: 6, title: '오은영 박사의 교육법!', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-    { id: 7, title: '육아 필수템', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-    { id: 8, title: '육아 필수템', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-    { id: 9, title: '육아 필수템', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-    { id: 10, title: '산후 우울증 이겨내는 법', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-    { id: 11, title: '산후 우울증 이겨내는 법', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-    { id: 12, title: '산후 우울증 이겨내는 법', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-    { id: 13, title: '정부에서 지원금 받으면서 육아해요', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-    { id: 14, title: '정부에서 지원금 받으면서 육아해요', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-    { id: 15, title: '정부에서 지원금 받으면서 육아해요', description: '깊은 숙면을 도와주는 5가지 습관', imageSrc: '/images/default_image.svg' },
-  ];

@@ -14,10 +14,10 @@ interface ScheduleModalProps {
   onClose: () => void;
   date: string | null;
   scheduleList: any[];
-  onAddSchedule: (name: string, bgColor: string) => void;
+  onAddSchedule: (name: string, bgColor: string, date: string) => void;
 }
 
-export default function ScheduleModal({
+export function ScheduleModal({
   isOpen,
   onClose,
   date,
@@ -35,8 +35,12 @@ export default function ScheduleModal({
     return format(new Date(date), "M월 d일 (E)", { locale: ko });
   };
 
+  const onSubmit = (name: string, bgColor: string) => {
+    onAddSchedule(name, bgColor, date || "");
+  };
+
   return (
-    <>
+    <>  
       <Box
         w="76dvw"
         maxW="35rem"
@@ -100,7 +104,7 @@ export default function ScheduleModal({
       <ScheduleBottomSheet
         open={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
-        onSubmit={onAddSchedule}
+        onSubmit={onSubmit}
       />
     </>
   );

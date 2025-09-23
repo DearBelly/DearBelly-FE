@@ -6,7 +6,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { useState, useEffect } from 'react';
-import ScheduleModal from '@/components/Modals/ScheduleModal';
+import { ScheduleModal } from '@/components/Modals/ScheduleModal';
 import { MobileLayout } from '@/components/Layouts/MobileLayout';
 import { Box, Text } from '@chakra-ui/react';
 import { LoginModal } from '@/components/LoginModal/LoginModal';
@@ -28,7 +28,7 @@ export default function CalendarPage() {
 
   const handleDateClick = (info: any) => {
     setSelectedDate(info.dateStr);
-    setIsScheduleOpen(true); 
+    setIsScheduleOpen(true);
   };
 
   const handleAddSchedule = (name: string, bgColor: string) => {
@@ -48,19 +48,25 @@ export default function CalendarPage() {
       <Box display="flex" justifyContent="center" w="100%" pt="15px" pb="40px">
         <Box w="100%" maxW="40rem" px="10px">
           <FullCalendar
-            height="auto"
+            height="80dvh"
             plugins={[dayGridPlugin, interactionPlugin]}
             initialView="dayGridMonth"
             headerToolbar={{
-              left: 'prev',
-              center: 'title',
-              right: 'next',
+              left: 'prev title next',
+              center: '',
+              right: '',
             }}
             locale="ko"
-            expandRows={true}
-            dayMaxEvents={3}
+            expandRows={false}
+            fixedWeekCount={false}
+            dayMaxEventRows={4}
+            eventOrder="start,-duration,title"
+            dayCellContent={(arg) => ({
+              html: arg.date.getDate().toString(),
+            })}
             events={scheduleList}
             dateClick={handleDateClick}
+            selectMirror={true}
             moreLinkContent={(args) => (
               <Text textStyle="caption_97004">+{args.num}</Text>
             )}
@@ -84,7 +90,6 @@ export default function CalendarPage() {
         </Box>
       </Box>
 
-      {/* 일정 추가 모달 */}
       {isScheduleOpen && (
         <Box
           position="fixed"
@@ -106,13 +111,12 @@ export default function CalendarPage() {
               onClose={() => setIsScheduleOpen(false)}
               date={selectedDate}
               scheduleList={scheduleList}
-              onAddSchedule={isLogin ? handleAddSchedule : () => setIsLoginOpen(true)}
+              onAddSchedule={isLoginOpen ? handleAddSchedule : () => setIsLoginOpen(true)}
             />
           </Box>
         </Box>
       )}
 
-      {/* 로그인 모달 */}
       {isLoginOpen && (
         <LoginModal onClose={() => setIsLoginOpen(false)} />
       )}

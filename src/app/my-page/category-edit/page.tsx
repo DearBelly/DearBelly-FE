@@ -87,33 +87,6 @@ export default function CategoryEdit() {
     }
   };
 
-  // 관심 카테고리 변경 
-  const handleNextClick = async () => {
-    if (!token) return;
-
-    try {
-      const payload = { interests: checkedIds };
-      console.log("PATCH payload:", payload);
-
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/member/profile/categories`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if(!res.ok) throw new Error("카테고리 수정 실패");
-
-      setHideButton(true);
-      setShowToast(true);
-      setTimeout(() => setShowToast(false), 2000);
-    } catch(error) {
-      console.error("관심 카테고리 api 에러: ", error);
-    }
-  };
-
   return (
     <TopBarBottomButtonLayout
       onNext={handleNextClick}

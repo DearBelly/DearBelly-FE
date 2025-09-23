@@ -63,38 +63,25 @@ export const CategoryIconOutput = ({ cards, onSelectIndex }: CategoryIconOutputP
   return (
     <Box position="relative">
       <Wrapper ref={containerRef} isPc={isPc}>
-      {cards.map((card, index) => {
+        {cards.map((card, index) => {
           const refCallback = (el: HTMLDivElement) => {
             iconRefs.current[index] = el;
           };
           return (
             <Box
-                key={index}
-                ref={refCallback}
-                display="flex"
-                flexDirection="column"
-                justifyContent="center"
-                height="5.25rem"
-                flexShrink={0}
-                ml={
-                  index === 0
-                    ? { base: "1.5rem", md: "clamp(0.5rem, 3vw, 1.5rem)" }
-                    : { base: "5vw", md: "clamp(1rem, 4vw, 2.45rem)" }
-                }
-                mr={
-                  index === cards.length - 1
-                    ? { base: "1.5rem", md: "clamp(0.5rem, 3vw, 1.5rem)" }
-                    : "0"
-                }
-                style={{ 
-                    cursor: 'pointer',
-                }}
+              key={index}
+              ref={refCallback}
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+              height="5.25rem"
+              flexShrink={0}
             >
-                <CategoryIcon
-                    {...card}
-                    isSelected={selectIndex === index}
-                    onClick={() => handleClick(index)}
-                />
+              <CategoryIcon
+                {...card}
+                isSelected={selectIndex === index}
+                onClick={() => handleClick(index)}
+              />
             </Box>
           );
         })}
@@ -107,12 +94,14 @@ const Wrapper = styled.div<{ isPc: boolean }>`
   width: 100vw;
   max-width: 35rem;
   display: flex;
-  overflow-x: auto;
-  overflow-y: hidden;
   align-items: center;
   justify-content: ${({ isPc }) => (isPc ? "center" : "flex-start")};
+  gap: clamp(1.6rem, 5.6vw, 3.1rem); 
+
+  padding: 0 1.5rem;
+  overflow-x: auto;
+  overflow-y: hidden;
   white-space: nowrap;
-  cursor: pointer;
 
   -ms-overflow-style: none;
   scrollbar-width: none;

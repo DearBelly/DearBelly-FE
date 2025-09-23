@@ -55,15 +55,7 @@ export default function Result() {
       </Box>
     ));
   };
-
-  // // 결과 페이지는 로그인 상태 확인이 필요 없을 것 같아 주석처리
-  // const [isLogin, setIsLogin] = useState(false);
-
-  // useEffect(() => {
-  //   const token = localStorage.getItem('token');
-  //   setIsLogin(!!token);
-  // }, []);
-
+  
   return (
     <TopBarBottomButtonLayout
       onNext={handleScanClick}

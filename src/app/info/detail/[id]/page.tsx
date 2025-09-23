@@ -172,11 +172,12 @@ const InfoDetail = () => {
         });
     };
 
-    // 본문 데이터 '\n\n' 문단 띄우기, '### 제목' 강조
+    // 본문 데이터 '\n\n' 문단 띄우기, '### 제목' 강조 + '**' 볼드 처리
     const parseText = (text: string) => {
       return text.split('\n\n').map((para, i) => {
-        if (/^#{3,4}\s/.test(para)) {
-          const title = para.replace(/^#{3,4}\s*/, "").trim(); 
+        // #, ## 제목 처리
+        if (/^#{1,2}\s/.test(para)) {
+          const title = para.replace(/^#{1,2}\s*/, "").trim(); 
           return (
             <Text
               key={`title-${i}`}
@@ -189,15 +190,28 @@ const InfoDetail = () => {
             </Text>
           );
         }
-    
+
         return (
           <TextContent key={i} marginTop={i === 0 ? "0" : "1rem"}>
-            {para.split('\n').map((line, k, arr) => (
-              <React.Fragment key={`${i}-${k}`}>
-                {line}
-                {k !== arr.length - 1 && <br />} 
-              </React.Fragment>
-            ))}
+            {para.split('\n').map((line, k, arr) => {
+              // ** 강조 처리
+              if (/^\*\*/.test(line)) {
+                const boldLine = line.replace(/^\*\*/, "").trim();
+                return (
+                  <Text as="span" key={`${i}-${k}`} fontWeight="bold">
+                    {boldLine}
+                    {k !== arr.length - 1 && <br />}
+                  </Text>
+                );
+              }
+
+              return (
+                <React.Fragment key={`${i}-${k}`}>
+                  {line}
+                  {k !== arr.length - 1 && <br />}
+                </React.Fragment>
+              );
+            })}
           </TextContent>
         );
       });

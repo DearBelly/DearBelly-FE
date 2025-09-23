@@ -214,7 +214,7 @@ export default function Home() {
               flexWrap="nowrap"
               w="100%"
               px="20px"
-              pb="77px"
+              pb="calc(77px + env(safe-area-inset-bottom))"
               css={{
                 WebkitOverflowScrolling: "touch",
                 scrollbarWidth: "none",

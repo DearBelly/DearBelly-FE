@@ -2,7 +2,7 @@
 
 import { useParams } from 'next/navigation';
 import React, {useState, useEffect, useRef} from 'react'
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Text, Link } from "@chakra-ui/react";
 import { MobileLayout } from "../../../../components/Layouts/MobileLayout";
 import { ContendCardOutput } from '@/components/ContentCard/ContendCardOutput';
 import Image from 'next/image'
@@ -149,26 +149,27 @@ const InfoDetail = () => {
         }
       
         window.Kakao.Share.sendDefault({
-            objectType: "feed",
-            content: {
-              title: "엄마를 위한 케어, 아이를 위한 기록 Dear Belly",
-              description: "가족 기반 공유형 임신 기록 서비스",
-            //   "https://myapp.vercel.app/images/shareImage.png"
-              imageUrl: "http://localhost:3000/images/shareImage.png",
+          objectType: "feed",
+          content: {
+            title: detail.title,
+            description: detail.subTitle,
+            imageUrl: `${process.env.NEXT_PUBLIC_URL}/images/shareImage.png`,
+            imageWidth: 800,   
+            imageHeight: 400,
+            link: {
+              mobileWebUrl: `${process.env.NEXT_PUBLIC_URL}`,
+              webUrl: `${process.env.NEXT_PUBLIC_URL}`,
+            },
+          },
+          buttons: [
+            {
+              title: "자세히 보기",
               link: {
-                mobileWebUrl: "http://localhost:3000",
-                webUrl: "http://localhost:3000",
+                mobileWebUrl: `${process.env.NEXT_PUBLIC_URL}/info/detail/${id}`,
+                webUrl: `${process.env.NEXT_PUBLIC_URL}/info/detail/${id}`,
               },
             },
-            buttons: [
-              {
-                title: "자세히 보기",
-                link: {
-                  mobileWebUrl: "http://localhost:3000/info/detail",
-                  webUrl: "http://localhost:3000/info/detail",
-                },
-              },
-            ],
+          ],
         });
     };
 
@@ -294,11 +295,11 @@ const InfoDetail = () => {
                 <Box className='title_wrapper' width='100%'  marginTop='4vh'>
                     <TextTitle>{detail.title}</TextTitle>
                     <TextSubTitle>{detail.subTitle}</TextSubTitle>
-                    <TextDate>{detail.link}</TextDate>
+                    {detail.link && <TextLink href={detail.link}>{detail.link}</TextLink>}
                 </Box>
 
                 {/* 글 내용 영역 */}
-                <Box className='content_wrapper' width='100%' margin='7vh 0'>
+                <Box className='content_wrapper' width='100%' margin='5vh 0'>
                     <TextContent>{parseText(detail.content)}</TextContent> 
                 </Box>
 
@@ -363,15 +364,19 @@ const TextSubTitle = ({ children }: { children: React.ReactNode }) => (
     </Text>
 )
 
-const TextDate = ({ children }: { children: React.ReactNode }) => (
-    <Text
-        color="text.text3"
-        textStyle="caption_107001"
-        marginTop='1.5vh'
+const TextLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
+    <Link
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      color="blue.400"
+      textStyle="caption_107001"
+      marginTop="1.5vh"
+      cursor="pointer"
     >
-        {children}
-    </Text>
-)
+      {children}
+    </Link>
+);
 
 const TextContent = ({ children, marginTop }: { children: React.ReactNode, marginTop?:string }) => (
     <Text

@@ -1,11 +1,13 @@
 'use client';
 
 import { useState, useEffect, ReactNode } from "react";
-import { Box, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { MobileLayout } from "../../../components/Layouts/MobileLayout";
 import { LoginModal } from '@/components/LoginModal/LoginModal';
+import { useRouter } from "next/navigation";
 
 export default function PersonalInfoAgree() {
+    const router = useRouter();
     // 로그인이 되어있는지, 안 되어 있는지 상태저장
     const [isLogin, setIsLogin] = useState(false);
 
@@ -60,6 +62,7 @@ export default function PersonalInfoAgree() {
               • 다만, 필수항목 동의 거부 시 회원가입 및 서비스 기본 기능 이용이 제한될 수 있습니다.`}
           </TextSection>
         </Box>
+        {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
       </MobileLayout>
     );
 }

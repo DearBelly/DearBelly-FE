@@ -9,7 +9,7 @@ const fallbackImage = '/images/default_image.png';
 export interface ContendCardProps {
   id: number;
   title: string;
-  description: string;
+  subTitle: string;
   imageSrc?: string;
   routerSrc?: string;
   onClick?: () => void;
@@ -19,7 +19,7 @@ export interface ContendCardProps {
 export const ContendCard = ({
   id,
   title,
-  description,
+  subTitle,
   imageSrc,
   isLast,
 }: ContendCardProps) => {
@@ -65,7 +65,7 @@ export const ContendCard = ({
           textStyle="body_14700120"
           mt="0.5rem"
         >
-          {description}
+          {subTitle}
         </Text>
       </Box>
 

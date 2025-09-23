@@ -9,6 +9,7 @@ import Image from 'next/image'
 import Loading from '@/app/loading';
 import { ChakraIcons } from "@/utils/withChakraIcon";
 import { LoginModal } from '@/components/LoginModal/LoginModal';
+import { useRouter } from "next/navigation";
 
 const TopRightIcons = ({ onKakaoShare, isBookMark, onToggleBookmark }: { 
   onKakaoShare: () => void;
@@ -26,6 +27,8 @@ const TopRightIcons = ({ onKakaoShare, isBookMark, onToggleBookmark }: {
 );
 
 const InfoDetail = () => {
+    const router = useRouter();
+
     // URL의 id 받기 
     const { id } = useParams();
     const [detail, setDetail] = useState<any|null>(null);
@@ -235,7 +238,7 @@ const InfoDetail = () => {
           hasTopPadding={false}
           showButtomNav={false}
       >
-        {showLoginModal  && <LoginModal />} 
+        {showLoginModal  && <LoginModal onClose={() => {setShowLoginModal(false); router.push(`/info/detail/${id}`);}} />} 
 
         <Box className='wrapper1' display="flex" flexDirection="column" alignItems="center">
             {/* 이미지 영역 */}

@@ -24,7 +24,7 @@ export default function BabyEdit() {
 
     // 토큰 체크
     useEffect(() => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
         if(!babyId || !token) return;
 
         fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/baby/${babyId}`, {
@@ -66,7 +66,7 @@ export default function BabyEdit() {
         }
         setIsNicknameError(false);
         
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
 
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/baby/${babyId}`, {
@@ -93,12 +93,17 @@ export default function BabyEdit() {
         }
     };
 
+    const handleBackClick = () => {
+        router.push("/my-page/baby-info");
+    };
+
     return (
         <TopBarBottomButtonLayout 
             nextLabel="완료"
             topbarTitle='태아 정보'
             nextDisabled={nickname.trim() === ""}
             onNext={handleNextClick} 
+            onBack={handleBackClick}
         >
             <Box 
                 className="wrapper"
@@ -137,7 +142,14 @@ export default function BabyEdit() {
                         ))}
                     </Box>
                 </Box>
-                {!isLogin && <LoginModal/>}
+                {!isLogin && ( 
+                    <LoginModal 
+                        onClose={() => {
+                            setIsLogin(false);
+                            router.push('/my-page');
+                        }} 
+                    />
+                )}
             </Box>
         </TopBarBottomButtonLayout>
     );

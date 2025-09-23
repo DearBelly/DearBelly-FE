@@ -89,7 +89,7 @@ export default function SetupStep() {
           </Box>
         ) : (
           <Image
-            src="/images/profile.svg"
+            src="/images/icon_default_profile.svg"
             alt="profile-setup"
             width={80}
             height={80}

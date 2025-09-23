@@ -10,6 +10,8 @@ import { Letter } from "@/app/letters/letter";
 export default function MyLetterPage() {
   const router = useRouter();
   const { id } = useParams<{ id: string }>();
+  const DEFAULT_PROFILE_IMAGE = "/images/icon_default_profile.svg";
+
   const [letter, setLetter] = useState<Letter | null>(null);
 
   useEffect(() => {
@@ -37,7 +39,7 @@ export default function MyLetterPage() {
     <TopBarBottomButtonLayout
       topbarTitle="편지함"
       nextLabel="수정하기"
-      onNext={() => router.push(`/letters/${id}/edit`)}
+      onNext={() => router.push(`/letters/${id}/me/edit`)}
     >
       <Box
         display="flex"
@@ -52,7 +54,7 @@ export default function MyLetterPage() {
             nickname={letter.nickname}
             createdAt={letter.createdAt}
             content={letter.content}
-            imgUrl={letter.imgUrl}
+            imgUrl={letter.imgUrl ?? DEFAULT_PROFILE_IMAGE }
           />
         )}
       </Box>

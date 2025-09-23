@@ -37,7 +37,7 @@ export default function BabyAdd() {
     
         setIsNicknameError(false);
 
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
         const babyGender = genderMap[selected];
 
         try {
@@ -69,9 +69,13 @@ export default function BabyAdd() {
 
     // 토큰 체크
     useEffect(() => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
         setIsLogin(!!token);
     }, []);
+
+    const handleBackClick = () => {
+        router.push("/my-page/baby-info");
+    };
 
     return (
         <TopBarBottomButtonLayout 
@@ -79,6 +83,7 @@ export default function BabyAdd() {
             topbarTitle='태아 정보'
             nextDisabled={nickname.trim() === ""}
             onNext={handleBabyAddClick} 
+            onBack={handleBackClick}
         >
             <Box 
                 className="wrapper"
@@ -117,7 +122,7 @@ export default function BabyAdd() {
                         ))}
                     </Box>
                 </Box>
-                {!isLogin && <LoginModal/>}
+                {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
             </Box>
         </TopBarBottomButtonLayout>
     );

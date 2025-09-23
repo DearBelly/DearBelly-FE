@@ -29,7 +29,7 @@ type Story = StoryObj<typeof BottomNavigation>;
 
 export const Home: Story = {
   args: {
-    pathname: '/',
+    pathname: '/home',
   },
 };
 

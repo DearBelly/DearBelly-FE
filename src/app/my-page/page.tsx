@@ -16,7 +16,7 @@ export default function Mypage() {
   const { username, profileImg, isPregnant, setUser } = useUserStore();
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
+    const storedToken = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
     if(storedToken) {
       setUser({token: storedToken});
 

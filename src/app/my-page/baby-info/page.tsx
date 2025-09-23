@@ -22,7 +22,7 @@ export default function BabyInfo() {
 
     // 저장된 아이 목록 불러옴 
     useEffect(() => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
 
         if (!token) {
             setIsLogin(false);
@@ -66,6 +66,10 @@ export default function BabyInfo() {
       router.push("/my-page/baby-add");
     };
 
+    const handleBackClick = () => {
+        router.push("/my-page");
+    };
+
     const pregnantDate=cards.length > 0 ? cards[0].dueDateCalculated : '등록된 아기 없음';
 
     return (
@@ -74,6 +78,7 @@ export default function BabyInfo() {
             topbarTitle='태아 정보'
             nextDisabled={false}
             onNext={handleBabyAddClick}
+            onBack={handleBackClick}
         >
             <Box className='body_wrapper' w='100%' display="flex" flexDirection="column" alignItems="center" mt='0.62rem'>
                 <Box w='100%' maxW='35rem' mx='auto'>
@@ -91,7 +96,7 @@ export default function BabyInfo() {
                         setCards((prev) => prev.filter((c) => c.id !== id));
                     }}/>
                 </Box>
-                {!isLogin && <LoginModal />}
+                {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
             </Box>
         </TopBarBottomButtonLayout>
     );

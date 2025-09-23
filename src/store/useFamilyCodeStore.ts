@@ -15,24 +15,39 @@ export const useFamilyCodeStore = create<FamilyCodeState>((set) => ({
 
   verify: async (code: string) => {
     set({ isLoading: true });
-
+  
     try {
-      // 여기서 실제 서버 API 호출
-      // const res = await fetch("/api/verify-family", { method: "POST", body: JSON.stringify({ code }) });
-      // const ok = res.ok;
-
-      // 지금은 mock
-      const ok = await new Promise<boolean>((resolve) => {
-        setTimeout(() => resolve(code === "123456"), 500);
+      const token = localStorage.getItem("token") || process.env.NEXT_PUBLIC_TEMP_TOKEN; 
+  
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/family-code/join`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ code }),
       });
-
-      set({ isVerified: ok, isError: !ok, isLoading: false });
-      return ok;
+  
+      if (!res.ok) {
+        set({ isVerified: false, isError: true, isLoading: false });
+        return false;
+      }
+  
+      const data = await res.json();
+  
+      if (data.success) {
+        set({ isVerified: true, isError: false, isLoading: false });
+        return true;
+      } else {
+        set({ isVerified: false, isError: true, isLoading: false });
+        return false;
+      }
     } catch (e) {
+      console.error("가족 코드 검증 요청 실패", e);
       set({ isVerified: false, isError: true, isLoading: false });
       return false;
     }
-  },
-
+  }, 
   reset: () => set({ isVerified: false, isError: false, isLoading: false }),
 }));

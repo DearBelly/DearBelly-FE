@@ -9,7 +9,6 @@ import { useSignupStore } from "@/store/useSignupStore";
 import { useFamilyCodeStore } from "@/store/useFamilyCodeStore";
 import { useState } from "react";
 import { validateFamilyCode } from "@/utils/validators";
-import { Splash } from "@/app/profile/Splash";
 
 export default function FamilyStep() {
   const router = useRouter();
@@ -17,59 +16,98 @@ export default function FamilyStep() {
   const { familyCode, isVerified } = data;
   const { isLoading, verify, reset } = useFamilyCodeStore();
 
-  const [showSplash, setShowSplash] = useState(false);
-
-  // 로컬 에러 메시지 상태
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleFamilyCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     if (value.length <= 20) {
       setData({ familyCode: value, isVerified: false });
-      setErrorMessage(null); // 입력 바뀌면 에러 초기화
+      setErrorMessage(null);
     }
   };
-    
-const handleVerifyClick = async () => {
-  if (!familyCode) return;
 
-  const error = validateFamilyCode(familyCode);
-  if (error) {
-    setData({ isVerified: false });
-    setErrorMessage("잘못된 코드입니다."); 
-    return;
-  }
+  const handleVerifyClick = async () => {
+    if (!familyCode) return;
 
-  // 2차: 서버 인증
-  const ok = await verify(familyCode);
-  setData({ isVerified: ok });
+    const error = validateFamilyCode(familyCode);
+    if (error) {
+      setData({ isVerified: false });
+      setErrorMessage("잘못된 코드입니다.");
+      return;
+    }
 
-  if (!ok) {
-    setErrorMessage("잘못된 코드입니다."); 
-  } else {
-    isVerified
-    setErrorMessage(null); 
-  }
-};
+    const ok = await verify(familyCode);
+    setData({ isVerified: ok });
 
-  const handleNextClick = () => {
-    if (!isVerified) return;
-    handleMoveToHome();
+    if (!ok) {
+      setErrorMessage("잘못된 코드입니다.");
+    } else {
+      setErrorMessage(null);
+    }
+  };
+
+  const formatDate = (date: string) => date.replace(/-/g, ".");
+
+  const handleNextClick = async () => {
+    const token =
+      localStorage.getItem("accessToken") || process.env.NEXT_PUBLIC_TEMP_TOKEN;
+  
+    const params = new URLSearchParams();
+    params.append("nickname", data.nickname);
+    params.append("isPregnant", String(data.isPregnant));
+  
+
+    if (data.isPregnant) {
+      if (data.isExpectingMother) {
+        params.append("pre_pregnant", "true");
+      } else {
+        params.append("pre_pregnant", "false");
+        if (data.LMP) params.append("lmpDate", formatDate(data.LMP));
+      }
+    }
+    params.append("gender", data.gender);
+    params.append("birth", formatDate(data.birth));
+  
+    if (data.interestingInformation.length > 0) {
+      data.interestingInformation.forEach((id) =>
+        params.append("categories", id)
+      );
+    }
+  
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/member/profile?${params.toString()}`,
+        {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+  
+      if (!res.ok) throw new Error("회원정보 등록 실패");
+      const result = await res.json();
+      console.log("회원정보 저장 성공", result);
+  
+      router.push("/home");
+    } catch (err) {
+      console.error("회원정보 저장 오류", err);
+    }
+  };
+  
+
+  const handleBackClick = () => {
+    router.push("/profile/interests");
   };
 
   const handleMoveToHome = () => {
-    setShowSplash(true); 
+    useSignupStore.getState().reset();
+    router.push("/home");
   };
-  
-  if (showSplash) {
-    return <Splash />;
-  }
 
   return (
     <TopBarBottomButtonLayout
       onNext={handleNextClick}
       nextLabel="가입 완료"
-      nextDisabled={!isVerified}
+      onBack={handleBackClick}
     >
       <Box as="form" w="100%" mt="20px" onSubmit={(e) => e.preventDefault()}>
         <Text textStyle="head_188001">가족 공유 코드를 입력해 주세요</Text>

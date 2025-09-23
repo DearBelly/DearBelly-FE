@@ -3,13 +3,39 @@
 import React from 'react';
 import { Box, Text } from '@chakra-ui/react';
 import Image from 'next/image';
-import { useGetBreakPointValue } from '../../context/BreakPointProvider';
 import { SocialLoginButton } from '@/components/SocialLoginButton/SocialLoginButton';
 
 export default function Login() {
-  const isPc = useGetBreakPointValue();
-  const isMobile = !isPc;
-  const content = (
+  const handleNaverLogin = async () => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/auth/naver`);
+    const data = await res.json();
+    if (data.success) {
+      window.location.href = data.data; // 네이버 로그인 페이지로 이동
+    }
+  };
+  
+  const handleGoogleLogin = async () => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/auth/url/google`);
+      const json = await res.json();
+  
+      if (json.success && json.data) {
+        window.location.href = json.data; 
+      }
+    } catch (err) {
+      console.error("구글 로그인 URL 요청 실패", err);
+    }
+  };
+  
+  const handleKakaoLogin = async () => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/auth/url/kakao`);
+    const data = await res.json();
+    if (data.success) {
+      window.location.href = data.data; 
+    }
+  };
+  
+  return (
     <Box
       bg="bg.bg1"
       minW="100dvw"
@@ -40,9 +66,9 @@ export default function Login() {
         maxW="40rem"
         px="20px"
       >
-        <SocialLoginButton provider="naver" />
-        <SocialLoginButton provider="google" />
-        <SocialLoginButton provider="kakao" />
+        <SocialLoginButton provider="naver" onClick={handleNaverLogin}/>
+        <SocialLoginButton provider="google" onClick={handleGoogleLogin}/>
+        <SocialLoginButton provider="kakao" onClick={handleKakaoLogin}/>
       </Box>
 
       <Box
@@ -63,5 +89,4 @@ export default function Login() {
       </Box>
     </Box>
   );
-  return isMobile ? content : content;
 }

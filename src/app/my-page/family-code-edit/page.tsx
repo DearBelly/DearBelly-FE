@@ -109,7 +109,7 @@ export default function FamilyCodeEdit() {
             errorMessage="잘못된 코드입니다."
           />
         </Box>
-        {!isLogin && <LoginModal/>}
+        {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
       </Box>
     </TopBarBottomButtonLayout>
   );

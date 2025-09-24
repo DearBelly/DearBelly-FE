@@ -99,7 +99,6 @@ export default function CategoryEdit() {
       {showToast && (
         <Box
           position="fixed"
-          top="5.25rem"
           left="50%"
           transform="translateX(-50%)"
           zIndex={9999}

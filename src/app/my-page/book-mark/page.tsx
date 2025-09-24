@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, ReactNode } from "react";
 import { Box } from "@chakra-ui/react";
 import { MobileLayout } from "../../../components/Layouts/MobileLayout";
 import { ContendCardOutput } from '@/components/ContentCard/ContendCardOutput';
@@ -8,6 +8,7 @@ import { LoginModal } from '@/components/LoginModal/LoginModal';
 import type { ContendCardProps } from '@/components/ContentCard/ContentCard';
 import { useUserStore } from "@/store/useUserStore";
 import { useRouter } from "next/navigation";
+import { ChakraIcons } from "@/utils/withChakraIcon";
 
 export default function BookMark() {
     const router = useRouter();
@@ -16,7 +17,6 @@ export default function BookMark() {
     const [isLogin, setIsLogin] = useState(false);
     const [cards, setCards] = useState<ContendCardProps[]>([]);
     const { token } = useUserStore();
-
 
     // 토큰 체크
     useEffect(() => {
@@ -33,21 +33,37 @@ export default function BookMark() {
             .then((res)=> res.json())
             .then((data) => {
                 console.log("북마크 데이터: ", data);
-                if(data?.data?.content) {
-                    const mappedCards: ContendCardProps[] = data.data.content.map((item: any)=> ({
-                        id: item.newsId,                        // 상세 페이지 이동에 사용할 ID
-                        title: item.title || "제목 없음",
-                        description: item.subTitle  || "내용 없음",
-                        imageSrc: item.imageUrl,     
+                const content = data?.data?.content;
+              
+                if (Array.isArray(content)) {
+                  if (content.length > 0) {
+                    const mappedCards: ContendCardProps[] = content.map((item: any) => ({
+                      id: item.newsId ?? 0,
+                      title: item.title || "제목 없음",
+                      subTitle: item.subTitle || "내용 없음",
+                      imageSrc: item.imageUrl || "",
                     }));
+              
                     setCards(mappedCards);
+                    console.log("mappedCards length:", mappedCards.length); 
+                  } else {
+                    setCards([...[]]);
+                    console.log("content length is 0 (빈 배열)");
+                  }
+                } else {
+                  console.error("content가 배열이 아님:", content);
+                  setCards([...[]]);
                 }
-            })
+              })
             .catch((err) => console.error("북마크 불러오기 실패: ", err));
         }else {
             setIsLogin(false);
         }
     }, []);
+
+    useEffect(() => {
+        console.log("카드 개수:", cards.length);
+    }, [cards]);
 
     const content_mobile = (
         <Box 
@@ -61,7 +77,27 @@ export default function BookMark() {
             maxW='35rem'
             mx='auto'
         >
-            {isLogin ? <ContendCardOutput cards={cards}/> : <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
+            {isLogin ? (
+            cards.length > 0 ? (
+                <ContendCardOutput cards={cards} />
+            ) : (
+                <Box 
+                    className="error_wrapper"
+                    display="flex"
+                    flexDirection="column"
+                    justifyContent="center"
+                    alignItems="center"
+                    gap="0.5rem"
+                    minH="60vh" 
+                    w="100%"
+                >
+                    <ChakraIcons.DangerCircle size="7vh" color="text.text4" />
+                    <ErrorContent>북마크 정보가 없습니다</ErrorContent>
+                </Box>
+            )
+            ) : (
+                <LoginModal onClose={() => { setIsLogin(false); router.push('/my-page'); }} />
+            )}
         </Box>
     );
     
@@ -75,3 +111,20 @@ export default function BookMark() {
         </MobileLayout>
     )
 }
+
+const ErrorContent = ({ children }: { children: ReactNode }) => (
+    <Box
+    display="flex"
+    alignItems="center"
+    justifyContent="center"
+    color="text.text4"
+    textStyle="body_167001"
+    px="1rem"
+    maxWidth="90%"
+    whiteSpace="nowrap"
+    overflow="hidden"
+    textOverflow="ellipsis"
+    >
+      {children}
+    </Box>
+);

@@ -18,6 +18,15 @@ export default function BabyAdd() {
     const [nickname, setNickname] = useState("");
     const [isNicknameError, setIsNicknameError] = useState(false);
 
+    // 로그인이 되어있는지, 안 되어 있는지 상태저장
+    const [isLogin, setIsLogin] = useState(false);
+
+    // 토큰 체크
+    useEffect(() => {
+        const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
+        setIsLogin(!!token);
+    }, []);
+
     const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         if (value.length <= 10) {
@@ -63,15 +72,6 @@ export default function BabyAdd() {
             console.log("아이 등록 오류: ", err);
         }
     };
-
-    // 로그인이 되어있는지, 안 되어 있는지 상태저장
-    const [isLogin, setIsLogin] = useState(false);
-
-    // 토큰 체크
-    useEffect(() => {
-        const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
-        setIsLogin(!!token);
-    }, []);
 
     const handleBackClick = () => {
         router.push("/my-page/baby-info");

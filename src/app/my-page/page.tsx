@@ -13,10 +13,12 @@ const DEFAULT_PROFILE_IMAGE = "/images/icon_default_profile.svg";
 
 export default function Mypage() {
   const router = useRouter();
-  const { username, profileImg, isPregnant, setUser } = useUserStore();
+  const { username, profileImg, isPregnant, setUser, token } = useUserStore();
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
+    console.log("localStorage 토큰: ", storedToken);
+
     if(storedToken) {
       setUser({token: storedToken});
 
@@ -49,6 +51,10 @@ export default function Mypage() {
         });
     }
   }, [setUser]);
+
+  useEffect(() => {
+    console.log("store token 값:", token);
+  }, [token]);
 
   const { theme, setTheme } = useTheme();
   const handleThemeToggle = (on: boolean) => {

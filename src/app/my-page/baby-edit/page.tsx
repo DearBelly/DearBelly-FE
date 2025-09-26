@@ -25,6 +25,7 @@ export default function BabyEdit() {
     // 토큰 체크
     useEffect(() => {
         const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
+        setIsLogin(!!token);
         if(!babyId || !token) return;
 
         fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/baby/${babyId}`, {
@@ -44,7 +45,6 @@ export default function BabyEdit() {
             }
         })
         .catch((err) => console.log("아기 정보 불러오기 실패: ", err));
-        setIsLogin(!!token);
     }, [babyId]);
 
 
@@ -142,14 +142,7 @@ export default function BabyEdit() {
                         ))}
                     </Box>
                 </Box>
-                {!isLogin && ( 
-                    <LoginModal 
-                        onClose={() => {
-                            setIsLogin(false);
-                            router.push('/my-page');
-                        }} 
-                    />
-                )}
+                {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
             </Box>
         </TopBarBottomButtonLayout>
     );

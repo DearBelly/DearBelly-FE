@@ -8,7 +8,7 @@ import { Toast } from "@/components/Toast/Toast";
 import { InputBoxCalendar } from '@/components/TextField/InputBoxCalendar';
 import { LoginModal } from '@/components/LoginModal/LoginModal';
 import { useUserStore } from "@/store/useUserStore";
-import { format } from "date-fns";
+import { format, parse, parseISO } from "date-fns";
 import { useRouter } from "next/navigation";
 
 export default function ProfileChangeMaternity() {
@@ -18,71 +18,127 @@ export default function ProfileChangeMaternity() {
   const [showToast, setShowToast] = useState(false);
   const [hideButton, setHideButton] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
-  const { token, username, profileImg, impDate } = useUserStore();
+  const { token, username, profileImg, impDate, setUser } = useUserStore();
 
-  // 마지막 생리 시작일을 Date 기반으로 관리
   const [lastImpDate, setLastImpDate] = useState<Date | null>(null);
+
   const [selectedImg, setSelectedImg] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // 어떤 형태든 안전하게 Date로 변환
+  const toDateSafe = (v: unknown): Date | null => {
+    if (!v) return null;
+    if (v instanceof Date) return isNaN(v.getTime()) ? null : v;
+    if (typeof v === "string") {
+      const s = v.replace(/\.$/, ""); // "2025.06.01." -> "2025.06.01"
+      try {
+        if (/^\d{4}-\d{2}-\d{2}$/.test(s)) {
+          const d = parseISO(s);
+          return isNaN(d.getTime()) ? null : d;
+        }
+        const d = parse(s, "yyyy.MM.dd", new Date());
+        return isNaN(d.getTime()) ? null : d;
+      } catch {
+        return null;
+      }
+    }
+    return null;
+  };
 
   useEffect(() => {
     setIsLogin(!!token);
-    if (impDate) {
-      setLastImpDate(impDate);
-    }
+    setLastImpDate(toDateSafe(impDate));
   }, [token, impDate]);
 
-  useEffect(() => {
-    console.log("zustand impDate:", impDate);
-    console.log("local lastImpDate:", lastImpDate);
-  }, [impDate, lastImpDate]);
-
-  // 닉네임 변경
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     if (value.length <= 10) {
       setName(value);
-      if (value.trim() !== "") {
-        setIsNicknameError(false);
-      }
+      if (value.trim() !== "") setIsNicknameError(false);
     }
   };
 
-  // 마지막 생리 날짜 변경
   const handleImptDateChange = (date: Date | null) => {
     setLastImpDate(date);
   };
 
-  // 프로필 이미지 선택
-  const handleImageClick = () => {
-    fileInputRef.current?.click();
-  };
+  const handleImageClick = () => fileInputRef.current?.click();
 
-  // 프로필 이미지 변경
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       const url = URL.createObjectURL(file);
       setSelectedImg(url);
+      setSelectedFile(file);
     }
   };
 
-  // 완료 버튼 클릭 시 patch api 호출
-  const handleNextClick = async () => {
-    if (name.trim() === "") {
-      setIsNicknameError(true);
-      return;
-    }
+  // 이미지 업로드
+  const uploadProfileImage = async (file: File) => {
+    const urlRes = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/member/profile/upload-url?filename=${encodeURIComponent(file.name)}`,
+      { method: "GET", headers: { Authorization: `Bearer ${token}`, Accept: "application/json" } }
+    );
+    if (!urlRes.ok) throw new Error("업로드 URL 발급 실패");
+    const urlJson = await urlRes.json();
+    const putUrl: string = urlJson?.data?.putUrl;
+    const objectKey: string = urlJson?.data?.objectKey;
+    if (!putUrl || !objectKey) throw new Error("업로드 URL/키 누락");
 
-    try {
-      const formData = new FormData();
-      formData.append("nickname", name);
-      // Date -> string 변환 후 API 전달
-      formData.append("ImpDate", lastImpDate ? format(lastImpDate, "yyyy-MM-dd") : "");
+    const putRes = await fetch(putUrl, {
+      method: "PUT",
+      headers: { "Content-Type": file.type || "application/octet-stream" },
+      body: file,
+    });
+    if (!putRes.ok) throw new Error("S3 업로드 실패");
 
-      if (fileInputRef.current?.files?.[0]) {
-        formData.append("imgFile", fileInputRef.current.files[0]);
+    const commitRes = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/member/profile/image/commit`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ objectKey }),
       }
+    );
+    if (!commitRes.ok) throw new Error("이미지 커밋 실패");
+    const commitJson = await commitRes.json();
+    console.log("이미지 커밋 완료:", commitJson);
+
+    // 최신 프로필 반영
+    try {
+      const meRes = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/member/profile`, {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
+      });
+      const me = await meRes.json();
+      if (me?.data?.imgUrl) setUser({ profileImg: me.data.imgUrl });
+    } catch {}
+  };
+
+  // 완료 버튼 클릭 시 patch 호출함
+  const handleNextClick = async () => {
+    try {
+      if (!isLogin) throw new Error("로그인이 필요합니다.");
+
+      if (selectedFile) {
+        await uploadProfileImage(selectedFile);
+      }
+
+      const nicknameToSend = (name.trim() || username || "").trim();
+      const lmpToSendDate = lastImpDate || toDateSafe(impDate);
+      const lmpToSend = lmpToSendDate ? format(lmpToSendDate, "yyyy-MM-dd") : "";
+
+      if (!nicknameToSend || !lmpToSend) {
+        console.warn("PATCH 스킵: nickname 또는 lmpDate가 비어있음", { nicknameToSend, lmpToSend });
+      }
+
+      const payload = { nickname: nicknameToSend, lmpDate: lmpToSend };
+      console.log("PATCH /profile/edit payload:", payload);
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/member/profile/edit`,
@@ -90,15 +146,26 @@ export default function ProfileChangeMaternity() {
           method: "PATCH",
           headers: {
             Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Content-Type": "application/json",
           },
-          body: formData,
+          body: JSON.stringify(payload),
         }
       );
 
-      if (!response.ok) throw new Error("프로필 변경 실패");
+      if (!response.ok) {
+        const text = await response.text().catch(() => "");
+        console.error("PATCH 실패 상태코드:", response.status, text);
+        throw new Error("프로필 변경 실패");
+      }
 
-      const result = await response.json();
-      console.log("응답 : ", result);
+      const result = await response.json().catch(() => ({}));
+      console.log("프로필 텍스트 변경 응답:", result);
+
+      setUser({
+        ...(nicknameToSend ? { username: nicknameToSend } : {}),
+        ...(lmpToSend ? { impDate: lmpToSend } : {}),
+      });
 
       setHideButton(true);
       setIsNicknameError(false);
@@ -106,6 +173,7 @@ export default function ProfileChangeMaternity() {
       setTimeout(() => setShowToast(false), 2000);
     } catch (error) {
       console.error(error);
+      setIsNicknameError(name.trim() === "");
     }
   };
 
@@ -113,30 +181,17 @@ export default function ProfileChangeMaternity() {
     <TopBarBottomButtonLayout
       onNext={handleNextClick}
       nextLabel="완료"
-      nextDisabled={name.trim() === ""}
+      // 아무 변경 없더라도 PATCH는 기존값으로 나가도록 허용
+      nextDisabled={!isLogin}
       hideButton={hideButton}
     >
-      {/* 토스트 */}
       {showToast && (
-        <Box
-          position="fixed"
-          top="5.25rem"
-          left="50%"
-          transform="translateX(-50%)"
-          zIndex={9999}
-        >
+        <Box position="fixed" top="5.25rem" left="50%" transform="translateX(-50%)" zIndex={9999}>
           <Toast />
         </Box>
       )}
 
-      <Box
-        className="content"
-        flex="1"
-        width="100%"
-        maxW="35rem"
-        mx="auto"
-      >
-        {/* 프로필 이미지 */}
+      <Box className="content" flex="1" width="100%" maxW="35rem" mx="auto">
         <Box display="flex" justifyContent="center" mt="5.66dvh" mb="32px">
           <Box
             className="imgWrapper"
@@ -166,15 +221,7 @@ export default function ProfileChangeMaternity() {
           </Box>
         </Box>
 
-        {/* 입력 영역 */}
-        <Box
-          className="wrapper"
-          display="flex"
-          flexDirection="column"
-          padding="0.75rem 0.5rem"
-          borderRadius="0.75rem"
-          background="bg.bg3"
-        >
+        <Box className="wrapper" display="flex" flexDirection="column" padding="0.75rem 0.5rem" borderRadius="0.75rem" background="bg.bg3">
           <InputBox
             mode="transparent"
             title="닉네임"
@@ -184,9 +231,7 @@ export default function ProfileChangeMaternity() {
             isError={isNicknameError}
             errorMessage="닉네임을 설정해주세요"
           />
-
           <Separator mb="1rem" borderColor="border.border" height="1px" />
-
           <InputBoxCalendar
             mode="transparent"
             title="마지막 생리 시작일"
@@ -197,16 +242,12 @@ export default function ProfileChangeMaternity() {
           />
         </Box>
 
-        <Text
-          textStyle="caption_12400"
-          mt="0.8rem"
-          ml="1rem"
-          color="text.text3"
-        >
+        <Text textStyle="caption_12400" mt="0.8rem" ml="1rem" color="text.text3">
           공백 포함 최대 10자까지 설정할 수 있어요.
         </Text>
       </Box>
-      {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
+
+      {!isLogin && <LoginModal onClose={() => { setIsLogin(false); router.push('/my-page'); }} />}
     </TopBarBottomButtonLayout>
   );
 }

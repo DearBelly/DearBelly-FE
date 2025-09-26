@@ -13,7 +13,6 @@ export default function SetupStep() {
   const router = useRouter();
   const params = useSearchParams();
 
-  // 카카오 콜백으로 전달되는 인가 코드
   const code = params.get("code");
 
   const { data, setData, nextStep } = useSignupStore();

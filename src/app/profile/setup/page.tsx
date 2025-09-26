@@ -13,9 +13,8 @@ export default function SetupStep() {
   const router = useRouter();
   const params = useSearchParams();
 
-  // ⬇️ 매 렌더링에서 최신 쿼리값을 가져오고, 그 값이 생기면 effect가 동작하게 함
+  // 카카오 콜백으로 전달되는 인가 코드
   const code = params.get("code");
-  const state = params.get("state");
 
   const { data, setData, nextStep } = useSignupStore();
   const [nickname, setNickname] = useState(data.nickname || "");
@@ -23,7 +22,6 @@ export default function SetupStep() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    // code가 없으면 아무 것도 하지 않음 (초기 렌더 대비)
     if (!code) return;
 
     // 이미 토큰 있으면 URL만 정리
@@ -35,22 +33,21 @@ export default function SetupStep() {
     (async () => {
       try {
         const API = process.env.NEXT_PUBLIC_API_BASE_URL!;
-        const url = `${API}/api/v1/auth/naver?code=${encodeURIComponent(code)}&state=${encodeURIComponent(
-          state ?? ""
-        )}`;
+        const url = `${API}/api/v1/auth/kakao?code=${encodeURIComponent(code)}`;
 
         const res = await fetch(url, {
           method: "POST",
-          credentials: "include", // Refresh 쿠키 저장 필수
+          credentials: "include", // refresh 토큰 쿠키 저장 필요 시
         });
 
-        // 디버그용(원하면 주석 해제)
+        // 디버그용 (필요하면 확인)
         const clone = res.clone();
         console.log("status", res.status);
         console.log("content-type", res.headers.get("content-type"));
         console.log("body", await clone.json().catch(async () => await res.text()));
 
-        if (!res.ok) throw new Error("네이버 토큰 교환 실패");
+        if (!res.ok) throw new Error("카카오 토큰 교환 실패");
+
         const json = await res.json();
         if (!json?.accessToken) throw new Error("accessToken 없음");
 
@@ -63,8 +60,7 @@ export default function SetupStep() {
         router.replace("/profile/setup");
       }
     })();
-  // ⬇️ code/state가 준비되면 이 때 실행되도록 의존성에 넣는다
-  }, [code, state, router]);
+  }, [code, router]);
 
   const validation = validateNickname(nickname);
 
@@ -89,7 +85,10 @@ export default function SetupStep() {
   };
 
   return (
-    <TopBarBottomButtonLayout onNext={handleNextClick} nextDisabled={!validation.valid || !preview}>
+    <TopBarBottomButtonLayout
+      onNext={handleNextClick}
+      nextDisabled={!validation.valid || !preview}
+    >
       <Box
         as="form"
         w="100%"
@@ -128,9 +127,7 @@ export default function SetupStep() {
               src={preview}
               alt="profile-setup"
               fill
-              style={{
-                objectFit: "cover",
-              }}
+              style={{ objectFit: "cover" }}
             />
           </Box>
         ) : (
@@ -139,9 +136,7 @@ export default function SetupStep() {
             alt="profile-setup"
             width={80}
             height={80}
-            style={{
-              cursor: "pointer",
-            }}
+            style={{ cursor: "pointer" }}
             onClick={() => fileInputRef.current?.click()}
           />
         )}

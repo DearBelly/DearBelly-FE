@@ -33,8 +33,8 @@ export const ScheduleBottomSheet = ({
       <>
         <Drawer.Root open={open} onOpenChange={(e) => !e.open && onClose()} placement="bottom">
           <Drawer.Backdrop bg="rgba(0, 0, 0, 0.5)" />
-          <Drawer.Positioner>
-            <Drawer.Content borderTopRadius="20px" bg={selectedColor} px="16px" pt="20px" pb="calc(16px + env(safe-area-inset-bottom))">
+          <Drawer.Positioner w="100%" display="flex" justifyContent="center">
+            <Drawer.Content justifyContent="center" borderTopRadius="20px" bg={selectedColor} px="16px" pt="20px" pb="16px" maxW="40rem">
               {/* 입력창 */}
               <Textarea
                 p="0"

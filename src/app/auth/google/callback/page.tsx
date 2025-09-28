@@ -33,7 +33,7 @@ export default function GoogleCallback() {
           throw new Error("Token exchange failed.");
         }
 
-        localStorage.setItem("accessToken", data.data.accessToken);
+        localStorage.setItem("token", data.data.accessToken);
         
         router.push("/profile/setup");   
       } catch (error) {

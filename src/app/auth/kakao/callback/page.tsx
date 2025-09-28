@@ -35,7 +35,7 @@ export default function KakaoCallback() {
 
 
         localStorage.setItem("token", data.data.accessToken);
-        
+
         router.push("/profile/setup");  
       } catch (error) {
         setError("Login failed. Please try again.");

@@ -27,12 +27,13 @@ export default function GoogleCallback() {
         });
 
         const data = await response.json();
+        console.log("받은 응답: ", data);
 
-        if (!response.ok) {
+        if (!response.ok || !data.success) {
           throw new Error("Token exchange failed.");
         }
 
-        localStorage.setItem("accessToken", data.accessToken);
+        localStorage.setItem("accessToken", data.data.accessToken);
         
         router.push("/profile/setup");   
       } catch (error) {

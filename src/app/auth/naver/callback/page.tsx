@@ -21,19 +21,23 @@ export default function NaverCallback() {
 
     const fetchNaverToken = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/auth/naver?code=${code}&state=${state}`, {
-          method: "POST",
-          credentials: "include",
-        });
-
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/auth/naver?code=${code}&state=${state}`,
+          {
+            method: "POST",
+            credentials: "include",
+          }
+        );
+    
         const data = await response.json();
-
-        if (!response.ok) {
+        console.log("받은 응답: ", data);
+    
+        if (!response.ok || !data.success) {
           throw new Error("Token exchange failed.");
         }
-
-        localStorage.setItem("accessToken", data.accessToken);
-        
+    
+        localStorage.setItem("accessToken", data.data.accessToken);
+    
         router.push("/profile/setup");
       } catch (error) {
         setError("Login failed. Please try again.");

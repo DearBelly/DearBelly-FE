@@ -28,7 +28,7 @@ export default function GoogleCallback() {
 
         const data = await response.json();
 
-        if (!response.ok || !data.accessToken) {
+        if (!response.ok) {
           throw new Error("Token exchange failed.");
         }
 

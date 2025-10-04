@@ -28,7 +28,9 @@ export default function KakaoCallback() {
 
         const data = await response.json();
         console.log("받은 응답: ", data);
+        console.log("받은 응답: ", data);
 
+        if (!response.ok || !data.success) {
         if (!response.ok || !data.success) {
           throw new Error("Token exchange failed.");
         }

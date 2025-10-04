@@ -17,7 +17,6 @@ export default function SetupStep(): JSX.Element {
   const [preview, setPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // 1) 토큰 없으면 로그인으로 보냄
   useEffect(() => {
     const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
     if (!token) {
@@ -25,7 +24,6 @@ export default function SetupStep(): JSX.Element {
     }
   }, [router]);
 
-  // 2) objectURL 정리
   useEffect(() => {
     return () => {
       if (preview) URL.revokeObjectURL(preview);

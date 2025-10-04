@@ -27,13 +27,15 @@ export default function KakaoCallback() {
         });
 
         const data = await response.json();
+        console.log("받은 응답: ", data);
 
-        if (!response.ok || !data.accessToken) {
+        if (!response.ok || !data.success) {
           throw new Error("Token exchange failed.");
         }
 
-        localStorage.setItem("accessToken", data.accessToken);
-        
+
+        localStorage.setItem("token", data.data.accessToken);
+
         router.push("/profile/setup");  
       } catch (error) {
         setError("Login failed. Please try again.");

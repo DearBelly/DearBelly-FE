@@ -15,7 +15,7 @@ export default function NaverCallback() {
 
   useEffect(() => {
     if (once.current) return;
-    if (!code || !state) { setMessage('잘못된 접근입니다. (code/state 없음)'); return; }
+    if (!code || !state) { setMessage('잘못된 접근입니다.(code/state 없음)'); return; }
     once.current = true;
 
     (async () => {

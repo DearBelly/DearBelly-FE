@@ -16,7 +16,7 @@ export type CommonResponse<T> = {
 };
 
 type Options =
-  | { apiBase: string; provider: 'NAVER'; code: string; state: string } 
+  | { apiBase: string; provider: 'NAVER'; code: string; state: string }
   | { apiBase: string; provider: 'GOOGLE' | 'KAKAO'; code: string; state?: undefined };
 
 export async function exchangeOAuthToken(opts: Options): Promise<CommonResponse<LoginData>> {
@@ -30,7 +30,6 @@ export async function exchangeOAuthToken(opts: Options): Promise<CommonResponse<
 
   const qs = new URLSearchParams({ code: code });
   if (provider === 'NAVER') {
-    // state는 반드시 전달
     const s = (opts as Extract<Options, { provider: 'NAVER' }>).state;
     if (!s) throw new Error('Missing state for NAVER');
     qs.set('state', s);
@@ -53,6 +52,7 @@ export async function exchangeOAuthToken(opts: Options): Promise<CommonResponse<
     clearTimeout(timeout);
   }
 
+  // 3) 응답 파싱 (content-type 체크 후 JSON 시도)
   const ct = res.headers.get('content-type') || '';
   const raw = await res.text();
   const tryJson = (): any => {

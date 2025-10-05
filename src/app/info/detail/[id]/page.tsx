@@ -296,7 +296,7 @@ const ImageWrapper = React.forwardRef<HTMLDivElement, { children: React.ReactNod
 );
 
 const TextTitle = ({ children }: { children: React.ReactNode }) => (
-  <Text textStyle="head_188001" alignSelf="stretch">{children}</Text>
+  <Text color="text.text2" textStyle="head_188001" alignSelf="stretch">{children}</Text>
 );
 
 const TextSubTitle = ({ children }: { children: React.ReactNode }) => (
@@ -304,7 +304,7 @@ const TextSubTitle = ({ children }: { children: React.ReactNode }) => (
 );
 
 const TextLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
-  <Link href={href} target="_blank" rel="noopener noreferrer" color="blue.400" textStyle="caption_107001" mt="1.5vh">
+  <Link href={href} target="_blank" rel="noopener noreferrer" color="text.text2" textStyle="caption_107001" mt="1.5vh">
     {children}
   </Link>
 );

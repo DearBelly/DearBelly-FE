@@ -6,8 +6,8 @@ import { exchangeOAuthToken } from '@/lib/exchangeOAuth';
 
 export default function GoogleCallback() {
   const router = useRouter();
-  const params = useSearchParams();
-  const code = params.get('code');
+  const sp = useSearchParams();
+  const code = sp.get('code');
   const [message, setMessage] = useState('로그인 처리 중...');
   const once = useRef(false);
   const API = process.env.NEXT_PUBLIC_API_BASE_URL!;
@@ -19,12 +19,11 @@ export default function GoogleCallback() {
 
     (async () => {
       try {
-        const json = await exchangeOAuthToken({ apiBase: API, provider: 'GOOGLE', code });
-        if (json.data?.accessToken) localStorage.setItem('token', json.data.accessToken);
-        const isNew = json.data?.new === true;
-        router.replace(isNew ? '/profile/setup' : '/');
+        const res = await exchangeOAuthToken({ apiBase: API, provider: 'GOOGLE', code });
+        localStorage.setItem('token', res.data.accessToken);
+        router.replace(res.data.new ? '/profile/setup' : '/');
       } catch (e: any) {
-        console.error('Google login error:', e);
+        console.error('[GOOGLE] exchange error', e);
         setMessage(e?.message ?? '로그인에 실패했어요. 다시 시도해주세요.');
       }
     })();

@@ -1,60 +1,33 @@
-"use client";
-
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { Box, Text } from "@chakra-ui/react";
+'use client';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
+import { Box, Text } from '@chakra-ui/react';
+import { exchangeOAuthToken } from '@/lib/exchangeOAuth';
 
 export default function KakaoCallback() {
   const router = useRouter();
-  const params = useSearchParams();
-
-  const code = params.get("code"); 
-  const state = params.get("state"); 
-
-  const [error, setError] = useState<string | null>(null);
+  const sp = useSearchParams();
+  const code = sp.get('code');
+  const [message, setMessage] = useState('로그인 처리 중...');
+  const once = useRef(false);
+  const API = process.env.NEXT_PUBLIC_API_BASE_URL!;
 
   useEffect(() => {
-    if (!code) {
-      setError("Invalid code.");
-      return;
-    }
+    if (once.current) return;
+    if (!code) { setMessage('잘못된 접근입니다. (code 없음)'); return; }
+    once.current = true;
 
-    const fetchKakaoToken = async () => {
+    (async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/auth/kakao?code=${code}&state=${state}`, {
-          method: "POST",
-          credentials: "include",
-        });
-
-        const data = await response.json();
-        console.log("받은 응답: ", data);
-        console.log("받은 응답: ", data);
-
-        if (!response.ok || !data.success) {
-        if (!response.ok || !data.success) {
-          throw new Error("Token exchange failed.");
-        }
-
-
-        localStorage.setItem("token", data.data.accessToken);
-        
-        router.push("/profile/setup");  
-      } catch (error) {
-        setError("Login failed. Please try again.");
-        console.error("Kakao login error:", error);
+        const res = await exchangeOAuthToken({ apiBase: API, provider: 'KAKAO', code });
+        localStorage.setItem('token', res.data.accessToken);
+        router.replace(res.data.new ? '/profile/setup' : '/');
+      } catch (e: any) {
+        console.error('[KAKAO] exchange error', e);
+        setMessage(e?.message ?? '로그인에 실패했어요. 다시 시도해주세요.');
       }
-    };
+    })();
+  }, [API, code, router]);
 
-    fetchKakaoToken();
-  }, [code, state, router]);
-
-  return (
-    <Box textAlign="center" mt="20px">
-      {error ? (
-        <Text color="red.500">{error}</Text>
-      ) : (
-        <Text>로그인 처리 중...</Text>
-      )}
-    </Box>
-  );
+  return <Box textAlign="center" mt="20px"><Text>{message}</Text></Box>;
 }

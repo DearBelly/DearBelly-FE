@@ -14,6 +14,7 @@ interface TopBarBottomButtonLayoutProps {
   hideButton?: boolean;
   topbarTitle?: string;
   topbarRightContent?: ReactNode;
+  topbarMode?: 'logo' | 'back' | 'whiteLogo'; 
 }
 
 export const TopBarBottomButtonLayout = ({
@@ -25,38 +26,40 @@ export const TopBarBottomButtonLayout = ({
   hideButton = false,
   topbarTitle,
   topbarRightContent,
+  topbarMode = 'back',
 }: TopBarBottomButtonLayoutProps) => {
   return (
     <Box w="100%" alignItems="center" justifyItems="center">
       <TopBar
-        mode="back"
+        mode={topbarMode} 
         backgroundType="filled"
         title={topbarTitle}
         rightContent={topbarRightContent}
         onBack={onBack}
       />
       <Box
-      w="100%"
-      maxW="40rem"
-      h="100dvh"
-      pt="44px"
-      px="20px"
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
+        w="100%"
+        maxW="40rem"
+        h="100dvh"
+        pt="44px"
+        px="20px"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
       >
         {children}
         {!hideButton && (
           <Box
-          w="100%"
-          mt="auto"
-          pt="1.23dvh"
-          pb="1.23dvh"
-          position="relative"
-          display="flex"
-          justifyContent="center"
-          zIndex={1}>
+            w="100%"
+            mt="auto"
+            pt="1.23dvh"
+            pb="1.23dvh"
+            position="relative"
+            display="flex"
+            justifyContent="center"
+            zIndex={1}
+          >
             <Button
               type="primary"
               size="large"
@@ -68,13 +71,14 @@ export const TopBarBottomButtonLayout = ({
               <Text textStyle="body_148001">{nextLabel}</Text>
             </Button>
             <Box
-            zIndex={-1}
-            position="absolute"
-            inset="0 calc(50% - 50dvw)"
-            bg="linear-gradient(180deg, rgba(249, 247, 247, 0.0) 6.13%, #f9f7f7 58.93%)"
-            _dark={{
-              bg: "linear-gradient(180deg, rgba(249, 247, 247, 0.0) 6.13%, #202020 58.93%)"
-            }}
+              pointerEvents="none"
+              zIndex={-1}
+              position="absolute"
+              inset="0 calc(50% - 50dvw)"
+              bg="linear-gradient(180deg, rgba(249, 247, 247, 0.0) 6.13%, #f9f7f7 58.93%)"
+              _dark={{
+                bg: "linear-gradient(180deg, rgba(249, 247, 247, 0.0) 6.13%, #202020 58.93%)",
+              }}
             />
           </Box>
         )}

@@ -58,9 +58,10 @@ export default function Result() {
   
   return (
     <TopBarBottomButtonLayout
-      onNext={handleScanClick}
-      nextLabel="다시 스캔하기"
+      topbarMode="logo"
       topbarTitle="분석결과"
+      onNext={handleScanClick}
+      nextLabel="처음으로"
       nextDisabled={false}
     >
       <Box

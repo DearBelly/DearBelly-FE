@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Box, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";
@@ -9,60 +9,26 @@ import { InputBox } from "@/components/TextField/InputBox";
 import { useSignupStore } from "@/store/useSignupStore";
 import { validateNickname } from "@/utils/validators";
 
-export default function SetupStep() {
+export default function SetupStep(): JSX.Element {
   const router = useRouter();
-  const params = useSearchParams();
-
-  const code = params.get("code"); // 구글 콜백 code 값
-
   const { data, setData, nextStep } = useSignupStore();
-  const [nickname, setNickname] = useState(data.nickname || "");
+
+  const [nickname, setNickname] = useState<string>(data.nickname || "");
   const [preview, setPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (!code) return;
-
-    // 이미 토큰 있으면 URL 정리 후 바로 이동
-    if (localStorage.getItem("accessToken")) {
-      router.replace("/profile/setup");
-      return;
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    if (!token) {
+      router.replace("/login");
     }
+  }, [router]);
 
-    (async () => {
-      try {
-        const API = process.env.NEXT_PUBLIC_API_BASE_URL!;
-        const url = `${API}/api/v1/auth/google?code=${encodeURIComponent(code)}`;
-
-        const res = await fetch(url, {
-          method: "POST",
-          credentials: "include", // refresh 토큰 쿠키 저장
-        });
-
-        const clone = res.clone();
-        console.log("status", res.status);
-        console.log("content-type", res.headers.get("content-type"));
-        console.log(
-          "body",
-          await clone.json().catch(async () => await res.text())
-        );
-
-        if (!res.ok) throw new Error("구글 토큰 교환 실패");
-
-        const json = await res.json();
-        // 백엔드 응답 스펙에 따라 data.accessToken 내부에 토큰이 있을 가능성이 큼
-        const token = json?.data?.accessToken;
-        if (!token) throw new Error("accessToken 없음");
-
-        localStorage.setItem("accessToken", token);
-      } catch (e) {
-        console.error(e);
-        // TODO: 에러 UI 필요시 처리
-      } finally {
-        router.replace("/profile/setup"); // 쿼리 정리
-      }
-    })();
-  }, [code, router]);
+  useEffect(() => {
+    return () => {
+      if (preview) URL.revokeObjectURL(preview);
+    };
+  }, [preview]);
 
   const validation = validateNickname(nickname);
 
@@ -73,9 +39,15 @@ export default function SetupStep() {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file) return;
+    if (!file) {
+      setPreview(null);
+      return;
+    }
     const previewUrl = URL.createObjectURL(file);
-    setPreview(previewUrl);
+    setPreview((prev) => {
+      if (prev) URL.revokeObjectURL(prev);
+      return previewUrl;
+    });
   };
 
   const handleNextClick = () => {
@@ -85,10 +57,15 @@ export default function SetupStep() {
     router.push("/profile/info");
   };
 
+  const handleBackClick = () => {
+    router.push("/login");
+  };
+
   return (
     <TopBarBottomButtonLayout
       onNext={handleNextClick}
       nextDisabled={!validation.valid || !preview}
+      onBack={handleBackClick}
     >
       <Box
         as="form"
@@ -101,7 +78,7 @@ export default function SetupStep() {
       >
         <Text textStyle="head_188001">프로필을 만들어봐요</Text>
         <Text textStyle="body_14400224" mt="4px">
-          디어 벨리에서 사용할 닉네임을 만들어주세요
+          디어 벨리에서 사용할 닉네임과 프로필 이미지를 설정해주세요
         </Text>
       </Box>
 

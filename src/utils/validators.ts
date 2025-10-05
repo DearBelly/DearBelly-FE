@@ -10,15 +10,16 @@ export const validateNickname = (
   }
   const regex = /^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣 ]+$/;
   if (!regex.test(value)) {
-    return { valid: false, guideMessage: guide, errorMessage: "닉네임은 영어, 한글, 숫자자만 사용할 수 있어요" };
+    return { valid: false, guideMessage: guide, errorMessage: "닉네임은 영어, 한글, 숫자만 사용할 수 있어요" };
+  }
+  if (value.length > 10) {
+    return { valid: false, guideMessage: guide, errorMessage: "최대 10자까지 가능합니다" };
   }
   return { valid: true, guideMessage: guide };
 };
 
 export const validateFamilyCode = (code: string): string | null => {
-  if (!/^\d{6}$/.test(code)) {
-    return "가족 코드는 숫자 6자리여야 합니다.";
-  }
+  if (!code.trim()) return "코드를 입력해 주세요";
+  if (code.length > 20) return "코드는 최대 20자까지 가능합니다";
   return null;
 };
-

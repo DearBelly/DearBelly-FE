@@ -104,7 +104,7 @@ const InfoCategory = () => {
 
         if (!firstPageLoadedRef.current) return;
         if (first.isIntersecting && !loading && hasMore) {
-          console.log('NEXT PAGE LOAD:', page + 1);
+          console.log('▶ NEXT PAGE LOAD:', page + 1);
           setPage(prev => prev + 1);
         }
       },
@@ -144,7 +144,14 @@ const InfoCategory = () => {
           maxW="35rem"
           overflowY="auto"
         >
+          {/* 카드 목록 출력 */}
           <ContendCardOutput cards={items} />
+
+          {/* 에러 메시지 */}
+          {error && <Text color="red.500" mt="2">{error}</Text>}
+
+          {/* 옵저버 타겟 */}
+          <Box ref={loaderRef} h="2px" my="3" />
         </Box>
       </Box>
     </MobileLayout>

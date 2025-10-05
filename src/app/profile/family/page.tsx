@@ -7,118 +7,124 @@ import { Button } from "@/components/Button/Button";
 import { useRouter } from "next/navigation";
 import { useSignupStore } from "@/store/useSignupStore";
 import { useFamilyCodeStore } from "@/store/useFamilyCodeStore";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { validateFamilyCode } from "@/utils/validators";
 
 export default function FamilyStep() {
   const router = useRouter();
   const { data, setData } = useSignupStore();
   const { familyCode, isVerified } = data;
-  const { isLoading, verify, reset } = useFamilyCodeStore();
+  const { isLoading, verify, reset, errorMessage: serverErrorMessage } = useFamilyCodeStore();
 
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [clientErrorMessage, setClientErrorMessage] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
+  const API = process.env.NEXT_PUBLIC_API_BASE_URL!;
+
+  const errorMessage = useMemo(
+    () => clientErrorMessage ?? serverErrorMessage ?? "",
+    [clientErrorMessage, serverErrorMessage]
+  );
 
   const handleFamilyCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+    const value = e.target.value; 
     if (value.length <= 20) {
       setData({ familyCode: value, isVerified: false });
-      setErrorMessage(null);
+      setClientErrorMessage(null);
     }
   };
 
   const handleVerifyClick = async () => {
     if (!familyCode) return;
 
-    const error = validateFamilyCode(familyCode);
-    if (error) {
+    const msg = validateFamilyCode(familyCode);
+    if (msg) {
       setData({ isVerified: false });
-      setErrorMessage("잘못된 코드입니다.");
+      setClientErrorMessage(msg);
       return;
     }
 
     const ok = await verify(familyCode);
     setData({ isVerified: ok });
-
-    if (!ok) {
-      setErrorMessage("잘못된 코드입니다.");
-    } else {
-      setErrorMessage(null);
+    if (!ok && !clientErrorMessage) {
     }
   };
 
-  const handleNextClick = async () => {
-    const API = process.env.NEXT_PUBLIC_API_BASE_URL!;
-    const token =
-      localStorage.getItem('token') ||                 
-      localStorage.getItem('accessToken') ||         
-      process.env.NEXT_PUBLIC_TEMP_TOKEN || '';
-  
-    const formatDate = (s: string) => s.replace(/-/g, '.'); 
-  
+  const formatDot = (s: string) => s.replace(/-/g, ".");
+
+  const buildProfileParams = () => {
     const params = new URLSearchParams();
-    params.set('nickname', data.nickname);
-    params.set('isPregnant', String(data.isPregnant));
-  
+    params.set("nickname", data.nickname);
+    params.set("isPregnant", String(data.isPregnant));
+
     if (data.isPregnant) {
-      // 예비 임신부 여부(pre_pregnant)와 LMP는 선택값
       if (data.isExpectingMother) {
-        params.set('pre_pregnant', 'true');
+        params.set("pre_pregnant", "true");
       } else {
-        params.set('pre_pregnant', 'false');
-        if (data.LMP) params.set('lmpDate', formatDate(data.LMP));
+        params.set("pre_pregnant", "false");
+        if (data.LMP) params.set("lmpDate", formatDot(data.LMP));
       }
     }
-  
-    params.set('gender', data.gender);                    
-    params.set('birth', formatDate(data.birth));             
-  
+
+    params.set("gender", data.gender);
+    params.set("birth", formatDot(data.birth));
+
     for (const c of data.interestingInformation) {
-      params.append('categories', c);                      
+      params.append("categories", c);
     }
-  
-    const url = `${API}/api/v1/member/profile?${params.toString()}`;
-  
+    return params;
+  };
+
+  const handleSignup = async () => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setIsSubmitting(false);
+      router.replace("/login");
+      return;
+    }
+
+    const url = `${API}/api/v1/member/profile?${buildProfileParams().toString()}`;
+
     try {
       const res = await fetch(url, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          Accept: 'application/json',
-          ...(token ? { Authorization: `Bearer ${token}` } : {}), 
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
         },
-        credentials: 'include',
+        credentials: "include",
       });
-  
+
       if (!res.ok) {
-        const text = await res.text().catch(() => '');
+        const text = await res.text().catch(() => "");
         throw new Error(text || `회원정보 등록 실패 (HTTP ${res.status})`);
       }
-  
-      console.log('회원정보 저장 성공');
-      router.push('/home');
+      router.push("/home");
     } catch (err) {
-      console.error('회원정보 저장 오류', err);
+      console.error("회원정보 저장 오류", err);
+    } finally {
+      setIsSubmitting(false);
     }
-  };   
+  };
 
   const handleBackClick = () => {
     router.push("/profile/interests");
   };
 
-  const handleMoveToHome = () => {
-    useSignupStore.getState().reset();
-    router.push("/home");
-  };
-
   return (
     <TopBarBottomButtonLayout
-      onNext={handleNextClick}
+      onNext={handleSignup}
       nextLabel="가입 완료"
       onBack={handleBackClick}
+      nextDisabled={!isVerified || isSubmitting}
     >
       <Box as="form" w="100%" mt="20px" onSubmit={(e) => e.preventDefault()}>
-        <Text textStyle="head_188001">가족 공유 코드를 입력해 주세요</Text>
+        <Text textStyle="head_188001">가족 공유 코드를 입력해주세요</Text>
         <Text textStyle="body_14400224" mt="4px">
-          코드를 입력하거나 다른 가족에게 전달해 주세요
+          코드를 입력해주세요
         </Text>
 
         <Flex mt="5.66dvh" gap="0.75rem" flexDirection="column">
@@ -131,13 +137,14 @@ export default function FamilyStep() {
             isError={!!errorMessage}
             isDisabled={isVerified}
             errorMessage={errorMessage || ""}
+            maxLength={20} 
           />
           <Button
             type="secondary"
             size="medium"
             width="100%"
             onClick={handleVerifyClick}
-            isDisabled={!familyCode || isLoading || isVerified}
+            isDisabled={!familyCode?.trim() || isLoading || isVerified}
           >
             <Text textStyle="caption_12800" color="button.text.teritery">
               {isLoading ? "인증 중" : "코드 인증하기"}
@@ -154,9 +161,10 @@ export default function FamilyStep() {
           right="0"
           bottom="4.5rem"
           onClick={() => {
+            if (isSubmitting) return;
             setData({ familyCode: undefined, isVerified: false });
             reset();
-            handleMoveToHome();
+            handleSignup();
           }}
         >
           지금은 넘어가기

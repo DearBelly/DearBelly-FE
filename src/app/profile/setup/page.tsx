@@ -57,10 +57,15 @@ export default function SetupStep(): JSX.Element {
     router.push("/profile/info");
   };
 
+  const handleBackClick = () => {
+    router.push("/login");
+  };
+
   return (
     <TopBarBottomButtonLayout
       onNext={handleNextClick}
       nextDisabled={!validation.valid || !preview}
+      onBack={handleBackClick}
     >
       <Box
         as="form"
@@ -73,7 +78,7 @@ export default function SetupStep(): JSX.Element {
       >
         <Text textStyle="head_188001">프로필을 만들어봐요</Text>
         <Text textStyle="body_14400224" mt="4px">
-          디어 벨리에서 사용할 닉네임을 만들어주세요
+          디어 벨리에서 사용할 닉네임과 프로필 이미지를 설정해주세요
         </Text>
       </Box>
 

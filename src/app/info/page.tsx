@@ -58,7 +58,7 @@ export default function Information() {
         const formatted = data.data.map((item: any) => ({
           id: item.newsId,
           title: item.title,
-          subtitle: item.subTitle,
+          subTitle: item.subTitle,
           imageSrc:  item.imageUrl || "/images/default_image.svg",
           category: item.category,
           bookmark: item.bookmarked || false,
@@ -87,7 +87,7 @@ export default function Information() {
           const formatted = data.data.map((item: any) => ({
             id: item.newsId,
             title: item.title,
-            subtitle: item.subTitle,
+            subTitle: item.subTitle,
             imageSrc:  item.imageUrl || "/images/default_image.svg",
             category: item.category,
             bookmark: item.bookmarked || false,

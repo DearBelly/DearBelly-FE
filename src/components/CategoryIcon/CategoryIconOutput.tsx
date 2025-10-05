@@ -7,7 +7,7 @@ import { useGetBreakPointValue } from "../../context/BreakPointProvider";
 
 interface CategoryIconOutputProps {
   cards: CategoryIconProps[];
-  onSelectIndex ?: (index: number | null) => void;
+  onSelectIndex?: (index: number | null) => void;
 }
 
 export const CategoryIconOutput = ({ cards, onSelectIndex }: CategoryIconOutputProps) => {

@@ -6,11 +6,16 @@ import { motion } from "framer-motion";
 
 const MotionBox = motion.create(Box);
 
-export const Toast = () => (
+interface ToastProps {
+  message?: string; 
+}
+
+export const Toast = ({ message = "정보 변경이 완료되었습니다" }: ToastProps) => (
   <MotionBox
-    initial={{ opacity: 0, y: 30 }}
+    position="relative"    
+    initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
-    exit={{ opacity: 0, y: 30 }}
+    exit={{ opacity: 0, y: 20 }}
     transition={{
       duration: 0.4,
       ease: [0.25, 0.1, 0.25, 1],
@@ -43,7 +48,7 @@ export const Toast = () => (
       color="text.text5"
       textStyle="body_14700120"
     >
-      정보 변경이 완료되었습니다
+      {message}
     </Text>
   </MotionBox>
 );

@@ -6,7 +6,6 @@ import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButto
 import { InputBox } from "@/components/TextField/InputBox";
 import { LoginModal } from '@/components/LoginModal/LoginModal';
 import { useRouter } from "next/navigation";
-import { useUserStore } from "@/store/useUserStore";
 
 export default function FamilyCodeEdit() {
   const [familyCode, setFamilyCode] = useState("");
@@ -14,7 +13,7 @@ export default function FamilyCodeEdit() {
   // 로그인이 되어있는지, 안 되어 있는지 상태저장
   const [isLogin, setIsLogin] = useState(false);
   const router = useRouter();
-  const { token } = useUserStore();
+  const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
 
   // 토큰 체크
   useEffect(() => {
@@ -25,26 +24,25 @@ export default function FamilyCodeEdit() {
   const validateFamilyCode = async (code: string) => {
     const token = localStorage.getItem('token');
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/family-code/members`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: "application/json",
-        },
-      });
-
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/family-code/members?code=${encodeURIComponent(code)}`, 
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+          },
+        }
+      );
+  
       if (!response.ok) throw new Error("가족 코드 유효성 검사 실패");
       const data = await response.json();
-
-      if(data.success) {
-        console.log("가족 코드 유효함, 사용자 목록: ", data.data);
-        return true;
-      } else {
-        throw new Error("가족 코드 유효하지 않음")
-      } 
-    } catch(error) {
-        console.log("가족 코드 검증 실패: ", error);
-        return false;
+      console.log("유효성 검사 응답:", data);
+  
+      return !!data.success;
+    } catch (error) {
+      console.error("가족 코드 검증 실패:", error);
+      return false;
     }
   };
 

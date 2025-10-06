@@ -15,10 +15,11 @@ export default function familyInventory() {
     const [isLogin, setIsLogin] = useState(false);
     // 가족 멤버들을 저장할 수 있도록 상태저장
     const [familyMembers, setFamilyMembers ] = useState<any[]>([]);
-    const { token, username, profileImg } = useUserStore();
+    const { username, profileImg } = useUserStore();
 
     // 토큰 체크 && 가족 목록 조회
     useEffect(() => {
+      const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
       setIsLogin(!!token);
 
       if(token) {

@@ -26,7 +26,8 @@ export default function PersonalInfo() {
 
     // 로그인이 되어있는지, 안 되어 있는지 상태저장
     const [isLogin, setIsLogin] = useState(false);
-    const { token, username, userEmail, gender, login, birth, clearUser } = useUserStore();
+    const { username, userEmail, gender, login, birth, clearUser } = useUserStore();
+    const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
 
     // 토큰 체크
     useEffect(() => {

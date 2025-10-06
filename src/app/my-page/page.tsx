@@ -16,16 +16,16 @@ export default function Mypage() {
   const { username, profileImg, isPregnant, setUser, token } = useUserStore();
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    console.log("localStorage 토큰: ", localStorage.getItem('token'));
+    localStorage.setItem("token", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzOCIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE3NTk3Njc5OTcsImV4cCI6MTc2MjM1OTk5N30.sGDTQ7cWa3VFbMfo3HpzDmM9tU0N655pUrTmZy9jLjo");
+    
+    // localStorage.setItem("token", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNyIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE3NTk3NjM5NTksImV4cCI6MTc2MjM1NTk1OX0.21nsF3cChkHx9ApeVA_ku58NOh8QSZyGzel-YuIRMOE");
+    const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
 
-    if(storedToken) {
-      setUser({token: storedToken});
-
+    if(token) {
       fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/member/profile`, {
         method: 'GET',
         headers: {
-          "Authorization": `Bearer ${storedToken}`,
+          "Authorization": `Bearer ${token}`,
           "Accept": "application/json",
         },
       })
@@ -60,19 +60,6 @@ export default function Mypage() {
   const handleThemeToggle = (on: boolean) => {
     setTheme(on ? "light" : "dark");
   };
-
-
-  // 프로필 이미지 다시 상태 저장
-  useEffect(() => {
-    if (profileImg) {
-      // 만약 blob이 들어가면 blob 인식 x
-      const safeProfileImg =
-        !profileImg.startsWith("blob:")
-          ? encodeURI(profileImg)
-          : DEFAULT_PROFILE_IMAGE;
-      setUser({ profileImg: safeProfileImg });
-    }
-  }, [profileImg, setUser]);
 
   return (
     <MobileLayout>

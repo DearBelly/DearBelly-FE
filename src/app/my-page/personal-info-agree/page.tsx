@@ -8,9 +8,10 @@ import { useRouter } from "next/navigation";
 
 export default function PersonalInfoAgree() {
   const router = useRouter();
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState<boolean | null>(null);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
     const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
     setIsLogin(!!token);
   }, []);
@@ -21,6 +22,8 @@ export default function PersonalInfoAgree() {
       topbarTitle="Dear Belly 개인 정보 수집 동의"
       topbarBackground="filled"
     > 
+      {isLogin === false && <LoginModal onClose={() => { setIsLogin(false); router.push('/my-page'); }} />}
+
       <Box className="contentWrapper" w="100%" maxW="33.75rem" mx="auto" mt="0.62rem 0">
         <TextSection>
 {`1. 수집하는 개인정보 항목
@@ -56,15 +59,6 @@ export default function PersonalInfoAgree() {
   • 다만, 필수항목 동의 거부 시 회원가입 및 서비스 기본 기능 이용이 제한될 수 있습니다.`}
         </TextSection>
       </Box>
-
-      {!isLogin && (
-        <LoginModal
-          onClose={() => {
-            setIsLogin(false);
-            router.push('/my-page');
-          }}
-        />
-      )}
     </MobileLayout>
   );
 }

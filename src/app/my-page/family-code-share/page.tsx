@@ -16,12 +16,13 @@ export default function FamilyCodeShare() {
     // 로그인이 되어있는지, 안 되어 있는지 상태저장
     const [copyMessage, setCopyMessage] = useState<string | null>(null);
     const [isError, setIsError] = useState(false);
-    const [isLogin, setIsLogin] = useState(false);
+    const [isLogin, setIsLogin] = useState<boolean | null>(null);
     const { username } = useUserStore();
     const [showToast, setShowToast] = useState(false);
 
     // 토큰 체크 후 가족 코드 생성 api 호출
     useEffect(() => {
+      if (typeof window === "undefined") return;
       const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
       setIsLogin(!!token);
 
@@ -118,6 +119,8 @@ export default function FamilyCodeShare() {
           nextDisabled={!familyCode}
           onNext={handleCopy}
         >
+          {isLogin === false && <LoginModal onClose={() => { setIsLogin(false); router.push('/my-page'); }} />}
+            
           {/* 토스트 띄우기 */}
           {showToast && (
             <Portal>
@@ -148,7 +151,6 @@ export default function FamilyCodeShare() {
               />
             </InputBox>
           </Box>
-            {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
         </TopBarBottomButtonLayout>
     );
 }

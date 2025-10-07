@@ -568,7 +568,7 @@ export const PhotoGuideModal = forwardRef<{ cropToGuide: () => Promise<string | 
           />
 
           {/* 안내 텍스트 */}
-          <Text
+          {/* <Text
             color="text.text1"
             textStyle="body_14700120"
             whiteSpace="nowrap"
@@ -578,7 +578,18 @@ export const PhotoGuideModal = forwardRef<{ cropToGuide: () => Promise<string | 
             textAlign="center" 
           >
             {content}
-          </Text>
+          </Text> */}
+          <Box display="flex" justifyContent="center" textAlign="center" mt="0.75rem">
+            <Text
+              color="text.text1"
+              textStyle="body_14700120"
+              whiteSpace="pre-line"
+              wordBreak="keep-all"
+              lineHeight="1.5"
+            >
+              {content}
+            </Text>
+          </Box>
         </Box>
 
         {/* 버튼 영역 - children에 역할별 클릭 이벤트 주입 */}

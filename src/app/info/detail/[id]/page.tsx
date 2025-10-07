@@ -218,10 +218,10 @@ const InfoDetail = () => {
           <Box width="100%" mt="4vh">
             <TextTitle>{detail.title}</TextTitle>
             <TextSubTitle>{detail.subTitle}</TextSubTitle>
-            {detail.link && <TextLink href={detail.link}>{detail.link}</TextLink>}
+            {detail.link && <TextLink href={detail.link}>해당 글 보러가기 →</TextLink>}
           </Box>
 
-          <Box width="100%" mt="4vh" mb="4vh">
+          <Box width="100%" mt="2.5vh" mb="2.5vh">
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               components={{
@@ -296,21 +296,50 @@ const ImageWrapper = React.forwardRef<HTMLDivElement, { children: React.ReactNod
 );
 
 const TextTitle = ({ children }: { children: React.ReactNode }) => (
-  <Text color="text.text2" textStyle="head_188001" alignSelf="stretch">{children}</Text>
+  <Text 
+    color="text.text2" 
+    textStyle="head_188001" 
+    alignSelf="stretch"
+  >
+    {children}
+  </Text>
 );
 
 const TextSubTitle = ({ children }: { children: React.ReactNode }) => (
-  <Text color="text.text2" textStyle="body_14700120" mt="1vh">{children}</Text>
+  <Text 
+    color="text.text2" 
+    textStyle="body_14700120" 
+    mt="1vh"
+  >
+    {children}
+  </Text>
 );
 
 const TextLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
-  <Link href={href} target="_blank" rel="noopener noreferrer" color="text.text2" textStyle="caption_107001" mt="1.5vh">
+  <Link
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    color="text.text2"
+    textStyle="caption_107001"
+    mt="1.5vh"
+    textDecoration="underline"
+    style={{
+      textUnderlineOffset: "5px",   
+      textDecorationColor: "currentColor",
+    }}
+  >
     {children}
   </Link>
 );
 
 const RecommendText = ({ children }: { children: React.ReactNode }) => (
-  <Text color="text.text2" textStyle="body_148001">{children}</Text>
+  <Text 
+    color="text.text2" 
+    textStyle="body_148001"
+  >
+    {children}
+  </Text>
 );
 
 export default InfoDetail;

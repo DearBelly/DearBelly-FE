@@ -13,15 +13,16 @@ export default function BookMark() {
     const router = useRouter();
     
     // 로그인이 되어있는지, 안 되어 있는지 상태저장
-    const [isLogin, setIsLogin] = useState(false);
+    const [isLogin, setIsLogin] = useState<boolean | null>(null);
     const [cards, setCards] = useState<ContendCardProps[]>([]);
 
     // 토큰 체크
     useEffect(() => {
+        if (typeof window === "undefined") return;
         const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
-        if(token) {
-            setIsLogin(true);
+        setIsLogin(!!token);
 
+        if(token) {
             fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/news/bookmarks?page=0&size=20`, {
                 method: "GET",
                 headers: {
@@ -55,8 +56,6 @@ export default function BookMark() {
                 }
               })
             .catch((err) => console.error("북마크 불러오기 실패: ", err));
-        }else {
-            setIsLogin(false);
         }
     }, []);
 

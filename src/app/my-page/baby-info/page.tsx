@@ -17,18 +17,14 @@ const genderImageMap: Record<string, string> = {
 
 export default function BabyInfo() {
     // 로그인이 되어있는지, 안 되어 있는지 상태저장
-    const [isLogin, setIsLogin] = useState(false);
+    const [isLogin, setIsLogin] = useState<boolean | null>(null);
     const [cards, setCards] = useState<ProfileListProps[]>([]);
 
     // 저장된 아이 목록 불러옴 
     useEffect(() => {
+        if (typeof window === "undefined") return;
         const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
-        if (!token) {
-            setIsLogin(false);
-            return;
-        }
-
-        setIsLogin(true);
+        setIsLogin(!!token);
 
         fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/baby`, {
           method: 'GET',
@@ -79,6 +75,8 @@ export default function BabyInfo() {
             onNext={handleBabyAddClick}
             onBack={handleBackClick}
         >
+            {isLogin === false && <LoginModal onClose={() => { setIsLogin(false); router.push('/my-page'); }} />}
+
             <Box className='body_wrapper' w='100%' display="flex" flexDirection="column" alignItems="center" mt='0.62rem'>
                 <Box w='100%' maxW='35rem' mx='auto'>
                     <Box 
@@ -95,7 +93,6 @@ export default function BabyInfo() {
                         setCards((prev) => prev.filter((c) => c.id !== id));
                     }}/>
                 </Box>
-                {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
             </Box>
         </TopBarBottomButtonLayout>
     );

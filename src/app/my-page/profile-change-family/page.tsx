@@ -156,6 +156,8 @@ export default function ProfileChangeFamily() {
       nextDisabled={!isLogin}
       hideButton={hideButton}
     >
+      {!isLogin && <LoginModal onClose={() => { setIsLogin(false); router.push('/my-page'); }} />}
+        
       {showToast && (
         <Portal>
           <Box
@@ -212,8 +214,6 @@ export default function ProfileChangeFamily() {
           errorMessage="닉네임을 설정해주세요"
         />
       </Box>
-
-      {!isLogin && <LoginModal onClose={() => { setIsLogin(false); router.push('/my-page'); }} />}
     </TopBarBottomButtonLayout>
   );
 }

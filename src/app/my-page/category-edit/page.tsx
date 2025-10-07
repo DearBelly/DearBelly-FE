@@ -95,6 +95,8 @@ export default function CategoryEdit() {
       hideButton={hideButton}
       nextDisabled={false}
     >
+      {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
+
       {/* 토스트 띄우기 */}
       {showToast && (
         <Portal>
@@ -152,14 +154,6 @@ export default function CategoryEdit() {
             ))}
           </Box>
         </Box>
-        {!isLogin && (
-          <LoginModal
-            onClose={() => {
-              setIsLogin(false);
-              router.push("/my-page");
-            }}
-          />
-        )}
       </Box>
     </TopBarBottomButtonLayout>
   );

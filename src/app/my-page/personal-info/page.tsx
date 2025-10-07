@@ -75,6 +75,7 @@ export default function PersonalInfo() {
       topbarTitle="개인 정보 확인"
       topbarBackground="filled"
     >
+      {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.back();}} />}
       <Box 
         className="contentWrapper"
         width="100%"
@@ -115,7 +116,6 @@ export default function PersonalInfo() {
           <LogoutText onClick={handleAccountWithdrawal}>계정 탈퇴</LogoutText>
         </Box>
       </Box>
-      {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.back();}} />}
     </MobileLayout>
   );
 }

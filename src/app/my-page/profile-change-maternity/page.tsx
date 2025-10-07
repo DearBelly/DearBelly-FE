@@ -191,6 +191,8 @@ export default function ProfileChangeMaternity() {
       nextDisabled={!isLogin}
       hideButton={hideButton}
     >
+      {!isLogin && <LoginModal onClose={() => { setIsLogin(false); router.push('/my-page'); }} />}
+        
       {showToast && (
         <Portal>
           <Box
@@ -261,8 +263,6 @@ export default function ProfileChangeMaternity() {
           공백 포함 최대 10자까지 설정할 수 있어요.
         </Text>
       </Box>
-
-      {!isLogin && <LoginModal onClose={() => { setIsLogin(false); router.push('/my-page'); }} />}
     </TopBarBottomButtonLayout>
   );
 }

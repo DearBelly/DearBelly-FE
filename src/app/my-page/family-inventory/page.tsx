@@ -56,6 +56,8 @@ export default function familyInventory() {
           topbarTitle='가족 목록'
           topbarBackground='filled'
         >
+          {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
+            
           <Box className='body_wrapper' display="flex" flexDirection="column" alignItems="center" w="100%" maxW="35rem" mx="auto">
               {/* 본인 프로필  */}
               <Box className='me_wrapper' mt='0.63rem' mb='1.62rem' w="100%">
@@ -86,7 +88,6 @@ export default function familyInventory() {
                   </Text>
                   {familyMembers.length > 0 && <ProfileListOutput cards={familyMembers} />}
               </Box>
-              {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
           </Box>
         </MobileLayout>
       ) 

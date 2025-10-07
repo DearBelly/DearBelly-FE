@@ -118,6 +118,8 @@ export default function FamilyCodeShare() {
           nextDisabled={!familyCode}
           onNext={handleCopy}
         >
+          {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
+
           {/* 토스트 띄우기 */}
           {showToast && (
             <Portal>
@@ -148,7 +150,6 @@ export default function FamilyCodeShare() {
               />
             </InputBox>
           </Box>
-            {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
         </TopBarBottomButtonLayout>
     );
 }

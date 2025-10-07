@@ -59,6 +59,7 @@ export default function FamilyCodeEdit() {
       topbarTitle="가족 공유 코드"
       nextDisabled={familyCode.trim() === ""}
     >
+      {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
       <Box
         as="form"
         w="100%"
@@ -84,15 +85,6 @@ export default function FamilyCodeEdit() {
             errorMessage="잘못된 코드입니다."
           />
         </Box>
-
-        {!isLogin && (
-          <LoginModal
-            onClose={() => {
-              setIsLogin(false);
-              router.push("/my-page");
-            }}
-          />
-        )}
       </Box>
     </TopBarBottomButtonLayout>
   );

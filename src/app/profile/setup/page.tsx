@@ -48,6 +48,13 @@ export default function SetupStep(): JSX.Element {
       if (prev) URL.revokeObjectURL(prev);
       return previewUrl;
     });
+
+    setData({
+      profileImageFile: file,
+      profileImage: previewUrl,
+      imageCommitted: false,
+      imageObjectKey: undefined,
+    });
   };
 
   const handleNextClick = () => {

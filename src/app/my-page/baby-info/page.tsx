@@ -23,7 +23,6 @@ export default function BabyInfo() {
     // 저장된 아이 목록 불러옴 
     useEffect(() => {
         const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
-
         if (!token) {
             setIsLogin(false);
             return;

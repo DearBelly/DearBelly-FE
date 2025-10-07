@@ -6,7 +6,6 @@ import { MobileLayout } from "../../../components/Layouts/MobileLayout";
 import { ContendCardOutput } from '@/components/ContentCard/ContendCardOutput';
 import { LoginModal } from '@/components/LoginModal/LoginModal';
 import type { ContendCardProps } from '@/components/ContentCard/ContentCard';
-import { useUserStore } from "@/store/useUserStore";
 import { useRouter } from "next/navigation";
 import { ChakraIcons } from "@/utils/withChakraIcon";
 
@@ -16,10 +15,10 @@ export default function BookMark() {
     // 로그인이 되어있는지, 안 되어 있는지 상태저장
     const [isLogin, setIsLogin] = useState(false);
     const [cards, setCards] = useState<ContendCardProps[]>([]);
-    const { token } = useUserStore();
 
     // 토큰 체크
     useEffect(() => {
+        const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
         if(token) {
             setIsLogin(true);
 
@@ -83,16 +82,21 @@ export default function BookMark() {
             ) : (
                 <Box 
                     className="error_wrapper"
+                    position="fixed"             
+                    top="50%"                      
+                    left="50%"                    
+                    transform="translate(-50%, -50%)" 
                     display="flex"
                     flexDirection="column"
                     justifyContent="center"
                     alignItems="center"
                     gap="0.5rem"
-                    minH="60vh" 
                     w="100%"
+                    maxW="35rem"
+                    mx="auto"
                 >
-                    <ChakraIcons.DangerCircle size="7vh" color="text.text4" />
-                    <ErrorContent>북마크 정보가 없습니다</ErrorContent>
+                <ChakraIcons.DangerCircle size="7vh" color="text.text4" />
+                <ErrorContent>북마크 정보가 없습니다</ErrorContent>
                 </Box>
             )
             ) : (

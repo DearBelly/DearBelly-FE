@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { ReactNode } from "react";
 import { Box, Text, Field, Input } from "@chakra-ui/react";
 
 export interface InputBoxProps {
@@ -18,6 +18,7 @@ export interface InputBoxProps {
   maxLength?: number;
   isDisabled?: boolean;
   readOnly?: boolean;
+  children?: ReactNode;
 }
 
 export const InputBox = ({
@@ -35,6 +36,7 @@ export const InputBox = ({
   maxLength,
   isDisabled = false,
   readOnly = false,
+  children,
 }: InputBoxProps) => {
   const safeId = `input-${title}`.replace(/\s+/g, "-").toLowerCase();
 
@@ -49,6 +51,7 @@ export const InputBox = ({
           display="flex"
           flexDirection="column"
           gap="0.25rem"
+          position="relative"
         >
           <Text
             textStyle="caption_12800"
@@ -92,7 +95,21 @@ export const InputBox = ({
             autoComplete="one-time-code"
             disabled={isDisabled}
             readOnly={readOnly}   
+            pr="2rem"
           />
+
+          {children && (
+            <Box
+              position="absolute"
+              right="1rem"
+              bottom="1rem"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+            >
+              {children}
+            </Box>
+          )}
         </Box>
       </Box>
       {isError ? (

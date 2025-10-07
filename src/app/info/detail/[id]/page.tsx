@@ -221,7 +221,7 @@ const InfoDetail = () => {
             {detail.link && <TextLink href={detail.link}>{detail.link}</TextLink>}
           </Box>
 
-          <Box width="100%" mt="5vh" mb="5vh">
+          <Box width="100%" mt="4vh" mb="4vh">
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               components={{

@@ -25,12 +25,13 @@ export default function PersonalInfo() {
     const router = useRouter();
 
     // 로그인이 되어있는지, 안 되어 있는지 상태저장
-    const [isLogin, setIsLogin] = useState(false);
+    const [isLogin, setIsLogin] = useState<boolean | null>(null);
     const { username, userEmail, gender, login, birth, clearUser } = useUserStore();
     const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
-
+    
     // 토큰 체크
     useEffect(() => {
+      if (typeof window === "undefined") return;
       setIsLogin(!!token);
     }, []);
 
@@ -75,7 +76,7 @@ export default function PersonalInfo() {
       topbarTitle="개인 정보 확인"
       topbarBackground="filled"
     >
-      {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.back();}} />}
+      {isLogin === false && <LoginModal onClose={() => { setIsLogin(false); router.push('/my-page'); }} />}         
       <Box 
         className="contentWrapper"
         width="100%"

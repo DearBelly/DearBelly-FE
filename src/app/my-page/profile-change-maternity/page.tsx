@@ -17,7 +17,7 @@ export default function ProfileChangeMaternity() {
   const [isNicknameError, setIsNicknameError] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [hideButton, setHideButton] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState<boolean | null>(null);
   const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
   const username = useUserStore((s) => s.username);
   const profileImg = useUserStore((s) => s.profileImg);
@@ -51,6 +51,7 @@ export default function ProfileChangeMaternity() {
   };
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
     setIsLogin(!!token);
     setLastImpDate(toDateSafe(impDate));
   }, [token, impDate]);
@@ -191,7 +192,7 @@ export default function ProfileChangeMaternity() {
       nextDisabled={!isLogin}
       hideButton={hideButton}
     >
-      {!isLogin && <LoginModal onClose={() => { setIsLogin(false); router.push('/my-page'); }} />}
+      {isLogin === false && <LoginModal onClose={() => { setIsLogin(false); router.push('/my-page'); }} />}
         
       {showToast && (
         <Portal>

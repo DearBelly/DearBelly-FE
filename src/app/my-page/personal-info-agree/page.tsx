@@ -8,9 +8,10 @@ import { useRouter } from "next/navigation";
 
 export default function PersonalInfoAgree() {
   const router = useRouter();
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState<boolean | null>(null);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
     const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
     setIsLogin(!!token);
   }, []);
@@ -21,14 +22,7 @@ export default function PersonalInfoAgree() {
       topbarTitle="Dear Belly 개인 정보 수집 동의"
       topbarBackground="filled"
     > 
-      {!isLogin && (
-        <LoginModal
-          onClose={() => {
-            setIsLogin(false);
-            router.push('/my-page');
-          }}
-        />
-      )}
+      {isLogin === false && <LoginModal onClose={() => { setIsLogin(false); router.push('/my-page'); }} />}
 
       <Box className="contentWrapper" w="100%" maxW="33.75rem" mx="auto" mt="0.62rem 0">
         <TextSection>

@@ -16,7 +16,7 @@ export default function ProfileChangeFamily() {
   const [isNicknameError, setIsNicknameError] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [hideButton, setHideButton] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState<boolean | null>(null);
   const { username, profileImg, setUser } = useUserStore();
   const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
 
@@ -25,6 +25,7 @@ export default function ProfileChangeFamily() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
     setIsLogin(!!token);
   }, [token]);
 
@@ -156,7 +157,7 @@ export default function ProfileChangeFamily() {
       nextDisabled={!isLogin}
       hideButton={hideButton}
     >
-      {!isLogin && <LoginModal onClose={() => { setIsLogin(false); router.push('/my-page'); }} />}
+      {isLogin === false && <LoginModal onClose={() => { setIsLogin(false); router.push('/my-page'); }} />}
         
       {showToast && (
         <Portal>

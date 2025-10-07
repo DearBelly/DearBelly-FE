@@ -30,12 +30,12 @@ export default function CategoryEdit() {
   // 토스트 버튼이 띄워지고 나면 버튼도 사라지고 이를 계속 유지해야 함
   const [hideButton, setHideButton] = useState(false);
   // 로그인이 되어있는지, 안 되어 있는지 상태저장
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState<boolean | null>(null);
 
   const router = useRouter();
-  // 토큰 체크 && 사용자 프로필에서 관심 카테고리 정보 불러와 해당 zustand에 저장 
+  if (typeof window === "undefined") return;
   const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
-  
+
   useEffect(() => {
     setIsLogin(!!token);
 
@@ -95,7 +95,7 @@ export default function CategoryEdit() {
       hideButton={hideButton}
       nextDisabled={false}
     >
-      {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
+      {isLogin === false && <LoginModal onClose={() => { setIsLogin(false); router.push('/my-page'); }} />}
 
       {/* 토스트 띄우기 */}
       {showToast && (

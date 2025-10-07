@@ -10,12 +10,13 @@ import { useRouter } from "next/navigation";
 export default function FamilyCodeEdit() {
   const [familyCode, setFamilyCode] = useState("");
   const [isFamilyCodeError, setIsFamilyCodeError] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState<boolean | null>(null);
   const router = useRouter();
-  const token = localStorage.getItem("token") || process.env.NEXT_PUBLIC_TEMP_TOKEN;
 
   // 토큰 체크
   useEffect(() => {
+    if (typeof window === "undefined") return;
+    const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
     setIsLogin(!!token);
   }, []);
 
@@ -59,7 +60,7 @@ export default function FamilyCodeEdit() {
       topbarTitle="가족 공유 코드"
       nextDisabled={familyCode.trim() === ""}
     >
-      {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
+      {isLogin === false && <LoginModal onClose={() => { setIsLogin(false); router.push('/my-page'); }} />}
       <Box
         as="form"
         w="100%"

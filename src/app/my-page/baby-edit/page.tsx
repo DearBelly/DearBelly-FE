@@ -20,10 +20,11 @@ export default function BabyEdit() {
     const [nickname, setNickname] = useState("");
     const [isNicknameError, setIsNicknameError] = useState(false);
     // 로그인이 되어있는지, 안 되어 있는지 상태저장
-    const [isLogin, setIsLogin] = useState(false);
+    const [isLogin, setIsLogin] = useState<boolean | null>(null);
 
     // 토큰 체크
     useEffect(() => {
+        if (typeof window === "undefined") return;
         const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
         setIsLogin(!!token);
         if(!babyId || !token) return;
@@ -105,6 +106,7 @@ export default function BabyEdit() {
             onNext={handleNextClick} 
             onBack={handleBackClick}
         >
+            {isLogin === false && <LoginModal onClose={() => { setIsLogin(false); router.push('/my-page'); }} />}
             <Box 
                 className="wrapper"
                 display="flex" 
@@ -142,7 +144,6 @@ export default function BabyEdit() {
                         ))}
                     </Box>
                 </Box>
-                {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
             </Box>
         </TopBarBottomButtonLayout>
     );

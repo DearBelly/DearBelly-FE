@@ -16,9 +16,6 @@ export default function Mypage() {
   const { username, profileImg, isPregnant, setUser, token } = useUserStore();
 
   useEffect(() => {
-    localStorage.setItem("token", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzOCIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE3NTk3Njc5OTcsImV4cCI6MTc2MjM1OTk5N30.sGDTQ7cWa3VFbMfo3HpzDmM9tU0N655pUrTmZy9jLjo");
-    
-    // localStorage.setItem("token", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNyIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE3NTk3NjM5NTksImV4cCI6MTc2MjM1NTk1OX0.21nsF3cChkHx9ApeVA_ku58NOh8QSZyGzel-YuIRMOE");
     const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
 
     if(token) {

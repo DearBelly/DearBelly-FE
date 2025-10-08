@@ -23,4 +23,3 @@ export const validateFamilyCode = (code: string): string | null => {
   if (code.length > 100) return "코드는 최대 100자까지 가능합니다"; 
   return null;
 };
-

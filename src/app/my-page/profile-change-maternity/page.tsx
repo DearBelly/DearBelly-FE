@@ -1,5 +1,5 @@
 "use client";
-import { Box, Separator, Text, Input } from "@chakra-ui/react";
+import { Box, Separator, Text, Input, Portal } from "@chakra-ui/react";
 import { InputBox } from "@/components/TextField/InputBox";
 import Image from "next/image";
 import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";
@@ -17,8 +17,12 @@ export default function ProfileChangeMaternity() {
   const [isNicknameError, setIsNicknameError] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [hideButton, setHideButton] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
-  const { token, username, profileImg, impDate, setUser } = useUserStore();
+  const [isLogin, setIsLogin] = useState<boolean | null>(null);
+  const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
+  const username = useUserStore((s) => s.username);
+  const profileImg = useUserStore((s) => s.profileImg);
+  const impDate = useUserStore((s) => s.impDate);
+  const setUser = useUserStore((s) => s.setUser);
 
   const [lastImpDate, setLastImpDate] = useState<Date | null>(null);
 
@@ -31,7 +35,7 @@ export default function ProfileChangeMaternity() {
     if (!v) return null;
     if (v instanceof Date) return isNaN(v.getTime()) ? null : v;
     if (typeof v === "string") {
-      const s = v.replace(/\.$/, ""); // "2025.06.01." -> "2025.06.01"
+      const s = v.replace(/\.$/, "");
       try {
         if (/^\d{4}-\d{2}-\d{2}$/.test(s)) {
           const d = parseISO(s);
@@ -47,6 +51,7 @@ export default function ProfileChangeMaternity() {
   };
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
     setIsLogin(!!token);
     setLastImpDate(toDateSafe(impDate));
   }, [token, impDate]);
@@ -162,10 +167,12 @@ export default function ProfileChangeMaternity() {
       const result = await response.json().catch(() => ({}));
       console.log("프로필 텍스트 변경 응답:", result);
 
-      setUser({
-        ...(nicknameToSend ? { username: nicknameToSend } : {}),
-        ...(lmpToSend ? { impDate: lmpToSend } : {}),
-      });
+      if (nicknameToSend !== username || lmpToSend !== impDate) {
+        setUser({
+          ...(nicknameToSend ? { username: nicknameToSend } : {}),
+          ...(lmpToSend ? { impDate: lmpToSend } : {}),
+        });
+      }
 
       setHideButton(true);
       setIsNicknameError(false);
@@ -185,11 +192,22 @@ export default function ProfileChangeMaternity() {
       nextDisabled={!isLogin}
       hideButton={hideButton}
     >
+      {isLogin === false && <LoginModal onClose={() => { setIsLogin(false); router.push('/my-page'); }} />}
+        
       {showToast && (
-        <Box position="fixed" top="5.25rem" left="50%" transform="translateX(-50%)" zIndex={9999}>
-          <Toast />
-        </Box>
-      )}
+        <Portal>
+          <Box
+            position="fixed"
+            top="5%" 
+            left="50%"
+            transform="translateX(-50%)"
+            zIndex={99999}
+            pointerEvents="auto"
+          >
+            <Toast />
+          </Box>
+        </Portal>
+      )}
 
       <Box className="content" flex="1" width="100%" maxW="35rem" mx="auto">
         <Box display="flex" justifyContent="center" mt="5.66dvh" mb="32px">
@@ -206,7 +224,7 @@ export default function ProfileChangeMaternity() {
             cursor="pointer"
           >
             <Image
-              src={selectedImg || profileImg || "/images/set_profile.svg"}
+              src={selectedImg || profileImg || "/images/icon_default_profile.svg"}
               alt="profile-setup"
               fill
               style={{ objectFit: "cover" }}
@@ -246,8 +264,6 @@ export default function ProfileChangeMaternity() {
           공백 포함 최대 10자까지 설정할 수 있어요.
         </Text>
       </Box>
-
-      {!isLogin && <LoginModal onClose={() => { setIsLogin(false); router.push('/my-page'); }} />}
     </TopBarBottomButtonLayout>
   );
 }

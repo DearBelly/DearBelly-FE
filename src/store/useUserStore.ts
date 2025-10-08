@@ -6,47 +6,46 @@ interface UserState {
   userEmail: string;
   profileImg: string;
   isPregnant: boolean;
-  impDate: Date | null;  
+  impDate: string | null;
   gender: string;
   login: string;
   birth: string;
-  setUser: (data: {
-    token?: string;
-    username?: string;
-    userEmail?: string;
-    profileImg?: string;
-    isPregnant?: boolean;
-    impDate?: string; 
-    gender?: string;
-    login?: string;
-    birth?: string;
-  }) => void;
+  setUser: (data: Partial<UserState>) => void;
   clearUser: () => void;
 }
 
-export const useUserStore = create<UserState>((set) => ({
+export const useUserStore = create<UserState>((set, get) => ({
   token: null,
   username: "",
   userEmail: "",
   profileImg: "",
   isPregnant: false,
-  impDate: null,  
+  impDate: null,
   gender: "",
   login: "",
   birth: "",
 
-  setUser: (data) =>
-    set((state) => ({
-      token: data.token ?? state.token,
-      username: data.username ?? state.username,
-      userEmail: data.userEmail ?? state.userEmail,
-      profileImg: data.profileImg ?? state.profileImg,
-      isPregnant: data.isPregnant ?? state.isPregnant,
-      impDate: data.impDate ? new Date(data.impDate) : state.impDate,
-      gender: data.gender ?? state.gender,
-      login: data.login ?? state.login,
-      birth: data.birth ?? state.birth,
-    })),
+  setUser: (data) => {
+    const current = get();
+
+    const normalizedData = { ...data };
+    if (data.profileImg) {
+      normalizedData.profileImg = !data.profileImg.startsWith("blob:")
+        ? encodeURI(data.profileImg)
+        : "/images/icon_default_profile.svg";
+    }
+
+    let hasChanged = false;
+    for (const [key, value] of Object.entries(normalizedData)) {
+      if ((current as any)[key] !== value) {
+        hasChanged = true;
+        break;
+      }
+    }
+    if (!hasChanged) return;
+
+    set({ ...current, ...normalizedData });
+  },
 
   clearUser: () =>
     set({

@@ -32,7 +32,7 @@ export default function InfoSearch() {
           const formatted = data.data.map((item: any) => ({
             id: item.newsId,
             title: item.title,
-            subtitle: item.subTitle,
+            subTitle: item.subTitle,
             imageSrc:  item.imageUrl || "/images/default_image.svg",
             category: item.category,
           }));
@@ -84,7 +84,7 @@ export default function InfoSearch() {
         const filtered = contentCard.filter(
             (item) =>
               item.title?.includes(text) ||
-              item.subtitle?.includes(text) 
+              item.subTitle?.includes(text) 
         );
         setSearchResult(filtered);
     }

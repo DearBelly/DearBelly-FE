@@ -1,22 +1,29 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Box } from "@chakra-ui/react";
+import { Box, Portal } from "@chakra-ui/react";
 import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";
 import { InputBox } from "@/components/TextField/InputBox";
 import { LoginModal } from '@/components/LoginModal/LoginModal';
 import { useUserStore } from "@/store/useUserStore";
 import { useRouter } from "next/navigation";
+import { ChakraIcons } from "@/utils/withChakraIcon";
+import { Toast } from "@/components/Toast/Toast";
 
 export default function FamilyCodeShare() {
     const router = useRouter();
     const [familyCode, setFamilyCode] = useState("");
     // 로그인이 되어있는지, 안 되어 있는지 상태저장
-    const [isLogin, setIsLogin] = useState(false);
-    const { token, username } = useUserStore();
+    const [copyMessage, setCopyMessage] = useState<string | null>(null);
+    const [isError, setIsError] = useState(false);
+    const [isLogin, setIsLogin] = useState<boolean | null>(null);
+    const { username } = useUserStore();
+    const [showToast, setShowToast] = useState(false);
 
     // 토큰 체크 후 가족 코드 생성 api 호출
     useEffect(() => {
+      if (typeof window === "undefined") return;
+      const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
       setIsLogin(!!token);
 
       // 토큰 존재 시 api 호출
@@ -50,7 +57,7 @@ export default function FamilyCodeShare() {
       }, []);
 
     // 공유하기 함수
-    const handleShare = () => {
+    const handleKakaoShare = () => {
         if (!window.Kakao) {
           alert("카카오 SDK가 로드되지 않음");
           return;
@@ -83,22 +90,67 @@ export default function FamilyCodeShare() {
       });
     };
 
+    // 가족코드 복사하기
+    const handleCopy = async() => {
+      try {
+        if(!familyCode) {
+          setCopyMessage("복사할 가족 코드가 없습니다");
+          setIsError(true);
+          return;
+        }
+        await navigator.clipboard.writeText(familyCode);
+        setCopyMessage("가족 코드가 복사되었습니다");
+        setIsError(false);
+        setShowToast(true);
+
+        setTimeout(() => setShowToast(false), 2000);
+        setTimeout(() => setCopyMessage(null), 2000);
+      } catch(err) {
+        console.log("복사 실패: ", err);
+        setCopyMessage("복사 중 오류가 발생했습니다");
+        setIsError(true);
+      }
+    };
+
     return (
         <TopBarBottomButtonLayout 
-          nextLabel="가족 코드 공유하기"
+          nextLabel="가족 코드 복사하기"
           topbarTitle='가족 공유 코드'
           nextDisabled={!familyCode}
-          onNext={handleShare}
+          onNext={handleCopy}
         >
-            <Box mt="2.5vh" w='100%' maxW='35rem' mx='auto'>
-              <InputBox
-                  mode="default"
-                  title="가족 공유 코드"
-                  value={familyCode || "코드 생성 중..."}
-                  readOnly 
-              />  
-            </Box>
-            {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
+          {isLogin === false && <LoginModal onClose={() => { setIsLogin(false); router.push('/my-page'); }} />}
+            
+          {/* 토스트 띄우기 */}
+          {showToast && (
+            <Portal>
+              <Box
+                position="fixed"
+                top="5%" 
+                left="50%"
+                transform="translateX(-50%)"
+                zIndex={99999}
+                pointerEvents="auto"
+              >
+                <Toast message="가족 코드가 복사되었습니다"/>
+              </Box>
+            </Portal>
+          )}
+          <Box mt="2.5vh" w="100%" maxW="35rem" mx="auto">
+            <InputBox
+              mode="default"
+              title="가족 공유 코드"
+              value={familyCode || "코드 생성 중..."}
+              readOnly
+            >
+              <ChakraIcons.ExternalLink
+                onClick={handleKakaoShare}
+                cursor="pointer"
+                color="icon.icon1"
+                size="1.2rem"
+              />
+            </InputBox>
+          </Box>
         </TopBarBottomButtonLayout>
     );
 }

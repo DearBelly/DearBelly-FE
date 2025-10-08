@@ -12,14 +12,16 @@ import { useUserStore } from "@/store/useUserStore";
 export default function familyInventory() {
     const router = useRouter();
     // 로그인이 되어있는지, 안 되어 있는지 상태저장
-    const [isLogin, setIsLogin] = useState(false);
+    const [isLogin, setIsLogin] = useState<boolean | null>(null);
     // 가족 멤버들을 저장할 수 있도록 상태저장
     const [familyMembers, setFamilyMembers ] = useState<any[]>([]);
-    const { token, username, profileImg } = useUserStore();
+    const { username, profileImg } = useUserStore();
 
     // 토큰 체크 && 가족 목록 조회
     useEffect(() => {
-      setIsLogin(!!token);
+        if (typeof window === "undefined") return;
+        const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
+        setIsLogin(!!token);
 
       if(token) {
         fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/family-code/members`, {
@@ -55,6 +57,8 @@ export default function familyInventory() {
           topbarTitle='가족 목록'
           topbarBackground='filled'
         >
+          {isLogin === false && <LoginModal onClose={() => { setIsLogin(false); router.push('/my-page'); }} />}
+
           <Box className='body_wrapper' display="flex" flexDirection="column" alignItems="center" w="100%" maxW="35rem" mx="auto">
               {/* 본인 프로필  */}
               <Box className='me_wrapper' mt='0.63rem' mb='1.62rem' w="100%">
@@ -85,7 +89,6 @@ export default function familyInventory() {
                   </Text>
                   {familyMembers.length > 0 && <ProfileListOutput cards={familyMembers} />}
               </Box>
-              {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/my-page');}} />}
           </Box>
         </MobileLayout>
       ) 

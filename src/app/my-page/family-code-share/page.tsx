@@ -20,6 +20,7 @@ export default function FamilyCodeShare() {
 
     // 토큰 체크 후 가족 코드 생성 api 호출
     useEffect(() => {
+      if (typeof window === "undefined") return;
       const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
 
       // 토큰 존재 시 api 호출

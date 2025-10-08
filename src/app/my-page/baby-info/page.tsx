@@ -19,6 +19,7 @@ export default function BabyInfo() {
 
     // 저장된 아이 목록 불러옴 
     useEffect(() => {
+        if (typeof window === "undefined") return;
         const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
 
         fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/baby`, {

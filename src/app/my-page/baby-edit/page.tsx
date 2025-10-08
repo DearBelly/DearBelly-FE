@@ -21,6 +21,7 @@ export default function BabyEdit() {
 
     // 토큰 체크
     useEffect(() => {
+        if (typeof window === "undefined") return;
         const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
         if(!babyId || !token) return;
 

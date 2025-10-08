@@ -12,8 +12,10 @@ export type SignupStep = 1 | 2 | 3 | 4;
 
 export interface SignupData {
   nickname: string;
-  profileImageFile?: File;
-  profileImage?: string;
+  profileImageFile?: File;      
+  profileImage?: string;        
+  imageObjectKey?: string;     
+  imageCommitted?: boolean;     
 
   isPregnant: boolean;
   isExpectingMother: boolean;
@@ -39,6 +41,8 @@ interface SignupStore {
 const initialData: SignupData = {
   nickname: "",
   profileImage: undefined,
+  imageObjectKey: undefined, 
+  imageCommitted: false,
   isPregnant: true,
   isExpectingMother: false,
   LMP: "",

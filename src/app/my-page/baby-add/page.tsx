@@ -6,7 +6,6 @@ import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButto
 import { useRouter } from "next/navigation";
 import { RadioField } from '@/components/RadioField/RadioField';
 import { InputBox } from "@/components/TextField/InputBox";
-import { LoginModal } from '@/components/LoginModal/LoginModal';
 
 export default function BabyAdd() {
     const router = useRouter();
@@ -17,16 +16,7 @@ export default function BabyAdd() {
 
     const [nickname, setNickname] = useState("");
     const [isNicknameError, setIsNicknameError] = useState(false);
-
-    // 로그인이 되어있는지, 안 되어 있는지 상태저장
-    const [isLogin, setIsLogin] = useState<boolean | null>(null);
     const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
-
-    // 토큰 체크
-    useEffect(() => {
-        if (typeof window === "undefined") return;
-        setIsLogin(!!token);
-      }, []);
 
     const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -85,8 +75,6 @@ export default function BabyAdd() {
             onNext={handleBabyAddClick} 
             onBack={handleBackClick}
         >
-            {isLogin === false && <LoginModal onClose={() => { setIsLogin(false); router.push('/my-page'); }} />}
-
             <Box 
                 className="wrapper"
                 display="flex" 

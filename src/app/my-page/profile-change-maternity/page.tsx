@@ -6,7 +6,6 @@ import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButto
 import React, { useState, useEffect, useRef } from "react";
 import { Toast } from "@/components/Toast/Toast";
 import { InputBoxCalendar } from '@/components/TextField/InputBoxCalendar';
-import { LoginModal } from '@/components/LoginModal/LoginModal';
 import { useUserStore } from "@/store/useUserStore";
 import { format, parse, parseISO } from "date-fns";
 import { useRouter } from "next/navigation";
@@ -17,7 +16,6 @@ export default function ProfileChangeMaternity() {
   const [isNicknameError, setIsNicknameError] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [hideButton, setHideButton] = useState(false);
-  const [isLogin, setIsLogin] = useState<boolean | null>(null);
   const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
   const username = useUserStore((s) => s.username);
   const profileImg = useUserStore((s) => s.profileImg);
@@ -51,10 +49,8 @@ export default function ProfileChangeMaternity() {
   };
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    setIsLogin(!!token);
     setLastImpDate(toDateSafe(impDate));
-  }, [token, impDate]);
+  }, [impDate]);
 
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -128,8 +124,6 @@ export default function ProfileChangeMaternity() {
   // 완료 버튼 클릭 시 patch 호출함
   const handleNextClick = async () => {
     try {
-      if (!isLogin) throw new Error("로그인이 필요합니다.");
-
       if (selectedFile) {
         await uploadProfileImage(selectedFile);
       }
@@ -188,12 +182,8 @@ export default function ProfileChangeMaternity() {
     <TopBarBottomButtonLayout
       onNext={handleNextClick}
       nextLabel="완료"
-      // 아무 변경 없더라도 PATCH는 기존값으로 나가도록 허용
-      nextDisabled={!isLogin}
       hideButton={hideButton}
     >
-      {isLogin === false && <LoginModal onClose={() => { setIsLogin(false); router.push('/my-page'); }} />}
-        
       {showToast && (
         <Portal>
           <Box

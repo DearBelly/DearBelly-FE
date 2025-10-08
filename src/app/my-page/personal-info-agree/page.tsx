@@ -1,28 +1,16 @@
 'use client';
 
-import { useState, useEffect, ReactNode } from "react";
+import { ReactNode } from "react";
 import { Box } from "@chakra-ui/react";
 import { MobileLayout } from "../../../components/Layouts/MobileLayout";
-import { LoginModal } from '@/components/LoginModal/LoginModal';
-import { useRouter } from "next/navigation";
 
 export default function PersonalInfoAgree() {
-  const router = useRouter();
-  const [isLogin, setIsLogin] = useState<boolean | null>(null);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
-    setIsLogin(!!token);
-  }, []);
-
   return (
     <MobileLayout
       topbarMode="back"
       topbarTitle="Dear Belly 개인 정보 수집 동의"
       topbarBackground="filled"
     > 
-      {isLogin === false && <LoginModal onClose={() => { setIsLogin(false); router.push('/my-page'); }} />}
 
       <Box className="contentWrapper" w="100%" maxW="33.75rem" mx="auto" mt="0.62rem 0">
         <TextSection>

@@ -1,11 +1,9 @@
 'use client';
 
-import { useState, useEffect } from "react";
 import { Box, Text } from "@chakra-ui/react";
 import { MobileLayout } from "../../../components/Layouts/MobileLayout";
 import { ProfilePersonalContent } from '@/components/ProfilePersonalContent/ProfilePersonalContent';
 import { useRouter } from "next/navigation";
-import { LoginModal } from '@/components/LoginModal/LoginModal';
 import { useUserStore } from '@/store/useUserStore';
 
 // 성별 이름 변경
@@ -23,17 +21,8 @@ const loginMap: Record<string, string> = {
 
 export default function PersonalInfo() {
     const router = useRouter();
-
-    // 로그인이 되어있는지, 안 되어 있는지 상태저장
-    const [isLogin, setIsLogin] = useState<boolean | null>(null);
     const { username, userEmail, gender, login, birth, clearUser } = useUserStore();
     const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
-    
-    // 토큰 체크
-    useEffect(() => {
-      if (typeof window === "undefined") return;
-      setIsLogin(!!token);
-    }, []);
 
     // 로그아웃 핸들러
     const handlerLogout = () => {
@@ -75,8 +64,7 @@ export default function PersonalInfo() {
       topbarMode="back"
       topbarTitle="개인 정보 확인"
       topbarBackground="filled"
-    >
-      {isLogin === false && <LoginModal onClose={() => { setIsLogin(false); router.push('/my-page'); }} />}         
+    >     
       <Box 
         className="contentWrapper"
         width="100%"

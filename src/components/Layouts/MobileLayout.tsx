@@ -39,7 +39,7 @@ export const MobileLayout = ({
       alignItems="center"
       justifyItems="center"
       w="100%"
-      minH="100vh"
+      minH="100dvh"
       bg={contentBackground === "filled" ? "bg.bg1" : "transparent"}
       m="0 auto"
       position="relative"

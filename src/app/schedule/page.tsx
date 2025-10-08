@@ -5,11 +5,12 @@ import { useRouter } from 'next/navigation';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { ScheduleModal } from '@/components/Modals/ScheduleModal';
 import { MobileLayout } from '@/components/Layouts/MobileLayout';
 import { Box, Text } from '@chakra-ui/react';
 import { LoginModal } from '@/components/LoginModal/LoginModal';
+import { createSchedule, mapColorToApiFormat, fetchMonthlySchedules, convertToCalendarEvent } from '@/lib/schedules';
 
 export default function CalendarPage() {
   const router = useRouter();
@@ -20,27 +21,72 @@ export default function CalendarPage() {
 
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [scheduleList, setScheduleList] = useState<any[]>([]);
+  const [currentDate, setCurrentDate] = useState(new Date());
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+     const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
+    console.log('토큰 확인:', token ? '있음' : '없음');
+    console.log('temp token:', process.env.NEXT_PUBLIC_TEMP_TOKEN);
     setIsLogin(!!token);
   }, []);
+
+  const loadMonthlySchedules = useCallback(async () => {
+    try {
+      const year = currentDate.getFullYear();
+      const month = currentDate.getMonth()+2; // 월에 +2개월 해줘야 한국 날짜가 나옴
+      console.log('월별 일정 조회 시작:', year, month);
+      const schedules = await fetchMonthlySchedules(year, month);
+      console.log('월별 일정 조회 결과:', schedules);
+      const calendarEvents = schedules.map(convertToCalendarEvent);
+      setScheduleList(calendarEvents);
+    } catch (error) {
+      console.error('월별 일정 조회 실패:', error);
+      setScheduleList([]);
+    }
+  }, [currentDate]);
+
+  // 월별 일정 로드
+  useEffect(() => {
+    console.log('useEffect 실행 - isLogin:', isLogin);
+    if (isLogin) {
+      console.log('로그인 상태 - 일정 로드 시작');
+      loadMonthlySchedules();
+    } else {
+      console.log('비로그인 상태 - 일정 로드 안함');
+    }
+  }, [isLogin, loadMonthlySchedules]);
 
   const handleDateClick = (info: any) => {
     setSelectedDate(info.dateStr);
     setIsScheduleOpen(true);
   };
 
-  const handleAddSchedule = (name: string, bgColor: string) => {
-    setScheduleList((prev) => [
-      ...prev,
-      {
-        id: prev.length + 1,
-        title: name,
-        start: selectedDate,
-        backgroundColor: bgColor,
-      },
-    ]);
+  const handleAddSchedule = async (name: string, bgColor: string) => {
+    if (!selectedDate) return;
+    
+    try {
+      const apiColor = mapColorToApiFormat(bgColor);
+      await createSchedule({
+        schedule: name,
+        startDate: selectedDate,
+        endDate: selectedDate,
+        color: apiColor,
+      });
+      
+      // 일정 추가 후 월별 일정 새로고침
+      loadMonthlySchedules();
+      
+    } catch (error) {
+      console.error('일정 등록 실패:', error);
+      alert('일정 등록에 실패했습니다. 다시 시도해주세요.');
+      throw error; // 에러를 다시 던져서 ScheduleModal에서 처리할 수 있도록
+    }
+  };
+
+  // 캘린더 날짜 변경 핸들러
+  const handleDatesSet = (dateInfo: any) => {
+    const newDate = new Date(dateInfo.start);
+    setCurrentDate(newDate);
   };
 
   return (
@@ -67,6 +113,7 @@ export default function CalendarPage() {
             events={scheduleList}
             dateClick={handleDateClick}
             selectMirror={true}
+            datesSet={handleDatesSet}
             moreLinkContent={(args) => (
               <Text textStyle="caption_97004">+{args.num}</Text>
             )}
@@ -75,13 +122,13 @@ export default function CalendarPage() {
                 display="flex"
                 alignItems="flex-start"
                 bg={event.backgroundColor}
-                borderRadius="4px"
-                px="1px"
-                py="2px"
                 textStyle="caption_97004"
                 overflow="hidden"
                 textOverflow="ellipsis"
                 whiteSpace="nowrap"
+                borderRadius="4px"
+                px="3px"
+                py="2px"
               >
                 {event.title}
               </Box>
@@ -110,8 +157,7 @@ export default function CalendarPage() {
               isOpen={isScheduleOpen}
               onClose={() => setIsScheduleOpen(false)}
               date={selectedDate}
-              scheduleList={scheduleList}
-              onAddSchedule={isLoginOpen ? handleAddSchedule : () => setIsLoginOpen(true)}
+              onAddSchedule={isLogin ? handleAddSchedule : () => setIsLoginOpen(true)}
             />
           </Box>
         </Box>

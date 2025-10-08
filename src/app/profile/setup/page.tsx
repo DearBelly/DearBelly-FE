@@ -131,7 +131,7 @@ export default function SetupStep(): JSX.Element {
         errorMessage={validation.errorMessage}
       />
 
-      <Box w="100%" maxW="40rem">
+      <Box w="100%" maxW="40rem" mx="0.25rem">
         <TermsSheet />
       </Box>
     </TopBarBottomButtonLayout>

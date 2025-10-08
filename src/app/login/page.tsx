@@ -19,10 +19,7 @@ export default function Login() {
   const API = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   async function getAuthUrl(provider: Provider): Promise<string> {
-    const path =
-      provider === 'naver'
-        ? '/api/v1/auth/naver' 
-        : `/api/v1/auth/url/${provider}`;
+    const path = provider === 'naver' ? '/api/v1/auth/naver' : `/api/v1/auth/url/${provider}`;
 
     const res = await fetch(`${API}${path}`, {
       method: 'GET',
@@ -33,8 +30,8 @@ export default function Login() {
     let json: Partial<CommonResponse<string>> = {};
     try {
       json = await res.json();
-    } catch {
-    }
+    } catch {}
+
     if (!res.ok || !json?.success || typeof json?.data !== 'string') {
       throw new Error(json?.message || `Failed to get auth url (${res.status})`);
     }
@@ -56,50 +53,44 @@ export default function Login() {
   }
 
   return (
-    <Box
-      bg="bg.bg1"
-      minW="100dvw"
-      minH="100dvh"
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-    >
-      <Box mt="23.6dvh" display="flex" justifyContent="center">
-        <Image src="/logos/logo.svg" alt="로고" width={112.5} height={86.25} priority />
-      </Box>
-
+    <>
+      {/* 로그인 화면 */}
       <Box
-        mt="20.7dvh"
+        bg="bg.bg1"
+        minW="100dvw"
+        minH="100dvh"
         display="flex"
         flexDirection="column"
-        justifyContent="center"
         alignItems="center"
-        gap="12px"
-        w="100%"
-        maxW="40rem"
-        px="20px"
+        justifyContent="center"
       >
-        <SocialLoginButton
-          provider="naver"
-          onClick={() => handleLogin('naver')}
-        />
-        <SocialLoginButton
-          provider="google"
-          onClick={() => handleLogin('google')}
-        />
-        <SocialLoginButton
-          provider="kakao"
-          onClick={() => handleLogin('kakao')}
-        />
-      </Box>
+        <Box mt="23.6dvh" display="flex" justifyContent="center">
+          <Image src="/logos/logo.svg" alt="로고" width={112.5} height={86.25} priority />
+        </Box>
 
-      <Box mt="3.94dvh" display="flex" justifyContent="center" alignItems="center" alignSelf="stretch">
-        <Text color="text.text3" textAlign="center" textStyle="caption_107001">
-          가입하면 Mom4U의<br />
-          이용약관 및 개인정보처리방침에 동의하게 됩니다
-        </Text>
+        <Box
+          mt="20.7dvh"
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+          gap="12px"
+          w="100%"
+          maxW="40rem"
+          px="20px"
+        >
+          <SocialLoginButton provider="naver"  onClick={() => handleLogin('naver')} />
+          <SocialLoginButton provider="google" onClick={() => handleLogin('google')} />
+          <SocialLoginButton provider="kakao"  onClick={() => handleLogin('kakao')} />
+        </Box>
+
+        <Box mt="3.94dvh" display="flex" justifyContent="center" alignItems="center" alignSelf="stretch">
+          <Text color="text.text3" textAlign="center" textStyle="caption_107001">
+            가입하면 Mom4U의<br />
+            이용약관 및 개인정보처리방침에 동의하게 됩니다
+          </Text>
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 }

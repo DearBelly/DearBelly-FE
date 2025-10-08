@@ -21,33 +21,34 @@ export default function FamilyStep() {
 
   const API = process.env.NEXT_PUBLIC_API_BASE_URL!;
 
-  const errorMessage = useMemo(
-    () => clientErrorMessage ?? serverErrorMessage ?? "",
-    [clientErrorMessage, serverErrorMessage]
-  );
+  const errorMessage = useMemo(() => {
+    if (clientErrorMessage) return clientErrorMessage;
+    return serverErrorMessage ?? "";
+  }, [clientErrorMessage, serverErrorMessage]);
 
   const handleFamilyCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value; 
-    if (value.length <= 20) {
+    const value = e.target.value;
+    if (value.length <= 100) { 
       setData({ familyCode: value, isVerified: false });
       setClientErrorMessage(null);
+      reset(); 
     }
-  };
+  };  
 
   const handleVerifyClick = async () => {
     if (!familyCode) return;
-
+  
     const msg = validateFamilyCode(familyCode);
     if (msg) {
       setData({ isVerified: false });
       setClientErrorMessage(msg);
       return;
     }
-
+  
+    setClientErrorMessage(null);
+  
     const ok = await verify(familyCode);
     setData({ isVerified: ok });
-    if (!ok && !clientErrorMessage) {
-    }
   };
 
   const formatDot = (s: string) => s.replace(/-/g, ".");

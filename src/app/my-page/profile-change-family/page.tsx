@@ -6,7 +6,6 @@ import Image from "next/image";
 import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";
 import React, { useState, useEffect, useRef } from "react";
 import { Toast } from "@/components/Toast/Toast";
-import { LoginModal } from '@/components/LoginModal/LoginModal';
 import { useUserStore } from "@/store/useUserStore";
 import { useRouter } from "next/navigation";
 
@@ -16,18 +15,12 @@ export default function ProfileChangeFamily() {
   const [isNicknameError, setIsNicknameError] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [hideButton, setHideButton] = useState(false);
-  const [isLogin, setIsLogin] = useState<boolean | null>(null);
   const { username, profileImg, setUser } = useUserStore();
   const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
 
   const [selectedImg, setSelectedImg] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    setIsLogin(!!token);
-  }, [token]);
 
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -98,8 +91,6 @@ export default function ProfileChangeFamily() {
 
   const handleNextClick = async () => {
     try {
-      if (!isLogin) throw new Error("로그인이 필요합니다.");
-
       if (selectedFile) {
         await uploadProfileImage(selectedFile);
       }
@@ -154,11 +145,8 @@ export default function ProfileChangeFamily() {
     <TopBarBottomButtonLayout
       onNext={handleNextClick}
       nextLabel="완료"
-      nextDisabled={!isLogin}
       hideButton={hideButton}
-    >
-      {isLogin === false && <LoginModal onClose={() => { setIsLogin(false); router.push('/my-page'); }} />}
-        
+    >   
       {showToast && (
         <Portal>
           <Box

@@ -4,24 +4,15 @@ import { useState, useEffect } from "react";
 import { Box } from "@chakra-ui/react";
 import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";
 import { InputBox } from "@/components/TextField/InputBox";
-import { LoginModal } from "@/components/LoginModal/LoginModal";
 import { useRouter } from "next/navigation";
 
 export default function FamilyCodeEdit() {
   const [familyCode, setFamilyCode] = useState("");
   const [isFamilyCodeError, setIsFamilyCodeError] = useState(false);
-  const [isLogin, setIsLogin] = useState<boolean | null>(null);
   const router = useRouter();
 
-  // 토큰 체크
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
-    setIsLogin(!!token);
-  }, []);
-
   const joinFamily = async (code: string) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/family-code/join`, {
         method: "POST",
@@ -60,7 +51,6 @@ export default function FamilyCodeEdit() {
       topbarTitle="가족 공유 코드"
       nextDisabled={familyCode.trim() === ""}
     >
-      {isLogin === false && <LoginModal onClose={() => { setIsLogin(false); router.push('/my-page'); }} />}
       <Box
         as="form"
         w="100%"

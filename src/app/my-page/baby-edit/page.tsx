@@ -6,7 +6,6 @@ import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButto
 import { useRouter, useSearchParams } from "next/navigation";
 import { RadioField } from '@/components/RadioField/RadioField';
 import { InputBox } from "@/components/TextField/InputBox";
-import { LoginModal } from '@/components/LoginModal/LoginModal';
 
 export default function BabyEdit() {
     const router = useRouter();
@@ -19,14 +18,10 @@ export default function BabyEdit() {
     const [selected, setSelected] = useState(2);
     const [nickname, setNickname] = useState("");
     const [isNicknameError, setIsNicknameError] = useState(false);
-    // 로그인이 되어있는지, 안 되어 있는지 상태저장
-    const [isLogin, setIsLogin] = useState<boolean | null>(null);
 
     // 토큰 체크
     useEffect(() => {
-        if (typeof window === "undefined") return;
         const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
-        setIsLogin(!!token);
         if(!babyId || !token) return;
 
         fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/baby/${babyId}`, {
@@ -106,7 +101,6 @@ export default function BabyEdit() {
             onNext={handleNextClick} 
             onBack={handleBackClick}
         >
-            {isLogin === false && <LoginModal onClose={() => { setIsLogin(false); router.push('/my-page'); }} />}
             <Box 
                 className="wrapper"
                 display="flex" 

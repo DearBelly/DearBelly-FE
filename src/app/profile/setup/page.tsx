@@ -1,21 +1,34 @@
 "use client";
 
+import React, { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Box, Text } from "@chakra-ui/react";
-import { InputBox } from "@/components/TextField/InputBox";
 import Image from "next/image";
 import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";
-import { useState, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { InputBox } from "@/components/TextField/InputBox";
 import { useSignupStore } from "@/store/useSignupStore";
 import { validateNickname } from "@/utils/validators";
 
-export default function SetupStep() {
+export default function SetupStep(): JSX.Element {
   const router = useRouter();
   const { data, setData, nextStep } = useSignupStore();
 
-  const [nickname, setNickname] = useState(data.nickname || "");
-  const [preview, setPreview] = useState<string | null>(null); 
+  const [nickname, setNickname] = useState<string>(data.nickname || "");
+  const [preview, setPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    if (!token) {
+      router.replace("/login");
+    }
+  }, [router]);
+
+  useEffect(() => {
+    return () => {
+      if (preview) URL.revokeObjectURL(preview);
+    };
+  }, [preview]);
 
   const validation = validateNickname(nickname);
 
@@ -26,10 +39,15 @@ export default function SetupStep() {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file) return;
-
+    if (!file) {
+      setPreview(null);
+      return;
+    }
     const previewUrl = URL.createObjectURL(file);
-    setPreview(previewUrl); 
+    setPreview((prev) => {
+      if (prev) URL.revokeObjectURL(prev);
+      return previewUrl;
+    });
   };
 
   const handleNextClick = () => {
@@ -39,10 +57,15 @@ export default function SetupStep() {
     router.push("/profile/info");
   };
 
+  const handleBackClick = () => {
+    router.push("/login");
+  };
+
   return (
     <TopBarBottomButtonLayout
       onNext={handleNextClick}
       nextDisabled={!validation.valid || !preview}
+      onBack={handleBackClick}
     >
       <Box
         as="form"
@@ -55,7 +78,7 @@ export default function SetupStep() {
       >
         <Text textStyle="head_188001">프로필을 만들어봐요</Text>
         <Text textStyle="body_14400224" mt="4px">
-          디어 벨리에서 사용할 닉네임을 만들어주세요
+          디어 벨리에서 사용할 닉네임과 프로필 이미지를 설정해주세요
         </Text>
       </Box>
 
@@ -72,7 +95,7 @@ export default function SetupStep() {
           <Box
             w="80px"
             h="80px"
-            position="relative" 
+            position="relative"
             borderRadius="100%"
             overflow="hidden"
             cursor="pointer"
@@ -82,9 +105,7 @@ export default function SetupStep() {
               src={preview}
               alt="profile-setup"
               fill
-              style={{
-                objectFit: "cover",
-              }}
+              style={{ objectFit: "cover" }}
             />
           </Box>
         ) : (
@@ -93,9 +114,7 @@ export default function SetupStep() {
             alt="profile-setup"
             width={80}
             height={80}
-            style={{
-              cursor: "pointer",
-            }}
+            style={{ cursor: "pointer" }}
             onClick={() => fileInputRef.current?.click()}
           />
         )}

@@ -16,16 +16,13 @@ export default function Mypage() {
   const { username, profileImg, isPregnant, setUser, token } = useUserStore();
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
-    console.log("localStorage 토큰: ", storedToken);
+    const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
 
-    if(storedToken) {
-      setUser({token: storedToken});
-
+    if(token) {
       fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/member/profile`, {
         method: 'GET',
         headers: {
-          "Authorization": `Bearer ${storedToken}`,
+          "Authorization": `Bearer ${token}`,
           "Accept": "application/json",
         },
       })
@@ -60,19 +57,6 @@ export default function Mypage() {
   const handleThemeToggle = (on: boolean) => {
     setTheme(on ? "light" : "dark");
   };
-
-
-  // 프로필 이미지 다시 상태 저장
-  useEffect(() => {
-    if (profileImg) {
-      // 만약 blob이 들어가면 blob 인식 x
-      const safeProfileImg =
-        !profileImg.startsWith("blob:")
-          ? encodeURI(profileImg)
-          : DEFAULT_PROFILE_IMAGE;
-      setUser({ profileImg: safeProfileImg });
-    }
-  }, [profileImg, setUser]);
 
   return (
     <MobileLayout>

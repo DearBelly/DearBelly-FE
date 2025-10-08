@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { Box, Text } from '@chakra-ui/react';
 import Image from 'next/image';
 import { SocialLoginButton } from '@/components/SocialLoginButton/SocialLoginButton';
-import { TermsSheet } from '@/components/BottomSheets/TermsSheet'; 
 
 type Provider = 'naver' | 'google' | 'kakao';
 
@@ -90,9 +89,6 @@ export default function Login() {
             가입하면 Mom4U의<br />
             이용약관 및 개인정보처리방침에 동의하게 됩니다
           </Text>
-        </Box>
-        <Box w="100%" maxW="40rem">
-          <TermsSheet />
         </Box>
       </Box>
     </>

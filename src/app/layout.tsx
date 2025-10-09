@@ -1,8 +1,8 @@
 import { Provider } from "@/components/UI/Provider"
 import "@/app/globals.css"
 import { KakaoScript } from "@/components/KakaoScript/KakaoScript";
-import { Metadata } from "next";
-import { Viewport } from "next";
+import { Metadata, Viewport } from "next";
+import { PreventZoomWrapper } from "@/components/PreventZoomWrapper/PreventZoomWrapper";
 
 export const metadata: Metadata = {
   title: "Dear Belly",
@@ -30,7 +30,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
       </head>
       <body>
-        <Provider>{children}</Provider>
+        <PreventZoomWrapper>
+          <Provider>{children}</Provider>
+        </PreventZoomWrapper>
         <KakaoScript />
       </body>
     </html>

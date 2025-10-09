@@ -566,26 +566,14 @@ export const PhotoGuideModal = forwardRef<{ cropToGuide: () => Promise<string | 
             onChange={handleFileInputChange}
             display="none"
           />
-
-          {/* 안내 텍스트 */}
-          {/* <Text
-            color="text.text1"
-            textStyle="body_14700120"
-            whiteSpace="nowrap"
-            overflow="visible"
-            textOverflow="clip"
-            wordBreak="break-all"
-            textAlign="center" 
-          >
-            {content}
-          </Text> */}
           <Box display="flex" justifyContent="center" textAlign="center" mt="0.75rem">
             <Text
               color="text.text1"
               textStyle="body_14700120"
-              whiteSpace="pre-line"
-              wordBreak="keep-all"
-              lineHeight="1.5"
+              whiteSpace="nowrap"
+              overflow="visible"
+              textOverflow="clip"
+              textAlign="center" 
             >
               {content}
             </Text>

@@ -200,7 +200,11 @@ export default function Home() {
                 cursor={isIconVisible ? 'pointer' : 'default'}
                 aria-hidden={isIconVisible ? undefined : true}
                 onClick={
-                  isIconVisible ? () => router.push('/letters') : undefined
+                  isIconVisible
+                    ? () => (letterIcon === 'family-letter'
+                        ? router.push('/letters')
+                        : router.push('/letters/new'))
+                    : undefined
                 }
               />
               <Image src={babyImg} alt="아기" maxH="25dvh" objectFit="contain" />

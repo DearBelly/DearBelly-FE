@@ -6,7 +6,7 @@ export async function fetchRecommendNews(token?: string): Promise<NewsItem[]> {
     {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${token || process.env.NEXT_PUBLIC_TEMP_TOKEN}`,
+        Authorization: `Bearer ${token}`,
         Accept: "application/json",
       },
     }

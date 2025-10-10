@@ -1,53 +1,71 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";
-import { LetterEditBox } from "@/components/TextField/LetterEditBox";
-import { Box } from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
-import { LoginModal } from "@/components/LoginModal/LoginModal";
-import { useAuthToken } from "@/hooks/useAuthToken"; 
+import { useEffect, useState } from 'react';
+import { TopBarBottomButtonLayout } from '@/components/Layouts/TopBarBottomButtonLayout';
+import { LetterEditBox } from '@/components/TextField/LetterEditBox';
+import { Box, Text } from '@chakra-ui/react';
+import { useRouter } from 'next/navigation';
+import { LoginModal } from '@/components/LoginModal/LoginModal';
+import { createLetter, fetchTodayLetter } from '@/lib/letters';
+import type { TodayLetterResponse } from '@/types/letters';
 
 export default function NewLetterPage() {
   const router = useRouter();
-  const [content, setContent] = useState("");
-  const { isLogin, readToken } = useAuthToken();
+  const [content, setContent] = useState('');
+  const [isLogin, setIsLogin] = useState<boolean | null>(null);
+  const [questionText, setQuestionText] = useState<string>('오늘의 질문을 불러오는 중이에요…');
+  const [canWrite, setCanWrite] = useState<boolean>(true);
+  const [myLetterId, setMyLetterId] = useState<number | null>(null);
 
   const trimmedContent = content.trim();
 
+  useEffect(() => {
+    const sync = () => setIsLogin(!!localStorage.getItem('token'));
+    sync();
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === 'token') sync();
+    };
+    window.addEventListener('storage', onStorage);
+    return () => window.removeEventListener('storage', onStorage);
+  }, []);
+
+  useEffect(() => {
+    const loadToday = async () => {
+      if (!localStorage.getItem('token')) return;
+
+      try {
+        const resp: TodayLetterResponse = await fetchTodayLetter();
+        setQuestionText(resp.data.questionText ?? '오늘의 질문이 준비되지 않았어요');
+        setCanWrite(resp.data.canWrite);
+        setMyLetterId(resp.data.myLetterId ?? null);
+
+      } catch (e) {
+        console.log('오늘의 질문 조회 실패:', e);
+      }
+    };
+    loadToday();
+  }, []);
+
   const handleSubmit = async () => {
-    const token = readToken();
-    if (!token) return; 
-
-    const today = new Date().toISOString().split("T")[0];
-
+    if (!localStorage.getItem('token')) return;
+    if (!canWrite) {
+      if (myLetterId) router.push(`/letters/${myLetterId}/me`);
+      return;
+    }
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/letters`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ content: trimmedContent, date: today }),
-        }
-      );
-
-      if (!response.ok) throw new Error("편지 작성 오류");
-      await response.json();
-      router.push("/letters");
+      await createLetter(trimmedContent);
+      router.push('/letters');
     } catch (err) {
-      console.log("편지 작성 오류: ", err);
+      console.log('편지 작성 오류:', err);
     }
   };
 
   return (
     <TopBarBottomButtonLayout
       topbarTitle="편지함"
-      nextLabel="완료"
+      nextLabel={canWrite ? '완료' : '수정하기'}
       onNext={handleSubmit}
-      nextDisabled={!isLogin || trimmedContent.length === 0}
+      nextDisabled={!isLogin || (!canWrite ? false : trimmedContent.length === 0)}
     >
       <Box
         display="flex"
@@ -57,14 +75,21 @@ export default function NewLetterPage() {
         maxW="35rem"
         alignItems="center"
         justifyContent="center"
+        gap="8px"
       >
-        <LetterEditBox value={content} onChange={setContent} />
+        <LetterEditBox value={content} onChange={setContent} questionText={questionText} />
+
+        {!canWrite && myLetterId && (
+          <Text textStyle="caption_12400" color="text.text3">
+            오늘은 이미 편지를 작성했어요
+          </Text>
+        )}
       </Box>
 
       {isLogin === false && (
         <LoginModal
           onClose={() => {
-            router.push("/home");
+            router.push('/home');
           }}
         />
       )}

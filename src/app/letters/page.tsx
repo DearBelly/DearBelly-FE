@@ -10,20 +10,33 @@ import DatePicker from 'react-datepicker';
 import { format } from 'date-fns';
 import 'react-datepicker/dist/react-datepicker.css';
 import Link from 'next/link';
-import { useAuthToken } from '@/hooks/useAuthToken';
+
 import { LoginModal } from '@/components/LoginModal/LoginModal';
-import type { LettersResponse, Letter } from '@/types/letter'; 
+import { fetchMonthlyLetters } from '@/lib/letters';
+import type { LetterItem, MonthlyLettersResponse } from '@/types/letters';
 
 export default function LettersPage() {
   const router = useRouter();
-  const { isLogin, readToken } = useAuthToken();
+
+  const [isLogin, setIsLogin] = useState<boolean | null>(null);
 
   const [selectedMonth, setSelectedMonth] = useState<Date>(new Date());
   const [calendarOpen, setCalendarOpen] = useState(false);
-  const [letters, setLetters] = useState<Letter[]>([]);
+  const [letters, setLetters] = useState<LetterItem[]>([]);
   const DEFAULT_PROFILE_IMAGE = '/images/icon_default_profile.svg';
+  const DEFAULT_QUESTION = "오늘 하루는 어땠나요?";
 
   const calendarRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const sync = () => setIsLogin(!!localStorage.getItem('token'));
+    sync();
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === 'token') sync();
+    };
+    window.addEventListener('storage', onStorage);
+    return () => window.removeEventListener('storage', onStorage);
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -35,40 +48,30 @@ export default function LettersPage() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [calendarOpen]);
 
-  const getLetters = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      setLetters([]);
+  useEffect(() => {
+    if (!isLogin) {
+      if (isLogin === false) setLetters([]);
       return;
     }
 
-    try {
-      const year = selectedMonth.getFullYear();
-      const month = selectedMonth.getMonth() + 1;
+    const ctrl = new AbortController();
 
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/letters?year=${year}&month=${month}`,
-        {
-          method: "GET",
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+    (async () => {
+      try {
+        const year = selectedMonth.getFullYear();
+        const month = selectedMonth.getMonth() + 1;
+        const resp: MonthlyLettersResponse = await fetchMonthlyLetters(year, month);
+        setLetters(resp.data);
+      } catch (err) {
+        console.log('편지 조회 오류:', err);
+      }
+    })();
 
-      if (!response.ok) throw new Error("편지 조회 오류");
-      const json: LettersResponse = await response.json();
-      setLetters(json.data);
-    } catch (err) {
-      console.log("편지 조회 오류: ", err);
-    }
-  };
-
-  useEffect(() => {
-    if (isLogin) getLetters();
-    else if (isLogin === false) setLetters([]);
+    return () => ctrl.abort();
   }, [selectedMonth, isLogin]);
 
   const handleGoWrite = () => {
-    if (!readToken()) return; 
+    if (!localStorage.getItem('token')) return;
     router.push('/letters/new');
   };
 
@@ -98,7 +101,9 @@ export default function LettersPage() {
             cursor="pointer"
             onClick={() => setCalendarOpen((prev) => !prev)}
           >
-            <Text textStyle="body_14400222">{format(selectedMonth, 'yyyy년 M월')}</Text>
+            <Text textStyle="body_14400222">
+              {format(selectedMonth, 'yyyy년 M월')}
+            </Text>
             <Calendar size={16} />
           </Box>
 
@@ -120,14 +125,17 @@ export default function LettersPage() {
 
         <Box display="flex" flexDirection="column" gap="16px" w="100%" maxW="35rem" mt="16px">
           {letters.map((letter) => {
-            const href = letter.editable ? `/letters/${letter.id}/me` : `/letters/${letter.id}/${letter.nickname}`;
+            const href = letter.editable
+              ? `/letters/${letter.id}/me`
+              : `/letters/${letter.id}/${letter.nickname}`;
             return (
               <Link key={letter.id} href={href} style={{ textDecoration: 'none' }}>
                 <LetterCard
                   nickname={letter.nickname}
-                  createdAt={letter.createdAt}
+                  createdAt={letter.createdAt}                 
                   content={letter.content}
                   imgUrl={letter.imgUrl ?? DEFAULT_PROFILE_IMAGE}
+                  questionText={letter.question ?? DEFAULT_QUESTION}   
                 />
               </Link>
             );

@@ -5,41 +5,47 @@ import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButto
 import LetterCard from "@/components/Letter/LetterCard";
 import { Box } from "@chakra-ui/react";
 import { useParams, useRouter } from "next/navigation";
-import { Letter } from "@/types/letter";
+import { fetchLetterDetail } from "@/lib/letters";                
+import type { LetterItem, LetterDetailResponse } from "@/types/letters"; 
 
 export default function MyLetterPage() {
   const router = useRouter();
   const { id } = useParams<{ id: string }>();
   const DEFAULT_PROFILE_IMAGE = "/images/icon_default_profile.svg";
+  const DEFAULT_QUESTION = "오늘 하루는 어땠나요?";
 
-  const [letter, setLetter] = useState<Letter | null>(null);
+  const [letter, setLetter] = useState<LetterItem | null>(null);
 
   useEffect(() => {
-    const fetchLetter = async () => {
-      const token =
-        localStorage.getItem("token");
+    if (!id) return;
 
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/letters/${id}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+    if (!localStorage.getItem("token")) {
+      router.push("/home");
+      return;
+    }
 
-      if (res.ok) {
-        const json = await res.json();
-        setLetter(json.data);
+    let cancelled = false;
+
+    (async () => {
+      try {
+        const resp: LetterDetailResponse = await fetchLetterDetail(Number(id));
+        if (!cancelled) setLetter(resp.data);
+      } catch (e) {
+        console.log("편지 상세 조회 실패:", e);
       }
-    };
+    })();
 
-    if (id) fetchLetter();
-  }, [id]);
+    return () => {
+      cancelled = true;
+    };
+  }, [id, router]);
 
   return (
     <TopBarBottomButtonLayout
       topbarTitle="편지함"
       nextLabel="수정하기"
       onNext={() => router.push(`/letters/${id}/me/edit`)}
+      nextDisabled={!letter?.editable}                     
     >
       <Box
         display="flex"
@@ -52,9 +58,10 @@ export default function MyLetterPage() {
         {letter && (
           <LetterCard
             nickname={letter.nickname}
-            createdAt={letter.createdAt}
+            createdAt={letter.createdAt}                  
             content={letter.content}
-            imgUrl={letter.imgUrl ?? DEFAULT_PROFILE_IMAGE }
+            imgUrl={letter.imgUrl ?? DEFAULT_PROFILE_IMAGE}
+            questionText={letter.question ?? DEFAULT_QUESTION}    
           />
         )}
       </Box>

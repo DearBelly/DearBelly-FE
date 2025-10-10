@@ -67,7 +67,7 @@ export function TermsSheet() {
       open={isOpen}
       onOpenChange={(e) => setOpen(e.open)}
       placement="bottom"
-      size="md"                       
+      size="md"
       closeOnEscape={false}
       closeOnInteractOutside={false}
       preventScroll
@@ -81,15 +81,27 @@ export function TermsSheet() {
         }}
       />
 
-      <Drawer.Positioner />
+      <Drawer.Positioner
+        display="flex"
+        alignItems="flex-end"
+        justifyContent="center"
+        inset="0"
+        p="0" 
+      />
 
       <Drawer.Content
         bg="bg.bg3"
         borderTopLeftRadius="1rem"
         borderTopRightRadius="1rem"
         px="1.12rem"
-        pb="env(safe-area-inset-bottom)"   
+        pb="env(safe-area-inset-bottom)"
         boxShadow="0 -8px 24px rgba(0,0,0,.08)"
+        w="100%"
+        maxW="40rem"       
+        position="fixed" 
+        bottom="0" 
+        left="0" 
+        right="0" 
         css={{
           '&[data-state="open"]':   { animation: `${slideUp} .25s ease-out` },
           '&[data-state="closed"]': { animation: `${slideDown} .2s ease-in`  },

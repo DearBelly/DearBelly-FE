@@ -15,9 +15,9 @@ interface MobileLayoutProps {
   topbarMode?: "logo" | "back" | "whiteLogo";
   topbarBackground?: "filled" | "transparent";
   topbarTitle?: string;
-  showButtomNav?: boolean;
+  showBottomNav?: boolean;
   searchbarContent?: ReactNode;
-  backurl?: string;
+  onBack?: () => void;
 }
 
 export const MobileLayout = ({
@@ -30,8 +30,9 @@ export const MobileLayout = ({
   topbarMode = "logo",
   topbarBackground = "filled",
   topbarTitle,
-  showButtomNav = true,
+  showBottomNav = true,
   searchbarContent,
+  onBack,
 }: MobileLayoutProps) => {
   return (
     <Flex
@@ -50,6 +51,7 @@ export const MobileLayout = ({
         rightContent={topbarContent}
         title={topbarTitle}
         searchContent={searchbarContent}
+        onBack={topbarMode === "back" ? onBack : undefined}
       />
 
       <Box
@@ -60,14 +62,14 @@ export const MobileLayout = ({
         pr={hasSidePadding ? "20px" : 0}
         pl={hasSidePadding ? "20px" : 0}
         pt={hasTopPadding ? "44px": 0} 
-        pb={hasBottomPadding && showButtomNav ? "54px" : 0}
+        pb={hasBottomPadding && showBottomNav ? "54px" : 0}
         overflowY="auto"
         css={{ WebkitOverflowScrolling: "touch" }}
       >
         {children}
       </Box>
 
-      {showButtomNav && <BottomNavigation />}
+      {showBottomNav && <BottomNavigation />}
     </Flex>
   );
 };

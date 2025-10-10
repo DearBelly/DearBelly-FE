@@ -24,28 +24,33 @@ export default function TOSPage() {
       topbarMode="back"
       topbarTitle="건강정보 수집 및 이용에 대한 동의"
       topbarBackground="filled"
-      showButtomNav={false}
+      showBottomNav={false}
     >
       <Flex
+        justifyContent="center"
         alignItems="center"
-        as="article"
-        w="100%"
-        maxW="33.75rem"
-        px="1.125rem"
-        py="0.625rem"
-        overflowY="auto"
-      >
-        {error ? (
-          <Text color="red.500" fontSize="sm">{error}</Text>
-        ) : md ? (
-          <Markdown source={md} />
-        ) : (
-          <Stack gap="3">
-            {Array.from({ length: 12 }).map((_, i) => (
-              <Skeleton key={i} h="1rem" />
-            ))}
-          </Stack>
-        )}
+        w="100%">
+        <Flex
+          alignItems="center"
+          as="article"
+          w="100%"
+          maxW="33.75rem"
+          px="1.125rem"
+          py="0.625rem"
+          overflowY="auto"
+        >
+          {error ? (
+            <Text color="red.500" fontSize="sm">{error}</Text>
+          ) : md ? (
+            <Markdown source={md} />
+          ) : (
+            <Stack gap="3">
+              {Array.from({ length: 12 }).map((_, i) => (
+                <Skeleton key={i} h="1rem" />
+              ))}
+            </Stack>
+          )}
+        </Flex>
       </Flex>
     </MobileLayout>
   );

@@ -172,7 +172,7 @@ const InfoDetail = () => {
         />
       }
       hasTopPadding={false}
-      showButtomNav={false}
+      showBottomNav={false}
     >
       {showLoginModal && (
         <LoginModal

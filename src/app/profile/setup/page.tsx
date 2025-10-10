@@ -75,6 +75,7 @@ export default function SetupStep(): JSX.Element {
       nextDisabled={!validation.valid || !preview}
       onBack={handleBackClick}
     >
+      
       <Box
         as="form"
         w="100%"
@@ -138,9 +139,7 @@ export default function SetupStep(): JSX.Element {
         errorMessage={validation.errorMessage}
       />
 
-      <Box w="100%" maxW="40rem" mx="0.25rem">
-        <TermsSheet />
-      </Box>
+      <TermsSheet />
     </TopBarBottomButtonLayout>
   );
 }

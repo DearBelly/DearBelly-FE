@@ -7,7 +7,7 @@ export function useSSE() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("token") || process.env.NEXT_PUBLIC_TEMP_TOKEN;
+    const token = localStorage.getItem("token");
     if (!token) {
       setError("No token available.");
       return;

@@ -22,21 +22,18 @@ export const ScheduleBottomSheet = ({
   const [selectedColor, setSelectedColor] = useState("bg.calendar1");
   const taRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const MAX_H = 300; // px: 최대 높이(넘으면 스크롤)
+  const MAX_H = 300; 
 
   const autoResize = useCallback(() => {
     const ta = taRef.current;
     if (!ta) return;
-    // 높이 초기화 후 scrollHeight 기반으로 재설정
     ta.style.height = "auto";
     const next = Math.min(ta.scrollHeight, MAX_H);
     ta.style.height = `${next}px`;
-    // overflow 제어 (최대치 넘으면 스크롤)
     ta.style.overflowY = ta.scrollHeight > MAX_H ? "auto" : "hidden";
   }, []);
 
   useLayoutEffect(() => {
-    // 드로어 열릴 때/내용 바뀔 때 반영
     autoResize();
   }, [content, open, autoResize]);
 

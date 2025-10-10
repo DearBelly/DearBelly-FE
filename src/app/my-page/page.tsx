@@ -1,6 +1,6 @@
 'use client';
 
-import React, { type ReactNode, useEffect, useState } from 'react'
+import React, { type ReactNode, useEffect, useState } from 'react';
 import { Box, Image } from "@chakra-ui/react";
 import { MobileLayout } from "../../components/Layouts/MobileLayout";
 import { ChakraIcons } from "@/lib/withChakraIcon";
@@ -8,17 +8,19 @@ import { useRouter } from 'next/navigation';
 import { ProfileContent } from '@/components/ProfileContent/ProfileContent';
 import { useTheme } from "next-themes"; 
 import { useUserStore } from '@/store/useUserStore';
+import { LoginModal } from '@/components/LoginModal/LoginModal'; 
 
 const DEFAULT_PROFILE_IMAGE = "/images/icon_default_profile.svg";
 
 export default function Mypage() {
   const router = useRouter();
-  const { username, profileImg, isPregnant, setUser, token } = useUserStore();
+  const { username, profileImg, isPregnant, setUser } = useUserStore();
+  const [isLoginOpen, setIsLoginOpen] = useState(false); 
 
   useEffect(() => {
     const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
 
-    if(token) {
+    if (token) {
       fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/member/profile`, {
         method: 'GET',
         headers: {
@@ -28,8 +30,6 @@ export default function Mypage() {
       })
         .then(response => response.json())
         .then(data => {
-          console.log("백엔드 응답 JSON:", data);
-  
           if (data?.data) {
             setUser({
               username: data.data.nickname,
@@ -49,28 +49,29 @@ export default function Mypage() {
     }
   }, [setUser]);
 
-  useEffect(() => {
-    console.log("store token 값:", token);
-  }, [token]);
-
   const { theme, setTheme } = useTheme();
-  const handleThemeToggle = (on: boolean) => {
-    setTheme(on ? "light" : "dark");
+  const handleThemeToggle = (on: boolean) => setTheme(on ? "light" : "dark");
+
+  const handleNavigation = (path: string) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setIsLoginOpen(true);
+      return;
+    }
+    router.push(path);
   };
 
   return (
     <MobileLayout>
       <Box className='allContainer' display='flex' alignItems='center' justifyContent='center'>
         <Box className='contentContainer' w="100%" maxW="33.75rem" mx="auto" >
-          {/* 프로필 이미지, 닉네임 영역 */}
+          {/* 프로필 영역 */}
           <Box className='profileHeaderContainer' mt='1rem'>
             <Box
               position="relative"
               w="5rem"
               h="5rem"
-              maxW="100%"
               overflow="hidden"
-              flexShrink={0}
               borderRadius="50%"
             >
               <Image
@@ -87,26 +88,27 @@ export default function Mypage() {
               alignItems='center'
               gap='0.62rem'
               mt='0.69rem'
-              onClick={() => router.push(isPregnant ? 'my-page/profile-change-maternity' : 'my-page/profile-change-family')}
               cursor="pointer"
+              onClick={() => handleNavigation(isPregnant ? 'my-page/profile-change-maternity' : 'my-page/profile-change-family')}
             >
-              <UserName>{username  || "비회원"}</UserName>
+              <UserName>{username || "비회원"}</UserName>
               <ChakraIcons.ChevronRight cursor='pointer' color='icon.icon1' />
             </Box>
           </Box>
 
+          {/* 섹션별 버튼 */}
           <ContentSection title="가족" mt="1.88rem">
             <ProfileContent
               content='가족 코드'
-              onClick={() => router.push(isPregnant ? 'my-page/family-code-share' : 'my-page/family-code-edit')}
+              onClick={() => handleNavigation(isPregnant ? 'my-page/family-code-share' : 'my-page/family-code-edit')}
             />
-            <ProfileContent content='가족 정보' onClick={() => router.push('my-page/family-inventory')} />
-            <ProfileContent content='태아 정보' onClick={() => router.push('my-page/baby-info')} />
+            <ProfileContent content='가족 정보' onClick={() => handleNavigation('my-page/family-inventory')} />
+            <ProfileContent content='태아 정보' onClick={() => handleNavigation('my-page/baby-info')} />
           </ContentSection>
 
           <ContentSection title="정보" mt="1.25rem">
-            <ProfileContent content='카테고리 수정' onClick={() => router.push('my-page/category-edit')} />
-            <ProfileContent content='북마크 모음' onClick={() => router.push('my-page/book-mark')} />
+            <ProfileContent content='카테고리 수정' onClick={() => handleNavigation('my-page/category-edit')} />
+            <ProfileContent content='북마크 모음' onClick={() => handleNavigation('my-page/book-mark')} />
           </ContentSection>
 
           <ContentSection title="테마" mt="1.25rem">
@@ -119,13 +121,15 @@ export default function Mypage() {
           </ContentSection>
 
           <ContentSection title="개인 정보" mt="1.25rem" mb="2.31rem">
-            <ProfileContent content='개인 정보 확인' onClick={() => router.push('my-page/personal-info')} />
-            <ProfileContent content='개인 정보 수집 동의' onClick={() => router.push('my-page/personal-info-agree')} />
+            <ProfileContent content='개인 정보 확인' onClick={() => handleNavigation('my-page/personal-info')} />
+            <ProfileContent content='개인 정보 수집 동의' onClick={() => handleNavigation('my-page/personal-info-agree')} />
           </ContentSection>
         </Box>
       </Box>
+
+      {isLoginOpen && <LoginModal onClose={() => setIsLoginOpen(false)} />}
     </MobileLayout>
-  )
+  );
 }
 
 const UserName = ({ children }: { children: ReactNode }) => (

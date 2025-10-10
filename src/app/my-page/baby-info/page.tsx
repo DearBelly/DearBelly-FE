@@ -5,7 +5,6 @@ import { Box, Text } from "@chakra-ui/react";
 import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";
 import { ProfileListOutput } from '@/components/ProfileList/ProfileListOutput';
 import { useRouter } from "next/navigation";
-import { LoginModal } from '@/components/LoginModal/LoginModal';
 import type { ProfileListProps } from '@/components/ProfileList/ProfileList';
 
 //  성별에 맞는 이미지 넣어줌
@@ -16,15 +15,12 @@ const genderImageMap: Record<string, string> = {
 };
 
 export default function BabyInfo() {
-    // 로그인이 되어있는지, 안 되어 있는지 상태저장
-    const [isLogin, setIsLogin] = useState<boolean | null>(null);
     const [cards, setCards] = useState<ProfileListProps[]>([]);
 
     // 저장된 아이 목록 불러옴 
     useEffect(() => {
         if (typeof window === "undefined") return;
         const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
-        setIsLogin(!!token);
 
         fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/baby`, {
           method: 'GET',
@@ -75,8 +71,6 @@ export default function BabyInfo() {
             onNext={handleBabyAddClick}
             onBack={handleBackClick}
         >
-            {isLogin === false && <LoginModal onClose={() => { setIsLogin(false); router.push('/my-page'); }} />}
-
             <Box className='body_wrapper' w='100%' display="flex" flexDirection="column" alignItems="center" mt='0.62rem'>
                 <Box w='100%' maxW='35rem' mx='auto'>
                     <Box 

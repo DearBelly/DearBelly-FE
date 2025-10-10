@@ -6,7 +6,6 @@ import { CheckField } from "@/components/CheckField/CheckField";
 import { useCategoryStore } from "@/store/useCategoryStore";
 import { Toast } from "@/components/Toast/Toast";
 import { useState, useEffect } from "react";
-import { LoginModal } from '@/components/LoginModal/LoginModal';
 import { useRouter } from "next/navigation";
 import type { CategoryId } from "@/store/useCategoryStore"; 
 
@@ -29,16 +28,11 @@ export default function CategoryEdit() {
   const [showToast, setShowToast] = useState(false);
   // 토스트 버튼이 띄워지고 나면 버튼도 사라지고 이를 계속 유지해야 함
   const [hideButton, setHideButton] = useState(false);
-  // 로그인이 되어있는지, 안 되어 있는지 상태저장
-  const [isLogin, setIsLogin] = useState<boolean | null>(null);
 
   const router = useRouter();
-  if (typeof window === "undefined") return;
   const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
 
   useEffect(() => {
-    setIsLogin(!!token);
-
     if (token) {
       fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/member/profile`, {
         method: "GET",
@@ -95,8 +89,6 @@ export default function CategoryEdit() {
       hideButton={hideButton}
       nextDisabled={false}
     >
-      {isLogin === false && <LoginModal onClose={() => { setIsLogin(false); router.push('/my-page'); }} />}
-
       {/* 토스트 띄우기 */}
       {showToast && (
         <Portal>

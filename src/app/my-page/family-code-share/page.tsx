@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { Box, Portal } from "@chakra-ui/react";
 import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";
 import { InputBox } from "@/components/TextField/InputBox";
-import { LoginModal } from '@/components/LoginModal/LoginModal';
 import { useUserStore } from "@/store/useUserStore";
 import { useRouter } from "next/navigation";
 import { ChakraIcons } from "@/lib/withChakraIcon";
@@ -16,7 +15,6 @@ export default function FamilyCodeShare() {
     // 로그인이 되어있는지, 안 되어 있는지 상태저장
     const [copyMessage, setCopyMessage] = useState<string | null>(null);
     const [isError, setIsError] = useState(false);
-    const [isLogin, setIsLogin] = useState<boolean | null>(null);
     const { username } = useUserStore();
     const [showToast, setShowToast] = useState(false);
 
@@ -24,7 +22,6 @@ export default function FamilyCodeShare() {
     useEffect(() => {
       if (typeof window === "undefined") return;
       const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
-      setIsLogin(!!token);
 
       // 토큰 존재 시 api 호출
       if(token) {
@@ -119,8 +116,6 @@ export default function FamilyCodeShare() {
           nextDisabled={!familyCode}
           onNext={handleCopy}
         >
-          {isLogin === false && <LoginModal onClose={() => { setIsLogin(false); router.push('/my-page'); }} />}
-            
           {/* 토스트 띄우기 */}
           {showToast && (
             <Portal>

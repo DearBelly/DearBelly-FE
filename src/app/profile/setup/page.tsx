@@ -6,6 +6,7 @@ import { Box, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";
 import { InputBox } from "@/components/TextField/InputBox";
+import { TermsSheet } from '@/components/BottomSheets/TermsSheet'; 
 import { useSignupStore } from "@/store/useSignupStore";
 import { validateNickname } from "@/lib/validators";
 
@@ -47,6 +48,13 @@ export default function SetupStep(): JSX.Element {
     setPreview((prev) => {
       if (prev) URL.revokeObjectURL(prev);
       return previewUrl;
+    });
+
+    setData({
+      profileImageFile: file,
+      profileImage: previewUrl,
+      imageCommitted: false,
+      imageObjectKey: undefined,
     });
   };
 
@@ -119,7 +127,6 @@ export default function SetupStep(): JSX.Element {
           />
         )}
       </Box>
-
       <InputBox
         mode="default"
         title="닉네임"
@@ -130,6 +137,10 @@ export default function SetupStep(): JSX.Element {
         isError={!!validation.errorMessage}
         errorMessage={validation.errorMessage}
       />
+
+      <Box w="100%" maxW="40rem" mx="0.25rem">
+        <TermsSheet />
+      </Box>
     </TopBarBottomButtonLayout>
   );
 }

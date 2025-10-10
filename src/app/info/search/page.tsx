@@ -174,7 +174,7 @@ export default function InfoSearch() {
         <MobileLayout
             topbarMode='back'
             topbarBackground='transparent'
-            showButtomNav={false} 
+            showBottomNav={false} 
             searchbarContent={
                 <SearchBox
                     value={currentSearch}

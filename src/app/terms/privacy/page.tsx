@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Box, Text, Stack, Skeleton } from '@chakra-ui/react';
+import { Flex, Text, Stack, Skeleton } from '@chakra-ui/react';
 import { MobileLayout } from '@/components/Layouts/MobileLayout';
 import { Markdown } from '@/components/Markdown/Markdown';
 
@@ -26,7 +26,8 @@ export default function TOSPage() {
       topbarBackground="filled"
       showButtomNav={false}
     >
-      <Box
+      <Flex
+        alignItems="center"
         as="article"
         w="100%"
         maxW="33.75rem"
@@ -45,7 +46,7 @@ export default function TOSPage() {
             ))}
           </Stack>
         )}
-      </Box>
+      </Flex>
     </MobileLayout>
   );
 }

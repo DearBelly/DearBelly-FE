@@ -5,7 +5,7 @@ import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButto
 import LetterCard from "@/components/Letter/LetterCard";
 import { Box } from "@chakra-ui/react";
 import { useParams, useRouter } from "next/navigation";
-import { Letter } from "@/app/letters/letter";
+import { Letter } from "@/types/letter";
 
 export default function MyLetterPage() {
   const router = useRouter();
@@ -17,7 +17,7 @@ export default function MyLetterPage() {
   useEffect(() => {
     const fetchLetter = async () => {
       const token =
-        localStorage.getItem("token") || process.env.NEXT_PUBLIC_TEMP_TOKEN;
+        localStorage.getItem("token");
 
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/letters/${id}`,

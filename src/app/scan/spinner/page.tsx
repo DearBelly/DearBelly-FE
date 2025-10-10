@@ -4,7 +4,7 @@ import React, {useEffect} from 'react';
 import { Box } from '@chakra-ui/react';
 import { PhotoGuideModal } from '../../../components/ComputerVision/Photo/PhotoGuideModal';
 import { useRouter } from 'next/navigation';
-import { ChakraIcons } from "@/utils/withChakraIcon";
+import { ChakraIcons } from "@/lib/withChakraIcon";
 
 export default function Spinner() {
   const router = useRouter();

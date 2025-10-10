@@ -7,7 +7,7 @@ import { InputBox } from "@/components/TextField/InputBox";
 import { LoginModal } from '@/components/LoginModal/LoginModal';
 import { useUserStore } from "@/store/useUserStore";
 import { useRouter } from "next/navigation";
-import { ChakraIcons } from "@/utils/withChakraIcon";
+import { ChakraIcons } from "@/lib/withChakraIcon";
 import { Toast } from "@/components/Toast/Toast";
 
 export default function FamilyCodeShare() {

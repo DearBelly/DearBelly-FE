@@ -7,15 +7,16 @@ import { ImageCard } from "@/components/Home/ImageCard/ImageCard";
 import { Button } from "@/components/Button/Button";
 import ShaderBg from "@/components/Home/Background/ShaderBg";
 import { useRouter } from "next/navigation";
-import { ChakraIcons } from "@/utils/withChakraIcon";
+import { ChakraIcons } from "@/lib/withChakraIcon";
 import { useBackgroundStore } from "@/store/useBackgroundStore";
 import { useEffect, useState } from "react";
-import { Banner } from "@/types/BannerResponse";
+import { Banner } from "@/types/banner";
 import animationData from "@/assets/animation/interaction.json";
 import dynamic from "next/dynamic";
 
 export default function Home() {
   const router = useRouter();
+  const token = localStorage.getItem("token");
 
   const [isLogin, setIsLogin] = useState(false);
   const [bannerInfo, setBannerInfo] = useState<Banner | null>(null);
@@ -31,8 +32,6 @@ export default function Home() {
   });
 
   const getBannerInfo = async () => {
-    const token =
-      localStorage.getItem("token") || process.env.NEXT_PUBLIC_TEMP_TOKEN;
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/letters/top`,
@@ -50,8 +49,6 @@ export default function Home() {
   };
 
   const getRecommendInfo = async () => {
-    const token =
-      localStorage.getItem("token") || process.env.NEXT_PUBLIC_TEMP_TOKEN;
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/news`,

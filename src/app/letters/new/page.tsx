@@ -1,21 +1,24 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";
 import { LetterEditBox } from "@/components/TextField/LetterEditBox";
 import { Box } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { LoginModal } from "@/components/LoginModal/LoginModal";
+import { useAuthToken } from "@/hooks/useAuthToken"; 
 
 export default function NewLetterPage() {
   const router = useRouter();
   const [content, setContent] = useState("");
-  const [isLogin, setIsLogin] = useState(false);
+  const { isLogin, readToken } = useAuthToken();
 
   const trimmedContent = content.trim();
 
   const handleSubmit = async () => {
-    const token = localStorage.getItem("token") || process.env.NEXT_PUBLIC_TEMP_TOKEN;
+    const token = readToken();
+    if (!token) return; 
+
     const today = new Date().toISOString().split("T")[0];
 
     try {
@@ -27,35 +30,24 @@ export default function NewLetterPage() {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({
-            content: trimmedContent,
-            date: today,
-          }),
+          body: JSON.stringify({ content: trimmedContent, date: today }),
         }
       );
 
       if (!response.ok) throw new Error("편지 작성 오류");
-
-      const json = await response.json();
-      console.log("편지 작성 성공: ", json);
-
+      await response.json();
       router.push("/letters");
     } catch (err) {
       console.log("편지 작성 오류: ", err);
     }
   };
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsLogin(!!token);
-  }, []);
-
   return (
     <TopBarBottomButtonLayout
       topbarTitle="편지함"
       nextLabel="완료"
       onNext={handleSubmit}
-      nextDisabled={content.trim().length === 0}
+      nextDisabled={!isLogin || trimmedContent.length === 0}
     >
       <Box
         display="flex"
@@ -68,7 +60,14 @@ export default function NewLetterPage() {
       >
         <LetterEditBox value={content} onChange={setContent} />
       </Box>
-      {!isLogin && <LoginModal onClose={() => {setIsLogin(false); router.push('/home');}} />}
+
+      {isLogin === false && (
+        <LoginModal
+          onClose={() => {
+            router.push("/home");
+          }}
+        />
+      )}
     </TopBarBottomButtonLayout>
   );
 }

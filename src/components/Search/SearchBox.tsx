@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';
 import { Box, Input, IconButton } from '@chakra-ui/react';
-import { ChakraIcons } from "@/utils/withChakraIcon";
+import { ChakraIcons } from "@/lib/withChakraIcon";
 
 export interface SearchBoxProps {
   value?: string;

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Box } from "@chakra-ui/react";
 import { MobileLayout } from "../../components/Layouts/MobileLayout";
 import { ImageSelectButton } from "../../components/ComputerVision/SelectBtn/ImageSelectButton";
-import { ChakraIcons } from "@/utils/withChakraIcon";
+import { ChakraIcons } from "@/lib/withChakraIcon";
 
 export default function Scan() {
   const router = useRouter();

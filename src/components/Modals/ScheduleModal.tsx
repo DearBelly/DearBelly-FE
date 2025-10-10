@@ -2,7 +2,7 @@
 
 import { Box, Text, Image } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
-import { ChakraIcons } from "@/utils/withChakraIcon";
+import { ChakraIcons } from "@/lib/withChakraIcon";
 import { Button } from "../Button/Button";
 import { ScheduleBottomSheet } from "../BottomSheet/ScheduleSheet";
 import { format } from "date-fns";

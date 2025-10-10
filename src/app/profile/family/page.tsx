@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { useSignupStore } from "@/store/useSignupStore";
 import { useFamilyCodeStore } from "@/store/useFamilyCodeStore";
 import { useState, useMemo } from "react";
-import { validateFamilyCode } from "@/utils/validators";
+import { validateFamilyCode } from "@/lib/validators";
 
 export default function FamilyStep() {
   const router = useRouter();

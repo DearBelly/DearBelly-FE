@@ -2,7 +2,7 @@
 
 import { Box, Text } from "@chakra-ui/react";
 import { Button } from "@/components/Button/Button";
-import { ChakraIcons } from "@/utils/withChakraIcon";
+import { ChakraIcons } from "@/lib/withChakraIcon";
 import { useRouter } from "next/navigation";
 
 interface NoticeCardProps {

@@ -3,7 +3,7 @@
 import React, { type ReactNode, useEffect, useState } from 'react'
 import { Box, Image } from "@chakra-ui/react";
 import { MobileLayout } from "../../components/Layouts/MobileLayout";
-import { ChakraIcons } from "@/utils/withChakraIcon";
+import { ChakraIcons } from "@/lib/withChakraIcon";
 import { useRouter } from 'next/navigation';
 import { ProfileContent } from '@/components/ProfileContent/ProfileContent';
 import { useTheme } from "next-themes"; 

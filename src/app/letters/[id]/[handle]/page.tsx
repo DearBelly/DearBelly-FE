@@ -1,7 +1,6 @@
 import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";
 import LetterCard from "@/components/Letter/LetterCard";
 import { Box } from "@chakra-ui/react";
-import { Letter } from "@/app/letters/letter";
 
 export default async function OthersLetterPage({
   params,

@@ -7,7 +7,7 @@ import Image from "next/image";
 import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";
 import { InputBox } from "@/components/TextField/InputBox";
 import { useSignupStore } from "@/store/useSignupStore";
-import { validateNickname } from "@/utils/validators";
+import { validateNickname } from "@/lib/validators";
 
 export default function SetupStep(): JSX.Element {
   const router = useRouter();

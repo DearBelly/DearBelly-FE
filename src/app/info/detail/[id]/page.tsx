@@ -7,7 +7,7 @@ import { MobileLayout } from "../../../../components/Layouts/MobileLayout";
 import { ContendCardOutput } from '@/components/ContentCard/ContendCardOutput';
 import Image from 'next/image';
 import Loading from '@/app/loading';
-import { ChakraIcons } from "@/utils/withChakraIcon";
+import { ChakraIcons } from "@/lib/withChakraIcon";
 import { LoginModal } from '@/components/LoginModal/LoginModal';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";

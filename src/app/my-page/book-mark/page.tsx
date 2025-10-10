@@ -7,7 +7,7 @@ import { ContendCardOutput } from '@/components/ContentCard/ContendCardOutput';
 import { LoginModal } from '@/components/LoginModal/LoginModal';
 import type { ContendCardProps } from '@/components/ContentCard/ContentCard';
 import { useRouter } from "next/navigation";
-import { ChakraIcons } from "@/utils/withChakraIcon";
+import { ChakraIcons } from "@/lib/withChakraIcon";
 
 export default function BookMark() {
     const router = useRouter();

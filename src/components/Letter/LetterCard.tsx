@@ -1,43 +1,78 @@
-"use client";
+'use client';
 
-import { Box, Text } from "@chakra-ui/react";
-import Image from "next/image";
+import { Flex, Text } from '@chakra-ui/react';
+import Image from 'next/image';
 
 export interface LetterCardProps {
   nickname: string;
-  createdAt: string;
+  createdAt: string;     
   content: string;
-  imgUrl: string;
+  imgUrl?: string | null;
+  questionText: string; 
 }
 
-export default function LetterCard({ nickname, createdAt, content, imgUrl }: LetterCardProps) {
+export default function LetterCard({
+  nickname,
+  createdAt,
+  content,
+  imgUrl,
+  questionText,
+}: LetterCardProps) {
+  const profileSrc = imgUrl || '/images/icon_default_profile.svg';
+
   return (
-    <Box
+    <Flex
       w="100%"
       flexDirection="column"
-      display="flex"
       gap="10px"
       bg="bg.bg3"
-      borderRadius="16px"
+      borderRadius="1rem"
       px="12px"
       py="13px"
     >
+      <Flex
+        flexDirection="column"
+        w="100%"
+        borderRadius="10px"          
+        px="12px"
+        py="8px"
+        bg="letter"
+      >
+        <Text
+          textStyle="body_14400222"
+          color="text.text1"
+          whiteSpace="pre-line"
+          wordBreak="keep-all"
+          overflow="visible"
+          textOverflow="clip"
+          display="block"
+        >
+          {questionText}
+        </Text>
+      </Flex>
+
       <Text
         textStyle="body_14400222"
         color="text.text1"
         alignSelf="stretch"
-        whiteSpace="pre-line"   
+        whiteSpace="pre-line"
       >
         {content}
       </Text>
-      <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center">
-        <Box display="flex" flexDirection="row" gap="6px" alignItems="center">
-          <Image src={imgUrl || "/images/icon_default_profile.svg"} alt="profile" width={20} height={20} style={{ objectFit: 'cover' }}/>
+
+      <Flex flexDirection="row" justifyContent="space-between" alignItems="center">
+        <Flex flexDirection="row" gap="6px" alignItems="center">
+          <Image
+            src={profileSrc}
+            alt="profile"
+            width={20}
+            height={20}
+            style={{ objectFit: 'cover', borderRadius: 999 }}
+          />
           <Text textStyle="caption_104001">{nickname}</Text>
-        </Box>
-        <Text textStyle="caption_104001">{new Date(createdAt).toLocaleDateString()}</Text>
-      </Box>
-    </Box>
+        </Flex>
+        <Text textStyle="caption_104001">{createdAt}</Text>
+      </Flex>
+    </Flex>
   );
 }
-

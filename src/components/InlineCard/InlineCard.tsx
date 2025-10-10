@@ -3,7 +3,7 @@
 import { Box, Text, Link as ChakraLink } from '@chakra-ui/react';
 import Image from 'next/image';
 import NextLink from 'next/link';
-import { ChakraIcons } from "@/utils/withChakraIcon";
+import { ChakraIcons } from "@/lib/withChakraIcon";
 
 const fallbackImage = '/images/default_image.svg';
 

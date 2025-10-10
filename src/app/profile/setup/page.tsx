@@ -8,7 +8,7 @@ import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButto
 import { InputBox } from "@/components/TextField/InputBox";
 import { TermsSheet } from '@/components/BottomSheets/TermsSheet'; 
 import { useSignupStore } from "@/store/useSignupStore";
-import { validateNickname } from "@/utils/validators";
+import { validateNickname } from "@/lib/validators";
 
 export default function SetupStep(): JSX.Element {
   const router = useRouter();

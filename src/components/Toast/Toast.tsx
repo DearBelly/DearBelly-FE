@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';
 import { Box, Text } from '@chakra-ui/react';
-import { ChakraIcons } from "@/utils/withChakraIcon";
+import { ChakraIcons } from "@/lib/withChakraIcon";
 import { motion } from "framer-motion";
 
 const MotionBox = motion.create(Box);

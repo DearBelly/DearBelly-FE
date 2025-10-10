@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Box, Text } from '@chakra-ui/react';
-import { ChakraIcons } from "@/utils/withChakraIcon";
+import { ChakraIcons } from "@/lib/withChakraIcon";
 
 export interface NoticeBoxProps {
   label: string;

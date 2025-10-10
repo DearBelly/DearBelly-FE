@@ -5,7 +5,7 @@ import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButto
 import { CheckField } from "@/components/CheckField/CheckField";
 import { useSignupStore } from "@/store/useSignupStore"; 
 import { useRouter } from "next/navigation";
-import { toggleId, toggleAllIds, isAllChecked, isAnyChecked } from "@/utils/selection";
+import { toggleId, toggleAllIds, isAllChecked, isAnyChecked } from "@/lib/selection";
 
 const categoryMap = {
   HEALTH: "임신 기간 동안, 임산부의 건강과 관련된 정보를 알고 싶어요.",

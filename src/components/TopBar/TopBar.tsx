@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { Box, Text, Flex } from "@chakra-ui/react";
-import { ChakraIcons } from '@/utils/withChakraIcon';
+import { ChakraIcons } from '@/lib/withChakraIcon';
 
 export interface TopBarProps {
   mode?: 'logo' | 'back' | 'whiteLogo';

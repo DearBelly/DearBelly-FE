@@ -1,6 +1,6 @@
 import React, { useState, forwardRef, useEffect } from "react";
 import { Box, Text, Input, InputGroup } from "@chakra-ui/react";
-import { ChakraIcons } from "@/utils/withChakraIcon";
+import { ChakraIcons } from "@/lib/withChakraIcon";
 import DatePicker from "react-datepicker";
 import { format } from "date-fns";
 import "react-datepicker/dist/react-datepicker.css";

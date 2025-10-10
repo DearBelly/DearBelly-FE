@@ -2,7 +2,7 @@
 
 import { Box, Drawer, Textarea } from "@chakra-ui/react";
 import { useState } from "react";
-import { ChakraIcons } from "@/utils/withChakraIcon";
+import { ChakraIcons } from "@/lib/withChakraIcon";
 import Image from "next/image";
 import { DeleteModal } from "../Modals/DeleteModal";
 

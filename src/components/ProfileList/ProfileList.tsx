@@ -1,7 +1,7 @@
 'use client';
 
 import { Box, Image, Text } from '@chakra-ui/react';
-import { ChakraIcons } from "@/utils/withChakraIcon";
+import { ChakraIcons } from "@/lib/withChakraIcon";
 import { DropdownMenu } from '../DropdownMenu/DropdownMenu';
 import { useState, useRef, useEffect } from 'react';
 export interface ProfileListProps {

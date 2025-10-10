@@ -6,7 +6,7 @@ import { SearchBox } from '@/components/Search/SearchBox';
 import { MobileLayout } from "../../../components/Layouts/MobileLayout";
 import { SearchInventory } from '@/components/SearchInventory/SearchInventory';
 import { ContendCardOutput } from '@/components/ContentCard/ContendCardOutput';
-import { ChakraIcons } from "@/utils/withChakraIcon";
+import { ChakraIcons } from "@/lib/withChakraIcon";
 
 // 검색어의 id, text를 받음 
 interface keyInterface {

@@ -2,9 +2,9 @@
 
 import { Box, Text, Image } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
-import { ChakraIcons } from "@/utils/withChakraIcon";
+import { ChakraIcons } from "@/lib/withChakraIcon";
 import { Button } from "../Button/Button";
-import { ScheduleBottomSheet } from "../BottomSheet/ScheduleSheet";
+import { ScheduleBottomSheet } from "../BottomSheets/ScheduleSheet";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import { fetchDailySchedules, ScheduleResponse } from "@/lib/schedules";

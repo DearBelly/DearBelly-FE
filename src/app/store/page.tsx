@@ -4,7 +4,7 @@ import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButto
 import { Box, Grid } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useBackgroundStore } from "@/store/useBackgroundStore";
-import { ChakraIcons } from "@/utils/withChakraIcon";
+import { ChakraIcons } from "@/lib/withChakraIcon";
 import Image from "next/image";
 
 export default function StorePage() {

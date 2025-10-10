@@ -5,7 +5,7 @@ import { Box } from "@chakra-ui/react";
 import { MobileLayout } from "../../../components/Layouts/MobileLayout";
 import { ContendCardOutput } from '@/components/ContentCard/ContendCardOutput';
 import type { ContendCardProps } from '@/components/ContentCard/ContentCard';
-import { ChakraIcons } from "@/utils/withChakraIcon";
+import { ChakraIcons } from "@/lib/withChakraIcon";
 
 export default function BookMark() {
   const [cards, setCards] = useState<ContendCardProps[]>([]);

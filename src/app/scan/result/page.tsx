@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Box } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";
-import { ChakraIcons } from "@/utils/withChakraIcon";
+import { ChakraIcons } from "@/lib/withChakraIcon";
 
 export default function Result() {
   const router = useRouter();

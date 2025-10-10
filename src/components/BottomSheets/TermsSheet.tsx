@@ -6,7 +6,7 @@ import { Drawer, Box, Flex, Stack, IconButton, Text } from '@chakra-ui/react';
 import { keyframes } from '@emotion/react';             
 import { Button } from '../Button';
 import { CheckField } from '../CheckField/CheckField';
-import { ChakraIcons } from '@/utils/withChakraIcon';
+import { ChakraIcons } from '@/lib/withChakraIcon';
 
 const TERMS = [
   { id: 'term1', label: '[필수] 이용약관' },

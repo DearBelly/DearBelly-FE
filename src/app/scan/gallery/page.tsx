@@ -5,7 +5,7 @@ import { Box } from '@chakra-ui/react';
 import { PhotoGuideModal } from '../../../components/ComputerVision/Photo/PhotoGuideModal';
 import { PhotoBtn } from '../../../components/ComputerVision/Photo/PhotoBtn';
 import { useRouter } from 'next/navigation';
-import { ChakraIcons } from "@/utils/withChakraIcon";
+import { ChakraIcons } from "@/lib/withChakraIcon";
 
 // url을 file형태로 변환
 function dataURLtoFile(dataUrl: string, fileName: string): File {

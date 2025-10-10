@@ -8,6 +8,7 @@ import { Button } from "@/components/Button/Button";
 import ShaderBg from "@/components/Home/Background/ShaderBg";
 import { useRouter } from "next/navigation";
 import { ChakraIcons } from "@/lib/withChakraIcon";
+import { useLettersRealtime } from '@/hooks/useLettersRealtime';
 import { useBackgroundStore } from "@/store/useBackgroundStore";
 import { useEffect, useState } from "react";
 import { Banner } from "@/types/banner";
@@ -16,12 +17,20 @@ import dynamic from "next/dynamic";
 
 export default function Home() {
   const router = useRouter();
-  const token = localStorage.getItem("token");
 
   const [isLogin, setIsLogin] = useState(false);
   const [bannerInfo, setBannerInfo] = useState<Banner | null>(null);
   const [recommendCard, setRecommendCard] = useState<any[]>([]);
   const [babyImg, setBabyImg] = useState("/images/babyCharacter/step2.svg");
+  
+  const { letterIcon } = useLettersRealtime();
+  const iconSrc =
+    letterIcon === 'today-letter'
+      ? '/images/today-letter.svg'
+      : letterIcon === 'family-letter'
+      ? '/images/family-letter.svg'
+      : '/images/today-letter.svg';
+  const isIconVisible = letterIcon !== 'none';
 
   const bgState = useBackgroundStore();
   const defaultUrl =
@@ -32,6 +41,7 @@ export default function Home() {
   });
 
   const getBannerInfo = async () => {
+    const token = localStorage.getItem("token");
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/letters/top`,
@@ -49,6 +59,7 @@ export default function Home() {
   };
 
   const getRecommendInfo = async () => {
+    const token = localStorage.getItem("token");
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/news`,
@@ -180,11 +191,17 @@ export default function Home() {
               mx="auto"
             >
               <Image
-                src="/images/letter.svg"
-                alt="편지"
+                src={iconSrc}
+                alt={isIconVisible ? '편지' : ''}
                 h="7.5dvh"
                 objectFit="contain"
-                onClick={() => router.push("/letters")}
+                opacity={isIconVisible ? 1 : 0}
+                pointerEvents={isIconVisible ? 'auto' : 'none'}
+                cursor={isIconVisible ? 'pointer' : 'default'}
+                aria-hidden={isIconVisible ? undefined : true}
+                onClick={
+                  isIconVisible ? () => router.push('/letters') : undefined
+                }
               />
               <Image src={babyImg} alt="아기" maxH="25dvh" objectFit="contain" />
               <Button

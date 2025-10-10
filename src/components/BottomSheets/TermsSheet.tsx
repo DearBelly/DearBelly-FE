@@ -1,9 +1,16 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useMemo, useState } from 'react';
+import {
+  Drawer,
+  Box,
+  Flex,
+  Stack,
+  IconButton,
+  Text,
+} from '@chakra-ui/react';
+import { keyframes } from '@emotion/react';
 import { useRouter } from 'next/navigation';
-import { Drawer, Box, Flex, Stack, IconButton, Text } from '@chakra-ui/react';
-import { keyframes } from '@emotion/react';             
 import { Button } from '../Button';
 import { CheckField } from '../CheckField/CheckField';
 import { ChakraIcons } from '@/lib/withChakraIcon';
@@ -30,7 +37,7 @@ const fadeOut   = keyframes`from { opacity: 0.5; } to { opacity: 0; }`;
 export function TermsSheet() {
   const router = useRouter();
 
-  const [isSheetOpen, setIsSheetOpen] = useState(true);
+  const [isOpen, setOpen] = useState(true);
   const [agreements, setAgreements] = useState<TermsState>({
     term1: false,
     term2: false,
@@ -42,31 +49,29 @@ export function TermsSheet() {
     [agreements]
   );
 
-  const handleTermClick = (id: keyof TermsState) => {
+  const toggleTerm = (id: keyof TermsState) =>
     setAgreements((prev) => ({ ...prev, [id]: !prev[id] }));
-  };
 
-  const handleOpenDetail = (
-    e: React.MouseEvent<HTMLButtonElement>,
-    id: keyof TermsState
-  ) => {
+  const openDetail = (e: React.MouseEvent<HTMLButtonElement>, id: keyof TermsState) => {
     e.stopPropagation();
     router.push(TERM_ROUTES[id]);
   };
 
   const handleNext = () => {
     if (!allRequiredChecked) return;
-    setIsSheetOpen(false);
+    setOpen(false);
   };
 
   return (
     <Drawer.Root
-      open={isSheetOpen}
-      onOpenChange={(e) => setIsSheetOpen(e.open)}
+      open={isOpen}
+      onOpenChange={(e) => setOpen(e.open)}
       placement="bottom"
-      closeOnEscape={false}              
+      size="md"                       
+      closeOnEscape={false}
       closeOnInteractOutside={false}
-      unmountOnExit={false}           
+      preventScroll
+      trapFocus
     >
       <Drawer.Backdrop
         bg="rgba(0, 0, 0, 0.50)"
@@ -75,10 +80,16 @@ export function TermsSheet() {
           '&[data-state="closed"]': { animation: `${fadeOut} .2s ease-in`  },
         }}
       />
+
+      <Drawer.Positioner />
+
       <Drawer.Content
-        roundedTop="1rem"
         bg="bg.bg3"
+        borderTopLeftRadius="1rem"
+        borderTopRightRadius="1rem"
         px="1.12rem"
+        pb="env(safe-area-inset-bottom)"   
+        boxShadow="0 -8px 24px rgba(0,0,0,.08)"
         css={{
           '&[data-state="open"]':   { animation: `${slideUp} .25s ease-out` },
           '&[data-state="closed"]': { animation: `${slideDown} .2s ease-in`  },
@@ -96,47 +107,43 @@ export function TermsSheet() {
         <Drawer.Body p="0">
           <Stack w="full" gap="0.62rem" pt="0.62rem" pb="0.94rem">
             {TERMS.map((t) => (
-              <Box key={t.id}>
-                <Flex align="center" gap="0.5rem" w="full">
-                  <CheckField
-                    label={t.label}
-                    onClick={() => handleTermClick(t.id)}
-                    checked={agreements[t.id]}
-                  />
-                  <Flex ml="auto" align="center">
-                    <IconButton
-                      aria-label={`${t.label} 상세 보기`}
-                      variant="ghost"
-                      size="sm"
-                      onClick={(e) => handleOpenDetail(e, t.id)}
-                      _icon={{ boxSize: '1.25rem', color: 'icon.icon1' }}
-                    >
-                      <ChakraIcons.ChevronRight />
-                    </IconButton>
-                  </Flex>
-                </Flex>
-              </Box>
+              <Flex key={t.id} align="center" gap="0.5rem" w="full">
+                <CheckField
+                  label={t.label}
+                  onClick={() => toggleTerm(t.id)}
+                  checked={agreements[t.id]}
+                />
+                <IconButton
+                  aria-label={`${t.label} 상세 보기`}
+                  variant="ghost"
+                  size="sm"
+                  ml="auto"
+                  onClick={(e) => openDetail(e, t.id)}
+                  _icon={{ boxSize: '1.25rem', color: 'icon.icon1' }}
+                  bg="transparent"
+                  border="0"
+                  boxShadow="none"
+                  _active={{ bg: 'transparent' }}
+                  _focus={{ boxShadow: 'none', outline: 'none' }}
+                  _focusVisible={{ boxShadow: 'none', outline: 'none' }}
+                  css={{ WebkitTapHighlightColor: 'transparent' }}  
+                >
+                  <ChakraIcons.ChevronRight />                         
+                </IconButton>
+              </Flex>
             ))}
           </Stack>
         </Drawer.Body>
-        <Drawer.Footer 
-          p="0" 
-          py="0.62rem" 
-          px="1.25rem" 
-          display="flex" 
-          flexDirection="column" 
-          alignItems="center"
-          >
-          <Button 
+
+        <Drawer.Footer p="0" py="0.62rem" px="1.25rem">
+          <Button
             type="primary"
             size="large"
             width="100%"
-            onClick={handleNext} 
-            isDisabled={!allRequiredChecked}>
-            <Text 
-              textStyle="body_148001"
-              color="button.text.secondary"
-            >
+            onClick={handleNext}
+            isDisabled={!allRequiredChecked}
+          >
+            <Text textStyle="body_148001" color="button.text.secondary">
               동의하고 계속하기
             </Text>
           </Button>

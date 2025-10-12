@@ -120,7 +120,11 @@ export default function CalendarPage() {
           isOpen={isScheduleOpen}
           onClose={() => setIsScheduleOpen(false)}
           date={selectedDate}
-          onAddSchedule={isLogin ? handleAddSchedule : () => setIsLoginOpen(true)}
+          onAddSchedule={
+            isLogin
+            ? handleAddSchedule                        
+            : async () => { setIsLoginOpen(true); }   
+          }
         />
       )}
 

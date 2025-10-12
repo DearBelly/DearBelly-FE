@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Drawer, Textarea } from "@chakra-ui/react";
+import { Box, Drawer, Portal, Input } from "@chakra-ui/react";
 import { useState } from "react";
 import { ChakraIcons } from "@/lib/withChakraIcon";
 import Image from "next/image";
@@ -30,24 +30,29 @@ export const ScheduleBottomSheet = ({
     ];
     
     return (
-      <>
+      <Portal>
         <Drawer.Root open={open} onOpenChange={(e) => !e.open && onClose()} placement="bottom">
           <Drawer.Backdrop bg="rgba(0, 0, 0, 0.5)" />
           <Drawer.Positioner>
-            <Drawer.Content borderTopRadius="20px" bg={selectedColor} px="16px" pt="20px" pb="calc(16px + env(safe-area-inset-bottom))">
-              {/* 입력창 */}
-              <Textarea
+            <Drawer.Content 
+              w="100%" 
+              maxW="40rem" 
+              borderTopRadius="20px" 
+              bg={selectedColor} 
+              px="16px" 
+              pt="20px" 
+              pb="16px"
+              mx="auto"
+            >
+              <Input
                 p="0"
                 textStyle="body_168001"
                 bg="transparent"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="오늘의 할 일"
-                resize="none"
                 border="none"
-                maxHeight="300px"
                 _focus={{ outline: "none" }}
-                wordBreak="break-all"
               />
   
               {/* 색상 선택 + 아이콘 */}
@@ -105,7 +110,7 @@ export const ScheduleBottomSheet = ({
             setIsOpenDeleteModal(false);
           }}
         />
-      </>
+      </Portal>
     );
   }
   

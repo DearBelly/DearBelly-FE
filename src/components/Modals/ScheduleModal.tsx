@@ -1,4 +1,3 @@
-// components/Modals/ScheduleModal.tsx
 "use client";
 
 import { Box, Text, Image, Portal } from "@chakra-ui/react";
@@ -17,7 +16,7 @@ interface ScheduleModalProps {
   isOpen: boolean;
   onClose: () => void;
   date: string | null;
-  onAddSchedule: (name: string, bgColor: string) => void; // 날짜는 모달이 관리
+  onAddSchedule: (name: string, bgColor: string) => Promise<void>; // 날짜는 모달이 관리
 }
 
 export function ScheduleModal({
@@ -31,7 +30,6 @@ export function ScheduleModal({
   const [isLoading, setIsLoading] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // body scroll lock
   useEffect(() => {
     if (!isOpen) return;
     const prev = document.body.style.overflow;

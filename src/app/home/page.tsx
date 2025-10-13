@@ -14,8 +14,13 @@ import { useEffect, useState } from "react";
 import { Banner } from "@/types/banner";
 import animationData from "@/assets/animation/interaction.json";
 import dynamic from "next/dynamic";
+import { useShallow } from 'zustand/react/shallow';
+import { memo, useMemo } from 'react';
 
 export default function Home() {
+  const defaultUrl =
+  "https://www.shadergradient.co/customize?animate=on&axesHelper=on&bgColor1=%23000000&bgColor2=%23000000&brightness=1.5&cAzimuthAngle=60&cDistance=7.1&cPolarAngle=90&cameraZoom=25&color1=%23ff7a33&color2=%2333a0ff&color3=%23ffc53d&destination=onCanvas&embedMode=off&envPreset=dawn&format=gif&fov=50&frameRate=10&grain=off&lightType=3d&pixelDensity=1&positionX=0&positionY=-0.15&positionZ=0&range=enabled&rangeEnd=40&rangeStart=0&reflection=0.1&rotationX=0&rotationY=0&rotationZ=0&shader=defaults&type=sphere&uAmplitude=2&uDensity=1.1&uFrequency=5.5&uSpeed=0.05&uStrength=0.4&uTime=0&wireframe=false";
+
   const router = useRouter();
 
   const [isLogin, setIsLogin] = useState(false);
@@ -32,9 +37,16 @@ export default function Home() {
       : '/images/today-letter.svg';
   const isIconVisible = letterIcon !== 'none';
 
-  const bgState = useBackgroundStore();
-  const defaultUrl =
-    "https://www.shadergradient.co/customize?animate=on&axesHelper=on&bgColor1=%23000000&bgColor2=%23000000&brightness=1.5&cAzimuthAngle=60&cDistance=7.1&cPolarAngle=90&cameraZoom=25&color1=%23ff7a33&color2=%2333a0ff&color3=%23ffc53d&destination=onCanvas&embedMode=off&envPreset=dawn&format=gif&fov=50&frameRate=10&grain=off&lightType=3d&pixelDensity=1&positionX=0&positionY=-0.15&positionZ=0&range=enabled&rangeEnd=40&rangeStart=0&reflection=0.1&rotationX=0&rotationY=0&rotationZ=0&shader=defaults&type=sphere&uAmplitude=2&uDensity=1.1&uFrequency=5.5&uSpeed=0.05&uStrength=0.4&uTime=0&wireframe=false";
+  const { appliedId, backgrounds } = useBackgroundStore(
+    useShallow((s) => ({ appliedId: s.appliedId, backgrounds: s.backgrounds }))
+  );
+
+  const urlString = useMemo(() => {
+    const m = backgrounds.find((bg) => bg.id === appliedId);
+    return m?.urlPath ?? defaultUrl;
+  }, [appliedId, backgrounds]);
+
+  const MemoShaderBg = memo(ShaderBg);
 
   const Lottie = dynamic(() => import("@/components/Lottie/Lottie"), {
     ssr: false,
@@ -128,14 +140,31 @@ export default function Home() {
   }, [bannerInfo]);
 
   return (
-    <Flex w="100dvw" h="100dvh" justify="center" position="relative" overflow="hidden">
+    <Flex 
+      w="100svw" 
+      h="100svh" 
+      justify="center" 
+      position="relative" 
+      overflow="hidden"
+      css={{ isolation: 'isolate' }} 
+      >
       {/* 배경 */}
-      <Box position="absolute" top={0} left={0} w="100%" h="100%" zIndex={0}>
-        <ShaderBg
-          urlString={
-            bgState.backgrounds.find((bg) => bg.id === bgState.appliedId)?.urlPath || defaultUrl
-          }
-        />
+      <Box 
+        position="absolute" 
+        top={0} 
+        left={0} 
+        w="100%" 
+        h="100%" 
+        zIndex={0}
+        pointerEvents="none"
+        css={{
+          willChange: 'transform, opacity',
+          transform: 'translateZ(0)',     
+          backfaceVisibility: 'hidden',
+          contain: 'strict',     
+        }}
+        >
+        <MemoShaderBg urlString={urlString} />
       </Box>
 
       {/* 인터렉션 */}
@@ -152,6 +181,9 @@ export default function Home() {
           left: "50%",
           transform: "translate(-50%, -50%)",
           zIndex: 1,
+          pointerEvents: 'none',
+          willChange: 'transform, opacity', 
+          backfaceVisibility: 'hidden', 
         }}
       />
 
@@ -193,7 +225,8 @@ export default function Home() {
               <Image
                 src={iconSrc}
                 alt={isIconVisible ? '편지' : ''}
-                h="7.5dvh"
+                style={{ aspectRatio: '1 / 1' }}
+                h="7.5svh"
                 objectFit="contain"
                 opacity={isIconVisible ? 1 : 0}
                 pointerEvents={isIconVisible ? 'auto' : 'none'}
@@ -207,7 +240,13 @@ export default function Home() {
                     : undefined
                 }
               />
-              <Image src={babyImg} alt="아기" maxH="25dvh" objectFit="contain" />
+              <Image 
+                src={babyImg} 
+                alt="아기" 
+                maxH="25svh" 
+                objectFit="contain"
+                style={{ aspectRatio: '1 / 1' }} 
+              />
               <Button
                 size="small"
                 type="primary"

@@ -7,7 +7,8 @@ import { Button } from "../Button/Button";
 import { ScheduleBottomSheet } from "../BottomSheets/ScheduleSheet";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
-import { fetchDailySchedules, ScheduleResponse } from "@/lib/schedules";
+import { fetchDailySchedules, updateSchedule, mapColorToApiFormat, mapApiColorToUiFormat, deleteSchedule } from "@/lib/schedule";
+import { ScheduleResponse } from "@/types/schedule";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -27,6 +28,7 @@ export function ScheduleModal({
 }: ScheduleModalProps) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [dailySchedules, setDailySchedules] = useState<ScheduleResponse[]>([]);
+  const [editSchedule, setEditSchedule] = useState<ScheduleResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -51,7 +53,12 @@ export function ScheduleModal({
     setIsLoading(true);
     try {
       const schedules = await fetchDailySchedules(date);
-      setDailySchedules(schedules);
+      setDailySchedules(
+        schedules.map(s => ({
+        ...s,
+        color: mapApiColorToUiFormat(String(s.color)),
+        }))
+      );
     } catch (error) {
       console.error("일정 조회 실패:", error);
       setDailySchedules([]);
@@ -79,6 +86,44 @@ export function ScheduleModal({
     }
   };
 
+  const startEdit = (s: ScheduleResponse) => {
+    setEditSchedule(s);
+    setIsDrawerOpen(true);
+  };
+
+  const handleEditSubmit = async (name: string, bgColor: string) => {
+    if (!editSchedule || !date) return;
+    try {
+      await updateSchedule(editSchedule.id, {
+        schedule: name,
+        startDate: date,
+        endDate: date,
+        color: mapColorToApiFormat(bgColor),
+      });
+      await loadDailySchedules();
+    } catch (e) {
+      console.error("일정 수정 실패:", e);
+    } finally {
+      setEditSchedule(null);
+    }
+  };
+
+  const handleDelete = async (id: number) => {
+    try {
+      await deleteSchedule(id);
+      await loadDailySchedules();
+    } catch (e) {
+      console.error("일정 삭제 실패:", e);
+    } finally {
+      setEditSchedule(null);
+    }
+  };
+
+  const closeSheet = () => {
+    setIsDrawerOpen(false);
+    setEditSchedule(null);
+  };
+  
   return (
     <Portal>
       <Box
@@ -149,7 +194,9 @@ export function ScheduleModal({
                           key={s.id}
                           h="40px"
                           borderRadius="12px"
-                          bg={`bg.calendar${s.color.slice(-1)}`}
+                          bg={String(s.color)}
+                          onClick={() => startEdit(s)}
+                          cursor="pointer"
                           display="flex"
                           alignItems="center"
                           px="16px"
@@ -169,11 +216,13 @@ export function ScheduleModal({
                           key={s.id}
                           h="40px"
                           borderRadius="12px"
-                          bg={`bg.calendar${s.color.slice(-1)}`}
+                          bg={String(s.color)}
                           display="flex"
                           alignItems="center"
                           px="14px"
                           flexShrink={0}
+                          onClick={() => startEdit(s)}       
+                          cursor="pointer"
                         >
                           <Text textStyle="body_14700120" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">
                             {s.schedule}
@@ -190,11 +239,13 @@ export function ScheduleModal({
                   key={s.id}
                   h="40px"
                   borderRadius="12px"
-                  bg={`bg.calendar${s.color.slice(-1)}`}
+                  bg={String(s.color)}
                   display="flex"
                   alignItems="center"
                   px="14px"
                   flexShrink={0}
+                  onClick={() => startEdit(s)}        
+                  cursor="pointer"
                 >
                   <Text textStyle="body_14700120" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">
                     {s.schedule}
@@ -208,7 +259,7 @@ export function ScheduleModal({
           <Button
             size="medium"
             width="100%"
-            onClick={() => setIsDrawerOpen(true)}
+            onClick={() => { setEditSchedule(null); setIsDrawerOpen(true); }}
             isDisabled={dailySchedules.length >= 10}
           >
             <Box display="flex" flexDirection="row" alignItems="center" gap="8px">
@@ -223,8 +274,13 @@ export function ScheduleModal({
 
       <ScheduleBottomSheet
         open={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
-        onSubmit={handleAddSchedule}
+        onClose={closeSheet}
+        onSubmit={editSchedule ? handleEditSubmit : handleAddSchedule} 
+        mode={editSchedule ? "edit" : "create"}
+        savedContent={editSchedule?.schedule}
+        savedColor={editSchedule ? String(editSchedule.color) : "bg.calendar1"}
+        scheduleId={editSchedule?.id}
+        onDelete={handleDelete}
       />
     </Portal>
   );

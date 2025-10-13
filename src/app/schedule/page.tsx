@@ -14,7 +14,7 @@ import {
   mapColorToApiFormat,
   fetchMonthlySchedules,
   convertToCalendarEvent,
-} from "@/lib/schedules";
+} from "@/lib/schedule";
 
 export default function CalendarPage() {
   const [isLogin, setIsLogin] = useState(false);
@@ -26,7 +26,7 @@ export default function CalendarPage() {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   useEffect(() => {
-    const token = localStorage.getItem("token") || process.env.NEXT_PUBLIC_TEMP_TOKEN;
+    const token = localStorage.getItem("token");
     setIsLogin(!!token);
   }, []);
 
@@ -65,7 +65,6 @@ export default function CalendarPage() {
       await loadMonthlySchedules();
     } catch (error) {
       console.error("일정 등록 실패:", error);
-      alert("일정 등록에 실패했습니다. 다시 시도해주세요.");
       throw error;
     }
   };

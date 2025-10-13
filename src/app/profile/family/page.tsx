@@ -9,6 +9,7 @@ import { useSignupStore } from "@/store/useSignupStore";
 import { useFamilyCodeStore } from "@/store/useFamilyCodeStore";
 import { useState, useMemo } from "react";
 import { validateFamilyCode } from "@/lib/validators";
+import { getProfileUploadUrl, putToS3, commitProfileImage } from "@/lib/profileImage";
 
 export default function FamilyStep() {
   const router = useRouter();
@@ -85,6 +86,22 @@ export default function FamilyStep() {
       setIsSubmitting(false);
       router.replace("/login");
       return;
+    }
+
+    try {
+      const { profileImageFile, imageCommitted } = useSignupStore.getState().data;
+      if (profileImageFile && !imageCommitted) {
+        const safeName = profileImageFile.name || `profile-${Date.now()}`;
+        const { putUrl, objectKey } = await getProfileUploadUrl(safeName);
+        await putToS3(putUrl, profileImageFile);
+        await commitProfileImage(objectKey);
+        useSignupStore.getState().setData({
+          imageObjectKey: objectKey,
+          imageCommitted: true,
+        });
+      }
+    } catch (err) {
+      console.error("프로필 이미지 업로드/커밋 실패:", err);
     }
 
     const url = `${API}/api/v1/member/profile?${buildProfileParams().toString()}`;

@@ -36,6 +36,7 @@ const LottieComponent: React.FC<LottieComponentProps> = ({
       animationData,
       rendererSettings: {
         preserveAspectRatio: "xMidYMid meet", // 반응형 비율 유지
+        progressiveLoad: true,
       },
     });
 

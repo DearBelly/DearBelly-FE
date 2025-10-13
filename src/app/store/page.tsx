@@ -47,6 +47,7 @@ export default function StorePage() {
                     alt="applied"
                     width={54}
                     height={22}
+                    priority
                   />
                 ) : (
                   <ChakraIcons.CheckCircleSolid

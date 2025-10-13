@@ -26,6 +26,12 @@ export default function SetupStep(): JSX.Element {
   }, [router]);
 
   useEffect(() => {
+    if (data.profileImage) {
+      setPreview(data.profileImage);
+    }
+  }, [data.profileImage]);
+
+  useEffect(() => {
     return () => {
       if (preview) URL.revokeObjectURL(preview);
     };
@@ -41,7 +47,6 @@ export default function SetupStep(): JSX.Element {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) {
-      setPreview(null);
       return;
     }
     const previewUrl = URL.createObjectURL(file);
@@ -59,8 +64,19 @@ export default function SetupStep(): JSX.Element {
   };
 
   const handleNextClick = () => {
-    if (!validation.valid || !preview) return;
-    setData({ nickname: nickname.trim(), profileImage: preview });
+    if (!validation.valid) return;
+
+    const base = { nickname: nickname.trim() };
+
+    if (preview) {
+      setData({
+        ...base,
+        profileImage: preview,
+      });
+    } else {
+      setData(base);
+    }
+
     nextStep();
     router.push("/profile/info");
   };
@@ -72,10 +88,9 @@ export default function SetupStep(): JSX.Element {
   return (
     <TopBarBottomButtonLayout
       onNext={handleNextClick}
-      nextDisabled={!validation.valid || !preview}
+      nextDisabled={!validation.valid}
       onBack={handleBackClick}
     >
-      
       <Box
         as="form"
         w="100%"
@@ -128,6 +143,7 @@ export default function SetupStep(): JSX.Element {
           />
         )}
       </Box>
+
       <InputBox
         mode="default"
         title="닉네임"
@@ -137,6 +153,7 @@ export default function SetupStep(): JSX.Element {
         guideMessage={validation.guideMessage}
         isError={!!validation.errorMessage}
         errorMessage={validation.errorMessage}
+        maxLength={10}
       />
 
       <TermsSheet />

@@ -46,7 +46,7 @@ export const MobileLayout = ({
       m="0 auto"
       position="relative"
     >
-      <Box position="sticky" top="0" w="100%" zIndex="header">
+      <Box position="sticky" top="0" w="100%" zIndex="sticky">
         <TopBar
           mode={topbarMode}
           backgroundType={topbarBackground}
@@ -78,7 +78,7 @@ export const MobileLayout = ({
           bottom="0"
           left="0"
           right="0"
-          zIndex="bottomNav"
+          zIndex="sticky"
           pointerEvents={disableNavPointer ? "none" : "auto"} 
         >
           <BottomNavigation />

@@ -1,7 +1,7 @@
 'use client';
 
 import { Box, Drawer, Portal, Input } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ChakraIcons } from "@/lib/withChakraIcon";
 import Image from "next/image";
 import { DeleteModal } from "../Modals/DeleteModal";
@@ -11,16 +11,35 @@ export interface ScheduleBottomSheetProps {
   open: boolean;
   onClose: () => void;
   onSubmit: (name: string, bgColor: string) => void;
+  mode?: "create" | "edit";
+  savedContent?: string;
+  savedColor?: string;  
+  scheduleId?: number;   
+  onDelete?: (id: number) => void; 
 }
 
 export const ScheduleBottomSheet = ({
     open,
     onClose,
     onSubmit,
+    mode = "create",
+    savedContent,
+    savedColor,
+    scheduleId,
+    onDelete,
   }: ScheduleBottomSheetProps) => {
     const [content, setContent] = useState("");
     const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
     const [selectedColor, setSelectedColor] = useState("bg.calendar1");
+
+    useEffect(() => {
+      if (!open) return;
+      setContent(savedContent ?? "");
+      setSelectedColor(savedColor ?? "bg.calendar1");
+    }, [open, savedContent, savedColor, mode]);
+
+    const isDeleteDisabled = mode === "edit";
+
     const colors = [
       "bg.calendar1",
       "bg.calendar2",
@@ -79,11 +98,17 @@ export const ScheduleBottomSheet = ({
                 </Box>
   
                 <Box display="flex" alignItems="center" gap="12px">
-                  <ChakraIcons.TrashSolid
-                    size={24}
-                    color="icon.icon1"
-                    onClick={() => setIsOpenDeleteModal(true)}
-                  />
+                  {onDelete && typeof scheduleId === "number" && (
+                    <ChakraIcons.TrashSolid
+                      size={24}
+                      color={isDeleteDisabled ? "transparent" : "icon.icon1"}
+                      onClick={
+                        isDeleteDisabled ? undefined : () => setIsOpenDeleteModal(true)
+                      }
+                      style={{ pointerEvents: isDeleteDisabled ? "none" : "auto" }}
+                      tabIndex={isDeleteDisabled ? -1 : 0}
+                    />
+                  )}
                   <Image
                     src="/images/icon_send.svg"
                     alt="send"
@@ -102,14 +127,18 @@ export const ScheduleBottomSheet = ({
             </Drawer.Content>
           </Drawer.Positioner>
         </Drawer.Root>
-        <DeleteModal
-          isOpen={isOpenDeleteModal}
-          onClose={() => setIsOpenDeleteModal(false)}
-          onDelete={() => {
-            setContent("");
-            setIsOpenDeleteModal(false);
-          }}
-        />
+        
+        {mode === "edit" && onDelete && typeof scheduleId === "number" && (
+          <DeleteModal
+            isOpen={isOpenDeleteModal}
+            onClose={() => setIsOpenDeleteModal(false)}
+            onDelete={() => {
+              onDelete(scheduleId);
+              setIsOpenDeleteModal(false);
+              onClose();
+            }}
+          />
+        )}
       </Portal>
     );
   }

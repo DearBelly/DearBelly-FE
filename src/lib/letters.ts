@@ -41,7 +41,7 @@ export async function fetchLettersFeed(cursor?: string | null, size = 20) {
 }
 
 export async function fetchTodayLetter() {
-  return request<TodayLetterResponse>('/api/v1/letters/today');
+  return request<TodayLetterResponse>('/api/v1/questions/today');
 }
 
 export async function fetchMonthlyLetters(year?: number, month?: number) {

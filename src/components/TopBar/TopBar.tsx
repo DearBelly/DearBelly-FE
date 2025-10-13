@@ -57,7 +57,7 @@ export const TopBar = ({
         >
           {/* 로고 모드 */}
           {mode === 'logo' && (
-            <Box>
+            <Box cursor="pointer">
               <img
                 src="/logos/logo_text.svg"
                 alt="logo"
@@ -75,6 +75,7 @@ export const TopBar = ({
                 color="icon.icon1"
                 size="24px"
                 onClick={() => handleBackClick()}
+                cursor="pointer"
               />
               {searchContent ? searchContent : (    
                 <Text textStyle="body_187002" color="text.text1">
@@ -86,7 +87,7 @@ export const TopBar = ({
 
           {/* 화이트 로고 모드 */}
           {mode === 'whiteLogo' && (
-            <Box>
+            <Box cursor="pointer">
               <img
                 src="/logos/white_logo_text.svg"
                 alt="logo"
@@ -99,7 +100,7 @@ export const TopBar = ({
 
           {/* 우측 컨텐츠 */}
           {rightContent && (
-            <Flex ml="auto">
+            <Flex ml="auto" cursor="pointer">
               {rightContent}
             </Flex>
           )}

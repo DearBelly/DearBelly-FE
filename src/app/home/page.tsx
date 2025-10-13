@@ -256,19 +256,16 @@ export default function Home() {
                     imageUrl="/images/image.png"
                     title="깊이 잠들고 싶은 당신에게 추천하는 5가지 방법"
                     description="깊이 숙면하는 방법"
-                    onClick={() => handleImageCardClick("/info/detail")}
                   />
                   <ImageCard
                     imageUrl="/images/image.png"
                     title="임산부 불면증에 좋은 요가"
                     description="음악과 함께하는 요가"
-                    onClick={() => handleImageCardClick("/info/detail")}
                   />
                   <ImageCard
                     imageUrl="/images/image.png"
                     title="겨울에 집에서 하기 좋은 운동 10가지"
                     description="집안에서 가볍게 할 수 있는 운동법"
-                    onClick={() => handleImageCardClick("/info/detail")}
                   />
                 </>
               )}

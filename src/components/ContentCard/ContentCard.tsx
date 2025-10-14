@@ -3,6 +3,7 @@
 import { Box, Text, Heading } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { useState } from 'react';
 
 const fallbackImage = '/images/default_image.png';
 
@@ -24,6 +25,7 @@ export const ContendCard = ({
   isLast,
 }: ContendCardProps) => {
   const router = useRouter();
+  const [loaded, setLoaded] = useState(false);
   const handleDetailClick = () => {
     router.push(`/info/detail/${id}`);
   };
@@ -83,7 +85,11 @@ export const ContendCard = ({
           src={imageSrc || fallbackImage}
           alt={title}
           fill
-          style={{ objectFit: 'cover' }}
+          style={{ 
+            objectFit: 'cover',
+            display: loaded ? 'block' : 'none',
+          }}
+          onLoad={() => setLoaded(true)}
         />
       </Box>
     </Box>

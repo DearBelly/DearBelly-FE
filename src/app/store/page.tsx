@@ -6,10 +6,12 @@ import { useRouter } from "next/navigation";
 import { useBackgroundStore } from "@/store/useBackgroundStore";
 import { ChakraIcons } from "@/lib/withChakraIcon";
 import Image from "next/image";
+import { useState } from "react";
 
 export default function StorePage() {
   const router = useRouter();
   const bgState = useBackgroundStore();
+  const [loaded, setLoaded] = useState(false);
 
   const handleApply = () => {
     bgState.apply();
@@ -39,6 +41,8 @@ export default function StorePage() {
               borderRadius="16px"
               position="relative"
               onClick={() => bgState.click(bg.id)}
+              style={{ display: loaded ? 'block' : 'none' }} 
+              onLoad={() => setLoaded(true)}
             >
               <Box position="absolute" top="12px" left="12px">
                 {isApplied ? (
@@ -48,6 +52,8 @@ export default function StorePage() {
                     width={54}
                     height={22}
                     priority
+                    style={{ display: loaded ? 'block' : 'none' }} 
+                    onLoad={() => setLoaded(true)}
                   />
                 ) : (
                   <ChakraIcons.CheckCircleSolid

@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { InputBox } from './InputBox';
-import { IoIosSend } from 'react-icons/io';
 
 const meta: Meta<typeof InputBox> = {
   title: 'Components/InputBox',

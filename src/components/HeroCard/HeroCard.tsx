@@ -3,6 +3,7 @@
 import { Box, Text } from '@chakra-ui/react';
 import Image from 'next/image';
 import { useGetBreakPointValue } from "../../context/BreakPointProvider";
+import { useState } from 'react';
 
 const fallbackImage = '/images/default_image.png';
 
@@ -15,6 +16,7 @@ export interface HeroCardProps {
 
 export const HeroCard = ({ title, description, imageSrc, mode }: HeroCardProps) => {
   const isPc = useGetBreakPointValue();
+  const [loaded, setLoaded] = useState(false);
 
   return (
     <Box
@@ -85,8 +87,10 @@ export const HeroCard = ({ title, description, imageSrc, mode }: HeroCardProps) 
             style={{ 
               objectFit: "fill",  
               width: "100%",
-              height: "100%"
+              height: "100%",
+              display: loaded ? 'block' : 'none',
             }}
+            onLoad={() => setLoaded(true)}
           />
         </Box>
       </Box>

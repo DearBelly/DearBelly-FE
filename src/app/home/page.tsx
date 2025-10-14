@@ -24,6 +24,8 @@ export default function Home() {
   const router = useRouter();
 
   const [isLogin, setIsLogin] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+  
   const [bannerInfo, setBannerInfo] = useState<Banner | null>(null);
   const [recommendCard, setRecommendCard] = useState<any[]>([]);
   const [babyImg, setBabyImg] = useState("/images/babyCharacter/step2.svg");
@@ -245,7 +247,11 @@ export default function Home() {
                 alt="아기" 
                 maxH="25svh" 
                 objectFit="contain"
-                style={{ aspectRatio: '1 / 1' }} 
+                style={{ 
+                  aspectRatio: '1 / 1',
+                  display: loaded ? 'block' : 'none',
+                }} 
+                onLoad={() => setLoaded(true)}
               />
               <Button
                 size="small"

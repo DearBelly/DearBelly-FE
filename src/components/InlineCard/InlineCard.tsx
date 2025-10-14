@@ -4,6 +4,7 @@ import { Box, Text, Link as ChakraLink } from '@chakra-ui/react';
 import Image from 'next/image';
 import NextLink from 'next/link';
 import { ChakraIcons } from "@/lib/withChakraIcon";
+import { useState } from 'react';
 
 const fallbackImage = '/images/default_image.svg';
 
@@ -22,6 +23,8 @@ export const InlineCard = ({
   shortcutHref,
   imageSrc,
 }: InlineCardProps) => {
+  const [loaded, setLoaded] = useState(false);
+
   return (
     <Box
       w="100%"
@@ -76,7 +79,11 @@ export const InlineCard = ({
           src={imageSrc || fallbackImage}
           alt={imageDescription}
           fill
-          style={{ objectFit: 'cover' }}
+          style={{ 
+            objectFit: 'cover',
+            display: loaded ? 'block' : 'none',
+          }}
+          onLoad={() => setLoaded(true)}
         />
       </Box>
     </Box>

@@ -13,7 +13,7 @@ import { validateNickname } from "@/lib/validators";
 export default function SetupStep(): JSX.Element {
   const router = useRouter();
   const { data, setData, nextStep } = useSignupStore();
-
+  const [loaded, setLoaded] = useState(false);
   const [nickname, setNickname] = useState<string>(data.nickname || "");
   const [preview, setPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -129,7 +129,11 @@ export default function SetupStep(): JSX.Element {
               src={preview}
               alt="profile-setup"
               fill
-              style={{ objectFit: "cover" }}
+              style={{ 
+                objectFit: "cover",
+                display: loaded ? 'block' : 'none',
+              }}
+              onLoad={() => setLoaded(true)}
             />
           </Box>
         ) : (
@@ -138,8 +142,12 @@ export default function SetupStep(): JSX.Element {
             alt="profile-setup"
             width={80}
             height={80}
-            style={{ cursor: "pointer" }}
+            style={{ 
+              cursor: "pointer",
+              display: loaded ? 'block' : 'none',
+            }}
             onClick={() => fileInputRef.current?.click()}
+            onLoad={() => setLoaded(true)}
           />
         )}
       </Box>

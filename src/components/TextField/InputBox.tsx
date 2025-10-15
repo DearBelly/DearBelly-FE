@@ -1,7 +1,7 @@
 "use client";
 
 import React, { ReactNode } from "react";
-import { Box, Text, Field, Input } from "@chakra-ui/react";
+import { Box, Text, Field, Input, Grid } from "@chakra-ui/react";
 
 export interface InputBoxProps {
   mode?: "default" | "transparent";
@@ -18,7 +18,7 @@ export interface InputBoxProps {
   maxLength?: number;
   isDisabled?: boolean;
   readOnly?: boolean;
-  children?: ReactNode;
+  icon?: ReactNode;
 }
 
 export const InputBox = ({
@@ -36,7 +36,7 @@ export const InputBox = ({
   maxLength,
   isDisabled = false,
   readOnly = false,
-  children,
+  icon,
 }: InputBoxProps) => {
   const safeId = `input-${title}`.replace(/\s+/g, "-").toLowerCase();
 
@@ -51,7 +51,6 @@ export const InputBox = ({
           display="flex"
           flexDirection="column"
           gap="0.25rem"
-          position="relative"
         >
           <Text
             textStyle="caption_12800"
@@ -62,61 +61,67 @@ export const InputBox = ({
           >
             {title}
           </Text>
-          <Input
-            id={safeId}
-            type={type}
-            inputMode={inputMode}
-            maxLength={maxLength}
-            variant="outline"
-            textStyle="body_14400224"
-            css={{ "--input-border-width": "0px" }}
-            border="0"
-            boxShadow="none"
-            px="0"
-            py="0"
+          <Grid
+            flexDirection="row"
+            w="100%"
             h="24px"
-            lineHeight="24px"
-            bg="transparent"
-            placeholder={placeholder}
-            value={value ?? ""}
-            onChange={readOnly ? undefined : onChange}     
-            onClick={onClick}
-            aria-invalid={isError || undefined}
-            data-invalid={isError ? "" : undefined}
-            _placeholder={{ color: "text.text4" }}
-            _focusVisible={{
-              boxShadow: "none",
-              borderColor: "transparent",
-              outline: "none",
-              "--input-border-width": "0px",
-            }}
-            _hover={{ borderColor: "transparent", "--input-border-width": "0px" }}
-            _invalid={{ color: "text.textError" }}
-            autoComplete="one-time-code"
-            disabled={isDisabled}
-            readOnly={readOnly}   
-            pr="2rem"
-          />
-
-          {children && (
-            <Box
-              position="absolute"
-              right="1rem"
-              bottom="1rem"
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-            >
-              {children}
-            </Box>
-          )}
+            gap="10px"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Input
+              id={safeId}
+              type={type}
+              inputMode={inputMode}
+              maxLength={maxLength}
+              variant="outline"
+              textStyle="body_14400224"
+              css={{ "--input-border-width": "0px" }}
+              border="0"
+              boxShadow="none"
+              px="0"
+              py="0"
+              h="24px"
+              lineHeight="24px"
+              bg="transparent"
+              placeholder={placeholder}
+              value={value ?? ""}
+              onChange={readOnly ? undefined : onChange}     
+              onClick={onClick}
+              aria-invalid={isError || undefined}
+              data-invalid={isError ? "" : undefined}
+              _placeholder={{ color: "text.text4" }}
+              _focusVisible={{
+                boxShadow: "none",
+                borderColor: "transparent",
+                outline: "none",
+                "--input-border-width": "0px",
+              }}
+              _hover={{ borderColor: "transparent", "--input-border-width": "0px" }}
+              _invalid={{ color: "text.textError" }}
+              autoComplete="one-time-code"
+              disabled={isDisabled}
+              readOnly={readOnly}
+            />
+            {icon && (
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                w="20px"
+                h="20px"
+              >
+                {icon}
+              </Box>
+            )}
+          </Grid>
         </Box>
       </Box>
       {isError ? (
         <Field.ErrorText
           aria-live="assertive"
           textStyle="caption_12400"
-          mt="0.5rem"
+          mt="2px"
           ml="1rem"
           color="text.textError"
         >
@@ -127,7 +132,7 @@ export const InputBox = ({
           <Field.HelperText
             aria-live="polite"
             textStyle="caption_12400"
-            mt="0.5rem"
+            mt="2px"
             ml="1rem"
             color="text.text3"
           >

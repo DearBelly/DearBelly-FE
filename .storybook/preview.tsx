@@ -2,7 +2,6 @@ import React from 'react';
 import type { Preview } from '@storybook/nextjs';
 import { withThemeByClassName } from '@storybook/addon-themes';
 import { Provider } from "../src/components/UI/Provider";
-import { INITIAL_VIEWPORTS } from 'storybook/viewport';
 
 const customViewports = {
   desktop1600x900: {
@@ -13,13 +12,10 @@ const customViewports = {
     },
     type: 'desktop',
   },
-  desktop1920x1080: {
-    name: 'Desktop (1920×1080)',
-    styles: {
-      width: '1920px',
-      height: '1080px',
-    },
-    type: 'desktop',
+  iphone390X844: {
+    name: 'iphone (390X844)',
+    styles: { width: '390px', height: '844px' }, 
+    type: 'mobile',
   },
 };
 
@@ -41,14 +37,13 @@ const preview: Preview = {
   parameters: {
     viewport: {
       options: {
-        ...INITIAL_VIEWPORTS,
         ...customViewports,
       },
     },
   },
   initialGlobals: {
     viewport: {
-      value: 'iphone14',
+      value: 'iphone (390X844)',
       isRotated: false,
     },
   },

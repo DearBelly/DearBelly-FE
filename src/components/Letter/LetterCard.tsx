@@ -2,6 +2,9 @@
 
 import { Flex, Text } from '@chakra-ui/react';
 import Image from 'next/image';
+import { useState } from 'react';
+
+const default_image = '/images/icon_default_profile.svg';
 
 export interface LetterCardProps {
   nickname: string;
@@ -18,7 +21,7 @@ export default function LetterCard({
   imgUrl,
   questionText,
 }: LetterCardProps) {
-  const profileSrc = imgUrl || '/images/icon_default_profile.svg';
+  const [loaded, setLoaded] = useState(false);
 
   return (
     <Flex
@@ -63,11 +66,16 @@ export default function LetterCard({
       <Flex flexDirection="row" justifyContent="space-between" alignItems="center">
         <Flex flexDirection="row" gap="6px" alignItems="center">
           <Image
-            src={profileSrc}
+            src={imgUrl || default_image}
             alt="profile"
             width={20}
             height={20}
-            style={{ objectFit: 'cover', borderRadius: 999 }}
+            style={{ 
+              objectFit: 'cover', 
+              borderRadius: 999,
+              display: loaded ? 'block' : 'none',
+            }}
+            onLoad={() => setLoaded(true)}
           />
           <Text textStyle="caption_104001">{nickname}</Text>
         </Flex>

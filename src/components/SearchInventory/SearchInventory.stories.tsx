@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/nextjs';
 import { SearchInventory } from './SearchInventory';
 
 const meta: Meta<typeof SearchInventory> = {

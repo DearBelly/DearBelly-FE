@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { Meta, StoryObj } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/nextjs';
 import { ProfileList } from './ProfileList';
 
 const meta: Meta<typeof ProfileList> = {

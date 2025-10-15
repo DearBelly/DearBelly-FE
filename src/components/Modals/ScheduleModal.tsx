@@ -159,7 +159,7 @@ export function ScheduleModal({
           <Box mt="2rem" w="100%" h="280px" display="flex" flexDirection="column" gap="0.5rem">
             {isLoading ? (
               <Box display="flex" justifyContent="center" alignItems="center" h="100%">
-                <Image src="/images/computerVision/spinner.svg" alt="로딩 스피너" width="7vw" />
+                <Image src="/images/computerVision/spinner.svg" alt="로딩 스피너" width="15vw" />
               </Box>
             ) : dailySchedules.length === 0 ? (
               <Box display="flex" justifyContent="center" h="100%">

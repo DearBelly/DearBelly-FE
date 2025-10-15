@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { Meta, StoryObj } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/nextjs';
 import { DropdownMenu } from './DropdownMenu';
 
 const meta: Meta<typeof DropdownMenu> = {

@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 
 export default function ProfileChangeMaternity() {
   const router = useRouter();
+  const [loaded, setLoaded] = useState(false);
   const [name, setName] = useState("");
   const [isNicknameError, setIsNicknameError] = useState(false);
   const [showToast, setShowToast] = useState(false);
@@ -217,7 +218,11 @@ export default function ProfileChangeMaternity() {
               src={selectedImg || profileImg || "/images/icon_default_profile.svg"}
               alt="profile-setup"
               fill
-              style={{ objectFit: "cover" }}
+              style={{ 
+                objectFit: "cover",
+                display: loaded ? 'block' : 'none',
+              }}
+              onLoad={() => setLoaded(true)}
             />
             <Input
               type="file"

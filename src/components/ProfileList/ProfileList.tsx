@@ -25,6 +25,7 @@ export const ProfileList = ({
   onDelete,
 }: ProfileListProps & { onDelete?: (id:number) => void }) => {
   const [open, setOpen] = useState(false);
+  const [loaded, setLoaded] = useState(false);
   const iconRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -58,6 +59,8 @@ export const ProfileList = ({
               w="100%"
               h="100%"
               objectFit="cover"
+              style={{ display: loaded ? 'block' : 'none' }} 
+              onLoad={() => setLoaded(true)}
             />
           </Box>
           {isMe && (
@@ -67,6 +70,8 @@ export const ProfileList = ({
               position="absolute"
               bottom={0}
               right={0}
+              style={{ display: loaded ? 'block' : 'none' }} 
+              onLoad={() => setLoaded(true)}
             />
           )}
         </Box>

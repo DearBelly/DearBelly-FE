@@ -1,9 +1,7 @@
-// src/components/TopBar/TopBar.stories.tsx
 import React from "react";
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/nextjs";
 import { TopBar, TopBarProps } from "./TopBar";
 import { SearchBox } from "../Search/SearchBox";
-import { Bell } from "@mynaui/icons-react";
 
 const meta: Meta<TopBarProps> = {
   title: "Components/TopBar",

@@ -35,6 +35,7 @@ const InfoDetail = () => {
   const [recommendCard, setRecommendCard] = useState<any[]>([]);
   const [isBookMark, setIsBookMark] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
+  const [loaded, setLoaded] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
 
   useEffect(() => {
@@ -200,9 +201,10 @@ const InfoDetail = () => {
                 objectFit: 'cover',
                 objectPosition: 'top',
                 margin: '0 auto',
-                display: 'block',
+                display: loaded ? 'block' : 'none',
               }}
               priority
+              onLoad={() => setLoaded(true)}
             />
           </Box>
         </ImageWrapper>

@@ -16,6 +16,7 @@ export default function Mypage() {
   const router = useRouter();
   const { username, profileImg, isPregnant, setUser } = useUserStore();
   const [isLoginOpen, setIsLoginOpen] = useState(false); 
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('token') || process.env.NEXT_PUBLIC_TEMP_TOKEN;
@@ -80,6 +81,8 @@ export default function Mypage() {
                 h="100%"
                 objectFit="cover"
                 alt="프로필 이미지"
+                style={loaded ? { display: "block" } : { display: "none" }}
+                onLoad={() => setLoaded(true)}
               />
             </Box>
             <Box

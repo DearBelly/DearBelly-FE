@@ -87,6 +87,7 @@ export const CalendarInputBox = ({
             justifyContent="flex-start"
           >
             <DatePicker
+              className={value ? '' : 'is-empty'}
               value={value as Value}        
               onChange={handleChange}      
               format="y.MM.dd"

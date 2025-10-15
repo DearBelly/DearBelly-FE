@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import { SocialLoginButton } from './SocialLoginButton';
 
 const meta: Meta<typeof SocialLoginButton> = {

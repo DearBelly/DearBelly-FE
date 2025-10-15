@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { Meta, StoryObj } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/nextjs';
 import { HeroCard } from './HeroCard';
 
 const meta: Meta<typeof HeroCard> = {

@@ -43,7 +43,7 @@ const preview: Preview = {
   },
   initialGlobals: {
     viewport: {
-      value: 'iphone (390X844)',
+      value: 'iphone390X844',
       isRotated: false,
     },
   },

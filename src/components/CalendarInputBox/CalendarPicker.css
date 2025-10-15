@@ -1,15 +1,155 @@
-.CalendarPicker input,
-.CalendarPicker button {
-  font: inherit;
+/* 컨테이너가 내부 포커스를 가질 때 기본 아웃라인 제거 (개별 포커스 처리는 아래에서 일괄 차단) */
+.react-date-picker:focus-within{
+  outline:0;
 }
 
-.CalendarPicker header {
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-  padding: 20px;
-  color: white;
+/* 0) 모바일 사파리/크롬 탭 하이라이트(연한 회색/파랑) 제거 */
+.react-date-picker, .react-date-picker * {
+  -webkit-tap-highlight-color: transparent;
 }
 
-.CalendarPicker header h1 {
-  font-size: inherit;
-  margin: 0;
+/* 1) 배경/섀도우 깜빡임의 근원 차단:
+   - 컨테이너, 래퍼, 버튼, 인풋그룹, 인풋 모두에 '투명 배경 + box-shadow 제거'
+   - 라이브러리/전역 CSS가 주입한 스타일을 무시하기 위해 !important 사용 */
+.react-date-picker,
+.react-date-picker__wrapper,
+.react-date-picker__button,
+.react-date-picker__inputGroup,
+.react-date-picker__inputGroup__input {
+  background: transparent !important;
+  box-shadow: none !important;
 }
+
+/* 2) 포커스/액티브 상태에서도 배경/섀도우/아웃라인을 완전히 제거 */
+.react-date-picker__inputGroup__input:focus,
+.react-date-picker__inputGroup__input:active,
+.react-date-picker__inputGroup__input:focus-visible,
+.react-date-picker__button:focus,
+.react-date-picker__button:focus-visible {
+  outline: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* 3) 라이브러리가 토글하는 상태 클래스가 래퍼 배경을 바꾸는 경우가 있어 무력화 */
+.react-date-picker--open .react-date-picker__wrapper,
+.react-date-picker--focused .react-date-picker__wrapper,
+.react-date-picker:focus-within .react-date-picker__wrapper {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* 4) 크롬 자동완성/포커스 인셋으로 생기는 내부 배경(노랑/회색) 제거 */
+.react-date-picker__inputGroup__input:-webkit-autofill,
+.react-date-picker__inputGroup__input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+  box-shadow: 0 0 0 1000px transparent inset !important;
+  -webkit-text-fill-color: inherit !important;
+  caret-color: inherit !important;
+}
+
+/* 5) 사용자가 텍스트 드래그 할 때 selection 배경이 번쩍 보이는 경우 투명 처리 */
+.react-date-picker__inputGroup__input::selection {
+  background: transparent;
+}
+
+/* 6) 혹시 남아있는 브라우저 기본 포커스 테두리까지 종합적으로 제거 */
+.react-date-picker *:focus,
+.react-date-picker *:focus-visible {
+  outline: none !important;
+}
+
+/* ---------------------- */
+/* 타이포/레이아웃 */
+/* ---------------------- */
+
+/* 비활성화 상태: 텍스트 컬러만 토큰으로 다운시킴 (배경/보더를 따로 쓰고 싶으면 여기서 추가) */
+.react-date-picker--disabled{  
+  color:var(--dear-belly-colors-text-text1);     
+}
+
+/* 내부 래퍼: 레이아웃 컨테이너 (보더/배경을 의도적으로 투명 처리) */
+.react-date-picker__wrapper{
+  display:flex;
+  flex-grow:1;
+  flex-shrink:0;
+  background:transparent;
+}
+
+/* 입력 그룹: 타이포/간격/박스모델 지정
+   min-width 계산식은 라이브러리 기본값 유지. 필요 시 줄바꿈/말줄임을 위해 min-width:0로 오버라이드 가능 */
+.react-date-picker__inputGroup{
+  min-width:calc((4px * 3) + 0.54em * 8 + 0.217em * 2);
+  flex-grow:1;
+  box-sizing:content-box;
+  color: var(--dear-belly-colors-text-text1);
+  font-family: "NanumSquare Neo", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-feature-settings: 'liga' off, 'clig' off;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;         
+  letter-spacing: -0.28px;
+}
+
+/* 구분자(/- 등) 줄바꿈 방지 */
+.react-date-picker__inputGroup__divider{
+  white-space:pre;
+  color: var(--dear-belly-colors-text-text4); 
+}
+
+/* 실제 입력칸: 보더/배경 제거 + 상속 폰트 사용 */
+.react-date-picker__inputGroup__input{
+  min-width:0.54em;
+  height:100%;
+  position:relative;
+  padding:0 1px;
+  border:0;
+  background:none;
+  font:inherit;
+  box-sizing:content-box; 
+}
+
+/* 스핀 버튼 제거 */
+.react-date-picker__inputGroup__input::-webkit-outer-spin-button,
+.react-date-picker__inputGroup__input::-webkit-inner-spin-button{
+  -webkit-appearance:none;
+  margin:0;
+}
+
+/* 유효하지 않은 입력의 텍스트 컬러만 표시 (배경 흔들림 방지) */
+.react-date-picker__inputGroup__input:invalid{
+  color:var(--dear-belly-colors-text-text-error);
+  background:transparent;
+}
+
+/* 외부 공용 버튼 룰이 링을 주는 경우를 대비해 무력화 예시 */
+.button.no-ring:focus-visible {
+  box-shadow: none;                
+  --ring-width: 0px;               
+  --ring-color: transparent;       
+}
+
+/* 달력 팝업: 레이어 겹침을 피하기 위한 위치/크기 설정 */
+.react-date-picker__calendar{
+  width:350px;
+  max-width:80vw;
+  position:absolute;
+  top:100%;
+  left:0;
+  z-index:1;
+}
+.react-date-picker__calendar--closed{ display:none; }
+
+/* 캘린더 네비게이션 라벨의 타이포 */
+.react-calendar__navigation__label__labelText{
+  font-family: "NanumSquare Neo", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+}
+
+/* 인풋 placeholder 색상 */
+.react-date-picker__inputGroup__input::placeholder {
+  color: var(--dear-belly-colors-text-text4); 
+  opacity: 1; 
+}
+

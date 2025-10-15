@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Text, Flex, Separator } from "@chakra-ui/react";
-import { InputBoxCalendar } from "@/components/TextField/InputBoxCalendar";
+import { CalendarInputBox } from "@/components/CalendarInputBox/CalendarInputBox";
 import { TopBarBottomButtonLayout } from "@/components/Layouts/TopBarBottomButtonLayout";
 import { useRouter } from "next/navigation";
 import { useSignupStore } from "@/store/useSignupStore";
@@ -127,10 +127,9 @@ export default function InfoStep() {
               />
             </Box>
 
-            <InputBoxCalendar
+            <CalendarInputBox
               mode="transparent"
               title="마지막 생리 시작일"
-              placeholder="0000-00-00"
               onChange={(date) =>
                 setData({ LMP: date ? date.toISOString().split("T")[0] : "" })
               }
@@ -177,10 +176,9 @@ export default function InfoStep() {
           />
         </Box>
 
-        <InputBoxCalendar
+        <CalendarInputBox
           mode="transparent"
           title="생년월일"
-          placeholder="0000-00-00"
           onChange={(date) =>
             setData({ birth: date ? date.toISOString().split("T")[0] : "" })
           }

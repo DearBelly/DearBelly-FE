@@ -1,7 +1,7 @@
 "use client";
 
 import React, { ReactNode } from "react";
-import { Box, Text, Field, Input, Grid } from "@chakra-ui/react";
+import { Box, Text, Field, Input, Flex } from "@chakra-ui/react";
 
 export interface InputBoxProps {
   mode?: "default" | "transparent";
@@ -61,7 +61,7 @@ export const InputBox = ({
           >
             {title}
           </Text>
-          <Grid
+          <Flex
             flexDirection="row"
             w="100%"
             h="24px"
@@ -114,7 +114,7 @@ export const InputBox = ({
                 {icon}
               </Box>
             )}
-          </Grid>
+          </Flex>
         </Box>
       </Box>
       {isError ? (
@@ -122,7 +122,7 @@ export const InputBox = ({
           aria-live="assertive"
           textStyle="caption_12400"
           mt="2px"
-          ml="1rem"
+         ml="1rem"
           color="text.textError"
         >
           {errorMessage ?? "입력을 확인해 주세요."}

@@ -3,12 +3,12 @@
   outline:0;
 }
 
-/* 0) 모바일 사파리/크롬 탭 하이라이트(연한 회색/파랑) 제거 */
+/* 모바일 사파리/크롬 탭 하이라이트(연한 회색/파랑) 제거 */
 .react-date-picker, .react-date-picker * {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* 1) 배경/섀도우 깜빡임의 근원 차단:
+/* 배경/섀도우 깜빡임의 근원 차단:
    - 컨테이너, 래퍼, 버튼, 인풋그룹, 인풋 모두에 '투명 배경 + box-shadow 제거'
    - 라이브러리/전역 CSS가 주입한 스타일을 무시하기 위해 !important 사용 */
 .react-date-picker,
@@ -20,7 +20,7 @@
   box-shadow: none !important;
 }
 
-/* 2) 포커스/액티브 상태에서도 배경/섀도우/아웃라인을 완전히 제거 */
+/* 포커스/액티브 상태에서도 배경/섀도우/아웃라인을 완전히 제거 */
 .react-date-picker__inputGroup__input:focus,
 .react-date-picker__inputGroup__input:active,
 .react-date-picker__inputGroup__input:focus-visible,
@@ -31,7 +31,7 @@
   box-shadow: none !important;
 }
 
-/* 3) 라이브러리가 토글하는 상태 클래스가 래퍼 배경을 바꾸는 경우가 있어 무력화 */
+/* 라이브러리가 토글하는 상태 클래스가 래퍼 배경을 바꾸는 경우가 있어 무력화 */
 .react-date-picker--open .react-date-picker__wrapper,
 .react-date-picker--focused .react-date-picker__wrapper,
 .react-date-picker:focus-within .react-date-picker__wrapper {
@@ -39,7 +39,7 @@
   box-shadow: none !important;
 }
 
-/* 4) 크롬 자동완성/포커스 인셋으로 생기는 내부 배경(노랑/회색) 제거 */
+/* 크롬 자동완성/포커스 인셋으로 생기는 내부 배경(노랑/회색) 제거 */
 .react-date-picker__inputGroup__input:-webkit-autofill,
 .react-date-picker__inputGroup__input:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
@@ -48,12 +48,12 @@
   caret-color: inherit !important;
 }
 
-/* 5) 사용자가 텍스트 드래그 할 때 selection 배경이 번쩍 보이는 경우 투명 처리 */
+/* 사용자가 텍스트 드래그 할 때 selection 배경이 번쩍 보이는 경우 투명 처리 */
 .react-date-picker__inputGroup__input::selection {
   background: transparent;
 }
 
-/* 6) 혹시 남아있는 브라우저 기본 포커스 테두리까지 종합적으로 제거 */
+/* 혹시 남아있는 브라우저 기본 포커스 테두리까지 종합적으로 제거 */
 .react-date-picker *:focus,
 .react-date-picker *:focus-visible {
   outline: none !important;
@@ -74,6 +74,7 @@
   flex-grow:1;
   flex-shrink:0;
   background:transparent;
+  gap: 18px;    
 }
 
 /* 입력 그룹: 타이포/간격/박스모델 지정
@@ -95,7 +96,10 @@
 /* 구분자(/- 등) 줄바꿈 방지 */
 .react-date-picker__inputGroup__divider{
   white-space:pre;
-  color: var(--dear-belly-colors-text-text4); 
+  color: var(--dear-belly-colors-text-text1); 
+}
+.react-date-picker.is-empty .react-date-picker__inputGroup__divider {
+  color: var(--dear-belly-colors-text-text4);
 }
 
 /* 실제 입력칸: 보더/배경 제거 + 상속 폰트 사용 */

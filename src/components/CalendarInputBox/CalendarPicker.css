@@ -74,7 +74,6 @@
   flex-grow:1;
   flex-shrink:0;
   background:transparent;
-  gap: 18px;    
 }
 
 /* 입력 그룹: 타이포/간격/박스모델 지정
